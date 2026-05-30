@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="ParleyMap v3.9: public appearances, meetings, calls and summits mapped for context with polished roadmovie playback, synchronized calls, animated contrails, heavy-hitter deep search and legal identity details.">
+  <title>ParleyMap v3.9 / Public appearances, mapped intelligently</title>
+  <style>
+__INLINE_CSS__
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#map">Skip to map</a>
+  <header class="site-header" role="banner">
+    <button id="brand-reset" class="brand-reset" type="button" aria-label="Reset ParleyMap to the opening map">
+      <img class="brand-logo" src="__LOGO_DATA_URI__" alt="ParleyMap">
+    </button>
+    <div class="header-copy">
+      <strong>Understand where influence is forming.</strong>
+      <span>Public appearances, meetings and summits. No live tracking. No private locations.</span>
+    </div>
+    <a class="header-partner" href="https://www.cerebral.ch/en/" target="_blank" rel="noreferrer" aria-label="Open Cerebral Foundation website">
+      <span class="partner-logo-box" aria-hidden="true"><svg class="cerebral-logo" viewBox="0 0 210 70" role="img"><circle cx="28" cy="20" r="7" fill="#d71920"/><circle cx="43" cy="14" r="5" fill="#d71920"/><circle cx="16" cy="33" r="5" fill="#d71920"/><path d="M29 29c-9 2-17 10-15 20 2 8 9 13 18 13 11 0 19-7 21-17" fill="none" stroke="#d71920" stroke-width="7" stroke-linecap="round"/><path d="M31 29l-8-13M34 29l10-16" stroke="#d71920" stroke-width="5" stroke-linecap="round"/><text x="62" y="47" fill="#111" font-family="Arial, sans-serif" font-style="italic" font-size="36">Cerebral</text></svg></span>
+      <span class="partner-copy"><strong>Stiftung Cerebral</strong><em>Partner window for children and families affected by cerebral palsy in Switzerland.</em></span>
+      <span class="partner-open">Open</span>
+    </a>
+    <div class="header-status" aria-label="Data status">
+      <span>Data update <strong id="header-data-updated">—</strong></span>
+      <span>Top-200 review <strong id="header-roster-reviewed">—</strong></span>
+      <span>Refresh <strong id="header-import-status">nightly public-source queue</strong></span>
+    </div>
+  </header>
+
+  <main id="top" class="app-shell">
+    <section class="map-column" aria-label="Central ParleyMap workspace">
+      <div class="map-toolbar" aria-label="Map controls">
+        <button id="top20-reset" class="toolbar-button" type="button">Opening map</button>
+        <select id="opening-preset" class="toolbar-select compact-select" aria-label="Choose opening map set">
+          <option value="TOP10">Top 10 global</option>
+          <option value="TOP20">Top 20 global</option>
+          <option value="ALL">All top 200</option>
+          <option value="EUROPE">Top 10 Europe</option>
+          <option value="NORTH_AMERICA">Top 10 North America</option>
+          <option value="ASIA">Top 10 Asia</option>
+          <option value="EMERGING">Top 10 emerging world</option>
+        </select>
+        <select id="roster-select" class="toolbar-select" aria-label="Choose a top-200 profile">
+          <option value="">Choose a global figure…</option>
+        </select>
+        <div class="finder-wrap">
+          <input id="quick-search" class="toolbar-search" type="search" placeholder="Search top-200: King Charles, Xi, Musk..." autocomplete="off" aria-label="Search top-200 profiles">
+          <div id="quick-results" class="quick-results" hidden></div>
+        </div>
+        <button id="start-roadmovie" class="toolbar-primary" type="button">Start roadmovie</button>
+        <button id="toggle-drawer" class="toolbar-button" type="button" aria-expanded="false">Filters</button>
+      </div>
+
+      <div id="summit-pills" class="summit-pills" aria-label="Upcoming public summit shortcuts"></div>
+
+      <div id="filter-drawer" class="filter-drawer" hidden>
+        <label>Search <input id="search-input" type="search" placeholder="name, country, summit…"></label>
+        <label>Date window <select id="time-select"><option value="NOW">Opening anchors</option><option value="ALL">All approved records</option><option value="PAST_24M">Past 24 months</option><option value="FUTURE">Future public windows</option><option value="PEACE">Peace talks</option></select></label>
+        <label>Role <select id="category-select"></select></label>
+        <label>Country <select id="country-select"></select></label>
+        <label>Sector <select id="sector-select"></select></label>
+        <label>Sort <select id="sort-select"><option value="INTEREST">Interesting first</option><option value="RECENT">Newest first</option><option value="OLDEST">Oldest first</option><option value="PERSON">Name</option></select></label>
+        <label class="check"><input id="show-heat" type="checkbox" checked> Heat</label>
+        <label class="check"><input id="show-paths" type="checkbox" checked> Routes</label>
+        <label class="check"><input id="show-future" type="checkbox" checked> Future</label>
+        <label class="check"><input id="show-calls" type="checkbox" checked> Calls</label>
+        <label class="check"><input id="show-labels" type="checkbox"> Map labels</label>
+      </div>
+
+      <div class="map-frame">
+        <div id="map" class="map" role="region" aria-label="Map of public appearances and public anchors"></div>
+        <div id="fallback-map" class="fallback-map" hidden></div>
+        <div class="map-status"><span id="map-title">Top-10 public face map</span><span id="map-status-line">Click a face or name to start.</span></div>
+        <div class="heat-key"><strong>Heat</strong><span></span><em>thin -&gt; dense</em></div>
+        <div id="map-active-person" class="map-active-person" hidden></div>
+        <div id="step-brief" class="step-brief" hidden></div>
+        <div id="map-focus-card" class="map-focus-card" hidden></div>
+      </div>
+
+      <section class="stats-dock" aria-label="Stats and public activity below the map">
+        <div class="strip-head"><strong>Dataset snapshot</strong><span>Source-backed records currently available.</span></div>
+        <div class="stats-summary" id="dataset-summary"></div>
+      </section>
+
+      <div class="start-strip" aria-label="Clickable opening names">
+        <div class="strip-head"><strong id="start-list-title">Top 20</strong><span id="start-list-help">Click a name or face. The roadmovie draws one stop at a time.</span></div>
+        <div id="top20-list" class="top20-list"></div>
+      </div>
+
+      <section class="timeline-panel" aria-label="Roadmovie timeline">
+        <div class="timeline-head">
+          <div>
+            <p class="eyebrow">Roadmovie</p>
+            <h1 id="timeline-title">Choose a figure</h1>
+            <p id="timeline-summary">The public trail builds stop by stop. Pause, scrub, rewind, fast-forward or restart.</p>
+          </div>
+          <div class="timeline-controls" role="group" aria-label="Roadmovie controls">
+            <button type="button" data-action="restart">Restart</button>
+            <button type="button" data-action="back5">−5</button>
+            <button type="button" data-action="back">Back</button>
+            <button id="play-toggle" type="button" data-action="play">Play</button>
+            <button type="button" data-action="stop">Stop</button>
+            <button type="button" data-action="next">Next</button>
+            <button type="button" data-action="next5">+5</button>
+            <button id="speed-toggle" type="button" data-action="speed">1×</button>
+            <button type="button" data-action="latest">Latest</button>
+          </div>
+        </div>
+        <input id="timeline-scrubber" class="timeline-scrubber" type="range" min="0" max="0" value="0" step="1" aria-label="Scrub through the selected public trail">
+        <div id="timeline-current" class="timeline-current">No figure selected.</div>
+        <div id="timeline-stops" class="timeline-stops" role="list"></div>
+        <div class="briefing-log"><div class="strip-head"><strong>Briefing notes</strong><span>Each played stop stays here for later reading.</span></div><div id="briefing-stack" class="briefing-stack"></div></div>
+      </section>
+
+      <section class="intelligence-deck" id="intelligence" aria-label="Influence intelligence below the map">
+        <div class="intel-head">
+          <p class="eyebrow">Influence intelligence</p>
+          <h2>Patterns worth opening.</h2>
+          <span>Every row is clickable. Hover for context, click to focus a person or place.</span>
+        </div>
+        <div class="intel-grid">
+          <article class="intel-panel"><h3>Most travelled</h3><div id="rank-travel" class="rank-list"></div></article>
+          <article class="intel-panel"><h3>Meeting most others</h3><div id="rank-connected" class="rank-list"></div></article>
+          <article class="intel-panel"><h3>Latest activity</h3><div id="rank-latest" class="rank-list"></div></article>
+          <article class="intel-panel"><h3>Future public windows</h3><div id="rank-future" class="rank-list"></div></article>
+          <article class="intel-panel"><h3>Peace talks</h3><div id="rank-peace" class="rank-list"></div></article>
+          <article class="intel-panel"><h3>Strategic cities</h3><div id="rank-cities" class="rank-list"></div></article>
+          <article class="intel-panel wide"><h3>Event agenda watch</h3><div id="rank-agendas" class="agenda-list"></div></article>
+          <article class="intel-panel wide"><h3>Institutional networks</h3><div id="rank-institutions" class="agenda-list"></div></article>
+          <article class="intel-panel wide"><h3>Influence-event catalog</h3><div id="rank-event-catalog" class="agenda-list"></div></article>
+          <article class="intel-panel wide"><h3>High-frequency connectors</h3><div id="rank-connectors" class="rank-list"></div></article>
+        </div>
+      </section>
+    </section>
+
+    <aside class="side-rail profile-rail" aria-label="Selected profile">
+      <section class="profile-card" id="profile-card">
+        <p class="eyebrow">Details</p>
+        <h2>Profile and records.</h2>
+        <div id="profile-body" class="profile-body">Pick a figure from the map, the name list, search, or the top-200 pull-down.</div>
+      </section>
+    </aside>
+  </main>
+
+  <section class="below-grid" aria-label="Source and legal notes">
+    <article class="info-panel"><h2>Source rule</h2><p>Records need a public source. Official calendars, government pages, summit hosts, public company events and public institutional pages come first. News discovery is a lead, not a publishing source by itself.</p></article>
+    <article class="info-panel"><h2>Public boundary</h2><p>No private homes, hotel guesses, leaked itineraries, aircraft tracking, live proximity, medical locations, family locations or security-sensitive details. Future stops appear only when a public organiser has announced them.</p></article>
+    <article class="info-panel"><h2>Corrections</h2><p>Send disputed records, safety concerns, source corrections and takedown requests to <a class="source-link" href="mailto:torsten.sauter@icloud.com">torsten.sauter@icloud.com</a>. Credible safety, privacy, source-quality and image-rights issues are hidden while reviewed.</p></article>
+    <article class="info-panel legal-panel wide"><h2>Impressum, corrections and advertising</h2>
+      <div class="legal-grid">
+        <p><strong>Operator:</strong> Torsten Sauter, Alte Landstr. 77, 8706 Meilen, Switzerland.</p>
+        <p><strong>Responsible editor:</strong> Torsten Sauter · <a class="source-link" href="mailto:torsten.sauter@icloud.com">torsten.sauter@icloud.com</a>.</p>
+        <p><strong>Corrections, privacy, safety and image rights:</strong> send the page URL, record or image, concern and supporting source to <a class="source-link" href="mailto:torsten.sauter@icloud.com">torsten.sauter@icloud.com</a>.</p>
+        <p><strong>Advertising contact:</strong> <a class="source-link" href="mailto:torsten.sauter@icloud.com">torsten.sauter@icloud.com</a>. Partner windows are labelled. Editorial records, ranking logic and source review are not changed because of advertising relationships.</p>
+        <p><strong>Publication boundary:</strong> public records only; no live tracking, private addresses, hotel guesses, leaked itineraries, aircraft tracking, medical locations or family locations.</p>
+        <p><a class="source-link" href="impressum.html">Full impressum</a> <a class="source-link" href="privacy.html">Privacy notice</a> <a class="source-link" href="corrections.html">Corrections and takedown</a></p>
+      </div></article>
+  </section>
+
+  <footer class="footer">ParleyMap v3.9.0 · Public appearances, meetings, calls and summits, mapped for context. Not live tracking.</footer>
+  <button id="back-top" class="back-top" type="button">↑ Top</button>
+  <div id="hover-card" class="hover-card" hidden></div>
+
+  <script id="demo-data" type="application/json">__INLINE_DATA__</script>
+  <script>__INLINE_JS__</script>
+</body>
+</html>

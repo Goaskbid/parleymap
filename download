@@ -1,0 +1,2505 @@
+(() => {
+  "use strict";
+
+  const DAY = 86400000;
+  const data = JSON.parse(document.getElementById("demo-data").textContent);
+  const now = new Date(data.meta?.currentDateForDemo || Date.now());
+  const people = (data.people || []).map((p) => ({ ...p }));
+  const roster = (data.roster || []).map((p) => normalizeRoster(p)).sort((a, b) => Number(a.rank || 999) - Number(b.rank || 999));
+  const appearances = (data.appearances || []).map((a) => ({ ...a })).sort((a, b) => new Date(a.startsAt) - new Date(b.startsAt));
+  const encounters = data.encounters || [];
+  const calls = (data.telephoneCalls || data.calls || []).map((c) => ({ ...c, startsAt: c.startsAt || c.date }));
+  const eventAgendas = (data.eventAgendas || []).map((e) => ({ ...e }));
+  const eventCatalog = (data.influenceEventCatalog || []).map((e) => ({ ...e }));
+  const connectorProfiles = (data.connectorProfiles || []).map((e) => ({ ...e }));
+  const influenceEventCatalog = (data.influenceEventCatalog || []).map((e) => ({ ...e }));
+  const globalConnectorCatalog = (data.globalConnectorCatalog || []).map((e) => ({ ...e }));
+  const eventUniverse = (data.eventUniverse || data.influenceEventCatalog || []).map((e) => ({ ...e }));
+  const categories = data.categories || [];
+  const peopleById = new Map(people.map((p) => [p.id, p]));
+  const rosterById = new Map(roster.map((p) => [p.id, p]));
+  const mappedByName = new Map(people.map((p) => [key(p.canonicalName), p]));
+  const appearancesByPerson = groupBy(appearances, (a) => a.personId);
+  const counterpartyIdsByAppearance = new Map();
+  for (const a of appearances) counterpartyIdsByAppearance.set(a.id, Array.isArray(a.counterpartIds) ? a.counterpartIds : []);
+
+  const roleIcons = {
+    HEAD_OF_STATE: "♛",
+    HEAD_OF_GOVERNMENT: "▣",
+    FOREIGN_MINISTER: "✈",
+    INTERNATIONAL_ORG: "◎",
+    ROYALTY: "♕",
+    BUSINESS_LEADER: "◈",
+    FORMER_LEADER: "◇",
+    CENTRAL_BANK: "◍",
+    PHILANTHROPY: "✚"
+  };
+  const palette = ["#80c6ff", "#ffc247", "#a6e3a1", "#ff9f8b", "#c7a6ff", "#6ee7d8", "#ffcf99", "#9db5ff"];
+  const baseRules = [
+    [/united states|white house/i, [38.8977, -77.0365, "Washington", "US", "United States"]],
+    [/china|people.*republic/i, [39.9042, 116.4074, "Beijing", "CN", "China"]],
+    [/russia|kremlin/i, [55.7558, 37.6173, "Moscow", "RU", "Russia"]],
+    [/india|government of india/i, [28.6139, 77.2090, "New Delhi", "IN", "India"]],
+    [/european union|european commission|eeas/i, [50.8503, 4.3517, "Brussels", "EU", "European Union"]],
+    [/germany/i, [52.52, 13.405, "Berlin", "DE", "Germany"]],
+    [/france/i, [48.8566, 2.3522, "Paris", "FR", "France"]],
+    [/united kingdom|britain|uk/i, [51.5072, -0.1276, "London", "GB", "United Kingdom"]],
+    [/italy/i, [41.9028, 12.4964, "Rome", "IT", "Italy"]],
+    [/saudi/i, [24.7136, 46.6753, "Riyadh", "SA", "Saudi Arabia"]],
+    [/emirates|uae|abu dhabi/i, [24.4539, 54.3773, "Abu Dhabi", "AE", "United Arab Emirates"]],
+    [/israel/i, [31.7683, 35.2137, "Jerusalem", "IL", "Israel"]],
+    [/iran/i, [35.6892, 51.3890, "Tehran", "IR", "Iran"]],
+    [/nato/i, [50.8798, 4.4215, "Brussels", "BE", "Belgium"]],
+    [/united nations|un /i, [40.7489, -73.9680, "New York", "UN", "United Nations"]],
+    [/tesla|spacex|xai|x corp|technology/i, [30.2672, -97.7431, "Austin", "US", "United States"]],
+    [/microsoft/i, [47.6740, -122.1215, "Redmond", "US", "United States"]],
+    [/apple/i, [37.3349, -122.0090, "Cupertino", "US", "United States"]],
+    [/nvidia|amd/i, [37.3541, -121.9552, "Santa Clara", "US", "United States"]],
+    [/blackrock|jpmorgan|bank|finance|bloomberg/i, [40.7128, -74.0060, "New York", "US", "United States"]],
+    [/softbank|japan/i, [35.6762, 139.6503, "Tokyo", "JP", "Japan"]],
+    [/reliance|adani/i, [19.0760, 72.8777, "Mumbai", "IN", "India"]]
+  ];
+
+  const els = {};
+  let map = null;
+  let layers = {};
+  let fallbackMode = false;
+  let selectedPerson = null;
+  let selectedRoster = null;
+  let timeline = [];
+  let currentStep = -1;
+  let playing = false;
+  let speed = 1;
+  let playTimer = null;
+  let vehicleAnimation = null;
+  let activeRouteLine = null;
+  let lastRenderPersonId = null;
+  let lastRenderStep = -1;
+  let hydratedPortraitIds = new Set(roster.filter((r) => r.imageUrl).map((r) => r.id));
+  let portraitHydrationTimer = null;
+  let stepBriefTimer = null;
+  const visitedStepNotes = new Map();
+  const portraitByTitle = new Map();
+  const portraitTitleRequests = new Set();
+  let portraitRequestCounter = 0;
+  seedPortraitMap();
+
+  const state = {
+    query: "",
+    category: "ALL",
+    country: "ALL",
+    sector: "ALL",
+    time: "NOW",
+    sort: "INTEREST",
+    showHeat: true,
+    showPaths: true,
+    showFuture: true,
+    showLabels: false,
+    showCalls: true,
+    openingPreset: "TOP10"
+  };
+
+  document.addEventListener("DOMContentLoaded", init);
+
+  function init() {
+    Object.assign(els, {
+      map: qs("#map"),
+      fallback: qs("#fallback-map"),
+      roster: qs("#roster-select"),
+      openingPreset: qs("#opening-preset"),
+      roadmovieButton: qs("#start-roadmovie"),
+      top20: qs("#top20-list"),
+      quickSearch: qs("#quick-search"),
+      quickResults: qs("#quick-results"),
+      search: qs("#search-input"),
+      time: qs("#time-select"),
+      category: qs("#category-select"),
+      country: qs("#country-select"),
+      sector: qs("#sector-select"),
+      sort: qs("#sort-select"),
+      heat: qs("#show-heat"),
+      paths: qs("#show-paths"),
+      future: qs("#show-future"),
+      labels: qs("#show-labels"),
+      calls: qs("#show-calls"),
+      drawer: qs("#filter-drawer"),
+      drawerToggle: qs("#toggle-drawer"),
+      mapTitle: qs("#map-title"),
+      mapStatus: qs("#map-status-line"),
+      profile: qs("#profile-body"),
+      headerData: qs("#header-data-updated"),
+      headerReview: qs("#header-roster-reviewed"),
+      headerImport: qs("#header-import-status"),
+      hover: qs("#hover-card"),
+      timelineTitle: qs("#timeline-title"),
+      timelineSummary: qs("#timeline-summary"),
+      timelineCurrent: qs("#timeline-current"),
+      timelineStops: qs("#timeline-stops"),
+      summitPills: qs("#summit-pills"),
+      stepBrief: qs("#step-brief"),
+      mapFocus: qs("#map-focus-card"),
+      briefingStack: qs("#briefing-stack"),
+      scrubber: qs("#timeline-scrubber"),
+      playToggle: qs("#play-toggle"),
+      speedToggle: qs("#speed-toggle"),
+      datasetSummary: qs("#dataset-summary"),
+      rankTravel: qs("#rank-travel"),
+      rankConnected: qs("#rank-connected"),
+      rankLatest: qs("#rank-latest"),
+      rankFuture: qs("#rank-future"),
+      rankPeace: qs("#rank-peace"),
+      rankCities: qs("#rank-cities"),
+      rankAgendas: qs("#rank-agendas"),
+      rankInstitutions: qs("#rank-institutions"),
+      rankEventCatalog: qs("#rank-event-catalog"),
+      rankEventGraph: qs("#rank-event-graph"),
+      rankConnectors: qs("#rank-connectors"),
+      startListTitle: qs("#start-list-title"),
+      startListHelp: qs("#start-list-help"),
+      backTop: qs("#back-top")
+    });
+
+    hydrateHeader();
+    hydrateControls();
+    bindControls();
+    renderTop20List();
+    renderRankings();
+    renderDatasetSummary();
+    renderSummitPills();
+    updateRoadmovieButton();
+    loadLeafletWithFallback();
+    hydrateVisiblePortraits(roster.slice(0, 40)).then(() => hydrateVisiblePortraits(roster.slice(40, 200)));
+  }
+
+  function hydrateHeader() {
+    els.headerData.textContent = shortDateTime(data.meta?.lastDataUpdate || data.meta?.generatedAt);
+    els.headerReview.textContent = data.meta?.lastTop200Review || data.meta?.lastTop100Review || "review pending";
+    els.headerImport.textContent = data.meta?.importStatus || "nightly public-source queue";
+  }
+
+  function hydrateControls() {
+    els.roster.innerHTML = `<option value="">Choose a global figure…</option>` + roster.map((p) => {
+      const trail = mappedPersonForRoster(p) ? "trail" : "profile";
+      const flag = flagEmoji(p.countryFocus);
+      return `<option value="${esc(p.id)}">${esc(flag)} ${esc(p.name)} — ${esc(p.countryName || "Global")} — ${esc(p.bucket || p.roleTitle)} — ${esc(trail)}</option>`;
+    }).join("");
+
+    els.category.innerHTML = `<option value="ALL">All roles</option>` + categories.map((c) => `<option value="${esc(c.id)}">${esc(c.label || c.id)}</option>`).join("");
+    const countries = unique([...appearances.map((a) => [a.location.countryCode, a.location.countryName]), ...roster.map((p) => [p.countryFocus, p.countryName])].filter((x) => x[0]));
+    els.country.innerHTML = `<option value="ALL">All countries</option>` + countries.sort((a, b) => String(a[1]).localeCompare(String(b[1]))).map(([code, name]) => `<option value="${esc(code)}">${esc(flagEmoji(code))} ${esc(name || code)}</option>`).join("");
+    const sectors = [...new Set([...people.map((p) => p.sector), ...roster.map((p) => p.sector)].filter(Boolean))].sort();
+    els.sector.innerHTML = `<option value="ALL">All sectors</option>` + sectors.map((s) => `<option value="${esc(s)}">${esc(s)}</option>`).join("");
+  }
+
+  function bindControls() {
+    qs("#brand-reset")?.addEventListener("click", resetOpeningMap);
+    qs("#top20-reset")?.addEventListener("click", resetOpeningMap);
+    qs("#start-roadmovie")?.addEventListener("click", startDefaultRoadmovie);
+    els.openingPreset?.addEventListener("change", () => {
+      state.openingPreset = els.openingPreset.value || "TOP10";
+      renderTop20List();
+      renderOpeningMap();
+      renderRankings();
+      updateRoadmovieButton();
+    });
+    els.drawerToggle?.addEventListener("click", () => {
+      const open = els.drawer.hidden;
+      els.drawer.hidden = !open;
+      els.drawerToggle.setAttribute("aria-expanded", String(open));
+    });
+    els.roster?.addEventListener("change", () => selectRoster(els.roster.value));
+    els.quickSearch?.addEventListener("input", () => {
+      state.query = els.quickSearch.value || "";
+      if (els.search) els.search.value = state.query;
+      renderQuickResults(state.query);
+      renderTop20List();
+      renderOpeningMap();
+      renderRankings();
+      updateRoadmovieButton();
+    });
+    els.quickSearch?.addEventListener("focus", () => renderQuickResults(els.quickSearch.value));
+    document.addEventListener("click", (e) => {
+      if (els.quickResults && !e.target.closest(".finder-wrap")) els.quickResults.hidden = true;
+    });
+
+    for (const [el, keyName] of [[els.search, "query"], [els.time, "time"], [els.category, "category"], [els.country, "country"], [els.sector, "sector"], [els.sort, "sort"]]) {
+      el?.addEventListener("input", () => {
+        state[keyName] = el.value || (keyName === "query" ? "" : "ALL");
+        renderTop20List();
+        renderOpeningMap();
+        renderRankings();
+        updateRoadmovieButton();
+      });
+    }
+    for (const [el, keyName] of [[els.heat, "showHeat"], [els.paths, "showPaths"], [els.future, "showFuture"], [els.labels, "showLabels"], [els.calls, "showCalls"]]) {
+      el?.addEventListener("change", () => {
+        state[keyName] = !!el.checked;
+        renderCurrentMap();
+      });
+    }
+    qsAll("[data-action]").forEach((button) => button.addEventListener("click", () => handleTimelineAction(button.dataset.action)));
+    els.scrubber?.addEventListener("input", () => setStep(Number(els.scrubber.value), { pan: true, stop: true }));
+    els.backTop?.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+    window.addEventListener("scroll", () => els.backTop?.classList.toggle("is-visible", window.scrollY > 500));
+    document.addEventListener("pointerover", delegatedHover);
+    document.addEventListener("pointermove", moveHover);
+    document.addEventListener("pointerout", (e) => { if (e.target.closest("[data-hover-title]")) hideHover(); });
+  }
+
+  async function loadLeafletWithFallback() {
+    try {
+      await Promise.race([loadLeaflet(), wait(2600).then(() => { throw new Error("leaflet-timeout"); })]);
+      if (!window.L) throw new Error("leaflet-missing");
+      initLeafletMap();
+    } catch (_) {
+      initFallbackMap();
+    }
+    renderOpeningMap();
+  }
+
+  function loadLeaflet() {
+    if (window.L) return Promise.resolve();
+    const css = document.createElement("link");
+    css.rel = "stylesheet";
+    css.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
+    document.head.appendChild(css);
+    return new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
+      script.async = true;
+      script.onload = resolve;
+      script.onerror = reject;
+      document.head.appendChild(script);
+    });
+  }
+
+  function initLeafletMap() {
+    fallbackMode = false;
+    els.fallback.hidden = true;
+    els.map.hidden = false;
+    map = L.map(els.map, { zoomControl: true, worldCopyJump: true, minZoom: 2, maxZoom: 12, preferCanvas: true }).setView([25, 10], 2);
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+      maxZoom: 12,
+      attribution: "OpenStreetMap contributors, CARTO",
+      subdomains: "abcd"
+    }).addTo(map);
+    layers = {
+      heat: L.layerGroup().addTo(map),
+      calls: L.layerGroup().addTo(map),
+      route: L.layerGroup().addTo(map),
+      markers: L.layerGroup().addTo(map),
+      moving: L.layerGroup().addTo(map),
+      vehicles: L.layerGroup().addTo(map),
+      labels: L.layerGroup().addTo(map)
+    };
+    map.on("click", hideHover);
+  }
+
+  function initFallbackMap() {
+    fallbackMode = true;
+    els.map.hidden = true;
+    els.fallback.hidden = false;
+    els.fallback.innerHTML = `
+      <div class="fallback-land" style="left:9%;top:20%;width:23%;height:33%"></div>
+      <div class="fallback-land" style="left:22%;top:52%;width:14%;height:29%"></div>
+      <div class="fallback-land" style="left:44%;top:19%;width:18%;height:19%"></div>
+      <div class="fallback-land" style="left:48%;top:35%;width:12%;height:29%"></div>
+      <div class="fallback-land" style="left:60%;top:25%;width:31%;height:34%"></div>
+      <div class="fallback-land" style="left:73%;top:58%;width:14%;height:15%"></div>
+      <svg class="static-route" viewBox="0 0 1000 500" preserveAspectRatio="none"></svg>`;
+  }
+
+  function renderOpeningMap() {
+    stopPlayback();
+    selectedPerson = null;
+    selectedRoster = null;
+    timeline = [];
+    currentStep = -1;
+    if (els.roster) els.roster.value = "";
+    els.timelineTitle.textContent = "Choose a figure";
+    els.timelineSummary.textContent = "The trail draws public stops one by one. Pause, scrub, rewind or jump to the latest record.";
+    els.timelineCurrent.textContent = "No figure selected.";
+    els.timelineStops.innerHTML = "";
+    els.scrubber.max = 0;
+    els.scrubber.value = 0;
+    visitedStepNotes.clear();
+    if (els.briefingStack) els.briefingStack.innerHTML = "";
+    if (els.stepBrief) els.stepBrief.hidden = true;
+    if (els.mapFocus) els.mapFocus.hidden = true;
+    els.profile.innerHTML = "Pick a figure from the face map, the summit pills, search, or the top-200 pull-down.";
+    els.mapTitle.textContent = state.query ? "Top-200 search map" : openingPresetLabel();
+    els.mapStatus.textContent = "Click a face, summit pill or name. Routes and calls appear after a person is selected.";
+    updateRoadmovieButton();
+    renderTop20List();
+    renderStartMarkers();
+  }
+
+  function renderCurrentMap() {
+    if (selectedPerson) renderTimelineMap({ keepView: true });
+    else renderStartMarkers();
+  }
+
+  function startList() {
+    let list = hasActiveSearchOrFilter() ? roster.slice() : openingPresetRoster();
+    const q = key(state.query);
+    if (q) list = roster.filter((r) => rosterSearchText(r).includes(q));
+    if (state.category !== "ALL") list = list.filter((r) => normalizeCategory(r) === state.category);
+    if (state.country !== "ALL") list = list.filter((r) => r.countryFocus === state.country || latestAnchorForRoster(r).countryCode === state.country);
+    if (state.sector !== "ALL") list = list.filter((r) => r.sector === state.sector);
+    const limit = hasActiveSearchOrFilter() ? 24 : openingPresetLimit();
+    return list.slice(0, limit);
+  }
+
+  function openingPresetRoster() {
+    const preset = state.openingPreset || "TOP10";
+    if (preset === "TOP20") return roster.slice(0, 20);
+    if (preset === "ALL") return roster.slice(0, 200);
+    if (preset === "EUROPE") return roster.filter((r) => /europe/i.test(r.region || "") || ["EU", "GB", "FR", "DE", "IT", "ES", "NL", "BE", "CH", "SE", "NO", "DK", "FI", "PL", "UA", "TR", "RU", "VA"].includes(String(r.countryFocus || "").toUpperCase())).slice(0, 10);
+    if (preset === "NORTH_AMERICA") return roster.filter((r) => /north america/i.test(r.region || "") || ["US", "CA", "MX"].includes(String(r.countryFocus || "").toUpperCase())).slice(0, 10);
+    if (preset === "ASIA") return roster.filter((r) => /asia/i.test(r.region || "") || ["CN", "IN", "JP", "KR", "ID", "SG", "TW", "MY"].includes(String(r.countryFocus || "").toUpperCase())).slice(0, 10);
+    if (preset === "EMERGING") {
+      const mature = new Set(["US", "CA", "GB", "FR", "DE", "IT", "ES", "NL", "BE", "CH", "SE", "NO", "DK", "FI", "JP", "AU", "NZ", "EU", "NATO", "UN", "WB", "IM", "OC", "WH", "WT"]);
+      return roster.filter((r) => !mature.has(String(r.countryFocus || "").toUpperCase()) && !/north america|western europe|global/i.test(r.region || "")).slice(0, 10);
+    }
+    return roster.slice(0, 10);
+  }
+
+  function openingPresetLimit() {
+    if (state.openingPreset === "ALL") return 200;
+    if (state.openingPreset === "TOP20") return 20;
+    return 10;
+  }
+
+  function openingPresetLabel() {
+    const labels = {
+      TOP10: "Top-10 public face map",
+      TOP20: "Top-20 public face map",
+      ALL: "Top-200 public face map",
+      EUROPE: "Top-10 Europe face map",
+      NORTH_AMERICA: "Top-10 North America face map",
+      ASIA: "Top-10 Asia face map",
+      EMERGING: "Top-10 emerging-world face map"
+    };
+    return labels[state.openingPreset] || labels.TOP10;
+  }
+
+  function hasActiveSearchOrFilter() {
+    return !!state.query.trim() || state.category !== "ALL" || state.country !== "ALL" || state.sector !== "ALL" || state.time !== "NOW";
+  }
+
+  function renderStartMarkers() {
+    clearMap();
+    const top = startList();
+    const raw = top.map((r) => ({ roster: r, person: mappedPersonForRoster(r), trueAnchor: latestAnchorForRoster(r), anchor: latestAnchorForRoster(r) }));
+    const anchors = deOverlapAnchors(raw);
+    if (!fallbackMode && map) {
+      const bounds = [];
+      for (const item of anchors) {
+        if (state.showHeat) drawHeat(item.trueAnchor || item.anchor, 1.1, countryColor(item.roster.countryFocus));
+        const marker = L.marker([item.anchor.lat, item.anchor.lng], { icon: personDivIcon(item.roster, item.person, { label: shortName(item.roster.name) }), riseOnHover: true, keyboard: true });
+        marker.on("click", () => selectRoster(item.roster.id));
+        marker.on("mouseover", (e) => showHoverAt(e.originalEvent, hoverForRoster(item.roster, item.trueAnchor || item.anchor)));
+        marker.on("mousemove", (e) => moveHover(e.originalEvent));
+        marker.on("mouseout", hideHover);
+        marker.addTo(layers.markers);
+        bounds.push([item.anchor.lat, item.anchor.lng]);
+      }
+      drawDisplayLeaderLines(anchors);
+      if (bounds.length) map.fitBounds(bounds, { padding: [54, 54], maxZoom: openingMapZoom(anchors.length), animate: true });
+    } else {
+      drawFallbackStart(anchors);
+    }
+    schedulePortraitHydration();
+  }
+
+  function drawDisplayLeaderLine(from, to, rosterItem) {
+    if (!map || !from || !to || distanceKm(from, to) < 15) return;
+    const pts = [[from.lat, from.lng], [to.lat, to.lng]];
+    const line = L.polyline(pts, { color: "#d5dce8", weight: 1.25, opacity: .42, dashArray: "2 5", interactive: true, className: "display-leader-line" });
+    line.on("mouseover", (e) => showHoverAt(e.originalEvent, { title: rosterItem.name, detail: `${from.city} → display label`, body: "The face card is offset so nearby names remain clickable; the line points back to the public anchor." }));
+    line.on("mousemove", (e) => moveHover(e.originalEvent));
+    line.on("mouseout", hideHover);
+    line.on("click", () => selectRoster(rosterItem.id));
+    line.addTo(layers.route);
+  }
+
+  function openingMapZoom(count) {
+    if (state.query) return 5;
+    if (count <= 10) return 4;
+    if (count <= 20) return 3;
+    return 2;
+  }
+
+  function selectRoster(id) {
+    if (!id) return resetOpeningMap();
+    if (els.quickResults) els.quickResults.hidden = true;
+    const r = rosterById.get(id);
+    if (!r) return;
+    selectedRoster = r;
+    if (els.roster) els.roster.value = r.id;
+    updateRoadmovieButton(r);
+    hydrateVisiblePortraits([r]);
+    const p = mappedPersonForRoster(r);
+    if (!p) {
+      selectedPerson = null;
+      timeline = [];
+      currentStep = -1;
+      renderProfile(null, r);
+      drawProfileAnchor(r);
+      els.timelineTitle.textContent = `${r.name}: profile`;
+      els.timelineSummary.textContent = "No dated roadmovie has been promoted for this profile yet.";
+      els.timelineCurrent.textContent = "This profile is in the top-200 roster. Public stops will appear after source review.";
+      els.timelineStops.innerHTML = "";
+      updateRoadmovieButton(r);
+      return;
+    }
+    selectedPerson = p;
+    buildTimeline(p, r);
+    currentStep = 0;
+    els.scrubber.max = Math.max(0, timeline.length - 1);
+    els.scrubber.value = 0;
+    renderTimelinePanel();
+    renderProfile(p, r);
+    renderTimelineMap({ fit: true });
+    updateRoadmovieButton(r);
+  }
+
+  function startDefaultRoadmovie() {
+    let target = rosterById.get(els.roster?.value || "") || selectedRoster || null;
+    const q = key(els.quickSearch?.value || state.query || "");
+    if (!target && q) target = roster.find((r) => rosterSearchText(r).includes(q) && mappedPersonForRoster(r)) || roster.find((r) => rosterSearchText(r).includes(q));
+    if (!target) target = startList().find((r) => mappedPersonForRoster(r)) || startList()[0] || roster.find((r) => mappedPersonForRoster(r)) || roster[0];
+    if (!target) return;
+    const mapped = mappedPersonForRoster(target);
+    selectRoster(target.id);
+    updateRoadmovieButton(target);
+    if (!mapped) return;
+    setTimeout(() => {
+      setStep(0, { pan: true, stop: true, forceRedraw: true });
+      setTimeout(() => handleTimelineAction("play"), 260);
+    }, 140);
+  }
+
+  function updateRoadmovieButton(target = null) {
+    if (!els.roadmovieButton) return;
+    const chosen = target || rosterById.get(els.roster?.value || "") || selectedRoster || null;
+    const mapped = chosen ? mappedPersonForRoster(chosen) : null;
+    if (chosen && mapped) {
+      els.roadmovieButton.textContent = `Start ${shortName(chosen.name)} roadmovie`;
+      els.roadmovieButton.classList.add("has-target");
+      els.roadmovieButton.disabled = false;
+    } else if (chosen) {
+      els.roadmovieButton.textContent = `${shortName(chosen.name)} profile only`;
+      els.roadmovieButton.classList.add("has-target");
+      els.roadmovieButton.disabled = false;
+    } else {
+      els.roadmovieButton.textContent = "Start roadmovie";
+      els.roadmovieButton.classList.remove("has-target");
+      els.roadmovieButton.disabled = false;
+    }
+  }
+
+  function resetOpeningMap() {
+    location.hash = "";
+    stopPlayback();
+    if (els.quickSearch) els.quickSearch.value = "";
+    state.query = "";
+    if (els.search) els.search.value = "";
+    updateRoadmovieButton();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function buildTimeline(person, r) {
+    const records = visibleTrailForPerson(person).sort((a, b) => new Date(a.startsAt) - new Date(b.startsAt));
+    const personCalls = calls.filter((c) => (c.participantIds || []).includes(person.id));
+    const base = homeBaseFor(person, r);
+    const events = [
+      ...records.map((rec) => ({ type: "record", date: new Date(rec.startsAt), rec })),
+      ...personCalls.map((call) => ({ type: "call", date: new Date(call.startsAt), call }))
+    ].filter((x) => !Number.isNaN(x.date.getTime())).sort((a, b) => a.date - b.date);
+
+    const steps = [{
+      kind: "base",
+      personId: person.id,
+      date: null,
+      location: base,
+      title: `${base.city} public base`,
+      summary: `Start at ${base.city}, the public institutional anchor used for this map. It is not a private address.`,
+      counterparts: [],
+      status: "BASE"
+    }];
+
+    let previous = base;
+    let previousDate = null;
+    let previousWasPublicStop = false;
+    const addReturnHome = (reasonDate, reason) => {
+      if (!previous || distanceKm(previous, base) < 60) return;
+      const retDate = reasonDate ? new Date(reasonDate) : (previousDate ? new Date(previousDate) : null);
+      if (retDate && previousDate) retDate.setDate(retDate.getDate() + 1);
+      const from = previous;
+      steps.push({
+        kind: "return",
+        date: retDate ? retDate.toISOString() : null,
+        from,
+        location: base,
+        title: `Return to ${base.city}`,
+        summary: `${reason || "No public onward public appearance follows in this dataset"}; the trail closes at the public institutional base.`,
+        counterparts: [],
+        status: "STORYLINE_RETURN"
+      });
+      previous = base;
+      previousDate = retDate || previousDate;
+      previousWasPublicStop = false;
+    };
+
+    for (const item of events) {
+      const date = item.date;
+      const gap = previousDate ? Math.round((date - new Date(previousDate)) / DAY) : 0;
+      const newTrip = previousDate && gap > 7;
+      if (newTrip && previousWasPublicStop) addReturnHome(previousDate, `The next public record is ${gap} days later`);
+      const from = (newTrip || previous?.city === base.city) ? base : previous;
+
+      if (item.type === "call") {
+        const otherIds = (item.call.participantIds || []).filter((id) => id !== person.id);
+        steps.push({
+          kind: "call",
+          call: item.call,
+          date: item.call.startsAt,
+          from,
+          location: previous || base,
+          title: item.call.title || "Public call readout",
+          summary: callLine(item.call, person),
+          counterparts: otherIds,
+          status: "CALL"
+        });
+        previousDate = date;
+        continue;
+      }
+
+      const rec = item.rec;
+      const future = isFuture(rec);
+      steps.push({
+        kind: future ? "future" : "stop",
+        record: rec,
+        date: rec.startsAt,
+        from,
+        location: rec.location,
+        title: rec.title,
+        summary: oneLine(plainEventLine(rec), 190),
+        counterparts: counterpartyIdsByAppearance.get(rec.id) || [],
+        status: rec.status
+      });
+      previous = rec.location;
+      previousDate = date;
+      previousWasPublicStop = !future;
+    }
+
+    if (previousWasPublicStop) addReturnHome(previousDate, "The pilot has no later public onward stop for this figure");
+    timeline = steps;
+    lastRenderPersonId = null;
+    lastRenderStep = -1;
+    visitedStepNotes.clear();
+    if (els.briefingStack) els.briefingStack.innerHTML = "";
+  }
+
+  function renderTimelinePanel() {
+    if (!selectedPerson) return;
+    els.timelineTitle.textContent = `${selectedPerson.canonicalName}: public trail`;
+    els.timelineSummary.textContent = `${timeline.length} steps. Nearby dates stay in one trip; longer gaps are shown as a dotted reset.`;
+    els.timelineStops.innerHTML = timeline.map((step, idx) => {
+      const date = step.date ? compactDate(step.date) : "Base";
+      const city = step.location?.city || "Public anchor";
+      const cps = (step.counterparts || []).slice(0, 5).map((id) => miniFace(peopleById.get(id))).join("");
+      return `<button type="button" class="timeline-stop ${idx === currentStep ? "is-active" : ""} ${idx < currentStep ? "is-past" : ""}" data-step="${idx}" data-hover-title="${esc(step.title)}" data-hover-detail="${esc(textFlag(step.location?.countryCode) + " " + city)}" data-hover-body="${esc(step.summary)}"><div class="timeline-stop-head">${miniFace(selectedPerson)}<strong>${esc(date)}</strong></div><span>${flagHtml(step.location?.countryCode, step.location?.countryName)} ${esc(city)}</span><em>${esc(oneLine(step.title, 54))}</em><div class="counterparts">${cps}</div></button>`;
+    }).join("");
+    qsAll("[data-step]").forEach((b) => b.addEventListener("click", () => setStep(Number(b.dataset.step), { pan: true, stop: true })));
+    renderCurrentStepText();
+    schedulePortraitHydration();
+  }
+
+  function renderCurrentStepText() {
+    const step = timeline[currentStep];
+    if (!step) { els.timelineCurrent.textContent = "No public trail loaded."; return; }
+    const metIds = step.counterparts || [];
+    const met = metIds.map((id) => peopleById.get(id)?.canonicalName).filter(Boolean).slice(0, 6);
+    const date = step.date ? compactDate(step.date) : "Base";
+    const faces = metIds.slice(0, 6).map((id) => miniFace(peopleById.get(id))).join("");
+    const source = stepLinks(step);
+    const verb = step.kind === "call" ? "Call" : step.kind === "future" ? "Public window" : step.kind === "base" ? "Start" : "Stop";
+    els.timelineCurrent.innerHTML = `
+      <span class="current-face">${imageTag(selectedPerson, selectedRoster)}</span>
+      <span class="current-copy">
+        <strong>${esc(verb)} · ${esc(date)} · ${flagHtml(step.location?.countryCode, step.location?.countryName)} ${esc(step.location?.city || "Public anchor")}</strong>
+        <span>${esc(step.summary)}</span>
+        ${met.length ? `<span class="with-line"><b>Who:</b> ${esc(met.join(", "))}</span>` : `<span class="with-line"><b>Who:</b> public record does not name a counterpart in this pilot card.</span>`}
+        ${faces ? `<span class="counterparts current-counterparts">${faces}</span>` : ""}
+        ${source ? `<span class="source-pills">${source}</span>` : ""}
+      </span>`;
+    els.scrubber.value = currentStep;
+    qsAll(".timeline-stop").forEach((el) => {
+      const idx = Number(el.dataset.step);
+      el.classList.toggle("is-active", idx === currentStep);
+      el.classList.toggle("is-past", idx < currentStep);
+    });
+  }
+
+  function renderTimelineMap(options = {}) {
+    if (!timeline.length || !selectedPerson) return;
+    const incremental = !!options.incremental && !fallbackMode && map && lastRenderPersonId === selectedPerson.id && currentStep === lastRenderStep + 1;
+    if (!incremental) clearMap();
+    else {
+      cancelVehicleAnimation();
+      layers.moving?.clearLayers?.();
+      layers.vehicles?.clearLayers?.();
+      layers.calls?.clearLayers?.();
+    }
+    const upto = timeline.slice(0, currentStep + 1);
+    const bounds = [];
+    if (!fallbackMode && map) {
+      const startIndex = incremental ? currentStep : 0;
+      if (state.showCalls && incremental) {
+        for (let j = 0; j < startIndex; j++) {
+          if (upto[j]?.kind === "call") drawCallForStep(upto[j], false, false);
+        }
+      }
+      for (let i = startIndex; i < upto.length; i++) {
+        const step = upto[i];
+        const old = i < upto.length - 3;
+        const active = i === upto.length - 1;
+        if (state.showHeat && step.location) drawHeat(step.location, step.kind === "base" ? .65 : active ? 1.5 : .9, step.kind === "future" ? "#ffc247" : old ? "#8f9aaa" : countryColor(step.location.countryCode));
+        if (i > 0 && state.showPaths) {
+          if (step.resetFrom) drawResetLine(step.resetFrom, homeBaseFor(selectedPerson, selectedRoster), old);
+          if (step.kind === "call") { if (state.showCalls) drawCallForStep(step, active, active); }
+          else drawLeg({ location: step.from || upto[i - 1].location }, step, active, old);
+        }
+        if (incremental && i > 0) drawStop(upto[i - 1], i - 1, false, old);
+        drawStop(step, i, active, old);
+        if (step.location) bounds.push([step.location.lat, step.location.lng]);
+      }
+      drawMovingLeader(upto[upto.length - 1]);
+      if (state.showLabels) drawLabels(upto);
+      if (options.fit && upto.length) map.fitBounds(upto.map((s) => [s.location.lat, s.location.lng]), { padding: [70, 70], maxZoom: 5, animate: true });
+    } else {
+      clearMap();
+      drawFallbackTimeline(upto);
+    }
+    lastRenderPersonId = selectedPerson.id;
+    lastRenderStep = currentStep;
+    els.mapTitle.textContent = selectedPerson.canonicalName;
+    els.mapStatus.textContent = `Step ${currentStep + 1} of ${timeline.length}. Pause, scrub, rewind, or jump to latest.`;
+    renderCurrentStepText();
+    renderTimelinePanel();
+  }
+
+  function clearMap() {
+    if (vehicleAnimation) { cancelAnimationFrame(vehicleAnimation); vehicleAnimation = null; }
+    activeRouteLine = null;
+    if (els.mapFocus) { els.mapFocus.hidden = true; els.mapFocus.innerHTML = ""; }
+    if (!fallbackMode && layers.markers) Object.values(layers).forEach((layer) => layer.clearLayers?.());
+    if (fallbackMode && els.fallback) {
+      qsAll(".static-marker,.static-heat,.static-vehicle", els.fallback).forEach((el) => el.remove());
+      const svg = qs(".static-route", els.fallback); if (svg) svg.innerHTML = "";
+    }
+  }
+
+  function drawHeat(loc, weight, color) {
+    if (!state.showHeat || !loc) return;
+    if (!fallbackMode && map) {
+      L.circleMarker([loc.lat, loc.lng], { radius: 20 + 23 * weight, color, weight: 1, opacity: .16, fillColor: color, fillOpacity: .20, interactive: false }).addTo(layers.heat);
+    } else {
+      const [x, y] = project(loc.lat, loc.lng);
+      const d = document.createElement("div");
+      d.className = "static-heat";
+      d.style.left = `${x}%`;
+      d.style.top = `${y}%`;
+      d.style.opacity = String(Math.min(.72, .24 + weight * .18));
+      els.fallback.appendChild(d);
+    }
+  }
+
+  function drawDisplayLeaderLines(items) {
+    if (!map || !layers.route) return;
+    const used = [];
+    for (const item of items) {
+      const a = item.trueAnchor;
+      const b = item.anchor;
+      if (!a || !b || !b.shiftedForDisplay || distanceKm(a, b) < 30) continue;
+      const bend = .05 + (used.length % 5) * .018;
+      const pts = curvePoints(a, b, bend);
+      const line = L.polyline(pts, { color: '#d7e7f8', weight: 1.4, opacity: .55, dashArray: null, className: 'display-leader-line' });
+      line.on('mouseover', (e) => showHoverAt(e.originalEvent, { title: item.roster?.name || item.person?.canonicalName || 'Public figure', detail: `${a.city} anchor`, body: 'The face label is offset for readability. The line points to the public anchor.' }));
+      line.on('mousemove', (e) => moveHover(e.originalEvent));
+      line.on('mouseout', hideHover);
+      line.on('click', () => item.roster?.id && selectRoster(item.roster.id));
+      line.addTo(layers.route);
+      used.push(line);
+    }
+  }
+
+  function drawAnchorLeader(item, clickHandler) {
+    if (!map || !layers.route || !item?.trueAnchor || !item?.anchor || !item.anchor.shiftedForDisplay) return;
+    if (distanceKm(item.trueAnchor, item.anchor) < 20) return;
+    const pts = curvePoints(item.trueAnchor, item.anchor, .03);
+    const line = L.polyline(pts, { color: "#233246", weight: 1.6, opacity: .72, dashArray: "", className: "anchor-leader-line" });
+    line.on("mouseover", (e) => showHoverAt(e.originalEvent, { title: item.roster?.name || "Public anchor", detail: `${item.trueAnchor.city} → display position`, body: "Leader line: the face is shifted slightly so names and portraits remain readable." }));
+    line.on("mousemove", (e) => moveHover(e.originalEvent));
+    line.on("mouseout", hideHover);
+    if (clickHandler) line.on("click", clickHandler);
+    line.addTo(layers.route);
+    L.circleMarker([item.trueAnchor.lat, item.trueAnchor.lng], { radius: 3, color: "#1a2738", weight: 1, fillColor: "#ffc247", fillOpacity: .75, opacity: .9, interactive: false, className: "anchor-origin-dot" }).addTo(layers.route);
+  }
+
+  function drawLeg(prev, step, active = false, old = false) {
+    if (!prev.location || !step.location || !map) return;
+    if (distanceKm(prev.location, step.location) < 6) return;
+    const pts = curvePoints(prev.location, step.location, step.kind === "return" ? -.12 : .16);
+    const color = step.kind === "future" ? "#ffc247" : step.kind === "return" ? "#aab5c3" : old ? "#7f8793" : countryColor(step.location.countryCode || selectedPerson?.countryFocus);
+    const baseOpacity = old ? .30 : step.kind === "return" ? .34 : .62;
+    const opacity = active ? .18 : baseOpacity;
+    const weight = active ? 2.2 : step.kind === "return" ? 1.8 : 2.4;
+    const dash = step.kind === "future" ? "8 8" : step.kind === "return" ? "2 8" : null;
+    const className = `route-arrow ${step.kind}${old ? " old" : ""}${active ? " active route-ghost" : ""}`;
+    const line = L.polyline(pts, { color, weight, opacity, dashArray: dash, className });
+    line.on("mouseover", (e) => showHoverAt(e.originalEvent, { title: legTitle(step), detail: `${prev.location.city} → ${step.location.city}`, body: step.summary }));
+    line.on("mousemove", (e) => moveHover(e.originalEvent));
+    line.on("mouseout", hideHover);
+    line.on("click", () => setStep(timeline.indexOf(step), { pan: true, stop: true }));
+    line.addTo(layers.route);
+    if (active) drawVehicle(pts, prev.location, step.location, step.kind, { color, dashArray: dash, weight: step.kind === "return" ? 2.8 : 4.4 });
+  }
+
+  function drawResetLine(from, base, old = true) {
+    if (!from || !base || !map || distanceKm(from, base) < 60) return;
+    const pts = curvePoints(from, base, -.10);
+    const line = L.polyline(pts, { color: "#9aa7b7", weight: 1.6, opacity: .30, dashArray: "2 9", className: "route-arrow return old" });
+    line.on("mouseover", (e) => showHoverAt(e.originalEvent, { title: "Public-base reset", detail: `${from.city} → ${base.city}`, body: "A long gap separates the public records. The dotted line returns the trail to the public base before the next documented stop." }));
+    line.on("mousemove", (e) => moveHover(e.originalEvent));
+    line.on("mouseout", hideHover);
+    line.addTo(layers.route);
+  }
+
+  function drawCallForStep(step, active = false, showParties = active) {
+    if (!state.showCalls) return;
+    const ids = step.call?.participantIds || [];
+    if (ids.length < 2 || !map) return;
+    const a = anchorForPersonId(ids[0]);
+    const b = anchorForPersonId(ids[1]);
+    if (!a || !b) return;
+    const line = L.polyline([[a.lat, a.lng], [b.lat, b.lng]], { color: "#ff4d46", weight: active ? 3.4 : 2.1, opacity: active ? .92 : .44, dashArray: "3 10", className: "route-arrow call-line" });
+    line.on("mouseover", (e) => showHoverAt(e.originalEvent, { title: step.title, detail: compactDate(step.date) + " · " + a.name + " ↔ " + b.name, body: step.summary }));
+    line.on("mousemove", (e) => moveHover(e.originalEvent));
+    line.on("mouseout", hideHover);
+    line.on("click", (e) => showHoverAt(e.originalEvent, { title: step.title, detail: a.name + " ↔ " + b.name, body: step.summary }));
+    line.addTo(layers.calls);
+    if (active) {
+      drawPhoneParty(ids[0], a, step, true, "left");
+      drawPhoneParty(ids[1], b, step, true, "right");
+    }
+  }
+
+  function drawPhoneParty(personId, anchor, step, active, side) {
+    const p = peopleById.get(personId);
+    if (!p || !anchor || !map) return;
+    const r = rosterForPerson(p);
+    const html = `<div class="phone-party ${active ? "is-ringing" : ""} ${esc(side)}" style="--avatar:${countryColor(p.countryFocus || anchor.countryCode)}"><span class="phone-face">${imageTag(p, r)}</span>${entityBadgeHtml(p, p.countryFocus || anchor.countryCode, p.countryName || anchor.countryName)}<span class="phone-ring">☎</span><b>${esc(shortName(p.canonicalName))}</b></div>`;
+    const marker = L.marker([anchor.lat, anchor.lng], { icon: L.divIcon({ className: "", html, iconSize: [100, 58], iconAnchor: [50, 29] }), riseOnHover: true, keyboard: true });
+    marker.on("mouseover", (e) => showHoverAt(e.originalEvent, { title: p.canonicalName, detail: `${compactDate(step.date)} phone call`, body: step.summary }));
+    marker.on("mousemove", (e) => moveHover(e.originalEvent));
+    marker.on("mouseout", hideHover);
+    marker.on("click", () => selectRoster(r?.id));
+    marker.addTo(layers.moving);
+  }
+
+  function drawVehicle(points, from, to, kind = "stop", style = {}) {
+    if (!points?.length || !layers.vehicles) return;
+    const icon = kind === "future" ? "✈" : transportIcon(from, to);
+    const color = style.color || (kind === "future" ? "#ffc247" : "#8ec7ff");
+    const vapor = L.polyline([points[0]], { color: "#ffffff", weight: 7.8, opacity: .18, dashArray: "2 10", className: "vehicle-vapor" }).addTo(layers.vehicles);
+    const trail = L.polyline([points[0]], { color, weight: style.weight || 4.4, opacity: .88, dashArray: style.dashArray || null, className: `vehicle-contrail ${kind}` }).addTo(layers.vehicles);
+    const marker = L.marker(points[0], { icon: L.divIcon({ className: "", html: `<div class="vehicle-chip">${icon}</div>`, iconSize: [42, 32], iconAnchor: [21, 16] }), interactive: false }).addTo(layers.vehicles);
+    const duration = speed === 1 ? 5600 : speed === 2 ? 3600 : 2300;
+    const delay = speed === 1 ? 1200 : 650;
+    const startAt = performance.now() + delay;
+    const animate = (t) => {
+      if (t < startAt) { vehicleAnimation = requestAnimationFrame(animate); return; }
+      const progress = Math.min(1, (t - startAt) / duration);
+      const eased = progress < .5 ? 2 * progress * progress : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+      const idx = Math.min(points.length - 1, Math.floor(eased * (points.length - 1)));
+      const travelled = points.slice(0, Math.max(2, idx + 1));
+      marker.setLatLng(points[idx]);
+      trail.setLatLngs(travelled);
+      vapor.setLatLngs(travelled);
+      if (progress < 1) vehicleAnimation = requestAnimationFrame(animate);
+      else {
+        trail.setLatLngs(points);
+        vapor.setLatLngs(points);
+        vehicleAnimation = null;
+      }
+    };
+    vehicleAnimation = requestAnimationFrame(animate);
+  }
+
+  function cancelVehicleAnimation() {
+    if (vehicleAnimation) { cancelAnimationFrame(vehicleAnimation); vehicleAnimation = null; }
+  }
+
+  function updateMapFocus(step) {
+    if (!els.mapFocus) return;
+    if (!step || !selectedPerson) {
+      els.mapFocus.hidden = true;
+      els.mapFocus.innerHTML = "";
+      return;
+    }
+    const r = selectedRoster || rosterForPerson(selectedPerson);
+    const loc = step.location || homeBaseFor(selectedPerson, r);
+    const date = step.date ? compactDate(step.date) : "Base";
+    const label = step.kind === "call" ? "Phone call" : step.kind === "future" ? "Future public window" : step.kind === "return" ? "Return" : step.kind === "base" ? "Public base" : "Current stop";
+    els.mapFocus.innerHTML = `
+      <button type="button" class="map-focus-inner" aria-label="Open ${esc(selectedPerson.canonicalName)} profile">
+        <span class="focus-photo">${imageTag(selectedPerson, r)}</span>
+        <span class="focus-copy"><strong>${esc(shortName(selectedPerson.canonicalName))}</strong><em>${esc(label)} · ${esc(date)} · ${flagHtml(loc.countryCode, loc.countryName)} ${esc(loc.city || "Public anchor")}</em><small>${esc(oneLine(step.title || step.summary || "Public record", 88))}</small></span>
+      </button>`;
+    els.mapFocus.hidden = false;
+    const button = qs(".map-focus-inner", els.mapFocus);
+    button?.addEventListener("click", () => renderProfile(selectedPerson, r));
+    button?.addEventListener("pointerover", (ev) => showHoverAt(ev, { title: selectedPerson.canonicalName, detail: `${date} · ${loc.city}`, body: step.summary || step.title || "Public record." }));
+    button?.addEventListener("pointermove", moveHover);
+    button?.addEventListener("pointerout", hideHover);
+  }
+
+  function drawStop(step, idx, active = false, old = false) {
+    if (!step.location || !map) return;
+    const icon = stopIcon(step);
+    const cls = `stop-marker ${esc(step.kind)}${active ? " current" : ""}${old ? " old" : ""}`;
+    const face = selectedPerson && !active ? `<span class="stop-photo">${imageTag(selectedPerson, selectedRoster)}</span>` : "";
+    const html = `<div class="${cls}" title="${esc(step.title)}">${face}<span class="stop-symbol">${icon}</span><span class="stop-flag">${flagHtml(step.location.countryCode, step.location.countryName)}</span></div>`;
+    const size = active ? [46, 46] : [38, 38];
+    const marker = L.marker([step.location.lat, step.location.lng], { icon: L.divIcon({ className: "", html, iconSize: size, iconAnchor: [size[0] / 2, size[1] / 2] }), riseOnHover: true, keyboard: true });
+    marker.on("mouseover", (e) => showHoverAt(e.originalEvent, { title: step.title, detail: `${flagEmoji(step.location.countryCode)} ${step.location.city} · ${step.date ? compactDate(step.date) : "base"}`, body: step.summary }));
+    marker.on("mousemove", (e) => moveHover(e.originalEvent));
+    marker.on("mouseout", hideHover);
+    marker.on("click", () => setStep(idx, { pan: true, stop: true }));
+    marker.addTo(active ? layers.moving : layers.markers);
+  }
+
+  function drawMovingLeader(step) {
+    if (!selectedPerson || !step?.location || !map) return;
+    updateMapFocus(step);
+  }
+
+  function drawLabels(steps) {
+    const placed = [];
+    for (const step of steps.slice(-5)) {
+      if (!step.location) continue;
+      const pt = map.latLngToContainerPoint([step.location.lat, step.location.lng]);
+      const box = { x: pt.x + 15, y: pt.y - 12, w: 150, h: 30 };
+      if (placed.some((b) => overlaps(b, box))) continue;
+      placed.push(box);
+      L.marker([step.location.lat, step.location.lng], { icon: L.divIcon({ className: "", html: `<div class="map-label">${esc(compactDate(step.date || now))} · ${esc(step.location.city)}</div>`, iconSize: [150, 28], iconAnchor: [-16, 14] }), interactive: false }).addTo(layers.labels);
+    }
+  }
+
+  function drawCallLines(allowedIds = null, untilDate = null) {
+    if (!state.showCalls || !map || !layers.calls) return;
+    const cutoff = untilDate ? new Date(untilDate) : null;
+    for (const call of calls) {
+      const ids = call.participantIds || [];
+      if (ids.length < 2) continue;
+      if (allowedIds && !ids.some((id) => allowedIds.has(id))) continue;
+      if (cutoff && call.startsAt && new Date(call.startsAt) > cutoff) continue;
+      const a = anchorForPersonId(ids[0]);
+      const b = anchorForPersonId(ids[1]);
+      if (!a || !b) continue;
+      const line = L.polyline([[a.lat, a.lng], [b.lat, b.lng]], { color: "#ff5b55", weight: 2.2, opacity: .74, dashArray: "3 9", className: "route-arrow call-line" });
+      line.on("mouseover", (e) => showHoverAt(e.originalEvent, { title: call.title || "Public call", detail: `${compactDate(call.startsAt)} · ${a.name} ↔ ${b.name}`, body: call.summary || "Published call readout." }));
+      line.on("mousemove", (e) => moveHover(e.originalEvent));
+      line.on("mouseout", hideHover);
+      line.on("click", (e) => showHoverAt(e.originalEvent, { title: call.title || "Public call", detail: `${a.name} ↔ ${b.name}`, body: call.summary || "Published call readout." }));
+      line.addTo(layers.calls);
+    }
+  }
+
+  function anchorForPersonId(id) {
+    const p = peopleById.get(id);
+    if (!p) return null;
+    const r = rosterForPerson(p);
+    const base = homeBaseFor(p, r);
+    return { ...base, name: p.canonicalName };
+  }
+
+  function drawProfileAnchor(r) {
+    updateMapFocus(null);
+    clearMap();
+    if (els.mapFocus) els.mapFocus.hidden = true;
+    const anchor = latestAnchorForRoster(r);
+    els.mapTitle.textContent = r.name;
+    els.mapStatus.textContent = "Profile anchor. Dated trips appear when public records are approved.";
+    if (!fallbackMode && map) {
+      drawHeat(anchor, 1.1, countryColor(anchor.countryCode));
+      const marker = L.marker([anchor.lat, anchor.lng], { icon: personDivIcon(r, null, { label: shortName(r.name) }), riseOnHover: true, keyboard: true });
+      marker.on("mouseover", (e) => showHoverAt(e.originalEvent, hoverForRoster(r, anchor)));
+      marker.on("mouseout", hideHover);
+      marker.addTo(layers.markers);
+      map.setView([anchor.lat, anchor.lng], 4, { animate: true });
+    } else {
+      drawFallbackStart([{ roster: r, person: null, anchor }]);
+    }
+  }
+
+  function drawFallbackStart(items) {
+    clearMap();
+    for (const item of items) {
+      drawHeat(item.anchor, 1, countryColor(item.anchor.countryCode));
+      const marker = document.createElement("button");
+      marker.className = "static-marker";
+      marker.style.left = `${project(item.anchor.lat, item.anchor.lng)[0]}%`;
+      marker.style.top = `${project(item.anchor.lat, item.anchor.lng)[1]}%`;
+      marker.innerHTML = markerHtml(item.roster, item.person, shortName(item.roster.name));
+      marker.addEventListener("click", () => selectRoster(item.roster.id));
+      marker.addEventListener("pointerover", (e) => showHoverAt(e, hoverForRoster(item.roster, item.anchor)));
+      marker.addEventListener("pointerout", hideHover);
+      els.fallback.appendChild(marker);
+    }
+  }
+
+  function drawFallbackTimeline(steps) {
+    const svg = qs(".static-route", els.fallback);
+    for (let i = 0; i < steps.length; i++) {
+      const s = steps[i];
+      drawHeat(s.location, i === steps.length - 1 ? 1.5 : .8, s.kind === "future" ? "#ffc247" : countryColor(s.location?.countryCode));
+      if (i > 0) {
+        const prev = steps[i - 1];
+        const p0 = project(prev.location.lat, prev.location.lng);
+        const p1 = project(s.location.lat, s.location.lng);
+        const mx = (p0[0] + p1[0]) / 2;
+        const my = (p0[1] + p1[1]) / 2 - 12;
+        const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        path.setAttribute("d", `M${p0[0] * 10} ${p0[1] * 5} Q${mx * 10} ${my * 5} ${p1[0] * 10} ${p1[1] * 5}`);
+        path.setAttribute("fill", "none");
+        path.setAttribute("stroke", s.kind === "future" ? "#ffc247" : s.kind === "return" ? "#9ba6b5" : "#72bfff");
+        path.setAttribute("stroke-width", s.kind === "return" ? "1.2" : "2.6");
+        path.setAttribute("stroke-dasharray", s.kind === "return" ? "2 5" : s.kind === "future" ? "7 6" : "");
+        path.setAttribute("opacity", s.kind === "return" ? ".45" : ".8");
+        svg.appendChild(path);
+      }
+      const marker = document.createElement("button");
+      marker.className = "static-marker";
+      marker.style.left = `${project(s.location.lat, s.location.lng)[0]}%`;
+      marker.style.top = `${project(s.location.lat, s.location.lng)[1]}%`;
+      marker.innerHTML = i === steps.length - 1 ? `<div class="moving-chip"><span class="moving-photo">${imageTag(selectedPerson, selectedRoster)}</span>${entityBadgeHtml(selectedPerson, selectedPerson?.countryFocus || s.location.countryCode, selectedRoster?.countryName)}</div>` : `<div class="stop-marker ${esc(s.kind)}"><span class="stop-icon">${stopIcon(s)}</span>${flagBadgeHtml(s.location.countryCode, s.location.countryName)}</div>`;
+      marker.addEventListener("click", () => setStep(timeline.indexOf(s), { pan: true, stop: true }));
+      marker.addEventListener("pointerover", (e) => showHoverAt(e, { title: s.title, detail: `${textFlag(s.location.countryCode)} ${s.location.city}`, body: s.summary }));
+      marker.addEventListener("pointerout", hideHover);
+      els.fallback.appendChild(marker);
+    }
+  }
+
+
+  function showStepBrief(step) {
+    if (!els.stepBrief || !step || !selectedPerson) return;
+    if (stepBriefTimer) clearTimeout(stepBriefTimer);
+    els.stepBrief.innerHTML = stepBriefHtml(step, true);
+    els.stepBrief.hidden = false;
+    qsAll("a", els.stepBrief).forEach((a) => a.addEventListener("click", (e) => e.stopPropagation()));
+    stepBriefTimer = setTimeout(() => { if (els.stepBrief) els.stepBrief.hidden = true; }, 5000);
+  }
+
+  function addBriefingCard(step, index) {
+    if (!els.briefingStack || !step || index < 0) return;
+    const keyValue = `${selectedPerson?.id || "person"}-${index}`;
+    if (visitedStepNotes.has(keyValue)) return;
+    visitedStepNotes.set(keyValue, true);
+    const card = document.createElement("article");
+    card.className = "briefing-card";
+    card.innerHTML = stepBriefHtml(step, false);
+    card.querySelectorAll("button[data-jump-step]").forEach((b) => b.addEventListener("click", () => setStep(Number(b.dataset.jumpStep), { pan: true, stop: true })));
+    const jump = document.createElement("button");
+    jump.type = "button";
+    jump.className = "source-link jump-link";
+    jump.dataset.jumpStep = String(index);
+    jump.textContent = "show on map";
+    jump.addEventListener("click", () => setStep(index, { pan: true, stop: true }));
+    card.appendChild(jump);
+    els.briefingStack.prepend(card);
+  }
+
+  function stepBriefHtml(step, temporary) {
+    const date = step.date ? compactDate(step.date) : "Public base";
+    const loc = step.location ? `${flagHtml(step.location.countryCode, step.location.countryName)} ${esc(step.location.city)}` : "Public anchor";
+    const who = step.kind === "call" ? callParticipants(step.call) : step.counterparts?.length ? step.counterparts.map((id) => peopleById.get(id)?.canonicalName).filter(Boolean).join(", ") : selectedPerson?.canonicalName || "Public record";
+    const faces = step.kind === "call" ? callParticipantFaces(step.call) : (step.counterparts || []).slice(0, 8).map((id) => miniFace(peopleById.get(id))).join("");
+    const icon = eventIcon(step);
+    const links = stepLinks(step);
+    const title = step.kind === "return" ? `Back to ${step.location?.city || "public base"}` : step.title;
+    return `<div class="brief-head"><span class="brief-icon">${esc(icon)}</span><div><strong>${esc(date)} · ${loc}</strong><span>${esc(oneLine(title, 90))}</span></div></div><p>${esc(step.summary || "Public record.")}</p><div class="brief-who"><b>${step.kind === "call" ? "Call" : "Who"}:</b> ${esc(who || "not named in this card")}</div>${faces ? `<div class="counterparts brief-faces">${faces}</div>` : ""}<div class="source-pills">${links}</div>${temporary ? `<em class="brief-timer">This note closes in five seconds. It remains in the briefing notes below.</em>` : ""}`;
+  }
+
+  function eventIcon(step) {
+    if (!step) return "•";
+    if (step.kind === "call") return "☎";
+    if (step.kind === "return") return "↩";
+    if (step.kind === "future") return "✦";
+    const text = [step.title, step.record?.eventType, step.record?.topics?.join(" ")].join(" ").toLowerCase();
+    if (text.includes("summit") || text.includes("g7") || text.includes("g20") || text.includes("nato")) return "♜";
+    if (text.includes("bilateral") || text.includes("meet")) return "◆";
+    if (text.includes("speech") || text.includes("address")) return "◉";
+    if (text.includes("forum") || text.includes("conference")) return "▣";
+    return "•";
+  }
+
+  function callParticipants(call) {
+    return (call?.participantIds || []).map((id) => peopleById.get(id)?.canonicalName).filter(Boolean).join(" and ");
+  }
+
+  function callParticipantFaces(call) {
+    return (call?.participantIds || []).map((id) => miniFace(peopleById.get(id))).join("");
+  }
+
+  function newsSearchLink(step) {
+    const q = encodeURIComponent([selectedPerson?.canonicalName, step?.title, step?.location?.city, step?.date ? compactDate(step.date) : ""].filter(Boolean).join(" "));
+    if (!q) return "";
+    return `<a class="source-link newspaper" href="https://news.google.com/search?q=${q}" target="_blank" rel="noreferrer">news</a>`;
+  }
+
+  function handleTimelineAction(action) {
+    if (!timeline.length) { startDefaultRoadmovie(); return; }
+    if (action === "play") return playing ? pausePlayback() : playTimeline();
+    if (action === "stop") return stopPlayback();
+    if (action === "restart") return setStep(0, { pan: true, stop: true });
+    if (action === "back") return setStep(currentStep - 1, { pan: true, stop: true });
+    if (action === "next") return setStep(currentStep + 1, { pan: true, stop: true });
+    if (action === "back5") return setStep(currentStep - 5, { pan: true, stop: true });
+    if (action === "next5") return setStep(currentStep + 5, { pan: true, stop: true });
+    if (action === "latest") return setStep(timeline.length - 1, { pan: true, stop: true, fitEnd: true });
+    if (action === "speed") {
+      speed = speed === 1 ? 2 : speed === 2 ? 4 : 1;
+      els.speedToggle.textContent = `${speed}×`;
+      els.speedToggle.classList.toggle("is-fast", speed > 1);
+      if (playing) { pausePlayback(); playTimeline(); }
+    }
+  }
+
+  function playTimeline() {
+    playing = true;
+    els.playToggle.textContent = "Pause";
+    els.playToggle.classList.add("is-playing");
+    const tick = () => {
+      if (!playing) return;
+      if (currentStep >= timeline.length - 1) { pausePlayback(); setTimeout(fitTimelineBounds, 750); return; }
+      setStep(currentStep + 1, { pan: true, incremental: true });
+      playTimer = setTimeout(tick, speed === 1 ? 6200 : speed === 2 ? 3600 : 2100);
+    };
+    playTimer = setTimeout(tick, 520);
+  }
+
+  function pausePlayback() {
+    playing = false;
+    clearTimeout(playTimer);
+    els.playToggle.textContent = "Play";
+    els.playToggle.classList.remove("is-playing");
+  }
+
+  function stopPlayback() { pausePlayback(); cancelVehicleAnimation(); }
+
+  function setStep(index, opts = {}) {
+    if (!timeline.length) return;
+    const previousIndex = currentStep;
+    const target = clamp(index, 0, timeline.length - 1);
+    if (opts.stop) pausePlayback();
+    currentStep = target;
+    const incremental = !!opts.incremental && target === previousIndex + 1 && !opts.forceRedraw;
+    const render = () => {
+      renderTimelineMap({ incremental });
+      addBriefingCard(timeline[currentStep], currentStep);
+      setTimeout(() => showStepBrief(timeline[currentStep]), opts.pan ? 720 : 120);
+    };
+    if (opts.pan && !fallbackMode && map) focusStep(target);
+    if (opts.pan && incremental) setTimeout(render, 980); else render();
+    if (opts.fitEnd || currentStep === timeline.length - 1) setTimeout(fitTimelineBounds, 1800);
+  }
+
+  function focusStep(index) {
+    if (!map || !timeline.length) return;
+    const step = timeline[index];
+    const from = step?.from || timeline[index - 1]?.location;
+    if (!step?.location) return;
+    if (step.kind === "call") {
+      const ids = step.call?.participantIds || [];
+      const anchors = ids.map(anchorForPersonId).filter(Boolean);
+      if (anchors.length >= 2) {
+        map.flyToBounds(anchors.map((a) => [a.lat, a.lng]), { padding: [110, 110], maxZoom: 4, duration: 1.45 });
+        return;
+      }
+    }
+    if (from && distanceKm(from, step.location) >= 6) {
+      const d = distanceKm(from, step.location);
+      const maxZoom = d < 80 ? 9 : d < 320 ? 7 : d < 1200 ? 5 : 3;
+      map.flyToBounds([[from.lat, from.lng], [step.location.lat, step.location.lng]], { padding: [120, 120], maxZoom, duration: 1.45 });
+    } else {
+      map.flyTo([step.location.lat, step.location.lng], 5, { duration: 1.2 });
+    }
+  }
+
+  function fitTimelineBounds() {
+    if (!map || !timeline.length) return;
+    const bounds = timeline.map((s) => s.location ? [s.location.lat, s.location.lng] : null).filter(Boolean);
+    if (bounds.length) map.fitBounds(bounds, { padding: [66, 66], maxZoom: 5, animate: true });
+  }
+
+  function renderTop20List() {
+    const list = startList();
+    if (els.startListTitle) els.startListTitle.textContent = hasActiveSearchOrFilter() ? `Matches (${list.length})` : openingPresetLabel().replace(" public face map", "");
+    if (els.startListHelp) els.startListHelp.textContent = hasActiveSearchOrFilter() ? "Search and filters cover the full top-200 roster." : "Click a name or face. The roadmovie button follows the selected profile.";
+    els.top20.innerHTML = list.length ? list.map((r) => {
+      const p = mappedPersonForRoster(r);
+      const anchor = latestAnchorForRoster(r);
+      return `<button type="button" class="top20-chip" data-roster-id="${esc(r.id)}" data-hover-title="${esc(r.name)}" data-hover-detail="${esc((r.bucket || r.roleTitle) + " · " + anchor.city)}" data-hover-body="${esc(anchor.countryName || r.countryName)}"><span class="avatar" style="--avatar:${countryColor(r.countryFocus)}">${imageTag(p || r, r)}${entityBadgeHtml(p || r, r.countryFocus, r.countryName)}</span><span><strong>${esc(r.name)}</strong><span>${esc(anchor.city)} · ${esc(r.bucket || r.roleTitle)}</span></span></button>`;
+    }).join("") : `<div class="empty-note">No top-200 match. Try another spelling.</div>`;
+    qsAll("[data-roster-id]", els.top20).forEach((button) => button.addEventListener("click", () => selectRoster(button.dataset.rosterId)));
+    schedulePortraitHydration();
+  }
+
+  function renderQuickResults(input) {
+    if (!els.quickResults) return;
+    const q = key(input);
+    if (!q) { els.quickResults.hidden = true; els.quickResults.innerHTML = ""; return; }
+    const results = roster.filter((r) => rosterSearchText(r).includes(q)).slice(0, 24);
+    els.quickResults.innerHTML = results.length ? results.map((r) => {
+      const p = mappedPersonForRoster(r);
+      return `<button type="button" class="quick-hit" data-quick-id="${esc(r.id)}" data-hover-title="${esc(r.name)}" data-hover-detail="${esc(r.countryName || "Global")}" data-hover-body="${esc(r.bucket || r.roleTitle)}"><span class="avatar" style="--avatar:${countryColor(r.countryFocus)}">${imageTag(p || r, r)}${entityBadgeHtml(p || r, r.countryFocus, r.countryName)}</span><span><strong>${esc(r.name)}</strong><span>${esc(r.bucket || r.roleTitle)} · ${esc(r.countryName || "Global")}</span></span><em>${mappedPersonForRoster(r) ? "trail" : "profile"}</em></button>`;
+    }).join("") : `<div class="quick-empty">No top-200 match.</div>`;
+    qsAll("[data-quick-id]", els.quickResults).forEach((b) => b.addEventListener("click", () => selectRoster(b.dataset.quickId)));
+    els.quickResults.hidden = false;
+    schedulePortraitHydration();
+  }
+
+
+  function rosterSearchText(r) {
+    return key([r.name, r.canonicalName, r.countryName, r.countryFocus, r.bucket, r.roleTitle, r.organization, r.region, r.sector, r.slug, r.wikiTitle].join(" "));
+  }
+
+  function renderProfile(p, r) {
+    const person = p || mappedPersonForRoster(r) || null;
+    const subject = person || r;
+    if (!subject) return;
+    const rosterItem = r || rosterForPerson(person) || subject;
+    const anchor = latestAnchorForRoster(rosterItem);
+    const records = person ? visibleTrailForPerson(person) : [];
+    const last = records.filter((a) => !isFuture(a)).at(-1);
+    const next = records.find((a) => isFuture(a));
+    const lines = profileLineObjects(subject, person, rosterItem, records, anchor, last, next);
+    els.profile.innerHTML = `
+      <div class="profile-top">
+        <span class="avatar" style="--avatar:${countryColor(subject.countryFocus || anchor.countryCode)}">${imageTag(subject, rosterItem)}${entityBadgeHtml(subject, subject.countryFocus || anchor.countryCode, subject.countryName || anchor.countryName)}</span>
+        <div><h3>${esc(subject.canonicalName || subject.name)}</h3><p>${esc(subject.roleTitle || subject.bucket || "Public figure")}</p></div>
+      </div>
+      <div class="pills"><span class="pill">${orgOrRoleBadge(subject)} ${esc(subject.sector || subject.bucket || "public life")}</span><span class="pill">${esc(ageLine(subject))}</span><span class="pill">${records.length} public records</span><span class="pill">${esc(subject.countryName || anchor.countryName || "Global")}</span></div>
+      <div class="profile-lines">${lines.map((line) => `<div class="profile-line" data-hover-title="${esc(line.label)}" data-hover-detail="${esc(subject.canonicalName || subject.name)}" data-hover-body="${esc(line.text)}"><span class="line-icon">${esc(line.icon)}</span><strong>${esc(line.label)}</strong><p>${esc(line.text)}</p></div>`).join("")}</div>
+      <div class="profile-social"><strong>Links</strong><div class="source-pills">${socialLinksHtml(subject, person, last)}</div></div>`;
+    schedulePortraitHydration();
+  }
+
+
+  function profileLineObjects(subject, person, rosterItem, records, anchor, last, next) {
+    const org = subject.organization || rosterItem?.organization || subject.bucket || "public institution";
+    const role = subject.roleTitle || subject.bucket || rosterItem?.bucket || "public figure";
+    const name = subject.canonicalName || subject.name || rosterItem?.name || "This profile";
+    const sector = subject.sector || rosterItem?.sector || "public life";
+    const cities = [...new Set(records.map((a) => a.location?.city).filter(Boolean))].slice(0, 7);
+    const countries = [...new Set(records.map((a) => a.location?.countryName || countryNameFromCode(a.location?.countryCode)).filter(Boolean))].slice(0, 6);
+    const topics = [...new Set(records.flatMap((a) => a.topics || []).filter(Boolean))].slice(0, 7);
+    const counterpartNames = [...new Set(records.flatMap((a) => counterpartyIdsByAppearance.get(a.id) || []).map((id) => peopleById.get(id)?.canonicalName).filter(Boolean))].slice(0, 6);
+    const futureCount = records.filter(isFuture).length;
+    const lines = [
+      { icon: "👤", label: "Role", text: `${name} is followed as ${role}.` },
+      { icon: "🏛", label: "Institution", text: `${org}. Sector lens: ${sector}.` },
+      { icon: "📍", label: "Public base", text: `${anchor.city}, ${anchor.countryName}. Used only as a public institutional anchor.` },
+      { icon: "🗺", label: "Trail", text: records.length ? `${records.length} dated public records are available in this build.` : "No dated public trail is visible yet; the profile remains searchable." },
+      { icon: "🌐", label: "Cities", text: cities.length ? `Visible stops include ${cities.join(", ")}.` : "No city-level public stops are visible yet." },
+      { icon: "🏳", label: "Countries", text: countries.length ? `Current pilot spread: ${countries.join(", ")}.` : `${subject.countryName || anchor.countryName || "Global"} is the main public anchor.` },
+      { icon: "🤝", label: "Network", text: counterpartNames.length ? `Public cards connect this profile with ${counterpartNames.join(", ")}.` : "Relationship edges appear once a public meeting, panel or call readout names another person." },
+      { icon: "🧭", label: "Why follow", text: profileRelevanceLine(subject, role, sector) },
+      { icon: "🔎", label: "Themes", text: topics.length ? `Current record themes: ${topics.join(", ")}.` : themeLineFor(subject) },
+      { icon: "🗣", label: "Latest", text: last ? `${compactDate(last.startsAt)} in ${last.location.city}: ${plainEventLine(last)}` : "No dated public record is visible yet." },
+      { icon: "📅", label: "Next", text: next ? `${compactDate(next.startsAt)} in ${next.location.city}: ${oneLine(next.title, 120)}` : futureCount ? `${futureCount} future public windows are listed.` : "No announced future public window in the current build." },
+      { icon: "👁", label: "Where to watch", text: crawlerFocusLine(subject, role, sector) }
+    ];
+    return lines;
+  }
+
+  function profileRelevanceLine(subject, role, sector) {
+    const hay = [role, sector, subject.bucket, subject.organization, subject.countryName].join(" ").toLowerCase();
+    if (/central bank|monetary|finance|imf|bis|world bank|asset|bank/.test(hay)) return "Signals can move expectations around rates, liquidity, debt, bank regulation and capital allocation.";
+    if (/technology|ai|software|semiconductor|cloud/.test(hay)) return "Public appearances can point to AI, chips, cloud, regulation, defence technology and investment priorities.";
+    if (/energy|opec|oil|gas|climate/.test(hay)) return "Useful for energy security, supply discipline, transition finance and industrial policy.";
+    if (/security|nato|defence|foreign|state|government|president|prime/.test(hay)) return "Useful for diplomacy, sanctions, defence posture, trade and coalition-building.";
+    if (/royal/.test(hay)) return "Royal engagements often show state priorities, soft power and institutional relationships.";
+    return "Useful when a public appearance connects policy, capital, diplomacy or sector attention.";
+  }
+
+  function themeLineFor(subject) {
+    const hay = [subject.sector, subject.bucket, subject.organization, subject.roleTitle].join(" ");
+    if (/central|monetary|bank|finance/i.test(hay)) return "Watch speeches, panels, G30, BIS, IMF and central-bank calendars.";
+    if (/technology|business/i.test(hay)) return "Watch Davos, AI summits, Sun Valley, Milken and public company events.";
+    if (/energy|opec/i.test(hay)) return "Watch CERAWeek, ADIPEC, OPEC windows and Gulf investment forums.";
+    return "Watch summits, speeches, public readouts and host-event participant lists.";
+  }
+
+  function crawlerFocusLine(subject, role, sector) {
+    const hay = [role, sector, subject.bucket, subject.organization].join(" ").toLowerCase();
+    if (/central bank|monetary/.test(hay)) return "Best public signals: speech pages, policy calendars, Jackson Hole, Sintra, BIS, IMF and university appearances.";
+    if (/technology|business|finance/.test(hay)) return "Best public signals: conference programmes, investor forums, university keynotes and company newsrooms.";
+    if (/international|un|oecd|imf|world bank|wto|who|gavi/.test(hay)) return "Best public signals: institutional calendars, speeches, ministerial pages and multilateral programmes.";
+    return "Best public signals: official calendars, host pages, speeches, summit programmes and public readouts.";
+  }
+
+  function socialLinksHtml(subject, person, last) {
+    const links = socialLinksFor(subject);
+    const pills = [];
+    if (links.official) pills.push(sourcePill(links.official, "official"));
+    if (links.wikipedia) pills.push(sourcePill(links.wikipedia, "profile"));
+    if (links.wikidata) pills.push(sourcePill(links.wikidata, "Wikidata"));
+    if (links.linkedinSearch) pills.push(sourcePill(links.linkedinSearch, "LinkedIn"));
+    if (links.socialSearch) pills.push(sourcePill(links.socialSearch, "official social"));
+    if (last) pills.push(stepLinks({ record: last }));
+    return pills.filter(Boolean).join("") || "Links pending.";
+  }
+
+
+  function socialLinksFor(subject) {
+    const s = subject?.socialLinks || {};
+    const name = encodeURIComponent(subject?.canonicalName || subject?.name || "");
+    const org = encodeURIComponent(subject?.organization || subject?.countryName || "");
+    return {
+      official: s.official || subject?.officialUrl || subject?.profileUrl || "",
+      wikipedia: s.wikipedia || subject?.profileUrl || (subject?.wikiTitle ? `https://en.wikipedia.org/wiki/${subject.wikiTitle}` : ""),
+      wikidata: s.wikidata || (subject?.wikidataId ? `https://www.wikidata.org/wiki/${subject.wikidataId}` : ""),
+      linkedinSearch: s.linkedinSearch || `https://www.linkedin.com/search/results/all/?keywords=${name}%20${org}`,
+      socialSearch: s.socialSearch || `https://www.google.com/search?q=${name}+official+social+media`
+    };
+  }
+
+  function safeUrl(url) {
+    const u = String(url || "").trim();
+    if (!u || u === "#" || /^undefined$/i.test(u) || /^null$/i.test(u)) return "";
+    return u;
+  }
+
+  function sourceLinkHtml(url, label, cls = "source-link") {
+    const u = safeUrl(url);
+    const text = String(label || "").trim();
+    if (!u || !text) return "";
+    return `<a class="${esc(cls)}" href="${esc(u)}" target="_blank" rel="noreferrer">${esc(text)}</a>`;
+  }
+
+  function sourcePill(url, label) {
+    return sourceLinkHtml(url, label);
+  }
+
+  function imageAuditLabel(subject) {
+    const status = subject?.imageAudit?.status || subject?.visualAuditStatus || subject?.visualStatus || "portrait review";
+    if (/missing|pending/i.test(status)) return "portrait pending";
+    if (/bad|wrong|logo|drawing|painting|flag/i.test(status)) return "portrait review";
+    return "portrait checked";
+  }
+
+  function orgOrRoleBadge(subject) {
+    const mark = orgMarkFor(subject);
+    if (mark) return `<span class="org-mini">${esc(mark.label)}</span>`;
+    return esc(roleIcon(subject));
+  }
+
+  function entityMarkHtml(subject, code, label) {
+    const mark = orgMarkFor(subject);
+    return mark ? orgBadgeHtml(mark.code, mark.label) : flagHtml(code, label);
+  }
+
+  function orgMarkFor(subject) {
+    if (!subject) return null;
+    if (subject.orgMark?.code) return subject.orgMark;
+    const hay = [subject.organization, subject.bucket, subject.sector, subject.countryName, subject.roleTitle, subject.name, subject.canonicalName].join(" ");
+    const defs = [
+      [/european union|european commission|eeas/i, ["EU", "EU"]], [/united nations|unicef|undp|unhcr|wfp|unga/i, ["UN", "UN"]], [/nato/i, ["NATO", "NATO"]], [/oecd/i, ["OC", "OECD"]], [/bis|bank for international settlements/i, ["BI", "BIS"]], [/imf|international monetary/i, ["IM", "IMF"]], [/world bank/i, ["WB", "World Bank"]], [/world health|\bwho\b/i, ["WH", "WHO"]], [/world trade|\bwto\b/i, ["WT", "WTO"]], [/iaea|atomic energy/i, ["IA", "IAEA"]], [/opec/i, ["OP", "OPEC"]], [/fifa/i, ["FIFA", "FIFA"]], [/olympic|\bioc\b/i, ["IO", "IOC"]], [/gavi/i, ["GV", "Gavi"]], [/group of thirty|\bg30\b/i, ["G30", "G30"]], [/bilderberg/i, ["BBG", "Bilderberg"]], [/world economic forum|\bwef\b/i, ["WEF", "WEF"]]
+    ];
+    for (const [rx, val] of defs) if (rx.test(hay)) return { code: val[0], label: val[1] };
+    const c = String(subject.countryFocus || subject.countryFocusCode || "").toUpperCase();
+    if (["EU","UN","NATO","OC","OECD","BI","BIS","IM","IMF","WB","WH","WT","IA","IO","FIFA","GV","OP","G30","WEF","BBG","IEA"].includes(c)) return { code: c, label: orgLabel(c) };
+    return null;
+  }
+
+  function cityActivityMap() {
+    const cityCounts = new Map();
+    appearances.forEach((a) => {
+      const k = `${a.location.city}|${a.location.countryCode}`;
+      const cur = cityCounts.get(k) || { city: a.location.city, code: a.location.countryCode, country: a.location.countryName, value: 0, people: new Set(), types: new Set() };
+      cur.value += 1; cur.people.add(a.personId); cur.types.add(niceType(a.eventType || a.title)); cityCounts.set(k, cur);
+    });
+    return cityCounts;
+  }
+
+  function eventTypeCounts() {
+    const m = new Map();
+    appearances.forEach((a) => { const t = niceType(a.eventType || a.title); m.set(t, (m.get(t) || 0) + 1); });
+    return m;
+  }
+
+  function sourceTypeCounts() {
+    const m = new Map();
+    appearances.forEach((a) => (a.sourcePack || []).forEach((src) => { const t = src.type || "source"; m.set(t, (m.get(t) || 0) + 1); }));
+    return m;
+  }
+
+  function topPairs(map, limit = 5) { return [...map.entries()].sort((a, b) => b[1] - a[1]).slice(0, limit).map(([k, v]) => `${k} ${v}`).join(", "); }
+  function topNames(arr) { return arr.filter(Boolean).slice(0, 12).join(" · "); }
+
+  function renderRankings() {
+    const byPerson = people.map((p) => ({ person: p, records: visibleTrailForPerson(p) }));
+    renderRank(els.rankTravel, byPerson.map((x) => ({ p: x.person, value: new Set(x.records.map((a) => a.location.countryCode)).size, detail: `${new Set(x.records.map((a) => a.location.countryCode)).size} countries` })).sort((a, b) => b.value - a.value));
+    renderRank(els.rankConnected, byPerson.map((x) => ({ p: x.person, value: new Set(x.records.flatMap((a) => counterpartyIdsByAppearance.get(a.id) || [])).size, detail: `${new Set(x.records.flatMap((a) => counterpartyIdsByAppearance.get(a.id) || [])).size} people` })).sort((a, b) => b.value - a.value));
+    renderRank(els.rankLatest, byPerson.map((x) => ({ p: x.person, value: dateScore(x.records.at(-1)?.startsAt), detail: x.records.at(-1) ? compactDate(x.records.at(-1).startsAt) : "—" })).sort((a, b) => b.value - a.value));
+    renderRank(els.rankFuture, appearances.filter(isFuture).map((a) => ({ p: peopleById.get(a.personId), value: -Math.abs(daysFromNow(a.startsAt)), detail: `${compactDate(a.startsAt)} · ${a.location.city}`, appearance: a })).filter((x) => x.p).sort((a, b) => b.value - a.value));
+    renderRank(els.rankPeace, appearances.filter((a) => /peace|ukraine/i.test([a.title, a.summary, ...(a.topics || [])].join(" "))).map((a) => ({ p: peopleById.get(a.personId), value: a.publicInterestScore || 0, detail: `${a.location.city} · ${compactDate(a.startsAt)}`, appearance: a })).filter((x) => x.p).sort((a, b) => b.value - a.value));
+    const cityCounts = new Map();
+    appearances.forEach((a) => {
+      const k = `${a.location.city}|${a.location.countryCode}`;
+      const cur = cityCounts.get(k) || { city: a.location.city, code: a.location.countryCode, country: a.location.countryName, value: 0, people: new Set() };
+      cur.value += 1;
+      cur.people.add(a.personId);
+      cityCounts.set(k, cur);
+    });
+    els.rankCities.innerHTML = [...cityCounts.values()].sort((a, b) => b.value - a.value).slice(0, 8).map((c) => {
+      const matches = appearances.filter((a) => a.location.city === c.city && a.location.countryCode === c.code);
+      const personNames = [...new Set(matches.map((a) => peopleById.get(a.personId)?.canonicalName).filter(Boolean))].slice(0, 8);
+      const types = [...new Set(matches.map((a) => niceType(a.eventType || a.title)).filter(Boolean))].slice(0, 6);
+      const body = `${personNames.join(", ") || "Public figures"}. Event types: ${types.join(", ") || "public records"}. Click to focus the city.`;
+      return `<button type="button" class="rank-row city-row" data-city="${esc(c.city)}" data-code="${esc(c.code)}" data-hover-title="${esc(c.city)}" data-hover-detail="${esc(c.value + " records · " + c.people.size + " people")}" data-hover-body="${esc(body)}" data-hover-pills="${esc([...personNames, ...types].join("|"))}"><span class="city-flag">${flagHtml(c.code, c.country)}</span><strong>${esc(c.city)}</strong><em>${c.value}</em></button>`;
+    }).join("");
+    qsAll("[data-city]", els.rankCities).forEach((b) => b.addEventListener("click", () => focusCity(b.dataset.city, b.dataset.code)));
+    renderEventAgendas();
+    renderInstitutionNetworks();
+    renderEventCatalog();
+    renderConnectorProfiles();
+  }
+
+  function uniqueAgendas(items) {
+    const seen = new Map();
+    for (const item of items || []) {
+      const cleanedTitle = key(String(item.title || "").replace(/leaders’?|summit|meeting|conference|forum|watch|announced|public|window|annual|ministerial|council|2027|2026|2025|2024/gi, ""));
+      const words = cleanedTitle.split(" ").filter(Boolean);
+      const signature = ["g7","g20","nato","brics","apec","cop","wef","davos","bilderberg","jackson","sintra","opec","imf","world","bank","oecd","fii","adipec","ceraweek","shangri","raisina","milken","ambrosetti","sun","valley","wto"].find((w) => words.includes(w)) || words.slice(0, 2).join(" ") || key(item.type || "event");
+      const date = item.startsAt ? new Date(item.startsAt).toISOString().slice(0, 10) : "date";
+      const city = key(item.location?.city || "");
+      const k = `${date}|${city}|${signature}`;
+      const old = seen.get(k);
+      if (!old) seen.set(k, item);
+      else {
+        old.participantNames = [...new Set([...(old.participantNames || []), ...(item.participantNames || [])])];
+        old.sourcePack = [...(old.sourcePack || []), ...(item.sourcePack || [])];
+        old.topics = [...new Set([...(old.topics || []), ...(item.topics || [])])];
+        old.sectors = [...new Set([...(old.sectors || []), ...(item.sectors || [])])];
+      }
+    }
+    return [...seen.values()];
+  }
+
+  function renderEventAgendas() {
+    if (!els.rankAgendas) return;
+    const sorted = uniqueAgendas(eventAgendas).slice().sort((a, b) => {
+      const af = new Date(a.startsAt) >= now ? 0 : 1;
+      const bf = new Date(b.startsAt) >= now ? 0 : 1;
+      if (af !== bf) return af - bf;
+      return Math.abs(daysFromNow(a.startsAt)) - Math.abs(daysFromNow(b.startsAt));
+    }).slice(0, 30);
+    els.rankAgendas.innerHTML = sorted.length ? sorted.map((agenda) => agendaRowHtml(agenda)).join("") : `<div class="empty-note">No event agenda cards loaded.</div>`;
+    qsAll("[data-agenda-id]", els.rankAgendas).forEach((b) => b.addEventListener("click", () => focusAgenda(b.dataset.agendaId)));
+    schedulePortraitHydration();
+  }
+
+  function renderInstitutionNetworks() {
+    if (!els.rankInstitutions) return;
+    const networkDefs = [
+      ["G7 / G20", /g7|g20|kananaskis|evian|miami/i, "Leader-level economic coordination, sanctions, security, trade and technology windows."],
+      ["BRICS / APEC", /brics|apec|shenzhen|global south|asia-pacific/i, "Trade, development finance, supply chains and alternative-power diplomacy."],
+      ["UNGA / COP", /unga|united nations|cop31|climate|antalya|high-level week/i, "World-leader density, climate policy, development and side-meeting networks."],
+      ["NATO / security", /nato|munich security|shangri-la|raisina|defence|defense|security/i, "Defence posture, alliance politics, Indo-Pacific security and conflict diplomacy."],
+      ["Central banking", /central bank|jackson hole|ecb|sintra|fomc|monetary|payments|bank of canada|bank of england|boj/i, "Rate expectations, liquidity, payments, financial stability and speeches that markets watch."],
+      ["BIS", /bis|basel committee|innovation summit/i, "Basel policy, payments innovation and central-bank coordination."],
+      ["IMF / World Bank", /imf|world bank|development finance|annual meetings|bangkok/i, "Debt, financial stability, growth, emerging-market financing and development-policy networks."],
+      ["Bilderberg", /bilderberg/i, "Official participant lists; useful for policy, finance, energy and technology overlap."],
+      ["Davos / WEF", /davos|world economic forum|wef/i, "Government, capital, technology and multilateral leadership in one public programme."],
+      ["Energy", /opec|ceraweek|adipec|energy|oil|gas|lng|houston|abu dhabi/i, "Energy security, production discipline, LNG, power demand and transition finance."],
+      ["Trade / WTO", /wto|apec|trade|supply chain|ministerial conference/i, "Trade rules, tariffs, supply chains, industrial policy and market-access politics."],
+      ["Technology / AI", /ai|artificial intelligence|technology|digital|chips|semiconductor|ces|sun valley/i, "Public technology forums, AI policy, chips, cloud infrastructure and regulation."],
+      ["Business / capital", /milken|sun valley|fii|blackrock|blackstone|jpmorgan|goldman|private equity|asset/i, "Capital allocation, deal networks, private equity, banking and sovereign wealth."],
+      ["Airshows / defence industry", /farnborough|paris air show|aerospace|aviation|defence|defense/i, "Aviation, aerospace, defence procurement and industrial-policy signals."],
+      ["Universities and ideas", /harvard|stanford|oxford|cambridge|mit|lse|sciences po|tsinghua|university|symposium|st\.? gallen/i, "Policy speeches, academic networks and leadership pipelines."],
+      ["OECD", /oecd/i, "Ministerial and policy-coordination windows around growth, trade, resilience and productivity."]
+    ];
+    const rows = networkDefs.map(([name, rx, note]) => {
+      const apps = appearances.filter((a) => rx.test([a.title, a.eventType, a.summary, ...(a.topics || [])].join(" ")));
+      const agendaCount = eventAgendas.filter((e) => rx.test([e.title, e.type, e.whyItMatters, ...(e.topics || [])].join(" "))).length;
+      const persons = [...new Set(apps.map((a) => a.personId))].map((id) => peopleById.get(id)).filter(Boolean);
+      return { name, note, apps, agendaCount, persons, score: apps.length + agendaCount * 3 };
+    }).sort((a, b) => b.score - a.score);
+    els.rankInstitutions.innerHTML = rows.map((row) => `<button type="button" class="agenda-row network-row" data-network-name="${esc(row.name)}" data-hover-title="${esc(row.name)}" data-hover-detail="${esc(row.apps.length + " records · " + row.agendaCount + " agenda cards")}" data-hover-body="${esc(row.note)}"><span class="agenda-date">${esc(row.apps.length)}</span><span class="agenda-main"><strong>${esc(row.name)}</strong><em>${esc(row.note)}</em><span class="agenda-faces">${row.persons.slice(0, 8).map((p) => miniFace(p)).join("")}</span></span><span class="agenda-meta">${esc(row.agendaCount)} agenda</span></button>`).join("");
+    qsAll("[data-network-name]", els.rankInstitutions).forEach((b) => b.addEventListener("click", () => focusNetwork(b.dataset.networkName)));
+    schedulePortraitHydration();
+  }
+
+  function renderEventCatalog() {
+    if (!els.rankEventCatalog) return;
+    const priorityRank = { "must-follow": 1, "high-value": 2, "watch": 3 };
+    const rows = eventCatalog.slice().sort((a, b) => (priorityRank[a.priority] || 9) - (priorityRank[b.priority] || 9) || String(a.name).localeCompare(String(b.name))).slice(0, 36);
+    els.rankEventCatalog.innerHTML = rows.length ? rows.map((item) => {
+      const fields = (item.trackerFields || ["event", "person", "organization", "role", "source URL"]).slice(0, 5).map((x) => `<span class="topic-pill">${esc(x)}</span>`).join("");
+      const hover = `<div class="hover-line"><b>Why follow it</b><span>${esc(item.why || item.category)}</span></div><div class="hover-pillrow"><span>${esc(item.category)}</span><span>${esc(item.priority || "watch")}</span><span>Person ↔ Event graph</span></div><p>${esc((item.aliases || []).slice(0, 6).join(", "))}</p>`;
+      return `<button type="button" class="agenda-row event-catalog-row" data-event-catalog="${esc(item.id)}" data-hover-title="${esc(item.name)}" data-hover-detail="${esc(item.category)}" data-hover-html="${esc(hover)}"><span class="agenda-date">${esc(item.priority === "must-follow" ? "Top" : "Watch")}</span><span class="agenda-main"><strong>${esc(item.name)}</strong><em>${esc(item.why || item.category)}</em><span class="topic-pills">${fields}</span></span><span class="agenda-meta">${esc(item.category)}</span></button>`;
+    }).join("") : `<div class="empty-note">Event catalog pending.</div>`;
+    qsAll("[data-event-catalog]", els.rankEventCatalog).forEach((b) => b.addEventListener("click", () => focusEventCatalog(b.dataset.eventCatalog)));
+  }
+
+  function focusEventCatalog(id) {
+    const item = eventCatalog.find((x) => x.id === id);
+    if (!item) return;
+    const terms = [item.name, ...(item.aliases || [])].map(key).filter(Boolean);
+    const hasTerm = (text) => {
+      const hay = key(text);
+      return terms.some((term) => hay.includes(term) || term.split(/\s+/).filter(Boolean).every((word) => hay.includes(word)));
+    };
+    const agendaMatches = eventAgendas.filter((a) => hasTerm([a.title, a.type, a.whyItMatters, ...(a.topics || [])].join(" ")));
+    const recordMatches = appearances.filter((a) => hasTerm([a.title, a.eventType, a.summary, ...(a.topics || [])].join(" ")));
+    stopPlayback(); selectedPerson = null; selectedRoster = null; timeline = []; currentStep = -1;
+    if (els.roster) els.roster.value = "";
+    clearMap();
+    els.mapTitle.textContent = item.name;
+    els.mapStatus.textContent = `${recordMatches.length} public records · ${agendaMatches.length} agenda/watch cards. Click a card below for the source pack.`;
+    const locs = [...recordMatches.map((a) => a.location), ...agendaMatches.map((a) => a.location)].filter(Boolean);
+    if (!fallbackMode && map && locs.length) {
+      const uniqueLocs = [];
+      const seen = new Set();
+      for (const loc of locs) {
+        const k = `${loc.city}|${loc.countryCode}`;
+        if (seen.has(k)) continue;
+        seen.add(k); uniqueLocs.push(loc);
+      }
+      const points = deOverlapAnchors(uniqueLocs.slice(0, 60).map((loc, i) => ({ anchor: loc, trueAnchor: loc, roster: { id: "", name: item.name, countryFocus: loc.countryCode, countryName: loc.countryName }, person: null })));
+      drawDisplayLeaderLines(points);
+      const bounds = [];
+      for (const point of points) {
+        const actual = point.trueAnchor || point.anchor;
+        const display = point.anchor;
+        drawHeat(actual, 1.1, countryColor(actual.countryCode));
+        const marker = L.marker([display.lat, display.lng], { icon: stopDivIcon({ kind: "event", date: item.name, record: { location: actual, title: item.name } }, point.index || 0, "network"), riseOnHover: true, keyboard: true });
+        marker.on("mouseover", (e) => showHoverAt(e.originalEvent, { title: item.name, detail: `${actual.city}, ${actual.countryName}`, body: item.why || item.category }));
+        marker.on("mousemove", (e) => moveHover(e.originalEvent));
+        marker.on("mouseout", hideHover);
+        marker.addTo(layers.markers);
+        bounds.push([display.lat, display.lng]);
+      }
+      if (bounds.length) map.fitBounds(bounds, { padding: [64, 64], maxZoom: 5, animate: true });
+    }
+    const agendaHtml = agendaMatches.slice(0, 8).map((agenda) => `<button type="button" class="profile-source-card" data-agenda-id="${esc(agenda.id)}"><strong>${esc(agenda.title)}</strong><span>${esc(compactDate(agenda.startsAt))} · ${esc(agenda.location?.city || "")}</span></button>`).join("");
+    const fields = (item.trackerFields || ["event", "person", "organization", "role", "year", "speaker/attendee", "source URL"]).map((x) => `<span class="topic-pill">${esc(x)}</span>`).join("");
+    els.profile.innerHTML = `<div class="summit-profile"><h3>${esc(item.name)}</h3><p>${esc(item.category || "Influence event")}</p><div class="topic-pills">${fields}</div><div class="bio-lines"><div><strong>Why it matters:</strong> ${esc(item.why || "High-signal public event layer.")}</div><div><strong>What to collect:</strong> person, organisation, role, year, speaker/attendee/organiser status and source URL.</div><div><strong>Current layer:</strong> ${recordMatches.length} public records and ${agendaMatches.length} agenda cards.</div></div><div class="profile-card-list">${agendaHtml || "Agenda cards appear here once loaded."}</div></div>`;
+    qsAll("[data-agenda-id]", els.profile).forEach((b) => b.addEventListener("click", () => focusAgenda(b.dataset.agendaId)));
+  }
+
+  function renderConnectorProfiles() {
+    if (!els.rankConnectors) return;
+    const seedNames = connectorProfiles.length ? connectorProfiles.map((x) => x.name) : ["Jerome Powell", "Christine Lagarde", "Andrew Bailey", "Agustín Carstens", "Kristalina Georgieva", "Ajay Banga", "Ngozi Okonjo-Iweala", "Tedros Adhanom Ghebreyesus", "Larry Fink", "Stephen Schwarzman", "Jamie Dimon", "David Solomon", "Satya Nadella", "Sundar Pichai", "Sam Altman", "Jensen Huang", "Ursula von der Leyen", "António Guterres", "Mark Rutte", "Emmanuel Macron", "Narendra Modi", "Mohammed bin Salman", "King Charles III"];
+    const networkRx = /davos|wef|bilderberg|imf|world bank|g20|g7|munich|jackson hole|sintra|bis|g30|milken|sun valley|fii|apec|brics|cop|opec|ceraweek|adipec|shangri|raisina/i;
+    const rows = seedNames.map((name) => {
+      const p = people.find((x) => key(x.canonicalName) === key(name)) || mappedByName.get(key(name));
+      const r = p ? rosterForPerson(p) : roster.find((x) => key(x.name) === key(name));
+      const recs = p ? (appearancesByPerson.get(p.id) || []) : [];
+      const networkRecords = recs.filter((a) => networkRx.test([a.title, a.eventType, a.summary, ...(a.topics || [])].join(" ")));
+      const catalogHits = eventCatalog.filter((e) => [e.name, ...(e.aliases || [])].some((term) => networkRecords.some((a) => key([a.title, a.eventType, ...(a.topics || [])].join(" ")).includes(key(term))))).length;
+      return { name, person: p, roster: r, records: recs.length, networkRecords, score: networkRecords.length * 3 + catalogHits + (r ? Math.max(0, 220 - Number(r.rank || 220)) / 60 : 0) };
+    }).sort((a, b) => b.score - a.score || a.name.localeCompare(b.name)).slice(0, 16);
+    els.rankConnectors.innerHTML = rows.map((row) => {
+      const p = row.person;
+      const r = row.roster || (p ? rosterForPerson(p) : null) || { name: row.name, countryFocus: "UN", countryName: "Global", bucket: "connector" };
+      const events = [...new Set(row.networkRecords.flatMap((a) => a.topics || [niceType(a.eventType || a.title)]).filter(Boolean))].slice(0, 5);
+      const hover = `${row.name} appears in ${row.networkRecords.length} high-signal public-event records in the current pilot. Event lens: ${events.join(", ") || "watchlist"}.`;
+      return `<button type="button" class="rank-row connector-row" data-connector-name="${esc(row.name)}" data-roster-id="${esc(r.id || "")}" data-hover-title="${esc(row.name)}" data-hover-detail="${esc(row.networkRecords.length + " network records")}" data-hover-body="${esc(hover)}"><span class="rank-face">${miniFace(p || r)}</span><strong>${esc(row.name)}</strong><em>${esc(row.networkRecords.length)} signals</em></button>`;
+    }).join("");
+    qsAll("[data-connector-name]", els.rankConnectors).forEach((b) => b.addEventListener("click", () => {
+      const id = b.dataset.rosterId;
+      if (id) selectRoster(id); else { els.quickSearch.value = b.dataset.connectorName; renderQuickResults(b.dataset.connectorName); }
+    }));
+    schedulePortraitHydration();
+  }
+
+  function renderEventUniverse() {
+    if (!els.rankEventGraph) return;
+    const catalog = (eventUniverse.length ? eventUniverse : influenceEventCatalog).map((e) => ({
+      ...e,
+      eventName: e.event || e.name || e.title || "Influence event",
+      fields: e.attendeeGraphFields || e.trackerFields || ["event", "person", "organisation", "role", "year", "speaker/attendee", "source URL"],
+      cadenceLabel: e.cadence || e.priority || "watch",
+      sourceTargets: e.crawlerTargets || e.sourceTargets || ["official agenda", "participant list", "speech page"]
+    }));
+    const grouped = groupBy(catalog, (e) => e.category || "Event graph");
+    const rows = [...grouped.entries()].map(([category, list]) => {
+      const terms = list.map((e) => key(e.eventName)).filter(Boolean);
+      const linkedRecords = appearances.filter((a) => terms.some((term) => recordMatchesTerm(a, term)));
+      const agendaHits = eventAgendas.filter((a) => terms.some((term) => key([a.title, a.type, a.whyItMatters, ...(a.topics || [])].join(" ")).includes(term.split(" ")[0])));
+      const faces = [...new Set(linkedRecords.map((a) => a.personId))].map((id) => peopleById.get(id)).filter(Boolean).slice(0, 8).map((p) => miniFace(p)).join("");
+      const events = list.map((e) => e.eventName).slice(0, 8);
+      const fields = [...new Set(list.flatMap((e) => e.fields || []))].slice(0, 8);
+      const targets = [...new Set(list.flatMap((e) => e.sourceTargets || []))].slice(0, 6);
+      const hover = `<div class="hover-line"><b>Events</b><span>${esc(events.join(", "))}</span></div><div class="hover-line"><b>Data fields</b><span>${esc(fields.join(", "))}</span></div><div class="hover-pillrow">${targets.map((x) => `<span>${esc(x)}</span>`).join("")}</div>`;
+      return `<button type="button" class="agenda-row event-graph-row" data-event-category="${esc(category)}" data-hover-title="${esc(category)}" data-hover-detail="${esc(linkedRecords.length + " records · " + agendaHits.length + " agenda cards")}" data-hover-html="${esc(hover)}" data-hover-pills="${esc(events.join("|"))}"><span class="agenda-date">${esc(String(list.length))}</span><span class="agenda-main"><strong>${esc(category)}</strong><em>${esc(events.join(" · "))}</em><span class="topic-pills">${list.slice(0, 4).map((e) => `<span class="topic-pill">${esc(e.cadenceLabel)}</span>`).join("")}</span></span><span class="agenda-faces">${faces}</span></button>`;
+    });
+    els.rankEventGraph.innerHTML = rows.join("");
+    qsAll("[data-event-category]", els.rankEventGraph).forEach((b) => b.addEventListener("click", () => focusEventCategory(b.dataset.eventCategory)));
+    schedulePortraitHydration();
+  }
+
+  function recordMatchesTerm(a, term) {
+    const hay = key([a.title, a.eventType, a.summary, ...(a.topics || [])].join(" "));
+    if (!term) return false;
+    if (hay.includes(term)) return true;
+    const words = term.split(/\s+/).filter((w) => w.length > 3);
+    return words.length ? words.some((w) => hay.includes(w)) : false;
+  }
+
+  function focusEventCategory(category) {
+    const catalog = (eventUniverse.length ? eventUniverse : influenceEventCatalog).map((e) => ({ ...e, eventName: e.event || e.name || e.title || "Influence event", fields: e.attendeeGraphFields || e.trackerFields || ["event", "person", "organisation", "role", "year", "speaker/attendee", "source URL"] }));
+    const defs = catalog.filter((e) => (e.category || "Event graph") === category);
+    if (!defs.length) return;
+    const terms = defs.map((e) => key(e.eventName)).filter(Boolean);
+    const matches = appearances.filter((a) => terms.some((term) => recordMatchesTerm(a, term)));
+    if (matches.length) focusNetwork(category);
+    els.profile.innerHTML = `<div class="summit-profile"><h3>${esc(category)}</h3><p>${esc(defs.length + " tracked event types")}</p><div class="bio-lines">${defs.map((e) => `<div><strong>${esc(e.eventName)}:</strong> ${esc(e.why || "Track public attendees, speakers and official source links.")}<br><span>${esc((e.fields || []).join(", "))}</span></div>`).join("")}</div></div>`;
+  }
+
+
+  function renderInfluenceEventGraph() {
+    if (!els.rankEventGraph) return;
+    const grouped = new Map();
+    for (const raw of influenceEventCatalog || []) {
+      const category = raw.category || raw.group || "Influence events";
+      const events = Array.isArray(raw.events) ? raw.events : [raw.name || raw.title || category];
+      const cur = grouped.get(category) || { category, events: [], why: raw.why || "Track repeated attendance and source-backed public participation.", scoreBase: 0 };
+      cur.events.push(...events);
+      cur.scoreBase += Number(raw.priority === "must-follow" ? 4 : raw.priority === "high" ? 2 : 1);
+      if (raw.why && cur.why.length < raw.why.length) cur.why = raw.why;
+      grouped.set(category, cur);
+    }
+    const rows = [...grouped.values()].map((group) => {
+      const rx = new RegExp([...new Set(group.events)].map(escapeRegex).join("|"), "i");
+      const agendaHits = eventAgendas.filter((a) => rx.test([a.title, a.type, a.whyItMatters, ...(a.topics || [])].join(" ")));
+      const recordHits = appearances.filter((a) => rx.test([a.title, a.eventType, a.summary, ...(a.topics || [])].join(" ")));
+      return { ...group, events: [...new Set(group.events)], agendaHits, recordHits, score: agendaHits.length * 3 + recordHits.length + group.scoreBase };
+    }).sort((a, b) => b.score - a.score);
+    els.rankEventGraph.innerHTML = rows.map((row) => {
+      const body = `${row.why} Track: event, person, organisation, role, year, speaker/attendee status and source URL.`;
+      return `<button type="button" class="agenda-row network-row" data-event-group="${esc(row.category)}" data-hover-title="${esc(row.category)}" data-hover-detail="${esc(row.events.join(' · '))}" data-hover-body="${esc(body)}"><span class="agenda-date">${esc(String(row.score))}</span><strong>${esc(row.category)}</strong><em>${esc(row.events.slice(0, 4).join(' · '))}</em></button>`;
+    }).join("");
+    qsAll("[data-event-group]", els.rankEventGraph).forEach((b) => b.addEventListener("click", () => focusEventGroup(b.dataset.eventGroup)));
+  }
+
+  function renderGlobalConnectors() {
+    if (!els.rankConnectors) return;
+    els.rankConnectors.innerHTML = (globalConnectorCatalog || []).map((row) => {
+      const known = row.people.map((name) => mappedByName.get(key(name)) || people.find((p) => key(p.canonicalName) === key(name))).filter(Boolean);
+      const faces = known.slice(0, 7).map((p) => miniFace(p)).join("");
+      const body = `${row.people.join(', ')}. Typical venues: ${row.venues.join(', ')}.`;
+      return `<button type="button" class="agenda-row connector-row" data-connector-group="${esc(row.group)}" data-hover-title="${esc(row.group)}" data-hover-detail="${esc(row.venues.join(' · '))}" data-hover-body="${esc(body)}"><span class="connector-faces">${faces}</span><strong>${esc(row.group)}</strong><em>${esc(row.venues.slice(0, 4).join(' · '))}</em></button>`;
+    }).join("");
+    qsAll("[data-connector-group]", els.rankConnectors).forEach((b) => b.addEventListener("click", () => focusConnectorGroup(b.dataset.connectorGroup)));
+    schedulePortraitHydration();
+  }
+
+  function focusEventGroup(category) {
+    const matches = (influenceEventCatalog || []).filter((x) => (x.category || x.group || "Influence events") === category);
+    if (!matches.length) return;
+    const terms = [...new Set(matches.flatMap((x) => Array.isArray(x.events) ? x.events : [x.name || x.title || x.category]).filter(Boolean))];
+    const rx = new RegExp(terms.map(escapeRegex).join("|"), "i");
+    const agenda = eventAgendas.filter((a) => rx.test([a.title, a.type, a.whyItMatters, ...(a.topics || [])].join(" "))).sort((a, b) => Math.abs(daysFromNow(a.startsAt)) - Math.abs(daysFromNow(b.startsAt)))[0];
+    if (agenda) return focusAgenda(agenda.id);
+    return focusNetwork(category);
+  }
+
+  function focusConnectorGroup(groupName) {
+    const group = (globalConnectorCatalog || []).find((x) => x.group === groupName);
+    if (!group) return;
+    stopPlayback(); selectedPerson = null; selectedRoster = null; timeline = []; currentStep = -1; clearMap();
+    els.mapTitle.textContent = group.group;
+    els.mapStatus.textContent = `Connector set: ${group.venues.join(', ')}.`;
+    const items = group.people.map((name) => mappedByName.get(key(name)) || people.find((p) => key(p.canonicalName) === key(name))).filter(Boolean).map((p) => ({ person: p, roster: rosterForPerson(p), anchor: latestAnchorForRoster(rosterForPerson(p) || p) }));
+    const anchors = deOverlapAnchors(items);
+    if (!fallbackMode && map) {
+      const bounds = [];
+      anchors.forEach((item) => {
+        drawHeat(item.trueAnchor || item.anchor, 1.1, countryColor(item.anchor.countryCode));
+        drawAnchorLeader(item, () => selectRoster((item.roster || rosterForPerson(item.person))?.id));
+        const marker = L.marker([item.anchor.lat, item.anchor.lng], { icon: personDivIcon(item.roster || item.person, item.person, { label: shortName(item.person.canonicalName) }), riseOnHover: true, keyboard: true });
+        marker.on("click", () => selectRoster((item.roster || rosterForPerson(item.person))?.id));
+        marker.on("mouseover", (e) => showHoverAt(e.originalEvent, { title: item.person.canonicalName, detail: group.group, body: `Typical venues: ${group.venues.join(', ')}.` }));
+        marker.on("mousemove", (e) => moveHover(e.originalEvent));
+        marker.on("mouseout", hideHover);
+        marker.addTo(layers.markers); bounds.push([display.lat, display.lng]);
+      });
+      if (bounds.length) map.fitBounds(bounds, { padding: [70, 70], maxZoom: 5, animate: true });
+    }
+    els.profile.innerHTML = `<h3>${esc(group.group)}</h3><p>${esc(group.venues.join(' · '))}</p><div class="summit-attendees">${anchors.map((item) => `<button type="button" data-roster-id="${esc((item.roster || rosterForPerson(item.person))?.id || '')}">${miniFace(item.person)}<span>${esc(item.person.canonicalName)}</span></button>`).join('')}</div>`;
+    qsAll("[data-roster-id]", els.profile).forEach((b) => b.addEventListener("click", () => b.dataset.rosterId && selectRoster(b.dataset.rosterId)));
+    schedulePortraitHydration();
+  }
+
+  function escapeRegex(value) { return String(value || "").replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); }
+
+  function agendaRowHtml(agenda) {
+    const people = agendaPeople(agenda);
+    const faces = people.slice(0, 8).map((p) => miniFace(p)).join("");
+    const sectors = (agenda.sectors || agenda.topics || []).slice(0, 4).map((s) => `<span class="topic-pill">${esc(s)}</span>`).join("");
+    const date = agenda.dateLabel || compactDate(agenda.startsAt);
+    const detail = `${date} · ${agenda.location?.city || "public event"}`;
+    const mode = agenda.attendeeMode === "watchlist" ? "watchlist" : "public attendees";
+    const peopleText = people.slice(0, 8).map((p) => p.canonicalName).join(", ");
+    const hover = `${agenda.whyItMatters || "Public event agenda card."} ${peopleText ? mode + ": " + peopleText + "." : ""}`;
+    return `<button type="button" class="agenda-row" data-agenda-id="${esc(agenda.id)}" data-hover-title="${esc(agenda.title)}" data-hover-detail="${esc(detail)}" data-hover-body="${esc(hover)}"><span class="agenda-date">${esc(date)}</span><span class="agenda-main"><strong>${flagHtml(agenda.location?.countryCode, agenda.location?.countryName)} ${esc(agenda.title)}</strong><em>${esc(oneLine(agenda.whyItMatters || agenda.type, 120))}</em><span class="topic-pills">${sectors}</span></span><span class="agenda-faces">${faces}</span></button>`;
+  }
+
+  function focusAgenda(id) {
+    const agenda = eventAgendas.find((x) => x.id === id);
+    if (!agenda) return;
+    stopPlayback(); selectedPerson = null; selectedRoster = null; timeline = []; currentStep = -1;
+    if (els.roster) els.roster.value = "";
+    clearMap();
+    const loc = agenda.location;
+    const people = agendaPeople(agenda);
+    els.mapTitle.textContent = agenda.title;
+    els.mapStatus.textContent = `${compactDate(agenda.startsAt)} · ${loc.city}. Agenda watch card; attendance follows public sources.`;
+    if (!fallbackMode && map && loc) {
+      drawHeat(loc, 2.1, isFuture({ startsAt: agenda.startsAt, status: "ANNOUNCED_FUTURE" }) ? "#ffc247" : countryColor(loc.countryCode));
+      const items = deOverlapAnchors(people.map((p) => ({ person: p, roster: rosterForPerson(p), anchor: loc })));
+      drawDisplayLeaderLines(items);
+      items.forEach((item) => {
+        const display = item.anchor;
+        const marker = L.marker([display.lat, display.lng], { icon: personDivIcon(item.roster || item.person, item.person, { label: shortName(item.person.canonicalName) }), riseOnHover: true, keyboard: true });
+        marker.on("click", () => selectRoster((item.roster || rosterForPerson(item.person))?.id));
+        marker.on("mouseover", (e) => showHoverAt(e.originalEvent, { title: item.person.canonicalName, detail: `${compactDate(agenda.startsAt)} · ${loc.city}`, body: agenda.whyItMatters || agenda.title }));
+        marker.on("mousemove", (e) => moveHover(e.originalEvent));
+        marker.on("mouseout", hideHover);
+        marker.addTo(layers.markers);
+      });
+      map.flyTo([loc.lat, loc.lng], people.length > 5 ? 5 : 6, { duration: 1.1 });
+    }
+    const sources = (agenda.sourcePack || []).slice(0, 5).map((src) => sourceLinkHtml(src.url, sourceLabel(src))).filter(Boolean).join("");
+    const attendeeLabel = agenda.attendeeMode === "watchlist" ? "Profiles to watch" : "People on public cards";
+    els.profile.innerHTML = `<div class="summit-profile"><h3>${flagHtml(loc.countryCode, loc.countryName)} ${esc(agenda.title)}</h3><p>${esc(agenda.dateLabel || compactDate(agenda.startsAt))} · ${esc(loc.city)} · ${esc(agenda.type || "public event")}</p><div class="summit-attendees">${people.slice(0, 14).map((p) => `<button type="button" data-roster-id="${esc(rosterForPerson(p)?.id || "")}">${miniFace(p)}<span>${esc(p.canonicalName)}</span></button>`).join("")}</div><div class="topic-pills">${(agenda.sectors || agenda.topics || []).slice(0, 8).map((x) => `<span class="topic-pill">${esc(x)}</span>`).join("")}</div><div class="bio-lines"><div><strong>${esc(attendeeLabel)}:</strong> ${esc(people.slice(0, 10).map((p)=>p.canonicalName).join(", ") || "participant list pending")}</div><div><strong>Why it matters:</strong> ${esc(agenda.whyItMatters || "Public event agenda card.")}</div><div><strong>Links:</strong> ${sources || "source links pending"}</div></div></div>`;
+    qsAll("[data-roster-id]", els.profile).forEach((b) => b.addEventListener("click", () => b.dataset.rosterId && selectRoster(b.dataset.rosterId)));
+    schedulePortraitHydration();
+  }
+
+  function focusNetwork(name) {
+    const rxMap = {
+      "Bilderberg": /bilderberg/i, "Central banking": /central bank|jackson hole|bis|ecb|monetary|payments|g30|bank of canada|bank of england|boj/i, "BIS": /bis|basel committee|innovation summit/i, "OECD": /oecd/i, "UN system": /united nations|unga|who|wto|un /i, "OPEC / energy": /opec|energy|oil|gas/i, "IMF / World Bank": /imf|world bank|development finance/i, "AI policy": /ai|artificial intelligence|technology|digital/i, "Global connectors": /davos|bilderberg|milken|sun valley|fii|aspen|g30|chatham|cfr|wef/i, "Security forums": /munich security|shangri-la|raisina|nato|aspen security|defence|defense/i, "Trade and industry": /wto|apec|farnborough|paris air show|ces|trade|supply chain|aerospace/i, "Energy and commodities": /opec|ceraweek|adipec|fii|energy|oil|gas|lng/i, "Universities and ideas": /harvard|stanford|oxford|cambridge|mit|lse|sciences po|tsinghua|university|symposium|st\.? gallen/i
+    };
+    const rx = rxMap[name] || new RegExp(name, "i");
+    const matches = appearances.filter((a) => rx.test([a.title, a.eventType, a.summary, ...(a.topics || [])].join(" ")));
+    if (!matches.length) return;
+    stopPlayback(); selectedPerson = null; selectedRoster = null; timeline = []; currentStep = -1; clearMap();
+    els.mapTitle.textContent = name;
+    els.mapStatus.textContent = `${matches.length} public records in this network layer. Click a face to open the person.`;
+    const locs = deOverlapAnchors(matches.slice(-80).map((a) => ({ person: peopleById.get(a.personId), roster: rosterForPerson(peopleById.get(a.personId)), anchor: a.location })).filter((x) => x.person));
+    if (!fallbackMode && map) {
+      const bounds = [];
+      drawDisplayLeaderLines(locs);
+      locs.forEach((item) => {
+        const actual = item.trueAnchor || item.anchor;
+        drawHeat(actual, 1.05, countryColor(actual.countryCode));
+        const display = item.anchor;
+        const marker = L.marker([display.lat, display.lng], { icon: personDivIcon(item.roster || item.person, item.person, { label: shortName(item.person.canonicalName) }), riseOnHover: true, keyboard: true });
+        marker.on("click", () => selectRoster((item.roster || rosterForPerson(item.person))?.id));
+        marker.on("mouseover", (e) => showHoverAt(e.originalEvent, { title: item.person.canonicalName, detail: `${actual.city}`, body: `${name} record layer.` }));
+        marker.on("mousemove", (e) => moveHover(e.originalEvent));
+        marker.on("mouseout", hideHover);
+        marker.addTo(layers.markers); bounds.push([display.lat, display.lng]);
+      });
+      if (bounds.length) map.fitBounds(bounds, { padding: [64,64], maxZoom: 5, animate: true });
+    }
+    els.profile.innerHTML = `<h3>${esc(name)}</h3><p>${matches.length} public records in this source-backed layer.</p><div class="bio-lines">${matches.slice(-12).reverse().map((a) => `<div><strong>${esc(compactDate(a.startsAt))} · ${flagHtml(a.location.countryCode, a.location.countryName)} ${esc(a.location.city)}:</strong> ${esc(oneLine(a.title, 120))}</div>`).join("")}</div>`;
+  }
+
+  function agendaPeople(agenda) {
+    return (agenda.participantNames || []).map((name) => mappedByName.get(key(name)) || people.find((p) => key(p.canonicalName) === key(name))).filter(Boolean);
+  }
+
+  function focusCity(city, code) {
+    const matches = appearances.filter((a) => a.location.city === city && (!code || a.location.countryCode === code));
+    if (!matches.length) return;
+    stopPlayback();
+    selectedPerson = null;
+    selectedRoster = null;
+    timeline = [];
+    currentStep = -1;
+    clearMap();
+    const loc = matches[0].location;
+    els.mapTitle.textContent = `${city} activity`;
+    els.mapStatus.textContent = `${matches.length} public records in this pilot. Click a marker to open a profile.`;
+    if (!fallbackMode && map) {
+      drawHeat(loc, Math.min(2.4, .8 + matches.length / 4), countryColor(code));
+      const byPerson = new Map();
+      for (const rec of matches) {
+        const p = peopleById.get(rec.personId);
+        if (p && !byPerson.has(p.id)) byPerson.set(p.id, p);
+      }
+      const items = deOverlapAnchors([...byPerson.values()].map((p) => ({ person: p, roster: rosterForPerson(p), anchor: loc })));
+      drawDisplayLeaderLines(items);
+      items.forEach((item) => {
+        const display = item.anchor;
+        const marker = L.marker([display.lat, display.lng], { icon: personDivIcon(item.roster || item.person, item.person, { label: shortName(item.person.canonicalName) }), riseOnHover: true, keyboard: true });
+        marker.on("click", () => selectRoster((item.roster || rosterForPerson(item.person))?.id));
+        marker.on("mouseover", (e) => showHoverAt(e.originalEvent, { title: item.person.canonicalName, detail: `${flagEmoji(loc.countryCode)} ${loc.city}`, body: `${matches.length} public records are clustered here in the current pilot.` }));
+        marker.on("mousemove", (e) => moveHover(e.originalEvent));
+        marker.on("mouseout", hideHover);
+        marker.addTo(layers.markers);
+      });
+      map.flyTo([loc.lat, loc.lng], matches.length > 6 ? 5 : 6, { duration: 1.1 });
+    }
+    els.profile.innerHTML = `<h3>${flagHtml(loc.countryCode, loc.countryName)} ${esc(city)}</h3><p>${matches.length} public cards in the current pilot.</p><div class="bio-lines">${matches.slice(0, 8).map((a) => `<div><strong>${esc(compactDate(a.startsAt))}:</strong> ${esc(oneLine(a.title, 120))}</div>`).join("")}</div>`;
+  }
+
+  function renderRank(el, items) {
+    if (!el) return;
+    el.innerHTML = items.slice(0, 8).map((item, idx) => {
+      const r = rosterForPerson(item.p) || roster.find((x) => key(x.name) === key(item.p.canonicalName));
+      return `<button type="button" class="rank-row person-rank" data-rank-roster="${esc(r?.id || "")}" data-hover-title="${esc(item.p.canonicalName)}" data-hover-detail="${esc(item.detail)}" data-hover-body="${esc(item.appearance ? plainEventLine(item.appearance) : cleanBio(item.p))}"><span class="rank-no">${idx + 1}</span><span class="avatar rank-face" style="--avatar:${countryColor(item.p.countryFocus || r?.countryFocus)}">${imageTag(item.p, r)}${entityBadgeHtml(item.p, item.p.countryFocus || r?.countryFocus, item.p.countryName || r?.countryName)}</span><strong>${esc(item.p.canonicalName)}</strong><em>${esc(item.detail)}</em></button>`;
+    }).join("");
+    qsAll("[data-rank-roster]", el).forEach((b) => b.addEventListener("click", () => { if (b.dataset.rankRoster) selectRoster(b.dataset.rankRoster); }));
+    schedulePortraitHydration();
+  }
+
+
+  function renderSummitPills() {
+    if (!els.summitPills) return;
+    const summitItems = summitGroups().map((g) => ({ ...g, itemType: "summit", dedupeKey: eventDedupeKey(g.title, g.date, g.location?.city) }));
+    const agendaItems = eventAgendas.filter((agenda) => new Date(agenda.endsAt || agenda.startsAt) >= new Date(now.getTime() - 150 * DAY)).map((agenda) => ({ itemType: "agenda", key: agenda.id, title: agenda.title, date: agenda.startsAt, location: agenda.location, people: agendaPeople(agenda), sources: agenda.sourcePack || [], why: agenda.whyItMatters || "Public event agenda card.", dedupeKey: eventDedupeKey(agenda.title, agenda.startsAt, agenda.location?.city) }));
+    const merged = new Map();
+    for (const item of [...agendaItems, ...summitItems]) {
+      const k = item.dedupeKey;
+      const prev = merged.get(k);
+      if (!prev) { merged.set(k, item); continue; }
+      const people = [...(prev.people || []), ...(item.people || [])].filter(Boolean);
+      const byId = new Map(people.map((p) => [p.id || p.canonicalName, p]));
+      merged.set(k, { ...prev, people: [...byId.values()], sources: [...(prev.sources || []), ...(item.sources || [])], why: prev.why || item.why });
+    }
+    const groups = [...merged.values()].sort((a, b) => Math.abs(daysFromNow(a.date)) - Math.abs(daysFromNow(b.date))).slice(0, 12);
+    els.summitPills.innerHTML = groups.length ? groups.map((g) => {
+      const names = g.people.slice(0, 5).map((p) => shortName(p.canonicalName)).join(", ");
+      const faces = g.people.slice(0, 6).map((p) => miniFace(p)).join("");
+      const label = oneLine(cleanEventTitle(g.title), 34);
+      const body = g.itemType === "agenda" ? g.why : (names ? "Public cards include: " + names + ". " : "") + "Click to focus this public event window.";
+      return `<button type="button" class="summit-pill" data-summit-key="${esc(g.key)}" data-summit-type="${esc(g.itemType)}" data-hover-title="${esc(cleanEventTitle(g.title))}" data-hover-detail="${esc(compactDate(g.date) + " · " + g.location.city)}" data-hover-body="${esc(body)}"><span class="summit-icon">${esc(stopIcon({ kind: "future", title: g.title }))}</span><strong>${esc(label)}</strong><em>${esc(compactDate(g.date))} · ${flagHtml(g.location.countryCode, g.location.countryName)} ${esc(g.location.city)}</em><span class="summit-faces">${faces}</span></button>`;
+    }).join("") : `<span class="summit-empty">No announced public summit windows in the current pilot.</span>`;
+    qsAll("[data-summit-key]", els.summitPills).forEach((b) => b.addEventListener("click", () => b.dataset.summitType === "agenda" ? focusAgenda(b.dataset.summitKey) : focusSummit(b.dataset.summitKey)));
+    schedulePortraitHydration();
+  }
+
+  function eventDedupeKey(title, date, city) {
+    const d = date ? new Date(date).toISOString().slice(0, 10) : "";
+    return `${d}|${key(city)}|${key(cleanEventTitle(title)).replace(/summitwindow|announced|public|meeting|conference/g, "")}`;
+  }
+
+  function cleanEventTitle(title) {
+    return String(title || "Event").replace(/ announced summit window| announced summit| public summit window/ig, "").replace(/\s+/g, " ").trim();
+  }
+
+  function summitGroups() {
+    const futureRecords = appearances.filter((a) => isFuture(a) && /summit|g7|g20|nato|conference|forum/i.test([a.title, a.eventType, ...(a.topics || [])].join(" ")));
+    const m = new Map();
+    for (const a of futureRecords) {
+      const k = `${new Date(a.startsAt).toISOString().slice(0, 10)}|${a.location.city}|${a.title}`;
+      const g = m.get(k) || { key: k, title: a.title, date: a.startsAt, location: a.location, records: [], people: [], sources: [] };
+      g.records.push(a);
+      const p = peopleById.get(a.personId);
+      if (p && !g.people.some((x) => x.id === p.id)) g.people.push(p);
+      (a.sourcePack || []).forEach((src) => g.sources.push(src));
+      m.set(k, g);
+    }
+    return [...m.values()].sort((a, b) => new Date(a.date) - new Date(b.date));
+  }
+
+  function focusSummit(keyValue) {
+    const g = summitGroups().find((x) => x.key === keyValue);
+    if (!g) return;
+    stopPlayback();
+    selectedPerson = null;
+    selectedRoster = null;
+    timeline = [];
+    currentStep = -1;
+    if (els.roster) els.roster.value = "";
+    if (els.stepBrief) els.stepBrief.hidden = true;
+    clearMap();
+    els.mapTitle.textContent = g.title;
+    els.mapStatus.textContent = `${compactDate(g.date)} · ${g.location.city}. Public summit window, not a travel guarantee.`;
+    const attendees = deOverlapAnchors(g.people.map((p) => ({ roster: rosterForPerson(p), person: p, anchor: g.location })));
+    if (!fallbackMode && map) {
+      drawHeat(g.location, 1.8, "#ffc247");
+      drawDisplayLeaderLines(attendees);
+      attendees.forEach((item) => {
+        const display = item.anchor;
+        const marker = L.marker([display.lat, display.lng], { icon: personDivIcon(item.roster || item.person, item.person, { label: shortName(item.person.canonicalName) }), riseOnHover: true, keyboard: true });
+        marker.on("click", () => selectRoster((item.roster || rosterForPerson(item.person))?.id));
+        marker.on("mouseover", (e) => showHoverAt(e.originalEvent, { title: item.person.canonicalName, detail: `${compactDate(g.date)} · ${g.location.city}`, body: `${g.title}. Public card places this figure in the announced summit window.` }));
+        marker.on("mousemove", (e) => moveHover(e.originalEvent));
+        marker.on("mouseout", hideHover);
+        marker.addTo(layers.markers);
+      });
+      map.flyTo([g.location.lat, g.location.lng], attendees.length > 4 ? 5 : 6, { duration: 1.1 });
+    }
+    const sourcePills = g.sources.slice(0, 4).map((src) => sourceLinkHtml(src.url, sourceLabel(src))).filter(Boolean).join("");
+    els.profile.innerHTML = `<div class="summit-profile"><h3>${esc(g.title)}</h3><p>${flagHtml(g.location.countryCode, g.location.countryName)} ${esc(g.location.city)} · ${esc(compactDate(g.date))}</p><div class="summit-attendees">${g.people.slice(0, 10).map((p) => `<button type="button" data-roster-id="${esc(rosterForPerson(p)?.id || "")}">${miniFace(p)}<span>${esc(p.canonicalName)}</span></button>`).join("")}</div><div class="bio-lines"><div><strong>Why it matters:</strong> Several public cards point to this same summit window. Individual attendance still depends on official schedules and host updates.</div><div><strong>Links:</strong> ${sourcePills || "source links appear as records are promoted"}</div></div></div>`;
+    qsAll("[data-roster-id]", els.profile).forEach((b) => b.addEventListener("click", () => b.dataset.rosterId && selectRoster(b.dataset.rosterId)));
+    schedulePortraitHydration();
+  }
+
+  function renderDatasetSummary() {
+    if (!els.datasetSummary) return;
+    const future = appearances.filter(isFuture).length;
+    const citiesMap = cityActivityMap();
+    const cities = citiesMap.size;
+    const mappedPeople = people.filter((p) => (appearancesByPerson.get(p.id) || []).length).length;
+    const eventTypes = eventTypeCounts();
+    const sourceKinds = sourceTypeCounts();
+    const cards = [
+      { n: roster.length, label: "top-200 profiles", title: "Top-200 roster", detail: `${roster.length} profiles in the current roster.`, body: topNames(roster.slice(0, 12).map((r) => r.name)) },
+      { n: mappedPeople, label: "mapped pilots", title: "Mapped profiles", detail: `${mappedPeople} people have visible public records in this static build.`, body: topNames(people.slice(0, 12).map((p) => p.canonicalName)) },
+      { n: appearances.length, label: "public records", title: "Public records", detail: `${appearances.length} appearance cards.`, body: `Event mix: ${topPairs(eventTypes, 7)}.` },
+      { n: future, label: "future windows", title: "Future public windows", detail: `${future} announced or watch-listed future cards.`, body: topNames(appearances.filter(isFuture).slice(0, 10).map((a) => `${a.location.city} ${compactDate(a.startsAt)}`)) },
+      { n: encounters.length, label: "meetings", title: "Encounter clusters", detail: `${encounters.length} documented co-presence or meeting clusters.`, body: topNames(encounters.slice(0, 10).map((e) => e.title || e.id)) },
+      { n: calls.length, label: "call readouts", title: "Public call readouts", detail: `${calls.length} official or public phone-call cards.`, body: topNames(calls.slice(0, 10).map((c) => c.title || "public call")) },
+      { n: cities, label: "cities", title: "Strategic cities", detail: `${cities} mapped city clusters.`, body: topNames([...citiesMap.values()].sort((a, b) => b.value - a.value).slice(0, 8).map((c) => `${c.city}: ${c.value} records, ${c.people.size} people`)) },
+      { n: "24m", label: "crawler window", title: "Crawler window", detail: "Nightly job looks back 24 months and watches future public agendas.", body: `Source types in current cards: ${topPairs(sourceKinds, 6)}.` }
+    ];
+    els.datasetSummary.innerHTML = cards.map((c) => `<button type="button" class="stat-tile" data-hover-title="${esc(c.title)}" data-hover-detail="${esc(c.detail)}" data-hover-body="${esc(c.body)}"><strong>${esc(c.n)}</strong><span>${esc(c.label)}</span></button>`).join("");
+  }
+
+  function visibleTrailForPerson(person) {
+    let recs = (appearancesByPerson.get(person.id) || []).slice();
+    if (!state.showFuture) recs = recs.filter((a) => !isFuture(a));
+    if (state.time === "PAST_24M") recs = recs.filter((a) => !isFuture(a));
+    if (state.time === "FUTURE") recs = recs.filter(isFuture);
+    if (state.time === "PEACE") recs = recs.filter((a) => /peace|ukraine/i.test([a.title, a.summary, ...(a.topics || [])].join(" ")));
+    return recs.sort((a, b) => new Date(a.startsAt) - new Date(b.startsAt));
+  }
+
+  function latestAnchorForRoster(r) {
+    const p = mappedPersonForRoster(r);
+    const recs = p ? (appearancesByPerson.get(p.id) || []).filter((a) => !isFuture(a)).sort((a, b) => new Date(a.startsAt) - new Date(b.startsAt)) : [];
+    if (recs.length) return { ...recs.at(-1).location, label: recs.at(-1).title };
+    return publicAnchor(r);
+  }
+
+  function mappedPersonForRoster(r) {
+    if (!r) return null;
+    return mappedByName.get(key(r.name)) || mappedByName.get(key(r.canonicalName)) || people.find((p) => key(p.canonicalName).includes(key(r.name)) || key(r.name).includes(key(p.canonicalName))) || null;
+  }
+
+  function rosterForPerson(p) {
+    if (!p) return null;
+    return roster.find((r) => key(r.name) === key(p.canonicalName) || key(p.canonicalName).includes(key(r.name)) || key(r.name).includes(key(p.canonicalName))) || null;
+  }
+
+  function homeBaseFor(p, r) {
+    const base = Array.isArray(p?.homeBases) && p.homeBases.length ? p.homeBases[0] : publicAnchor(r || rosterForPerson(p));
+    return { city: base.city, countryCode: base.countryCode || p?.countryFocus || r?.countryFocus || "UN", countryName: base.countryName || r?.countryName || "Public base", lat: base.lat, lng: base.lng, label: base.label || `${base.city} public base` };
+  }
+
+  function publicAnchor(r) {
+    const hay = [r?.name, r?.countryName, r?.country, r?.organization, r?.bucket, r?.sector].join(" ");
+    for (const [rx, val] of baseRules) if (rx.test(hay)) return { lat: val[0], lng: val[1], city: val[2], countryCode: val[3], countryName: val[4], label: `${val[2]} public anchor` };
+    const coords = spreadAnchor(Number(r?.rank || 0));
+    return { lat: coords[0], lng: coords[1], city: r?.countryName || r?.region || "Public anchor", countryCode: r?.countryFocus || "UN", countryName: r?.countryName || r?.region || "Global", label: "public roster anchor" };
+  }
+
+  function spreadAnchor(rank) {
+    const i = Math.max(1, rank);
+    const lng = ((i * 137.508) % 300) - 150;
+    const lat = 55 - ((i * 41.73) % 105);
+    return [lat, lng];
+  }
+
+  function deOverlapAnchors(items) {
+    const placed = [];
+    const minGap = state.openingPreset === "ALL" || items.length > 80 ? 3.4 : items.length > 18 ? 5.1 : 6.6;
+    return items.map((item, idx) => {
+      const source = { ...(item.trueAnchor || item.anchor) };
+      const candidates = [{ lat: source.lat, lng: source.lng, shiftedForDisplay: false }];
+      const rings = state.openingPreset === "ALL" ? 6 : 9;
+      for (let ring = 1; ring <= rings; ring++) {
+        const steps = 8 + ring * 4;
+        const spread = minGap * (0.72 + ring * 0.48);
+        for (let j = 0; j < steps; j++) {
+          const angle = ((j / steps) * Math.PI * 2) + idx * 0.87 + ring * 0.31;
+          const lat = clamp(source.lat + Math.sin(angle) * spread, -68, 75);
+          const lng = wrapLng(source.lng + Math.cos(angle) * spread / Math.max(0.35, Math.cos((source.lat || 0) * Math.PI / 180)));
+          candidates.push({ lat, lng, shiftedForDisplay: true });
+        }
+      }
+      let best = candidates[0];
+      let bestScore = Infinity;
+      for (const cand of candidates) {
+        let crowdPenalty = 0;
+        for (const other of placed) {
+          const d = displayDistance(cand, other.anchor);
+          if (d < minGap) crowdPenalty += Math.pow((minGap - d) * 12, 2);
+          const segmentGap = segmentDistance(source, cand, other.source, other.anchor);
+          if (cand.shiftedForDisplay && other.shiftedForDisplay && segmentGap < minGap * .45) crowdPenalty += Math.pow((minGap * .45 - segmentGap) * 6, 2);
+        }
+        const move = displayDistance(source, cand);
+        const score = crowdPenalty + move * (cand.shiftedForDisplay ? .85 : .08);
+        if (score < bestScore) { best = cand; bestScore = score; }
+        if (crowdPenalty === 0 && cand.shiftedForDisplay) break;
+      }
+      const shifted = best.shiftedForDisplay || displayDistance(source, best) > .35;
+      const anchor = { ...source, lat: best.lat, lng: best.lng, shiftedForDisplay: shifted };
+      const out = { ...item, trueAnchor: source, originalAnchor: source, anchor, shiftedForDisplay: shifted, leaderBend: shifted ? ((idx % 2 ? .055 : -.055) + (idx % 5) * .012) : 0 };
+      placed.push({ source, anchor });
+      return out;
+    });
+  }
+
+  function displayDistance(a, b) {
+    if (!a || !b) return 999;
+    const lat = ((a.lat || 0) + (b.lat || 0)) / 2 * Math.PI / 180;
+    let dx = Math.abs((a.lng || 0) - (b.lng || 0));
+    dx = Math.min(dx, 360 - dx) * Math.max(.35, Math.cos(lat));
+    const dy = (a.lat || 0) - (b.lat || 0);
+    return Math.sqrt(dx * dx + dy * dy * 1.55);
+  }
+
+  function segmentDistance(a, b, c, d) {
+    if (!a || !b || !c || !d) return 999;
+    const ax = a.lng || 0, ay = a.lat || 0, bx = b.lng || 0, by = b.lat || 0;
+    const cx = c.lng || 0, cy = c.lat || 0, dx = d.lng || 0, dy = d.lat || 0;
+    return Math.min(pointToSegmentDistance(ax, ay, cx, cy, dx, dy), pointToSegmentDistance(bx, by, cx, cy, dx, dy), pointToSegmentDistance(cx, cy, ax, ay, bx, by), pointToSegmentDistance(dx, dy, ax, ay, bx, by));
+  }
+
+  function pointToSegmentDistance(px, py, ax, ay, bx, by) {
+    const vx = bx - ax, vy = by - ay;
+    const wx = px - ax, wy = py - ay;
+    const c1 = vx * wx + vy * wy;
+    if (c1 <= 0) return Math.hypot(px - ax, py - ay);
+    const c2 = vx * vx + vy * vy;
+    if (c2 <= c1) return Math.hypot(px - bx, py - by);
+    const t = c1 / c2;
+    return Math.hypot(px - (ax + t * vx), py - (ay + t * vy));
+  }
+
+  function wrapLng(lng) {
+    let x = Number(lng || 0);
+    while (x > 180) x -= 360;
+    while (x < -180) x += 360;
+    return x;
+  }
+
+
+  function personDivIcon(r, p, opts = {}) {
+    return L.divIcon({ className: "", html: markerHtml(r, p, opts.label || shortName(r.name)), iconSize: [154, 74], iconAnchor: [77, 37] });
+  }
+
+  function markerHtml(r, p, label) {
+    const subject = p || r;
+    const color = countryColor(r.countryFocus || subject.countryFocus);
+    const role = subject?.bucket || subject?.roleTitle || subject?.sector || "public figure";
+    return `<div class="map-marker"><div class="map-marker-inner" style="--avatar:${color}"><span class="map-avatar">${imageTag(subject, r)}${entityBadgeHtml(subject, r.countryFocus || subject.countryFocus, r.countryName || subject.countryName)}</span><span><span class="map-name">${esc(label)}</span><span class="map-role"><span class="role-dot">${esc(roleIcon(subject))}</span><span class="role-word">${esc(oneLine(role, 18))}</span></span></span></div></div>`;
+  }
+
+
+  function imageTag(subject, r) {
+    const title = portraitTitle(subject, r);
+    const rawUrl = cleanPortraitUrl(subject?.imageUrl || r?.imageUrl || portraitByTitle.get(key(title)) || "");
+    const name = subject?.canonicalName || subject?.name || r?.name || "Public figure";
+    const code = subject?.countryFocus || r?.countryFocus || "UN";
+    const auditReasons = subject?.imageAudit?.reasons || r?.imageAudit?.reasons || [];
+    const suspected = auditReasons.some((reason) => /logo|seal|flag|svg|drawing|painting|statue/i.test(reason));
+    const url = (suspected || /\.svg($|\?)|logo|seal|coat|emblem|statue|painting|drawing|illustration/i.test(rawUrl)) ? "" : rawUrl;
+    const fallback = avatarSvg(name, code);
+    const seeded = url ? " seeded-photo" : "";
+    const hydrateOk = suspected ? "0" : "1";
+    const img = url ? `<img src="${esc(url)}" alt="${esc(name)}" loading="eager" decoding="async" referrerpolicy="no-referrer" onload="this.parentElement.classList.add('has-photo')" onerror="this.remove();this.parentElement.classList.remove('has-photo')">` : "";
+    return `<span class="avatar-photo${seeded}" data-person-name="${esc(name)}" data-wiki-title="${esc(title)}" data-country-code="${esc(code)}" data-portrait-ok="${hydrateOk}">${fallback}${img}</span>`;
+  }
+
+  function miniFace(p) {
+    if (!p) return "";
+    return `<span class="mini-face" title="${esc(p.canonicalName)}">${imageTag(p, rosterForPerson(p))}</span>`;
+  }
+
+  function plainEventLine(a) {
+    const met = (counterpartyIdsByAppearance.get(a.id) || []).map((id) => peopleById.get(id)?.canonicalName).filter(Boolean);
+    const type = niceType(a.eventType || a.title);
+    const base = `${type} in ${a.location.city}. ${oneLine(a.summary || a.title, 110)}`;
+    return met.length ? `${base} With ${met.slice(0, 3).join(", ")}.` : base;
+  }
+
+  function niceType(text) {
+    const t = String(text || "").toLowerCase();
+    if (t.includes("bilateral")) return "Meeting";
+    if (t.includes("summit")) return "Summit";
+    if (t.includes("speech") || t.includes("address")) return "Speech";
+    if (t.includes("forum") || t.includes("conference")) return "Forum";
+    if (t.includes("state visit")) return "State visit";
+    if (t.includes("ceremony") || t.includes("opening")) return "Public ceremony";
+    return "Public appearance";
+  }
+
+  function stopIcon(step) {
+    const text = [step.kind, step.title, step.record?.eventType, step.record?.topics?.join(" ")].join(" ").toLowerCase();
+    if (step.kind === "base") return "⌂";
+    if (step.kind === "return") return "↩";
+    if (step.kind === "future") return "➜";
+    if (text.includes("call") || text.includes("telephone")) return "☎";
+    if (text.includes("peace")) return "☮";
+    if (text.includes("summit") || text.includes("g7") || text.includes("g20") || text.includes("nato")) return "♜";
+    if (text.includes("bilateral") || text.includes("meet")) return "◆";
+    if (text.includes("speech") || text.includes("address")) return "◉";
+    return "•";
+  }
+
+  function legTitle(step) {
+    if (step.kind === "return") return "Return line to public base";
+    if (step.kind === "future") return "Announced future leg";
+    return "Public trip leg";
+  }
+
+  function transportIcon(from, to) {
+    const d = distanceKm(from, to);
+    if (from.countryCode === to.countryCode && d < 180) return "🚗";
+    if (d < 850) return "🚆";
+    return "✈";
+  }
+
+  function sourceLinks(subject, a) {
+    const links = [];
+    if (subject?.officialUrl) links.push(sourceLinkHtml(subject.officialUrl, "official site"));
+    if (subject?.profileUrl) links.push(sourceLinkHtml(subject.profileUrl, "profile"));
+    (a?.sourcePack || []).slice(0, 3).forEach((s) => links.push(sourceLinkHtml(s.url, sourceLabel(s))));
+    return links.filter(Boolean).join("") || "Source link pending.";
+  }
+
+  function stepLinks(step) {
+    const pack = step?.record?.sourcePack || step?.call?.sourcePack || [];
+    const links = pack.slice(0, 4).map((s) => sourceLinkHtml(s.url, sourceLabel(s))).filter(Boolean);
+    const news = step?.kind === "return" ? "" : newsSearchLink(step);
+    if (news) links.push(news);
+    return links.join("");
+  }
+
+  function sourceLabel(s) {
+    const label = String(s?.label || s?.type || "source").replace(/Geocode audit:?.*/i, "map audit");
+    if (/white house|gov\.uk|kremlin|mfa|elys[eé]e|nato|g7|commission|state department|pm india|presidency|official/i.test(label)) return oneLine(label, 34);
+    if (/reuters|ap|bbc|ft|wsj|bloomberg|nyt|guardian|economist|politico|axios|cnn|al jazeera|dw|france 24/i.test(label)) return oneLine(label, 34);
+    return oneLine(label, 34);
+  }
+
+  function callLine(call, person) {
+    const others = (call.participantIds || []).filter((id) => id !== person.id).map((id) => peopleById.get(id)?.canonicalName).filter(Boolean);
+    const names = others.length ? ` with ${others.slice(0, 3).join(", ")}` : "";
+    return oneLine(`${compactDate(call.startsAt)} phone call${names}. ${call.summary || call.title || "A public readout confirms the call."}`, 170);
+  }
+
+  async function hydrateVisiblePortraits(list) {
+    const missing = (list || []).filter((r) => !r.imageUrl && r.wikiTitle && !hydratedPortraitIds.has(r.id));
+    if (!missing.length) return;
+    missing.forEach((r) => hydratedPortraitIds.add(r.id));
+    const batches = [];
+    for (let i = 0; i < missing.length; i += 40) batches.push(missing.slice(i, i + 40));
+    for (const batch of batches) {
+      try {
+        const params = new URLSearchParams({
+          action: "query",
+          origin: "*",
+          format: "json",
+          redirects: "1",
+          prop: "pageimages",
+          piprop: "thumbnail",
+          pithumbsize: "220",
+          titles: batch.map((r) => r.wikiTitle).join("|")
+        });
+        const res = await fetch(`https://en.wikipedia.org/w/api.php?${params.toString()}`);
+        if (!res.ok) continue;
+        const json = await res.json();
+        const byTitle = new Map();
+        batch.forEach((r) => {
+          byTitle.set(key(r.wikiTitle), r);
+          byTitle.set(key(String(r.wikiTitle || "").replaceAll("_", " ")), r);
+          byTitle.set(key(r.name), r);
+          byTitle.set(key(r.canonicalName), r);
+        });
+        (json.query?.normalized || []).forEach((n) => {
+          const r = byTitle.get(key(n.from));
+          if (r) byTitle.set(key(n.to), r);
+        });
+        (json.query?.redirects || []).forEach((n) => {
+          const r = byTitle.get(key(n.from));
+          if (r) byTitle.set(key(n.to), r);
+        });
+        Object.values(json.query?.pages || {}).forEach((page) => {
+          const url = cleanPortraitUrl(page?.thumbnail?.source || "");
+          const r = byTitle.get(key(page?.title));
+          if (!url || !r || badPortraitUrl(url, r.name)) return;
+          r.imageUrl = url;
+          portraitByTitle.set(key(page.title), url);
+          portraitByTitle.set(key(r.wikiTitle), url);
+          portraitByTitle.set(key(r.name), url);
+          portraitByTitle.set(key(r.canonicalName), url);
+          const p = mappedPersonForRoster(r);
+          if (p && !p.imageUrl) p.imageUrl = url;
+        });
+      } catch (_) {}
+    }
+    renderTop20List();
+    renderRankings();
+    if (els.quickSearch?.value) renderQuickResults(els.quickSearch.value);
+    if (!selectedPerson) renderStartMarkers(); else renderTimelineMap({ keepView: true });
+    if (selectedPerson || selectedRoster) renderProfile(selectedPerson, selectedRoster);
+    schedulePortraitHydration();
+  }
+
+  function seedPortraitMap() {
+    [...roster, ...people].forEach((item) => {
+      const title = portraitTitle(item, item);
+      const url = cleanPortraitUrl(item?.imageUrl || "");
+      if (title && url) portraitByTitle.set(key(title), url);
+      if (item?.name && url) portraitByTitle.set(key(item.name), url);
+      if (item?.canonicalName && url) portraitByTitle.set(key(item.canonicalName), url);
+    });
+  }
+
+  function portraitTitle(subject, r) {
+    const title = subject?.wikiTitle || r?.wikiTitle || subject?.wikipediaTitle || r?.wikipediaTitle || subject?.canonicalName || subject?.name || r?.name || "";
+    return String(title || "").replace(/\s+/g, "_");
+  }
+
+  function cleanPortraitUrl(url) {
+    const s = String(url || "").trim();
+    if (!s || /^(javascript|data:text\/html)/i.test(s)) return "";
+    return s;
+  }
+  function badPortraitUrl(url, name = "") {
+    const s = decodeURIComponent(String(url || "")).toLowerCase();
+    if (!s) return false;
+    if (/\.svg(\?|$)/i.test(s)) return true;
+    if (/flag_of|coat_of_arms|seal_of|logo|emblem|icon|map_|painting|statue|drawing|caricature|signature|arms_of/i.test(s)) return true;
+    const n = key(name);
+    if (n && /(generic|placeholder|silhouette|no_image)/i.test(s)) return true;
+    return false;
+  }
+
+  function schedulePortraitHydration() {
+    clearTimeout(portraitHydrationTimer);
+    portraitHydrationTimer = setTimeout(refreshPortraitNodes, 80);
+  }
+
+  async function refreshPortraitNodes() {
+    const nodes = qsAll(".avatar-photo[data-wiki-title]").filter((node) => node.dataset.portraitOk !== "0" && !node.querySelector("img"));
+    if (!nodes.length) return;
+    const missing = [];
+    for (const node of nodes) {
+      const title = node.dataset.wikiTitle || node.dataset.personName || "";
+      const known = portraitByTitle.get(key(title)) || portraitByTitle.get(key(String(title).replaceAll("_", " "))) || portraitByTitle.get(key(node.dataset.personName));
+      if (known) {
+        setPortraitNode(node, known);
+      } else if (title && !portraitTitleRequests.has(key(title))) {
+        portraitTitleRequests.add(key(title));
+        missing.push({ title, nodeName: node.dataset.personName || title });
+      }
+    }
+    if (!missing.length) return;
+    for (let i = 0; i < missing.length; i += 40) {
+      const batch = missing.slice(i, i + 40);
+      try {
+        const params = new URLSearchParams({
+          action: "query",
+          origin: "*",
+          format: "json",
+          redirects: "1",
+          prop: "pageimages",
+          piprop: "thumbnail",
+          pithumbsize: "220",
+          titles: batch.map((x) => x.title).join("|")
+        });
+        const res = await fetch(`https://en.wikipedia.org/w/api.php?${params.toString()}`);
+        if (!res.ok) continue;
+        const json = await res.json();
+        const byTitle = new Map();
+        batch.forEach((x) => {
+          byTitle.set(key(x.title), x);
+          byTitle.set(key(String(x.title).replaceAll("_", " ")), x);
+          byTitle.set(key(x.nodeName), x);
+        });
+        (json.query?.normalized || []).forEach((n) => { const x = byTitle.get(key(n.from)); if (x) byTitle.set(key(n.to), x); });
+        (json.query?.redirects || []).forEach((n) => { const x = byTitle.get(key(n.from)); if (x) byTitle.set(key(n.to), x); });
+        Object.values(json.query?.pages || {}).forEach((page) => {
+          const url = cleanPortraitUrl(page?.thumbnail?.source || "");
+          const match = byTitle.get(key(page?.title));
+          if (!url || !match) return;
+          portraitByTitle.set(key(page.title), url);
+          portraitByTitle.set(key(match.title), url);
+          portraitByTitle.set(key(match.nodeName), url);
+          const r = roster.find((x) => key(x.wikiTitle) === key(match.title) || key(x.name) === key(match.nodeName) || key(x.name) === key(page.title));
+          if (r && !r.imageUrl) r.imageUrl = url;
+          const p = people.find((x) => key(x.canonicalName) === key(match.nodeName) || key(x.wikiTitle) === key(match.title) || key(x.canonicalName) === key(page.title));
+          if (p && !p.imageUrl) p.imageUrl = url;
+          qsAll(".avatar-photo[data-wiki-title]").forEach((node) => {
+            if (key(node.dataset.wikiTitle) === key(match.title) || key(node.dataset.personName) === key(match.nodeName) || key(node.dataset.personName) === key(page.title)) setPortraitNode(node, url);
+          });
+        });
+      } catch (_) {}
+    }
+  }
+
+  function setPortraitNode(node, url) {
+    if (!node || !url || node.querySelector("img")) return;
+    const img = document.createElement("img");
+    img.src = url;
+    img.alt = node.dataset.personName || "portrait";
+    img.loading = "eager";
+    img.decoding = "async";
+    img.referrerPolicy = "no-referrer";
+    img.onload = () => node.classList.add("has-photo");
+    img.onerror = () => img.remove();
+    node.appendChild(img);
+  }
+
+  function delegatedHover(e) {
+    const el = e.target.closest('[data-hover-title]');
+    if (!el) return;
+    showHoverAt(e, { title: el.dataset.hoverTitle, detail: el.dataset.hoverDetail, body: el.dataset.hoverBody, html: el.dataset.hoverHtml });
+  }
+
+  function showHoverAt(e, h) {
+    if (!h) return;
+    els.hover.innerHTML = h.html ? `<strong>${esc(h.title || "Public record")}</strong><span>${esc(h.detail || "")}</span><div class="hover-rich-wrap">${h.html}</div>` : `<strong>${esc(h.title || "Public record")}</strong><span>${esc(h.detail || "")}</span><p>${esc(h.body || "")}</p>`;
+    els.hover.hidden = false;
+    moveHover(e);
+  }
+
+  function moveHover(e) {
+    if (els.hover.hidden) return;
+    const x = Math.min(window.innerWidth - 340, Math.max(12, (e.clientX || 12) + 16));
+    const y = Math.min(window.innerHeight - 190, Math.max(12, (e.clientY || 12) + 16));
+    els.hover.style.left = `${x}px`;
+    els.hover.style.top = `${y}px`;
+  }
+
+  function hideHover() { if (els.hover) els.hover.hidden = true; }
+
+  function hoverForRoster(r, anchor) {
+    const mapped = mappedPersonForRoster(r);
+    return { title: r.name, detail: `${r.bucket || r.roleTitle} · ${anchor.city}`, body: mapped ? "Click to open the profile and play the public trail." : "Profile is in the top-200 roster. Dated stops appear when public records are approved." };
+  }
+
+  function curvePoints(a, b, bend) {
+    const lat1 = a.lat, lng1 = a.lng, lat2 = b.lat, lng2 = b.lng;
+    const midLat = (lat1 + lat2) / 2 + Math.abs(lng2 - lng1) * bend;
+    const midLng = (lng1 + lng2) / 2;
+    const pts = [];
+    for (let i = 0; i <= 32; i++) {
+      const t = i / 32, u = 1 - t;
+      pts.push([u * u * lat1 + 2 * u * t * midLat + t * t * lat2, u * u * lng1 + 2 * u * t * midLng + t * t * lng2]);
+    }
+    return pts;
+  }
+
+  function distanceKm(a, b) {
+    if (!a || !b) return 99999;
+    const R = 6371;
+    const dLat = (b.lat - a.lat) * Math.PI / 180;
+    const dLng = (b.lng - a.lng) * Math.PI / 180;
+    const lat1 = a.lat * Math.PI / 180;
+    const lat2 = b.lat * Math.PI / 180;
+    const h = Math.sin(dLat / 2) ** 2 + Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLng / 2) ** 2;
+    return 2 * R * Math.asin(Math.sqrt(h));
+  }
+
+  function project(lat, lng) { return [(lng + 180) / 360 * 100, (90 - lat) / 180 * 100]; }
+  function overlaps(a, b) { return !(a.x + a.w < b.x || b.x + b.w < a.x || a.y + a.h < b.y || b.y + b.h < a.y); }
+  function groupBy(arr, fn) { const m = new Map(); arr.forEach((x) => { const k = fn(x); if (!m.has(k)) m.set(k, []); m.get(k).push(x); }); return m; }
+  function unique(pairs) { const m = new Map(); pairs.forEach(([a, b]) => { if (a && !m.has(a)) m.set(a, b); }); return [...m.entries()]; }
+  function key(v) { return String(v || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, " ").trim(); }
+  function wikiKey(v) { return String(v || "").replace(/_/g, " ").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, " ").trim(); }
+  function esc(v) { return String(v ?? "").replace(/[&<>'"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[c])); }
+  function escForAttr(v) { return String(v ?? "").replace(/[\\'"\n\r]/g, (c) => ({ "\\": "\\\\", "'": "\\'", '"': "&quot;", "\n": "", "\r": "" }[c])); }
+  function qs(sel, root = document) { return root.querySelector(sel); }
+  function qsAll(sel, root = document) { return [...root.querySelectorAll(sel)]; }
+  function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
+  function wait(ms) { return new Promise((resolve) => setTimeout(resolve, ms)); }
+  function isFuture(a) { return a.status === "ANNOUNCED_FUTURE" || new Date(a.startsAt) > now; }
+  function daysFromNow(d) { return Math.round((new Date(d) - now) / DAY); }
+  function dateScore(d) { return d ? new Date(d).getTime() : 0; }
+  function oneLine(v, n = 120) { const s = String(v || "").replace(/\s+/g, " ").trim(); return s.length > n ? s.slice(0, n - 1).replace(/\s+\S*$/, "") + "…" : s; }
+  function compactDate(v) { if (!v) return "—"; return new Intl.DateTimeFormat("en", { month: "short", day: "2-digit", year: "2-digit" }).format(new Date(v)); }
+  function shortDateTime(v) { if (!v) return "—"; return new Intl.DateTimeFormat("en", { month: "short", day: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" }).format(new Date(v)); }
+  function shortName(name) { const parts = String(name || "").split(/\s+/).filter(Boolean); if (parts.length <= 2) return name; return `${parts[0]} ${parts.at(-1)}`; }
+  function getInitials(name) { return String(name || "PM").split(/\s+/).filter(Boolean).slice(0, 2).map((x) => x[0]?.toUpperCase()).join("") || "PM"; }
+  function textFlag(code) { return countryNameFromCode(code) || "Public anchor"; }
+  function flagEmoji(code) { return unicodeFlag(code) || orgLabel(code) || countryNameFromCode(code) || "Global"; }
+  function flagHtml(code, label = "") {
+    const clean = String(code || "UN").toUpperCase();
+    if (isOrgCode(clean)) return orgBadgeHtml(clean, label || orgLabel(clean));
+    const title = esc(label || countryNameFromCode(clean) || clean);
+    return `<span class="flag-img flag-svg" title="${title}" aria-label="${title} flag">${flagSvg(clean)}</span>`;
+  }
+  function entityBadgeHtml(subject, code, label = "") {
+    const mark = orgMarkFor(subject);
+    return `<span class="flag-badge">${mark ? orgBadgeHtml(mark.code, mark.label) : flagHtml(code, label)}</span>`;
+  }
+  function flagBadgeHtml(code, label = "") { return `<span class="flag-badge">${flagHtml(code, label)}</span>`; }
+  function orgBadgeHtml(code, label = "") {
+    const clean = String(code || "UN").toUpperCase();
+    const text = orgLabel(clean) || label || clean;
+    return `<span class="org-badge org-${esc(clean.toLowerCase())}" title="${esc(text)}" aria-label="${esc(text)}">${esc(shortOrg(text))}</span>`;
+  }
+  function isOrgCode(code) { return ["EU","UN","NATO","NT","OC","OECD","BI","BIS","IM","IMF","WB","WBG","WH","WHO","WT","WTO","IA","IAEA","IO","IOC","FIFA","GV","GAVI","OP","OPEC","G30","WEF","BBG","IEA","AKDN"].includes(String(code || "").toUpperCase()); }
+  function orgLabel(code) {
+    const names = { EU:"EU", UN:"UN", NATO:"NATO", NT:"NATO", OC:"OECD", OECD:"OECD", BI:"BIS", BIS:"BIS", IM:"IMF", IMF:"IMF", WB:"World Bank", WBG:"World Bank", WH:"WHO", WHO:"WHO", WT:"WTO", WTO:"WTO", IA:"IAEA", IAEA:"IAEA", IO:"IOC", IOC:"IOC", FIFA:"FIFA", GV:"Gavi", GAVI:"Gavi", OP:"OPEC", OPEC:"OPEC", G30:"G30", WEF:"WEF", BBG:"Bilderberg", IEA:"IEA", AKDN:"AKDN" };
+    return names[String(code || "").toUpperCase()] || "";
+  }
+  function shortOrg(text) { const t = String(text || "").trim(); if (/world bank/i.test(t)) return "WB"; if (/bilderberg/i.test(t)) return "BB"; return t.length > 7 ? t.split(/\s+/).map((x) => x[0]).join("").slice(0, 4).toUpperCase() : t; }
+  function unicodeFlag(code) {
+    const c = String(code || "").toUpperCase();
+    if (!/^[A-Z]{2}$/.test(c) || isOrgCode(c)) return "";
+    return [...c].map((ch) => String.fromCodePoint(127397 + ch.charCodeAt(0))).join("");
+  }
+  function flagSvg(code) {
+    const c = String(code || "UN").toUpperCase();
+    const svg = (body) => `<svg viewBox="0 0 60 40" role="img" aria-hidden="true" focusable="false">${body}</svg>`;
+    const rect = (x, y, w, h, fill) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${fill}"/>`;
+    const circ = (x, y, r, fill) => `<circle cx="${x}" cy="${y}" r="${r}" fill="${fill}"/>`;
+    const poly = (pts, fill) => `<polygon points="${pts}" fill="${fill}"/>`;
+    const h3 = (a, b, d) => svg(rect(0,0,60,13.34,a)+rect(0,13.34,60,13.34,b)+rect(0,26.68,60,13.32,d));
+    const v3 = (a, b, d) => svg(rect(0,0,20,40,a)+rect(20,0,20,40,b)+rect(40,0,20,40,d));
+    const cross = (bg, line, core) => svg(rect(0,0,60,40,bg)+rect(0,16,60,8,line)+rect(24,0,8,40,line)+(core?rect(0,18,60,4,core)+rect(26,0,4,40,core):""));
+    if (c === "US") {
+      let body = ""; for (let i=0;i<13;i++) body += rect(0, i*40/13, 60, 40/13, i%2?"#fff":"#b22234");
+      body += rect(0,0,25,21.5,"#3c3b6e"); for (let r=0;r<4;r++) for (let k=0;k<5;k++) body += circ(4+k*4.6+(r%2?2.3:0),4+r*4.2,0.8,"#fff"); return svg(body);
+    }
+    if (c === "GB" || c === "UK") return svg(rect(0,0,60,40,"#012169")+poly("0,0 7,0 60,33 60,40 53,40 0,7","#fff")+poly("60,0 53,0 0,33 0,40 7,40 60,7","#fff")+poly("0,0 60,40 55,40 0,4","#c8102e")+poly("60,0 0,40 5,40 60,4","#c8102e")+rect(0,15,60,10,"#fff")+rect(25,0,10,40,"#fff")+rect(0,17,60,6,"#c8102e")+rect(27,0,6,40,"#c8102e"));
+    if (c === "EU") { let body=rect(0,0,60,40,"#003399"); for(let i=0;i<12;i++){ const a=i*Math.PI/6; body+=circ(30+12*Math.cos(a),20+12*Math.sin(a),1.4,"#ffcc00"); } return svg(body); }
+    if (c === "UN") return svg(rect(0,0,60,40,"#5b92e5")+circ(30,20,11,"none")+`<circle cx="30" cy="20" r="10" fill="none" stroke="#fff" stroke-width="2"/><path d="M20 26c7 6 13 6 20 0M20 14c7-6 13-6 20 0" stroke="#fff" stroke-width="2" fill="none"/>`);
+    if (c === "NATO" || c === "NT") return svg(rect(0,0,60,40,"#102a54")+`<path d="M30 5l5 12 12 3-12 3-5 12-5-12-12-3 12-3z" fill="#fff"/>`);
+    if (c === "CN") return svg(rect(0,0,60,40,"#de2910")+poly("12,7 14,13 20,13 15,16 17,22 12,18 7,22 9,16 4,13 10,13","#ffde00")+circ(25,9,1.8,"#ffde00")+circ(31,14,1.8,"#ffde00")+circ(31,22,1.8,"#ffde00")+circ(25,27,1.8,"#ffde00"));
+    if (c === "RU") return h3("#fff", "#0039a6", "#d52b1e");
+    if (c === "IN") return svg(rect(0,0,60,13.34,"#ff9933")+rect(0,13.34,60,13.34,"#fff")+rect(0,26.68,60,13.32,"#138808")+circ(30,20,5,"none")+`<circle cx="30" cy="20" r="4.5" fill="none" stroke="#000080" stroke-width="1.5"/>`);
+    if (c === "FR") return v3("#0055a4", "#fff", "#ef4135");
+    if (c === "DE") return h3("#000", "#dd0000", "#ffce00");
+    if (c === "IT") return v3("#009246", "#fff", "#ce2b37");
+    if (c === "CA") return svg(rect(0,0,15,40,"#d52b1e")+rect(15,0,30,40,"#fff")+rect(45,0,15,40,"#d52b1e")+poly("30,9 33,18 42,18 35,23 38,32 30,27 22,32 25,23 18,18 27,18","#d52b1e"));
+    if (c === "BR") return svg(rect(0,0,60,40,"#009b3a")+poly("30,5 55,20 30,35 5,20","#ffdf00")+circ(30,20,9,"#002776"));
+    if (c === "TR") return svg(rect(0,0,60,40,"#e30a17")+circ(25,20,10,"#fff")+circ(29,20,8,"#e30a17")+poly("40,14 42,19 48,19 43,22 45,28 40,24 35,28 37,22 32,19 38,19","#fff"));
+    if (c === "SA") return svg(rect(0,0,60,40,"#006c35")+rect(14,26,32,3,"#fff")+rect(24,29,15,2,"#fff"));
+    if (c === "AE") return svg(rect(0,0,16,40,"#ff0000")+rect(16,0,44,13.34,"#009739")+rect(16,13.34,44,13.34,"#fff")+rect(16,26.68,44,13.32,"#000"));
+    if (c === "IL") return svg(rect(0,0,60,40,"#fff")+rect(0,5,60,5,"#0038b8")+rect(0,30,60,5,"#0038b8")+poly("30,12 38,26 22,26","none")+`<polygon points="30,12 38,26 22,26" fill="none" stroke="#0038b8" stroke-width="2"/><polygon points="30,28 38,14 22,14" fill="none" stroke="#0038b8" stroke-width="2"/>`);
+    if (c === "IR") return h3("#239f40", "#fff", "#da0000");
+    if (c === "JP") return svg(rect(0,0,60,40,"#fff")+circ(30,20,10,"#bc002d"));
+    if (c === "HK") return svg(rect(0,0,60,40,"#de2910")+circ(30,20,10,"#fff")+circ(30,20,4,"#de2910")+`<path d="M30 10c6 7 6 13 0 20c-6-7-6-13 0-20z" fill="#fff" transform="rotate(0 30 20)"/><path d="M30 10c6 7 6 13 0 20c-6-7-6-13 0-20z" fill="#fff" transform="rotate(72 30 20)"/><path d="M30 10c6 7 6 13 0 20c-6-7-6-13 0-20z" fill="#fff" transform="rotate(144 30 20)"/><path d="M30 10c6 7 6 13 0 20c-6-7-6-13 0-20z" fill="#fff" transform="rotate(216 30 20)"/><path d="M30 10c6 7 6 13 0 20c-6-7-6-13 0-20z" fill="#fff" transform="rotate(288 30 20)"/>`);
+    if (c === "PT") return svg(rect(0,0,24,40,"#006600")+rect(24,0,36,40,"#ff0000")+circ(24,20,6,"#ffcc00")+circ(24,20,4,"#fff"));
+    if (c === "KW") return svg(rect(0,0,60,13.34,"#007a3d")+rect(0,13.34,60,13.34,"#fff")+rect(0,26.68,60,13.32,"#ce1126")+poly("0,0 18,13.34 18,26.68 0,40","#000"));
+    if (c === "KR") return svg(rect(0,0,60,40,"#fff")+`<path d="M30 12a8 8 0 0 1 0 16a8 8 0 0 0 0-16" fill="#c60c30"/><path d="M30 12a8 8 0 0 0 0 16a8 8 0 0 1 0-16" fill="#003478"/>`+rect(10,8,10,2,"#000")+rect(40,30,10,2,"#000"));
+    if (c === "UA") return h3("#0057b7", "#0057b7", "#ffd700");
+    if (c === "PL") return h3("#fff", "#fff", "#dc143c");
+    if (c === "ES") return svg(rect(0,0,60,10,"#aa151b")+rect(0,10,60,20,"#f1bf00")+rect(0,30,60,10,"#aa151b"));
+    if (c === "NL") return h3("#ae1c28", "#fff", "#21468b");
+    if (c === "BE") return v3("#000", "#ffd90c", "#ef3340");
+    if (c === "CH") return svg(rect(0,0,60,40,"#d52b1e")+rect(26,9,8,22,"#fff")+rect(19,16,22,8,"#fff"));
+    if (c === "SE") return cross("#006aa7", "#fecc00");
+    if (c === "NO") return cross("#ba0c2f", "#fff", "#00205b");
+    if (c === "DK") return cross("#c8102e", "#fff");
+    if (c === "FI") return cross("#fff", "#002f6c");
+    if (c === "AU") return svg(rect(0,0,60,40,"#012169")+rect(0,0,28,20,"#012169")+rect(0,8,28,4,"#fff")+rect(12,0,4,20,"#fff")+circ(45,12,2.2,"#fff")+circ(50,25,2,"#fff")+circ(36,27,2,"#fff"));
+    if (c === "ID") return h3("#ce1126", "#ce1126", "#fff");
+    if (c === "MX") return v3("#006847", "#fff", "#ce1126");
+    if (c === "ZA") return svg(rect(0,0,60,13.4,"#de3831")+rect(0,26.6,60,13.4,"#002395")+poly("0,0 25,20 0,40","#000")+poly("0,4 18,20 0,36","#ffb612")+poly("0,0 30,20 0,40 9,40 39,20 9,0","#007a4d")+poly("11,0 41,20 11,40 16,40 46,20 16,0","#fff"));
+    if (c === "QA") return svg(rect(0,0,60,40,"#8a1538")+poly("0,0 22,0 15,4 22,8 15,12 22,16 15,20 22,24 15,28 22,32 15,36 22,40 0,40","#fff"));
+    if (c === "SG") return svg(rect(0,0,60,20,"#ef3340")+rect(0,20,60,20,"#fff")+circ(14,10,7,"#fff")+circ(17,10,6,"#ef3340")+circ(25,8,1.3,"#fff")+circ(29,12,1.3,"#fff"));
+    if (c === "TW") return svg(rect(0,0,60,40,"#fe0000")+rect(0,0,27,20,"#000095")+circ(13.5,10,5,"#fff"));
+    if (c === "GR") return svg(rect(0,0,60,40,"#0d5eaf")+rect(0,4.4,60,4.4,"#fff")+rect(0,13.2,60,4.4,"#fff")+rect(0,22,60,4.4,"#fff")+rect(0,30.8,60,4.4,"#fff")+rect(0,0,22,22,"#0d5eaf")+rect(0,8,22,6,"#fff")+rect(8,0,6,22,"#fff"));
+    if (c === "HU") return h3("#ce2939", "#fff", "#477050");
+    if (c === "PK") return svg(rect(0,0,15,40,"#fff")+rect(15,0,45,40,"#01411c")+circ(36,20,10,"#fff")+circ(40,20,10,"#01411c")+poly("45,13 47,18 52,18 48,21 50,26 45,23 40,26 42,21 38,18 43,18","#fff"));
+    if (c === "BD") return svg(rect(0,0,60,40,"#006a4e")+circ(28,20,10,"#f42a41"));
+    if (c === "MY") { let body=""; for(let i=0;i<14;i++) body+=rect(0,i*40/14,60,40/14,i%2?"#fff":"#cc0001"); return svg(body+rect(0,0,30,22,"#010066")+circ(15,11,7,"#ffcc00")+circ(18,11,7,"#010066")+poly("24,6 26,11 31,11 27,14 29,19 24,16 19,19 21,14 17,11 22,11","#ffcc00")); }
+    if (c === "KH") return h3("#032ea1", "#e00025", "#032ea1");
+    if (c === "MA") return svg(rect(0,0,60,40,"#c1272d")+`<path d="M30 12l3 9 9 0-7 5 3 9-8-6-8 6 3-9-7-5 9 0z" fill="none" stroke="#006233" stroke-width="2"/>`);
+    if (c === "NG") return v3("#008751", "#fff", "#008751");
+    if (c === "KE") return h3("#000", "#bb0000", "#006600");
+    if (c === "ET") return h3("#078930", "#fcdd09", "#da121a");
+    if (c === "GH") return h3("#ce1126", "#fcd116", "#006b3f");
+    if (c === "CI") return v3("#f77f00", "#fff", "#009e60");
+    if (c === "SN") return v3("#00853f", "#fdef42", "#e31b23");
+    if (c === "TZ") return svg(rect(0,0,60,40,"#1eb53a")+poly("0,40 60,0 60,10 10,40","#fcd116")+poly("0,40 60,0 60,6 6,40","#000")+poly("0,40 60,0 60,3 3,40","#00a3dd"));
+    if (c === "UG") return h3("#000", "#fcdc04", "#d90000");
+    if (c === "RW") return h3("#00a1de", "#fad201", "#20603d");
+    if (c === "AO") return h3("#cc092f", "#cc092f", "#000");
+    if (c === "CD") return svg(rect(0,0,60,40,"#007fff")+poly("0,40 60,0 60,8 8,40","#f7d618")+poly("5,40 60,5 60,11 11,40","#ce1021"));
+    if (c === "ZM") return svg(rect(0,0,60,40,"#198a00")+rect(42,24,6,16,"#de2010")+rect(48,24,6,16,"#000")+rect(54,24,6,16,"#ef7d00"));
+    if (c === "JO") return svg(h3("#000", "#fff", "#007a3d").replace(/^<svg[^>]*>|<\/svg>$/g,"")+poly("0,0 26,20 0,40","#ce1126"));
+    if (c === "EG") return h3("#ce1126", "#fff", "#000");
+    if (c === "AR") return h3("#74acdf", "#fff", "#74acdf");
+    if (c === "CL") return svg(rect(0,0,60,20,"#fff")+rect(0,20,60,20,"#d52b1e")+rect(0,0,22,20,"#0039a6")+circ(11,10,3,"#fff"));
+    if (c === "CO") return svg(rect(0,0,60,20,"#fcd116")+rect(0,20,60,10,"#003893")+rect(0,30,60,10,"#ce1126"));
+    if (c === "EC") return svg(rect(0,0,60,20,"#fcd116")+rect(0,20,60,10,"#003893")+rect(0,30,60,10,"#ce1126"));
+    if (c === "VE") return h3("#ffcc00", "#00247d", "#cf142b");
+    if (c === "BB") return v3("#00267f", "#ffc726", "#00267f");
+    if (c === "PA") return svg(rect(0,0,30,20,"#fff")+rect(30,0,30,20,"#d21034")+rect(0,20,30,20,"#005293")+rect(30,20,30,20,"#fff")+circ(15,10,2.2,"#005293")+circ(45,30,2.2,"#d21034"));
+    if (c === "SV") return h3("#0f47af", "#fff", "#0f47af");
+    if (c === "VA") return v3("#ffd700", "#fff", "#fff");
+    if (c === "AT") return h3("#ed2939", "#fff", "#ed2939");
+    if (c === "LU") return h3("#ef3340", "#fff", "#00a3e0");
+    if (c === "IS") return cross("#02529c", "#fff", "#dc1e35");
+    if (c === "VN") return svg(rect(0,0,60,40,"#da251d")+poly("30,8 34,18 45,18 36,24 39,34 30,28 21,34 24,24 15,18 26,18","#ff0"));
+    if (c === "KZ") return svg(rect(0,0,60,40,"#00afca")+circ(30,20,8,"#fec50c")+rect(7,0,4,40,"#fec50c"));
+    if (c === "CM") return v3("#007a5e", "#ce1126", "#fcd116");
+    const colors = genericFlagColors(c);
+    return h3(colors[0], colors[1], colors[2]);
+  }
+  function genericFlagColors(code) {
+    const h = hash(code || "global");
+    const colors = ["#315caa", "#d23838", "#f6c945", "#249a55", "#ffffff", "#111827", "#7c3aed", "#06b6d4"];
+    return [colors[h % colors.length], colors[(h + 3) % colors.length], colors[(h + 5) % colors.length]];
+  }
+  function countryNameFromCode(code) {
+    const c = String(code || "").toUpperCase();
+    const names = { US:"United States", GB:"United Kingdom", UK:"United Kingdom", CN:"China", RU:"Russia", IN:"India", EU:"European Union", FR:"France", DE:"Germany", IT:"Italy", CA:"Canada", BR:"Brazil", TR:"Turkey", SA:"Saudi Arabia", AE:"United Arab Emirates", IL:"Israel", IR:"Iran", JP:"Japan", KR:"South Korea", ID:"Indonesia", MX:"Mexico", ZA:"South Africa", AU:"Australia", ES:"Spain", NL:"Netherlands", BE:"Belgium", CH:"Switzerland", SE:"Sweden", NO:"Norway", DK:"Denmark", FI:"Finland", PL:"Poland", UA:"Ukraine", QA:"Qatar", SG:"Singapore", TW:"Taiwan", GR:"Greece", HU:"Hungary", PK:"Pakistan", BD:"Bangladesh", MY:"Malaysia", KH:"Cambodia", MA:"Morocco", NG:"Nigeria", KE:"Kenya", ET:"Ethiopia", GH:"Ghana", RW:"Rwanda", TZ:"Tanzania", UG:"Uganda", ZM:"Zambia", AO:"Angola", CD:"DR Congo", CI:"Cote d'Ivoire", SN:"Senegal", JO:"Jordan", EG:"Egypt", AR:"Argentina", CL:"Chile", CO:"Colombia", EC:"Ecuador", VE:"Venezuela", BB:"Barbados", PA:"Panama", SV:"El Salvador", VA:"Vatican", PT:"Portugal", KW:"Kuwait", HK:"Hong Kong", AT:"Austria", LU:"Luxembourg", IS:"Iceland", VN:"Vietnam", KZ:"Kazakhstan", CM:"Cameroon", UN:"United Nations", NATO:"NATO", NT:"NATO", WB:"World Bank", WBG:"World Bank", WH:"World Health Organization", WT:"World Trade Organization", OC:"OECD", BI:"BIS", IA:"IAEA", IO:"IOC", IM:"IMF", OP:"OPEC", GV:"Gavi", G30:"Group of Thirty", WEF:"World Economic Forum", BBG:"Bilderberg", IEA:"IEA" };
+    return names[c] || "Global";
+  }
+  function hash(v) { let h = 0; for (const ch of String(v || "")) h = (h * 31 + ch.charCodeAt(0)) >>> 0; return h; }
+  function countryColor(code) { return palette[hash(code) % palette.length]; }
+  function roleIcon(p) { return p?.orgIcon || roleIcons[p?.category] || roleIcons[normalizeCategory(p)] || "•"; }
+  function normalizeCategory(p) { const s = String(p?.category || p?.bucket || "").toUpperCase(); if (s.includes("ROYAL")) return "ROYALTY"; if (s.includes("FOREIGN") || s.includes("DIPLO")) return "FOREIGN_MINISTER"; if (s.includes("TECH") || s.includes("BUSINESS") || s.includes("CEO") || s.includes("FINANCE")) return "BUSINESS_LEADER"; if (s.includes("HEAD_OF_STATE")) return "HEAD_OF_STATE"; if (s.includes("HEAD_OF_GOVERNMENT")) return "HEAD_OF_GOVERNMENT"; if (s.includes("FORMER")) return "FORMER_LEADER"; return "INTERNATIONAL_ORG"; }
+  function cleanBio(p) { return p?.shortBio || p?.profileLine || profileRelevanceLine(p || {}, p?.roleTitle || p?.bucket || "public figure", p?.sector || "public life"); }
+  function ageLine(p) {
+    const dob = p?.birthDate; if (!dob) return "birthday in review";
+    const birth = new Date(dob); let age = now.getFullYear() - birth.getFullYear(); const m = now.getMonth() - birth.getMonth(); if (m < 0 || (m === 0 && now.getDate() < birth.getDate())) age--;
+    return `${compactBirth(dob)} · age ${age}`;
+  }
+  function compactBirth(v) { return new Intl.DateTimeFormat("en", { month: "short", day: "2-digit", year: "numeric" }).format(new Date(v)); }
+  function avatarSvg(name, code) {
+    const h = hash(name);
+    const c1 = countryColor(code || name);
+    const c2 = palette[(h + 3) % palette.length];
+    const initials = getInitials(name);
+    const skins = ["#f0c29a", "#d49a6a", "#b97855", "#8f6049", "#e7b58b", "#c88962"];
+    const hairs = ["#2b1b14", "#4a2a16", "#6a4b2e", "#e6e0d6", "#111827", "#7a4b2a"];
+    const skin = skins[h % skins.length];
+    const hair = hairs[(h >> 3) % hairs.length];
+    const suit = c1;
+    return `<svg class="avatar-svg" viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="bg${h}" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#111a28"/><stop offset="1" stop-color="${esc(c2)}"/></linearGradient></defs><rect width="100" height="100" fill="url(#bg${h})"/><circle cx="50" cy="44" r="25" fill="${skin}"/><path d="M25 43c3-18 14-29 27-29 15 0 25 10 25 30-10-9-18-12-31-11-9 1-15 4-21 10z" fill="${hair}"/><ellipse cx="40" cy="45" rx="3" ry="2.4" fill="#111"/><ellipse cx="60" cy="45" rx="3" ry="2.4" fill="#111"/><path d="M49 48c-2 5-2 8 2 10" fill="none" stroke="#7a5140" stroke-width="2" stroke-linecap="round"/><path d="M39 62c7 5 15 5 22 0" fill="none" stroke="#6a342e" stroke-width="2.4" stroke-linecap="round"/><path d="M16 100c5-25 19-38 34-38s29 13 34 38" fill="${esc(suit)}" opacity=".92"/><path d="M39 70l11 14 11-14" fill="#e9edf3" opacity=".95"/><text x="50" y="94" text-anchor="middle" fill="white" font-family="Arial Narrow, Arial" font-size="13" font-weight="900">${esc(initials)}</text></svg>`;
+  }
+  function normalizeRoster(p) {
+    const name = p.name || p.canonicalName || "Global figure";
+    const countryName = p.countryName || p.country || p.region || "Global";
+    const countryFocus = p.countryFocus || p.countryCode || (String(p.country || "").length === 2 ? p.country : countryCode(countryName));
+    return { ...p, name, canonicalName: name, countryName, countryFocus, roleTitle: p.roleTitle || p.bucket || "Public figure", sector: p.sector || p.industry || "Public life" };
+  }
+  function countryCode(name) {
+    const map = { "United States":"US", "China":"CN", "Russia":"RU", "India":"IN", "France":"FR", "Germany":"DE", "United Kingdom":"GB", "Italy":"IT", "Saudi Arabia":"SA", "United Arab Emirates":"AE", "Israel":"IL", "Iran":"IR", "European Union":"EU", "United Nations":"UN", "NATO":"NATO", "Canada":"CA", "Brazil":"BR", "Turkey":"TR", "Japan":"JP", "South Korea":"KR", "Indonesia":"ID", "Mexico":"MX", "South Africa":"ZA", "Australia":"AU", "Spain":"ES", "Netherlands":"NL", "Belgium":"BE", "Switzerland":"CH", "Sweden":"SE", "Norway":"NO", "Denmark":"DK", "Finland":"FI", "Poland":"PL", "Ukraine":"UA", "Qatar":"QA", "Singapore":"SG", "Taiwan":"TW", "Portugal":"PT", "Kuwait":"KW", "OECD":"OC", "BIS":"BI", "IMF":"IM", "World Bank":"WB", "WHO":"WH", "WTO":"WT", "IAEA":"IA", "IOC":"IO", "FIFA":"FIFA", "OPEC":"OP", "Gavi":"GV", "World Economic Forum":"WEF", "International Energy Agency":"IEA", "IEA":"IEA" };
+    return map[name] || "UN";
+  }
+})();
