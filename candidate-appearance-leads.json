@@ -1,0 +1,158 @@
+{
+  "generatedAt": "2026-05-30T09:01:07.610Z",
+  "mode": "dry-run",
+  "rosterCount": 200,
+  "missingImageCount": 139,
+  "preview": [
+    {
+      "id": "r-023-wang-yi",
+      "name": "Wang Yi",
+      "wikiTitle": "Wang_Yi_(politician)",
+      "wikidataId": "search:Wang Yi"
+    },
+    {
+      "id": "r-052-ngozi-okonjo-iweala",
+      "name": "Ngozi Okonjo-Iweala",
+      "wikiTitle": "Ngozi_Okonjo-Iweala",
+      "wikidataId": "Q461736"
+    },
+    {
+      "id": "r-053-tedros-adhanom-ghebreyesus",
+      "name": "Tedros Adhanom Ghebreyesus",
+      "wikiTitle": "Tedros_Adhanom_Ghebreyesus",
+      "wikidataId": "Q30973"
+    },
+    {
+      "id": "r-054-sania-nishtar",
+      "name": "Sania Nishtar",
+      "wikiTitle": "Sania_Nishtar",
+      "wikidataId": "Q7417398"
+    },
+    {
+      "id": "r-055-mathias-cormann",
+      "name": "Mathias Cormann",
+      "wikiTitle": "Mathias_Cormann",
+      "wikidataId": "Q6794824"
+    },
+    {
+      "id": "r-056-agustin-carstens",
+      "name": "Agustín Carstens",
+      "wikiTitle": "Agustín_Carstens",
+      "wikidataId": "Q372106"
+    },
+    {
+      "id": "r-057-rafael-grossi",
+      "name": "Rafael Grossi",
+      "wikiTitle": "Rafael_Grossi",
+      "wikidataId": "Q7283122"
+    },
+    {
+      "id": "r-058-cindy-mccain",
+      "name": "Cindy McCain",
+      "wikiTitle": "Cindy_McCain",
+      "wikidataId": "Q5121194"
+    },
+    {
+      "id": "r-059-filippo-grandi",
+      "name": "Filippo Grandi",
+      "wikiTitle": "Filippo_Grandi",
+      "wikidataId": "Q1416473"
+    },
+    {
+      "id": "r-060-achim-steiner",
+      "name": "Achim Steiner",
+      "wikiTitle": "Achim_Steiner",
+      "wikidataId": "Q335921"
+    },
+    {
+      "id": "r-061-catherine-russell",
+      "name": "Catherine Russell",
+      "wikiTitle": "Catherine_Russell_(executive)",
+      "wikidataId": "Q5052598"
+    },
+    {
+      "id": "r-062-gianni-infantino",
+      "name": "Gianni Infantino",
+      "wikiTitle": "Gianni_Infantino",
+      "wikidataId": "Q55165"
+    },
+    {
+      "id": "r-063-kirsty-coventry",
+      "name": "Kirsty Coventry",
+      "wikiTitle": "Kirsty_Coventry",
+      "wikidataId": "Q236693"
+    },
+    {
+      "id": "r-064-thomas-bach",
+      "name": "Thomas Bach",
+      "wikiTitle": "Thomas_Bach",
+      "wikidataId": "Q57486"
+    },
+    {
+      "id": "r-066-warren-buffett",
+      "name": "Warren Buffett",
+      "wikiTitle": "Warren_Buffett",
+      "wikidataId": "Q47285"
+    },
+    {
+      "id": "r-069-sundar-pichai",
+      "name": "Sundar Pichai",
+      "wikiTitle": "Sundar_Pichai",
+      "wikidataId": "Q3503829"
+    },
+    {
+      "id": "r-076-jane-fraser",
+      "name": "Jane Fraser",
+      "wikiTitle": "Jane_Fraser_(executive)",
+      "wikidataId": "Q6152999"
+    },
+    {
+      "id": "r-077-bernard-arnault",
+      "name": "Bernard Arnault",
+      "wikiTitle": "Bernard_Arnault",
+      "wikidataId": "Q155214"
+    },
+    {
+      "id": "r-078-mukesh-ambani",
+      "name": "Mukesh Ambani",
+      "wikiTitle": "Mukesh_Ambani",
+      "wikidataId": "Q302776"
+    },
+    {
+      "id": "r-079-gautam-adani",
+      "name": "Gautam Adani",
+      "wikiTitle": "Gautam_Adani",
+      "wikidataId": "Q552613"
+    },
+    {
+      "id": "r-080-jack-ma",
+      "name": "Jack Ma",
+      "wikiTitle": "Jack_Ma",
+      "wikidataId": "Q485274"
+    },
+    {
+      "id": "r-081-pony-ma",
+      "name": "Pony Ma",
+      "wikiTitle": "Pony_Ma",
+      "wikidataId": "Q370016"
+    },
+    {
+      "id": "r-082-masayoshi-son",
+      "name": "Masayoshi Son",
+      "wikiTitle": "Masayoshi_Son",
+      "wikidataId": "Q515033"
+    },
+    {
+      "id": "r-083-lisa-su",
+      "name": "Lisa Su",
+      "wikiTitle": "Lisa_Su",
+      "wikidataId": "Q6551234"
+    },
+    {
+      "id": "r-084-brian-chesky",
+      "name": "Brian Chesky",
+      "wikiTitle": "Brian_Chesky",
+      "wikidataId": "Q4961484"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "generatedAt": "2026-05-30T09:01:07.098Z",
+  "mode": "dry-run",
+  "window": {
+    "since": "2024-05-30T09:01:07.098Z",
+    "until": "2026-05-30T09:01:07.098Z",
+    "futureUntil": "2026-09-27T09:01:07.098Z"
+  },
+  "rosterScanned": 200,
+  "sourcesScanned": 0,
+  "candidates": 0,
+  "publishable": 0,
+  "failures": [],
+  "notes": [
+    "Future records are kept only when a public event date and city are visible in an official or host-public source.",
+    "Private addresses, hotels, hospitals, live movement, aircraft tracking, and leaked itineraries are rejected before publication.",
+    "GDELT is used as a recent discovery layer. Official and host sources outrank media leads."
+  ]
+}

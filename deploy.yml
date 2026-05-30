@@ -1,0 +1,15 @@
+import fs from "node:fs";
+
+export function loadSourceRegistry(file = "data/source-registry.json") {
+  const registry = JSON.parse(fs.readFileSync(file, "utf8"));
+  if (!Array.isArray(registry.sources)) throw new Error("source registry missing sources array");
+  return registry;
+}
+
+export function officialSources(registry) {
+  return (registry.sources || []).filter((source) => /official|host/i.test(source.type || ""));
+}
+
+export function discoverySources(registry) {
+  return (registry.sources || []).filter((source) => /discovery/i.test(source.type || ""));
+}

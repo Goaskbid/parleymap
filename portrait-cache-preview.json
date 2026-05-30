@@ -1,0 +1,22 @@
+{
+  "generatedAt": "2026-05-29T09:41:05.977Z",
+  "rosterSize": 200,
+  "mappedRosterProfiles": 22,
+  "top20Mapped": 15,
+  "imageHydration": "Runtime Wikimedia pageimage hydration is enabled for every roster item with a wikiTitle; production should cache and audit portraits.",
+  "reviewPolicy": "Daily drift check; monthly high-calibre additions; annual full rebuild; immediate review when a head of state/government, monarch, foreign minister, central banker, multilateral head or major CEO changes role.",
+  "issues": [
+    {
+      "type": "missing_birth_date",
+      "name": "Dario Amodei"
+    },
+    {
+      "type": "missing_birth_date",
+      "name": "C. C. Wei"
+    },
+    {
+      "type": "missing_birth_date",
+      "name": "Wael Sawan"
+    }
+  ]
+}

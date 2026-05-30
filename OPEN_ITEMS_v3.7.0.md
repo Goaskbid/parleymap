@@ -1,0 +1,1 @@
+Continue ParleyMap from v3.6.0. Preserve the anchored layout. Do not reintroduce internal crawler wording into the website. Keep map first, profile right, intelligence below. Add verified event-attendee edges from official/host pages, then promote them into public appearance records only when the source is strong enough. Keep all private/live-tracking exclusions.

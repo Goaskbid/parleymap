@@ -1,0 +1,8 @@
+{
+  "generatedAt": "2026-05-29T09:42:01.461Z",
+  "mode": "dry-run",
+  "currentRosterSize": 200,
+  "findings": [],
+  "failures": [],
+  "rule": "Daily delta review. Annual full rebuild remains a separate editorial/analytical step so the roster does not churn from one noisy source."
+}
