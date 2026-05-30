@@ -1,0 +1,1 @@
+Continue ParleyMap from v3.7.0. Preserve the accepted layout. Focus next on converting frequent-traveller planner jobs into live source extractors, then backfill the top-200 for 24 months with verified public city-level records only.

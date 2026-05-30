@@ -1,0 +1,40 @@
+# ParleyMap v3.7.0
+
+ParleyMap maps documented public appearances, meetings, calls, summits and policy forums for globally influential figures. It is an influence-intelligence interface, not a live tracker.
+
+## v3.7.0 travel-capture expansion
+
+This build keeps the accepted v3.6 layout anchored: map first, selected profile on the right, and intelligence panels below the map. The interface stays the same; the data layer is denser.
+
+What changed:
+
+- Added a foreign-minister and second-line-principal expansion pack.
+- Added more official public travel records for Marco Rubio, Subrahmanyam Jaishankar, Sergey Lavrov, Benjamin Netanyahu, Wang Yi, G7 foreign ministers, BRICS foreign ministers, JD Vance and Aga Khan V.
+- Added new mapped profiles for travel-heavy figures such as Sergey Lavrov, Wang Yi, Yvette Cooper, Jean-Noel Barrot, Johann Wadephul, Antonio Tajani, Anita Anand, Toshimitsu Motegi, David Lammy, Hakan Fidan, Faisal bin Farhan, Abbas Araghchi, Mauro Vieira, Ronald Lamola, JD Vance, Prince Rahim Aga Khan V and Alexandre de Rothschild.
+- Added a structured crawler plan for official foreign-ministry travel pages, state department travel archives, G7/G20/BRICS host pages, official call readouts and event-attendee lists.
+- Kept the opening map clean while making the full top-200 roster searchable.
+- Preserved the public-source boundary: no hotels, no private stops, no live tracking, no leaked routes, no aircraft-tracking inference.
+
+Current validated archive:
+
+```text
+94 mapped public figures
+539 public appearance / future-window records
+64 encounter clusters
+4 public phone-call readouts
+35 event-agenda watch cards
+200 top-200 roster profiles
+4,800 planned 24-month backfill jobs
+```
+
+## Run locally
+
+```bash
+npm run check
+```
+
+The standalone preview is `index.html`. GitHub Pages deployment is configured through `.github/workflows/deploy.yml`; nightly crawler scaffolding is in `.github/workflows/nightly-refresh.yml`.
+
+## Safety boundary
+
+ParleyMap covers public-interest records only: official public appearances, documented meetings, public event programs, public calls, summits and announced public-event windows. It does not publish private addresses, hotel guesses, live proximity, leaked itineraries, unsourced sightings, aircraft-tracking data or security-sensitive locations.

@@ -1,0 +1,27 @@
+{
+  "name": "parleymap-static",
+  "version": "3.7.0",
+  "private": true,
+  "description": "Static OSM-derived influence cockpit with anchored v3.6 layout plus expanded frequent-traveller foreign-minister, official travel-ledger, Bilderberg, G30 and AKDN connector data.",
+  "scripts": {
+    "build": "node scripts/build-standalone.mjs",
+    "validate:data": "node scripts/validate-data.mjs",
+    "crawl:dry-run": "node scripts/evergreen-crawl.mjs --dry-run",
+    "crawl:nightly": "node scripts/evergreen-crawl.mjs --write --update-site --promote-official",
+    "crawl:overnight": "npm run crawl:nightly",
+    "crawl:24m": "node scripts/crawl-24-months.mjs",
+    "crawl:24m:dry-run": "node scripts/crawl-24-months.mjs --dry-run",
+    "refresh:dry-run": "node scripts/nightly-refresh.mjs --dry-run",
+    "refresh:nightly": "node scripts/crawl-24-months.mjs --publish --max-roster 200 --max-per-person 160 && node scripts/review-top200.mjs --apply && node scripts/nightly-refresh.mjs --live && npm run build",
+    "refresh:backfill": "node scripts/crawl-24-months.mjs --publish --max-roster 200 --max-per-person 240",
+    "nightly": "npm run refresh:nightly",
+    "roster:review": "node scripts/review-top200.mjs --apply && node scripts/evergreen-roster-review.mjs --write",
+    "portraits:dry-run": "node scripts/cache-portraits.mjs --dry-run",
+    "portraits:update": "node scripts/cache-portraits.mjs --live",
+    "crawler:plan": "node scripts/evergreen-refresh.mjs --dry-run --offline --backfill --months=24 --max-people=200",
+    "check:js": "node --check src/app.js && node --check scripts/build-standalone.mjs && node --check scripts/validate-data.mjs && node --check scripts/evergreen-crawl.mjs && node --check scripts/evergreen-roster-review.mjs && node --check scripts/nightly-refresh.mjs && node --check scripts/cache-portraits.mjs && node --check scripts/crawl-24-months.mjs && node --check scripts/review-top200.mjs && node --check scripts/evergreen-refresh.mjs && node --check scripts/roster-review.mjs && node --check connectors/wikimedia-portraits.mjs && node --check connectors/gdelt-doc.mjs && node --check connectors/official-source-registry.mjs && node --check scripts/foreign-minister-travel-index.mjs",
+    "check": "npm run check:js && npm run validate:data && npm run crawl:24m:dry-run && npm run portraits:dry-run && npm run crawler:plan && npm run build",
+    "crawl:evergreen": "node scripts/crawl-24-months.mjs --publish --max-roster 200 --max-per-person 160 && node scripts/review-top200.mjs --apply && npm run build",
+    "crawl:foreign-ministers": "node scripts/foreign-minister-travel-index.mjs"
+  }
+}
