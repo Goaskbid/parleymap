@@ -2,19 +2,19 @@
   "meta": {
     "project": "ParleyMap",
     "formerProjectName": "Prominence Tracker",
-    "iteration": "real-public-pilot-heatmap-labels",
+    "iteration": "real-public-pilot-collision-safe-map",
     "generatedAt": "2026-05-28T12:00:00+02:00",
     "currentDateForDemo": "2026-05-28",
     "datasetType": "real_public_source_pilot",
     "notice": "Mapped records in this iteration are limited to public appearances, official public meetings, public ceremonies, official/host summit records, or clearly labelled secondary-source leads. No private addresses, hotels, hospitals, residences, leaked itineraries or inferred live routes are included.",
     "refreshModel": "nightly source discovery, daily two-year backfill, 60-day announced-future scan, annual roster review",
     "safetyPrecision": "city-level future defaults; past events remain city or public-venue level only when the venue is deliberately public",
-    "version": "0.5.1",
+    "version": "0.5.2",
     "iterationDate": "2026-05-28",
     "status": "real-source pilot mapped records plus top-200 roster queue",
     "name": "ParleyMap",
-    "iterationNote": "v0.5.1 keeps the real public-source pilot and adds a stronger in-map heatmap plus compact date/location labels on the OSM canvas.",
-    "pilotCoverage": "17 real mapped people, public-source summit clusters, recent official appearances, future public summit windows, and top-200 heavy-hitter roster queue."
+    "iterationNote": "v0.5.2 adds collision-aware date/location labels, separated route arcs, distinct blue past versus amber future map styling, and source-backed domestic India records for Narendra Modi.",
+    "pilotCoverage": "17 real mapped people, 72 public-source appearance cards, collision-safe OSM labels, route arcs, and top-200 heavy-hitter roster queue."
   },
   "categories": [
     {
@@ -5036,6 +5036,565 @@
       },
       "lastCheckedAt": "2026-05-28T12:00:00+02:00",
       "needsHumanReview": true
+    },
+    {
+      "id": "a-2025-01-17-narendra-modi-bharat-mobility-new-delhi",
+      "personId": "p-narendra-modi",
+      "startsAt": "2025-01-17T12:00:00+05:30",
+      "endsAt": null,
+      "status": "VERIFIED_PAST",
+      "confidence": 0.88,
+      "confidenceLabel": "verified from official PM India or host-public source; time may be normalized when official page gives date only",
+      "eventType": "PUBLIC_CEREMONY",
+      "title": "Bharat Mobility Global Expo 2025 inauguration",
+      "summary": "PM India records Narendra Modi inaugurating Bharat Mobility Global Expo 2025 at Bharat Mandapam in New Delhi.",
+      "significance": "A domestic industrial-policy stop: mobility, manufacturing, green technology, EVs, hydrogen, biofuels and investor messaging all sit in one public appearance.",
+      "decisions": "Public materials emphasized Make in India, mobility growth, green technology and the investment case for India’s auto and transport ecosystem.",
+      "location": {
+        "label": "Bharat Mandapam / Pragati Maidan public event area",
+        "city": "New Delhi",
+        "countryCode": "IN",
+        "countryName": "India",
+        "lat": 28.6139,
+        "lng": 77.243,
+        "precision": "public_venue_area"
+      },
+      "venuePublic": true,
+      "securityPrecision": "public appearance only; no private stops, hotels, residences, leaked routes or live proximity",
+      "publicInterestScore": 82,
+      "eventGroupId": "eg-bharat-mobility-new-delhi-2025",
+      "topics": [
+        "India",
+        "mobility",
+        "manufacturing",
+        "green technology",
+        "public ceremony"
+      ],
+      "counterpartIds": [],
+      "sourcePack": [
+        {
+          "label": "PM India: Bharat Mobility Global Expo 2025 inauguration",
+          "url": "https://www.pmindia.gov.in/en/news_updates/pm-inaugurates-bharat-mobility-global-expo-2025/",
+          "type": "official_or_host",
+          "license": "public web source; rights remain with publisher",
+          "checkedAt": "2026-05-28T12:00:00+02:00",
+          "reliability": "primary"
+        },
+        {
+          "label": "Geocode audit: OpenStreetMap attribution reference",
+          "url": "https://www.openstreetmap.org/copyright",
+          "type": "geocode_audit",
+          "license": "OpenStreetMap data attribution and geocoding-audit reference",
+          "checkedAt": "2026-05-28T12:00:00+02:00",
+          "reliability": "audit"
+        }
+      ],
+      "visual": {
+        "status": "portrait-runtime-or-candidate",
+        "policy": "Use only self-created, public-domain, official-use, or license-audited media with attribution captured.",
+        "license": "not bundled; portrait candidates are runtime/audit queue"
+      },
+      "lastCheckedAt": "2026-05-28T12:00:00+02:00",
+      "needsHumanReview": false
+    },
+    {
+      "id": "a-2025-05-01-narendra-modi-waves-mumbai",
+      "personId": "p-narendra-modi",
+      "startsAt": "2025-05-01T12:00:00+05:30",
+      "endsAt": null,
+      "status": "VERIFIED_PAST",
+      "confidence": 0.88,
+      "confidenceLabel": "verified from official PM India or host-public source; time may be normalized when official page gives date only",
+      "eventType": "PUBLIC_SUMMIT",
+      "title": "WAVES 2025 inauguration in Mumbai",
+      "summary": "PM India places Modi at the Jio World Centre in Mumbai for the WAVES 2025 inauguration.",
+      "significance": "The appearance adds a domestic culture, media, creator-economy and entertainment-policy card to the India trail rather than leaving the record overly summit-heavy abroad.",
+      "decisions": "The public speech framed India as a creative and content economy, with global participation from artists, innovators, investors and policymakers.",
+      "location": {
+        "label": "Jio World Centre public event area",
+        "city": "Mumbai",
+        "countryCode": "IN",
+        "countryName": "India",
+        "lat": 19.055,
+        "lng": 72.8509,
+        "precision": "public_venue_area"
+      },
+      "venuePublic": true,
+      "securityPrecision": "public appearance only; no private stops, hotels, residences, leaked routes or live proximity",
+      "publicInterestScore": 80,
+      "eventGroupId": "eg-waves-mumbai-2025",
+      "topics": [
+        "India",
+        "creative economy",
+        "media",
+        "culture",
+        "public summit"
+      ],
+      "counterpartIds": [],
+      "sourcePack": [
+        {
+          "label": "PM India: WAVES 2025 inauguration",
+          "url": "https://www.pmindia.gov.in/en/news_updates/pm-inaugurates-waves-2025/",
+          "type": "official_or_host",
+          "license": "public web source; rights remain with publisher",
+          "checkedAt": "2026-05-28T12:00:00+02:00",
+          "reliability": "primary"
+        },
+        {
+          "label": "Geocode audit: OpenStreetMap attribution reference",
+          "url": "https://www.openstreetmap.org/copyright",
+          "type": "geocode_audit",
+          "license": "OpenStreetMap data attribution and geocoding-audit reference",
+          "checkedAt": "2026-05-28T12:00:00+02:00",
+          "reliability": "audit"
+        }
+      ],
+      "visual": {
+        "status": "portrait-runtime-or-candidate",
+        "policy": "Use only self-created, public-domain, official-use, or license-audited media with attribution captured.",
+        "license": "not bundled; portrait candidates are runtime/audit queue"
+      },
+      "lastCheckedAt": "2026-05-28T12:00:00+02:00",
+      "needsHumanReview": false
+    },
+    {
+      "id": "a-2025-09-02-narendra-modi-semicon-new-delhi",
+      "personId": "p-narendra-modi",
+      "startsAt": "2025-09-02T12:00:00+05:30",
+      "endsAt": null,
+      "status": "VERIFIED_PAST",
+      "confidence": 0.88,
+      "confidenceLabel": "verified from official PM India or host-public source; time may be normalized when official page gives date only",
+      "eventType": "TECHNOLOGY_SUMMIT",
+      "title": "Semicon India 2025 inauguration",
+      "summary": "PM India records Modi inaugurating Semicon India 2025 at Yashobhoomi in New Delhi.",
+      "significance": "A high-signal domestic technology and industrial-capacity event, useful for tracking India’s chip-policy narrative and international investor outreach.",
+      "decisions": "The public record emphasized semiconductor manufacturing, design capability, trusted supply chains and India’s role in advanced technology.",
+      "location": {
+        "label": "Yashobhoomi public convention district",
+        "city": "New Delhi",
+        "countryCode": "IN",
+        "countryName": "India",
+        "lat": 28.554,
+        "lng": 77.0589,
+        "precision": "public_venue_area"
+      },
+      "venuePublic": true,
+      "securityPrecision": "public appearance only; no private stops, hotels, residences, leaked routes or live proximity",
+      "publicInterestScore": 86,
+      "eventGroupId": "eg-semicon-new-delhi-2025",
+      "topics": [
+        "India",
+        "semiconductors",
+        "technology",
+        "investment",
+        "industrial policy"
+      ],
+      "counterpartIds": [],
+      "sourcePack": [
+        {
+          "label": "PM India: Semicon India 2025 in New Delhi",
+          "url": "https://www.pmindia.gov.in/en/news_updates/pm-inaugurates-semicon-india-2025-in-new-delhi/",
+          "type": "official_or_host",
+          "license": "public web source; rights remain with publisher",
+          "checkedAt": "2026-05-28T12:00:00+02:00",
+          "reliability": "primary"
+        },
+        {
+          "label": "Geocode audit: OpenStreetMap attribution reference",
+          "url": "https://www.openstreetmap.org/copyright",
+          "type": "geocode_audit",
+          "license": "OpenStreetMap data attribution and geocoding-audit reference",
+          "checkedAt": "2026-05-28T12:00:00+02:00",
+          "reliability": "audit"
+        }
+      ],
+      "visual": {
+        "status": "portrait-runtime-or-candidate",
+        "policy": "Use only self-created, public-domain, official-use, or license-audited media with attribution captured.",
+        "license": "not bundled; portrait candidates are runtime/audit queue"
+      },
+      "lastCheckedAt": "2026-05-28T12:00:00+02:00",
+      "needsHumanReview": false
+    },
+    {
+      "id": "a-2025-10-08-narendra-modi-india-mobile-congress-new-delhi",
+      "personId": "p-narendra-modi",
+      "startsAt": "2025-10-08T12:00:00+05:30",
+      "endsAt": null,
+      "status": "VERIFIED_PAST",
+      "confidence": 0.88,
+      "confidenceLabel": "verified from official PM India or host-public source; time may be normalized when official page gives date only",
+      "eventType": "TECHNOLOGY_SUMMIT",
+      "title": "India Mobile Congress 2025 address",
+      "summary": "PM India records Modi inaugurating the 9th India Mobile Congress at Yashobhoomi in New Delhi.",
+      "significance": "This is the telecom, digital infrastructure and startup-policy companion card to the Semicon stop, keeping the domestic technology trail connected.",
+      "decisions": "The public record highlights 5G, indigenous telecom stack development, startups, quantum communication, 6G and digital connectivity.",
+      "location": {
+        "label": "Yashobhoomi public convention district",
+        "city": "New Delhi",
+        "countryCode": "IN",
+        "countryName": "India",
+        "lat": 28.554,
+        "lng": 77.0589,
+        "precision": "public_venue_area"
+      },
+      "venuePublic": true,
+      "securityPrecision": "public appearance only; no private stops, hotels, residences, leaked routes or live proximity",
+      "publicInterestScore": 84,
+      "eventGroupId": "eg-imc-new-delhi-2025",
+      "topics": [
+        "India",
+        "telecom",
+        "technology",
+        "startups",
+        "digital infrastructure"
+      ],
+      "counterpartIds": [],
+      "sourcePack": [
+        {
+          "label": "PM India: India Mobile Congress 2025",
+          "url": "https://www.pmindia.gov.in/en/news_updates/pm-addresses-the-india-mobile-congress-2025/",
+          "type": "official_or_host",
+          "license": "public web source; rights remain with publisher",
+          "checkedAt": "2026-05-28T12:00:00+02:00",
+          "reliability": "primary"
+        },
+        {
+          "label": "Geocode audit: OpenStreetMap attribution reference",
+          "url": "https://www.openstreetmap.org/copyright",
+          "type": "geocode_audit",
+          "license": "OpenStreetMap data attribution and geocoding-audit reference",
+          "checkedAt": "2026-05-28T12:00:00+02:00",
+          "reliability": "audit"
+        }
+      ],
+      "visual": {
+        "status": "portrait-runtime-or-candidate",
+        "policy": "Use only self-created, public-domain, official-use, or license-audited media with attribution captured.",
+        "license": "not bundled; portrait candidates are runtime/audit queue"
+      },
+      "lastCheckedAt": "2026-05-28T12:00:00+02:00",
+      "needsHumanReview": false
+    },
+    {
+      "id": "a-2025-10-09-narendra-modi-global-fintech-mumbai",
+      "personId": "p-narendra-modi",
+      "startsAt": "2025-10-09T14:45:00+05:30",
+      "endsAt": null,
+      "status": "VERIFIED_PAST",
+      "confidence": 0.92,
+      "confidenceLabel": "verified from official PM India or host-public source; time may be normalized when official page gives date only",
+      "eventType": "BILATERAL_PUBLIC_EVENT",
+      "title": "Global Fintech Fest with Keir Starmer in Mumbai",
+      "summary": "PM India records Modi addressing Global Fintech Fest 2025 in Mumbai and specifically notes UK Prime Minister Keir Starmer’s presence.",
+      "significance": "A compact domestic-and-bilateral record: it ties India’s fintech agenda to UK-India strategic, trade and innovation files.",
+      "decisions": "Public materials emphasized India Stack, AI, fintech inclusion, UK-India cooperation and a fintech corridor between the two economies.",
+      "location": {
+        "label": "Jio World Centre public event area",
+        "city": "Mumbai",
+        "countryCode": "IN",
+        "countryName": "India",
+        "lat": 19.055,
+        "lng": 72.8509,
+        "precision": "public_venue_area"
+      },
+      "venuePublic": true,
+      "securityPrecision": "public appearance only; no private stops, hotels, residences, leaked routes or live proximity",
+      "publicInterestScore": 89,
+      "eventGroupId": "eg-global-fintech-mumbai-2025",
+      "topics": [
+        "India",
+        "fintech",
+        "AI",
+        "UK-India",
+        "digital public infrastructure"
+      ],
+      "counterpartIds": [
+        "p-keir-starmer"
+      ],
+      "sourcePack": [
+        {
+          "label": "PM India: Global Fintech Fest 2025 in Mumbai",
+          "url": "https://www.pmindia.gov.in/en/news_updates/pm-addresses-the-global-fintech-fest-2025-in-mumbai/",
+          "type": "official_or_host",
+          "license": "public web source; rights remain with publisher",
+          "checkedAt": "2026-05-28T12:00:00+02:00",
+          "reliability": "primary"
+        },
+        {
+          "label": "PM India: Maharashtra visit schedule and UK PM participation",
+          "url": "https://www.pmindia.gov.in/en/news_updates/pm-to-visit-maharashtra-on-8-9th-october/",
+          "type": "official_or_host",
+          "license": "public web source; rights remain with publisher",
+          "checkedAt": "2026-05-28T12:00:00+02:00",
+          "reliability": "primary"
+        },
+        {
+          "label": "Geocode audit: OpenStreetMap attribution reference",
+          "url": "https://www.openstreetmap.org/copyright",
+          "type": "geocode_audit",
+          "license": "OpenStreetMap data attribution and geocoding-audit reference",
+          "checkedAt": "2026-05-28T12:00:00+02:00",
+          "reliability": "audit"
+        }
+      ],
+      "visual": {
+        "status": "portrait-runtime-or-candidate",
+        "policy": "Use only self-created, public-domain, official-use, or license-audited media with attribution captured.",
+        "license": "not bundled; portrait candidates are runtime/audit queue"
+      },
+      "lastCheckedAt": "2026-05-28T12:00:00+02:00",
+      "needsHumanReview": false
+    },
+    {
+      "id": "a-2025-10-09-keir-starmer-global-fintech-mumbai",
+      "personId": "p-keir-starmer",
+      "startsAt": "2025-10-09T14:45:00+05:30",
+      "endsAt": null,
+      "status": "VERIFIED_PAST",
+      "confidence": 0.91,
+      "confidenceLabel": "verified from official PM India or host-public source; time may be normalized when official page gives date only",
+      "eventType": "BILATERAL_PUBLIC_EVENT",
+      "title": "Global Fintech Fest with Narendra Modi in Mumbai",
+      "summary": "PM India’s Maharashtra visit notice and Global Fintech Fest record place Keir Starmer with Narendra Modi at the Mumbai public event.",
+      "significance": "The stop gives the UK prime minister’s trail an India-based bilateral-technology card, not just multilateral summit appearances.",
+      "decisions": "Public materials point to UK-India finance, trade, AI, startup and innovation cooperation, with the festival as the public stage.",
+      "location": {
+        "label": "Jio World Centre public event area",
+        "city": "Mumbai",
+        "countryCode": "IN",
+        "countryName": "India",
+        "lat": 19.055,
+        "lng": 72.8509,
+        "precision": "public_venue_area"
+      },
+      "venuePublic": true,
+      "securityPrecision": "public appearance only; no private stops, hotels, residences, leaked routes or live proximity",
+      "publicInterestScore": 86,
+      "eventGroupId": "eg-global-fintech-mumbai-2025",
+      "topics": [
+        "United Kingdom",
+        "India",
+        "fintech",
+        "AI",
+        "bilateral"
+      ],
+      "counterpartIds": [
+        "p-narendra-modi"
+      ],
+      "sourcePack": [
+        {
+          "label": "PM India: Global Fintech Fest 2025 in Mumbai",
+          "url": "https://www.pmindia.gov.in/en/news_updates/pm-addresses-the-global-fintech-fest-2025-in-mumbai/",
+          "type": "official_or_host",
+          "license": "public web source; rights remain with publisher",
+          "checkedAt": "2026-05-28T12:00:00+02:00",
+          "reliability": "primary"
+        },
+        {
+          "label": "PM India: Maharashtra visit schedule and UK PM participation",
+          "url": "https://www.pmindia.gov.in/en/news_updates/pm-to-visit-maharashtra-on-8-9th-october/",
+          "type": "official_or_host",
+          "license": "public web source; rights remain with publisher",
+          "checkedAt": "2026-05-28T12:00:00+02:00",
+          "reliability": "primary"
+        },
+        {
+          "label": "Geocode audit: OpenStreetMap attribution reference",
+          "url": "https://www.openstreetmap.org/copyright",
+          "type": "geocode_audit",
+          "license": "OpenStreetMap data attribution and geocoding-audit reference",
+          "checkedAt": "2026-05-28T12:00:00+02:00",
+          "reliability": "audit"
+        }
+      ],
+      "visual": {
+        "status": "portrait-runtime-or-candidate",
+        "policy": "Use only self-created, public-domain, official-use, or license-audited media with attribution captured.",
+        "license": "not bundled; portrait candidates are runtime/audit queue"
+      },
+      "lastCheckedAt": "2026-05-28T12:00:00+02:00",
+      "needsHumanReview": false
+    },
+    {
+      "id": "a-2025-10-29-narendra-modi-india-maritime-week-mumbai",
+      "personId": "p-narendra-modi",
+      "startsAt": "2025-10-29T16:00:00+05:30",
+      "endsAt": null,
+      "status": "VERIFIED_PAST",
+      "confidence": 0.88,
+      "confidenceLabel": "verified from official PM India or host-public source; time may be normalized when official page gives date only",
+      "eventType": "PUBLIC_SUMMIT",
+      "title": "India Maritime Week 2025 in Mumbai",
+      "summary": "PM India records Modi addressing the Maritime Leaders Conclave and chairing the Global Maritime CEO Forum in Mumbai.",
+      "significance": "A domestic blue-economy and logistics record: shipping, ports, maritime law, supply chains and CEO diplomacy in one public stop.",
+      "decisions": "Public materials emphasize shipping-sector projects, large memoranda of understanding, maritime capability and India’s role in global supply chains.",
+      "location": {
+        "label": "Mumbai public maritime event area",
+        "city": "Mumbai",
+        "countryCode": "IN",
+        "countryName": "India",
+        "lat": 19.076,
+        "lng": 72.8777,
+        "precision": "city"
+      },
+      "venuePublic": true,
+      "securityPrecision": "public appearance only; no private stops, hotels, residences, leaked routes or live proximity",
+      "publicInterestScore": 83,
+      "eventGroupId": "eg-maritime-week-mumbai-2025",
+      "topics": [
+        "India",
+        "maritime",
+        "ports",
+        "shipping",
+        "supply chains"
+      ],
+      "counterpartIds": [],
+      "sourcePack": [
+        {
+          "label": "PM India: Maritime Leaders Conclave at India Maritime Week 2025",
+          "url": "https://www.pmindia.gov.in/en/news_updates/pm-addresses-maritime-leaders-conclave-at-india-maritime-week-2025-in-mumbai/",
+          "type": "official_or_host",
+          "license": "public web source; rights remain with publisher",
+          "checkedAt": "2026-05-28T12:00:00+02:00",
+          "reliability": "primary"
+        },
+        {
+          "label": "Geocode audit: OpenStreetMap attribution reference",
+          "url": "https://www.openstreetmap.org/copyright",
+          "type": "geocode_audit",
+          "license": "OpenStreetMap data attribution and geocoding-audit reference",
+          "checkedAt": "2026-05-28T12:00:00+02:00",
+          "reliability": "audit"
+        }
+      ],
+      "visual": {
+        "status": "portrait-runtime-or-candidate",
+        "policy": "Use only self-created, public-domain, official-use, or license-audited media with attribution captured.",
+        "license": "not bundled; portrait candidates are runtime/audit queue"
+      },
+      "lastCheckedAt": "2026-05-28T12:00:00+02:00",
+      "needsHumanReview": false
+    },
+    {
+      "id": "a-2026-02-13-narendra-modi-seva-teerth-new-delhi",
+      "personId": "p-narendra-modi",
+      "startsAt": "2026-02-13T12:00:00+05:30",
+      "endsAt": null,
+      "status": "VERIFIED_PAST",
+      "confidence": 0.88,
+      "confidenceLabel": "verified from official PM India or host-public source; time may be normalized when official page gives date only",
+      "eventType": "PUBLIC_CEREMONY",
+      "title": "Seva Teerth and Kartavya Bhavan inauguration event",
+      "summary": "PM India records Modi addressing the inaugural event of Seva Teerth and Kartavya Bhavan-1 & 2 in New Delhi.",
+      "significance": "A domestic governance-infrastructure stop that belongs on the trail because it concerns the administrative center of the Indian government.",
+      "decisions": "Public materials framed the new buildings as citizen-service and governance infrastructure for a developed-India agenda.",
+      "location": {
+        "label": "Kartavya Path / central New Delhi public event area",
+        "city": "New Delhi",
+        "countryCode": "IN",
+        "countryName": "India",
+        "lat": 28.6139,
+        "lng": 77.2295,
+        "precision": "public_venue_area"
+      },
+      "venuePublic": true,
+      "securityPrecision": "public appearance only; no private stops, hotels, residences, leaked routes or live proximity",
+      "publicInterestScore": 78,
+      "eventGroupId": "eg-seva-teerth-new-delhi-2026",
+      "topics": [
+        "India",
+        "governance",
+        "public administration",
+        "infrastructure"
+      ],
+      "counterpartIds": [],
+      "sourcePack": [
+        {
+          "label": "PM India: Seva Teerth and Kartavya Bhavan event",
+          "url": "https://www.pmindia.gov.in/en/news_updates/pm-addresses-the-inaugural-event-of-seva-teerth-and-kartavya-bhavan-1-2-in-new-delhi/",
+          "type": "official_or_host",
+          "license": "public web source; rights remain with publisher",
+          "checkedAt": "2026-05-28T12:00:00+02:00",
+          "reliability": "primary"
+        },
+        {
+          "label": "Geocode audit: OpenStreetMap attribution reference",
+          "url": "https://www.openstreetmap.org/copyright",
+          "type": "geocode_audit",
+          "license": "OpenStreetMap data attribution and geocoding-audit reference",
+          "checkedAt": "2026-05-28T12:00:00+02:00",
+          "reliability": "audit"
+        }
+      ],
+      "visual": {
+        "status": "portrait-runtime-or-candidate",
+        "policy": "Use only self-created, public-domain, official-use, or license-audited media with attribution captured.",
+        "license": "not bundled; portrait candidates are runtime/audit queue"
+      },
+      "lastCheckedAt": "2026-05-28T12:00:00+02:00",
+      "needsHumanReview": false
+    },
+    {
+      "id": "a-2026-02-19-narendra-modi-ai-impact-summit-new-delhi",
+      "personId": "p-narendra-modi",
+      "startsAt": "2026-02-19T09:40:00+05:30",
+      "endsAt": null,
+      "status": "VERIFIED_PAST",
+      "confidence": 0.93,
+      "confidenceLabel": "verified from official PM India or host-public source; time may be normalized when official page gives date only",
+      "eventType": "TECHNOLOGY_SUMMIT",
+      "title": "India AI Impact Summit 2026 inauguration",
+      "summary": "PM India records Modi inaugurating the India AI Impact Summit 2026 at Bharat Mandapam in New Delhi.",
+      "significance": "This is a recent domestic global-technology stop and a useful anchor for future AI diplomacy and standards-watch records.",
+      "decisions": "Public materials emphasized AI as a global common good, inclusion, responsible deployment and India’s technology ecosystem.",
+      "location": {
+        "label": "Bharat Mandapam / Pragati Maidan public event area",
+        "city": "New Delhi",
+        "countryCode": "IN",
+        "countryName": "India",
+        "lat": 28.6139,
+        "lng": 77.243,
+        "precision": "public_venue_area"
+      },
+      "venuePublic": true,
+      "securityPrecision": "public appearance only; no private stops, hotels, residences, leaked routes or live proximity",
+      "publicInterestScore": 91,
+      "eventGroupId": "eg-ai-impact-new-delhi-2026",
+      "topics": [
+        "India",
+        "AI",
+        "technology",
+        "global governance",
+        "summit"
+      ],
+      "counterpartIds": [],
+      "sourcePack": [
+        {
+          "label": "PM India: India AI Impact Summit 2026 inauguration",
+          "url": "https://www.pmindia.gov.in/en/news_updates/pm-inaugurates-india-ai-impact-summit-2026/",
+          "type": "official_or_host",
+          "license": "public web source; rights remain with publisher",
+          "checkedAt": "2026-05-28T12:00:00+02:00",
+          "reliability": "primary"
+        },
+        {
+          "label": "Geocode audit: OpenStreetMap attribution reference",
+          "url": "https://www.openstreetmap.org/copyright",
+          "type": "geocode_audit",
+          "license": "OpenStreetMap data attribution and geocoding-audit reference",
+          "checkedAt": "2026-05-28T12:00:00+02:00",
+          "reliability": "audit"
+        }
+      ],
+      "visual": {
+        "status": "portrait-runtime-or-candidate",
+        "policy": "Use only self-created, public-domain, official-use, or license-audited media with attribution captured.",
+        "license": "not bundled; portrait candidates are runtime/audit queue"
+      },
+      "lastCheckedAt": "2026-05-28T12:00:00+02:00",
+      "needsHumanReview": false
     }
   ],
   "encounters": [
@@ -5439,6 +5998,49 @@
       "summary": "7 tracked public figures share this announced future event cluster: Donald Trump, Emmanuel Macron, Keir Starmer, Friedrich Merz, Giorgia Meloni, Mark Rutte…. Same cluster does not imply a private bilateral unless a source says so.",
       "outcome": "Future cluster: no outcome yet; refresh official pages.",
       "score": 93
+    },
+    {
+      "id": "enc-global-fintech-mumbai-2025",
+      "eventGroupId": "eg-global-fintech-mumbai-2025",
+      "title": "Modi-Starmer Global Fintech Fest overlap in Mumbai",
+      "summary": "Official PM India materials place Narendra Modi and Keir Starmer at Global Fintech Fest 2025 in Mumbai, with public remarks and UK-India finance/technology themes.",
+      "startsAt": "2025-10-09T14:45:00+05:30",
+      "location": {
+        "label": "Jio World Centre public event area",
+        "city": "Mumbai",
+        "countryCode": "IN",
+        "countryName": "India",
+        "lat": 19.055,
+        "lng": 72.8509,
+        "precision": "public_venue_area"
+      },
+      "participantIds": [
+        "p-narendra-modi",
+        "p-keir-starmer"
+      ],
+      "appearanceIds": [
+        "a-2025-10-09-narendra-modi-global-fintech-mumbai",
+        "a-2025-10-09-keir-starmer-global-fintech-mumbai"
+      ],
+      "sourcePack": [
+        {
+          "label": "PM India: Global Fintech Fest 2025 in Mumbai",
+          "url": "https://www.pmindia.gov.in/en/news_updates/pm-addresses-the-global-fintech-fest-2025-in-mumbai/",
+          "type": "official_or_host",
+          "license": "public web source; rights remain with publisher",
+          "checkedAt": "2026-05-28T12:00:00+02:00",
+          "reliability": "primary"
+        },
+        {
+          "label": "PM India: Maharashtra visit schedule and UK PM participation",
+          "url": "https://www.pmindia.gov.in/en/news_updates/pm-to-visit-maharashtra-on-8-9th-october/",
+          "type": "official_or_host",
+          "license": "public web source; rights remain with publisher",
+          "checkedAt": "2026-05-28T12:00:00+02:00",
+          "reliability": "primary"
+        }
+      ],
+      "confidence": 0.92
     }
   ],
   "roster": [

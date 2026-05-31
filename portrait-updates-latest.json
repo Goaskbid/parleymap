@@ -1,27 +1,8 @@
 {
-  "generatedAt": "2026-05-29T09:43:35.936Z",
+  "generatedAt": "2026-05-29T09:42:01.461Z",
   "mode": "dry-run",
-  "contact": "not-configured",
-  "userAgent": "ParleyMapBot/2.4 (+public-source appearance discovery; contact: set-PARLEYMAP_CONTACT)",
-  "windowMonths": 24,
-  "futureDays": 120,
-  "rosterCount": 12,
-  "sourceRegistryVersion": "unknown",
-  "gates": [],
-  "stages": [
-    "review top-200 roster identity fields",
-    "crawl discovery surfaces over 24 months",
-    "stage candidate records",
-    "require primary/host corroboration before map publication",
-    "write source snapshots and queue"
-  ],
-  "counts": {
-    "articlesSeen": 0,
-    "candidates": 0,
-    "staged": 0,
-    "held": 0,
-    "errors": 0
-  },
-  "dryRunNote": "No network calls were made. Use npm run crawl:overnight in GitHub Actions or locally with internet access.",
-  "errors": []
+  "currentRosterSize": 200,
+  "findings": [],
+  "failures": [],
+  "rule": "Daily delta review. Annual full rebuild remains a separate editorial/analytical step so the roster does not churn from one noisy source."
 }

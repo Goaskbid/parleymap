@@ -1,3222 +1,3559 @@
 {
-  "generatedAt": "2026-05-31T19:14:11.626Z",
-  "alerts": 6,
-  "topicTags": 7,
-  "organizations": 8,
-  "eventFamilies": 28,
-  "plannedJobs": 232,
+  "version": "4.0.0",
+  "generatedAt": "2026-05-31T19:14:12.266Z",
+  "priorityPeople": 200,
+  "sourceFamilies": 14,
+  "languages": 12,
+  "plannedJobs": 33600,
+  "alertTypes": [
+    "New attendee announced",
+    "Agenda published",
+    "Speaker added",
+    "Event moved",
+    "Registration opens"
+  ],
+  "topics": [
+    "AI",
+    "Defense",
+    "Inflation",
+    "Energy",
+    "China",
+    "Semiconductors",
+    "Climate",
+    "Debt",
+    "Trade",
+    "Capital",
+    "Health"
+  ],
+  "organizationProfiles": [
+    "BlackRock",
+    "NATO",
+    "IMF",
+    "BIS",
+    "Microsoft",
+    "OpenAI",
+    "Brookings",
+    "Council on Foreign Relations",
+    "World Bank",
+    "OECD",
+    "OPEC",
+    "World Economic Forum"
+  ],
+  "eventOverlapFamilies": [
+    "Davos",
+    "Bilderberg",
+    "Munich",
+    "FII",
+    "Jackson Hole",
+    "IMF / World Bank"
+  ],
+  "currentStaticRecords": {
+    "people": 94,
+    "appearances": 508,
+    "eventAgendas": 35,
+    "encounters": 64,
+    "calls": 12
+  },
   "jobs": [
     {
-      "type": "agenda-change-watch",
-      "eventFamily": "Davos",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Davos",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Davos",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Davos",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Davos",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Davos",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Davos",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Davos",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "Bilderberg",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Bilderberg",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Bilderberg",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Bilderberg",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Bilderberg",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Bilderberg",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Bilderberg",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Bilderberg",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "Munich",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Munich",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Munich",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Munich",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Munich",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Munich",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Munich",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Munich",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "FII",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "FII",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "FII",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "FII",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "FII",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "FII",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "FII",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "FII",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "Jackson Hole",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Jackson Hole",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Jackson Hole",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Jackson Hole",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Jackson Hole",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Jackson Hole",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Jackson Hole",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Jackson Hole",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "IMF / World Bank",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "IMF / World Bank",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "IMF / World Bank",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "IMF / World Bank",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "IMF / World Bank",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "IMF / World Bank",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "IMF / World Bank",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "IMF / World Bank",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "G20",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "G20",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "G20",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "G20",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "G20",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "G20",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "G20",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "G20",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "G7",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "G7",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "G7",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "G7",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "G7",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "G7",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "G7",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "G7",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "NATO",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "NATO",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "NATO",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "NATO",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "NATO",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "NATO",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "NATO",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "NATO",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "COP",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "COP",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "COP",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "COP",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "COP",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "COP",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "COP",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "COP",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "OPEC",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "OPEC",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "OPEC",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "OPEC",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "OPEC",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "OPEC",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "OPEC",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "OPEC",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "BIS",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "BIS",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "BIS",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "BIS",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "BIS",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "BIS",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "BIS",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "BIS",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "ECB Sintra",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "ECB Sintra",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "ECB Sintra",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "ECB Sintra",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "ECB Sintra",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "ECB Sintra",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "ECB Sintra",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "ECB Sintra",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "Sun Valley",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Sun Valley",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Sun Valley",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Sun Valley",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Sun Valley",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Sun Valley",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Sun Valley",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Sun Valley",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "Milken",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Milken",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Milken",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Milken",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Milken",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Milken",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Milken",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Milken",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "Raisina",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Raisina",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Raisina",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Raisina",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Raisina",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Raisina",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Raisina",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Raisina",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "Shangri-La",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Shangri-La",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Shangri-La",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Shangri-La",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Shangri-La",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Shangri-La",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Shangri-La",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Shangri-La",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "APEC",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "APEC",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "APEC",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "APEC",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "APEC",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "APEC",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "APEC",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "APEC",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "BRICS",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "BRICS",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "BRICS",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "BRICS",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "BRICS",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "BRICS",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "BRICS",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "BRICS",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "UNGA",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "UNGA",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "UNGA",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "UNGA",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "UNGA",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "UNGA",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "UNGA",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "UNGA",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "Boao",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Boao",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Boao",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Boao",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Boao",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Boao",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Boao",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Boao",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "Ambrosetti",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Ambrosetti",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Ambrosetti",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Ambrosetti",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Ambrosetti",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Ambrosetti",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Ambrosetti",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Ambrosetti",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "CERAWeek",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "CERAWeek",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "CERAWeek",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "CERAWeek",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "CERAWeek",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "CERAWeek",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "CERAWeek",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "CERAWeek",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "ADIPEC",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "ADIPEC",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "ADIPEC",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "ADIPEC",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "ADIPEC",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "ADIPEC",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "ADIPEC",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "ADIPEC",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "Paris Air Show",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Paris Air Show",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Paris Air Show",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Paris Air Show",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Paris Air Show",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Paris Air Show",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Paris Air Show",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Paris Air Show",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "Farnborough",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Farnborough",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Farnborough",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Farnborough",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Farnborough",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Farnborough",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Farnborough",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Farnborough",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "WTO",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "WTO",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "WTO",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "WTO",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "WTO",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "WTO",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "WTO",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "WTO",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "CES",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "CES",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "CES",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "CES",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "CES",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "CES",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "CES",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "CES",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "organization-penetration",
-      "organization": "BlackRock",
-      "eventFamilies": [
-        "Davos",
-        "Bilderberg",
-        "Munich",
-        "FII",
-        "Jackson Hole",
-        "IMF / World Bank",
-        "G20",
-        "G7",
-        "NATO",
-        "COP",
-        "OPEC",
-        "BIS",
-        "ECB Sintra",
-        "Sun Valley",
-        "Milken",
-        "Raisina",
-        "Shangri-La",
-        "APEC",
-        "BRICS",
-        "UNGA",
-        "Boao",
-        "Ambrosetti",
-        "CERAWeek",
-        "ADIPEC",
-        "Paris Air Show",
-        "Farnborough",
-        "WTO",
-        "CES"
-      ],
-      "output": [
-        "representative",
-        "role",
-        "event",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "organization-penetration",
-      "organization": "NATO",
-      "eventFamilies": [
-        "Davos",
-        "Bilderberg",
-        "Munich",
-        "FII",
-        "Jackson Hole",
-        "IMF / World Bank",
-        "G20",
-        "G7",
-        "NATO",
-        "COP",
-        "OPEC",
-        "BIS",
-        "ECB Sintra",
-        "Sun Valley",
-        "Milken",
-        "Raisina",
-        "Shangri-La",
-        "APEC",
-        "BRICS",
-        "UNGA",
-        "Boao",
-        "Ambrosetti",
-        "CERAWeek",
-        "ADIPEC",
-        "Paris Air Show",
-        "Farnborough",
-        "WTO",
-        "CES"
-      ],
-      "output": [
-        "representative",
-        "role",
-        "event",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "organization-penetration",
-      "organization": "IMF",
-      "eventFamilies": [
-        "Davos",
-        "Bilderberg",
-        "Munich",
-        "FII",
-        "Jackson Hole",
-        "IMF / World Bank",
-        "G20",
-        "G7",
-        "NATO",
-        "COP",
-        "OPEC",
-        "BIS",
-        "ECB Sintra",
-        "Sun Valley",
-        "Milken",
-        "Raisina",
-        "Shangri-La",
-        "APEC",
-        "BRICS",
-        "UNGA",
-        "Boao",
-        "Ambrosetti",
-        "CERAWeek",
-        "ADIPEC",
-        "Paris Air Show",
-        "Farnborough",
-        "WTO",
-        "CES"
-      ],
-      "output": [
-        "representative",
-        "role",
-        "event",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "organization-penetration",
-      "organization": "BIS",
-      "eventFamilies": [
-        "Davos",
-        "Bilderberg",
-        "Munich",
-        "FII",
-        "Jackson Hole",
-        "IMF / World Bank",
-        "G20",
-        "G7",
-        "NATO",
-        "COP",
-        "OPEC",
-        "BIS",
-        "ECB Sintra",
-        "Sun Valley",
-        "Milken",
-        "Raisina",
-        "Shangri-La",
-        "APEC",
-        "BRICS",
-        "UNGA",
-        "Boao",
-        "Ambrosetti",
-        "CERAWeek",
-        "ADIPEC",
-        "Paris Air Show",
-        "Farnborough",
-        "WTO",
-        "CES"
-      ],
-      "output": [
-        "representative",
-        "role",
-        "event",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "organization-penetration",
-      "organization": "Microsoft",
-      "eventFamilies": [
-        "Davos",
-        "Bilderberg",
-        "Munich",
-        "FII",
-        "Jackson Hole",
-        "IMF / World Bank",
-        "G20",
-        "G7",
-        "NATO",
-        "COP",
-        "OPEC",
-        "BIS",
-        "ECB Sintra",
-        "Sun Valley",
-        "Milken",
-        "Raisina",
-        "Shangri-La",
-        "APEC",
-        "BRICS",
-        "UNGA",
-        "Boao",
-        "Ambrosetti",
-        "CERAWeek",
-        "ADIPEC",
-        "Paris Air Show",
-        "Farnborough",
-        "WTO",
-        "CES"
-      ],
-      "output": [
-        "representative",
-        "role",
-        "event",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "organization-penetration",
-      "organization": "OpenAI",
-      "eventFamilies": [
-        "Davos",
-        "Bilderberg",
-        "Munich",
-        "FII",
-        "Jackson Hole",
-        "IMF / World Bank",
-        "G20",
-        "G7",
-        "NATO",
-        "COP",
-        "OPEC",
-        "BIS",
-        "ECB Sintra",
-        "Sun Valley",
-        "Milken",
-        "Raisina",
-        "Shangri-La",
-        "APEC",
-        "BRICS",
-        "UNGA",
-        "Boao",
-        "Ambrosetti",
-        "CERAWeek",
-        "ADIPEC",
-        "Paris Air Show",
-        "Farnborough",
-        "WTO",
-        "CES"
-      ],
-      "output": [
-        "representative",
-        "role",
-        "event",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "organization-penetration",
-      "organization": "Brookings",
-      "eventFamilies": [
-        "Davos",
-        "Bilderberg",
-        "Munich",
-        "FII",
-        "Jackson Hole",
-        "IMF / World Bank",
-        "G20",
-        "G7",
-        "NATO",
-        "COP",
-        "OPEC",
-        "BIS",
-        "ECB Sintra",
-        "Sun Valley",
-        "Milken",
-        "Raisina",
-        "Shangri-La",
-        "APEC",
-        "BRICS",
-        "UNGA",
-        "Boao",
-        "Ambrosetti",
-        "CERAWeek",
-        "ADIPEC",
-        "Paris Air Show",
-        "Farnborough",
-        "WTO",
-        "CES"
-      ],
-      "output": [
-        "representative",
-        "role",
-        "event",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "organization-penetration",
-      "organization": "CFR",
-      "eventFamilies": [
-        "Davos",
-        "Bilderberg",
-        "Munich",
-        "FII",
-        "Jackson Hole",
-        "IMF / World Bank",
-        "G20",
-        "G7",
-        "NATO",
-        "COP",
-        "OPEC",
-        "BIS",
-        "ECB Sintra",
-        "Sun Valley",
-        "Milken",
-        "Raisina",
-        "Shangri-La",
-        "APEC",
-        "BRICS",
-        "UNGA",
-        "Boao",
-        "Ambrosetti",
-        "CERAWeek",
-        "ADIPEC",
-        "Paris Air Show",
-        "Farnborough",
-        "WTO",
-        "CES"
-      ],
-      "output": [
-        "representative",
-        "role",
-        "event",
-        "year",
-        "source URL"
-      ]
+      "person": "Donald Trump",
+      "sourceFamily": "official schedule",
+      "language": "en",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "official schedule",
+      "language": "zh",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "official schedule",
+      "language": "ru",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "official schedule",
+      "language": "ar",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "official schedule",
+      "language": "fr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "official schedule",
+      "language": "de",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "official schedule",
+      "language": "es",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "official schedule",
+      "language": "pt",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "official schedule",
+      "language": "ja",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "official schedule",
+      "language": "ko",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "official schedule",
+      "language": "it",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "official schedule",
+      "language": "tr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "protocol office",
+      "language": "en",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "protocol office",
+      "language": "zh",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "protocol office",
+      "language": "ru",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "protocol office",
+      "language": "ar",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "protocol office",
+      "language": "fr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "protocol office",
+      "language": "de",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "protocol office",
+      "language": "es",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "protocol office",
+      "language": "pt",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "protocol office",
+      "language": "ja",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "protocol office",
+      "language": "ko",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "protocol office",
+      "language": "it",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "protocol office",
+      "language": "tr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "foreign ministry readout",
+      "language": "en",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "foreign ministry readout",
+      "language": "zh",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "foreign ministry readout",
+      "language": "ru",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "foreign ministry readout",
+      "language": "ar",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "foreign ministry readout",
+      "language": "fr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "foreign ministry readout",
+      "language": "de",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "foreign ministry readout",
+      "language": "es",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "foreign ministry readout",
+      "language": "pt",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "foreign ministry readout",
+      "language": "ja",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "foreign ministry readout",
+      "language": "ko",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "foreign ministry readout",
+      "language": "it",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "foreign ministry readout",
+      "language": "tr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "central bank speech page",
+      "language": "en",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "central bank speech page",
+      "language": "zh",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "central bank speech page",
+      "language": "ru",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "central bank speech page",
+      "language": "ar",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "central bank speech page",
+      "language": "fr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "central bank speech page",
+      "language": "de",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "central bank speech page",
+      "language": "es",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "central bank speech page",
+      "language": "pt",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "central bank speech page",
+      "language": "ja",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "central bank speech page",
+      "language": "ko",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "central bank speech page",
+      "language": "it",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "central bank speech page",
+      "language": "tr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "summit participant list",
+      "language": "en",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "summit participant list",
+      "language": "zh",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "summit participant list",
+      "language": "ru",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "summit participant list",
+      "language": "ar",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "summit participant list",
+      "language": "fr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "summit participant list",
+      "language": "de",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "summit participant list",
+      "language": "es",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "summit participant list",
+      "language": "pt",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "summit participant list",
+      "language": "ja",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "summit participant list",
+      "language": "ko",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "summit participant list",
+      "language": "it",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "summit participant list",
+      "language": "tr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "event agenda PDF",
+      "language": "en",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "event agenda PDF",
+      "language": "zh",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "event agenda PDF",
+      "language": "ru",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "event agenda PDF",
+      "language": "ar",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "event agenda PDF",
+      "language": "fr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "event agenda PDF",
+      "language": "de",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "event agenda PDF",
+      "language": "es",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "event agenda PDF",
+      "language": "pt",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "event agenda PDF",
+      "language": "ja",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "event agenda PDF",
+      "language": "ko",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "event agenda PDF",
+      "language": "it",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "event agenda PDF",
+      "language": "tr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "speaker list",
+      "language": "en",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "speaker list",
+      "language": "zh",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "speaker list",
+      "language": "ru",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "speaker list",
+      "language": "ar",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "speaker list",
+      "language": "fr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "speaker list",
+      "language": "de",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "speaker list",
+      "language": "es",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "speaker list",
+      "language": "pt",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "speaker list",
+      "language": "ja",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "speaker list",
+      "language": "ko",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "speaker list",
+      "language": "it",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "speaker list",
+      "language": "tr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "university event page",
+      "language": "en",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "university event page",
+      "language": "zh",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "university event page",
+      "language": "ru",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "university event page",
+      "language": "ar",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "university event page",
+      "language": "fr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "university event page",
+      "language": "de",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "university event page",
+      "language": "es",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "university event page",
+      "language": "pt",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "university event page",
+      "language": "ja",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "university event page",
+      "language": "ko",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "university event page",
+      "language": "it",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "university event page",
+      "language": "tr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "think tank event",
+      "language": "en",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "think tank event",
+      "language": "zh",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "think tank event",
+      "language": "ru",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "think tank event",
+      "language": "ar",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "think tank event",
+      "language": "fr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "think tank event",
+      "language": "de",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "think tank event",
+      "language": "es",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "think tank event",
+      "language": "pt",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "think tank event",
+      "language": "ja",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "think tank event",
+      "language": "ko",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "think tank event",
+      "language": "it",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "think tank event",
+      "language": "tr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "corporate IR event",
+      "language": "en",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "corporate IR event",
+      "language": "zh",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "corporate IR event",
+      "language": "ru",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "corporate IR event",
+      "language": "ar",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "corporate IR event",
+      "language": "fr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "corporate IR event",
+      "language": "de",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "corporate IR event",
+      "language": "es",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "corporate IR event",
+      "language": "pt",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "corporate IR event",
+      "language": "ja",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "corporate IR event",
+      "language": "ko",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "corporate IR event",
+      "language": "it",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "corporate IR event",
+      "language": "tr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "verified social lead",
+      "language": "en",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "verified social lead",
+      "language": "zh",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "verified social lead",
+      "language": "ru",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "verified social lead",
+      "language": "ar",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "verified social lead",
+      "language": "fr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "verified social lead",
+      "language": "de",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "verified social lead",
+      "language": "es",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "verified social lead",
+      "language": "pt",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "verified social lead",
+      "language": "ja",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "verified social lead",
+      "language": "ko",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "verified social lead",
+      "language": "it",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "verified social lead",
+      "language": "tr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "local media lead",
+      "language": "en",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "local media lead",
+      "language": "zh",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "local media lead",
+      "language": "ru",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "local media lead",
+      "language": "ar",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "local media lead",
+      "language": "fr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "local media lead",
+      "language": "de",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "local media lead",
+      "language": "es",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "local media lead",
+      "language": "pt",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "local media lead",
+      "language": "ja",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "local media lead",
+      "language": "ko",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "local media lead",
+      "language": "it",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "local media lead",
+      "language": "tr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "public gallery or livestream metadata",
+      "language": "en",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "public gallery or livestream metadata",
+      "language": "zh",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "public gallery or livestream metadata",
+      "language": "ru",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "public gallery or livestream metadata",
+      "language": "ar",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "public gallery or livestream metadata",
+      "language": "fr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "public gallery or livestream metadata",
+      "language": "de",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "public gallery or livestream metadata",
+      "language": "es",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "public gallery or livestream metadata",
+      "language": "pt",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "public gallery or livestream metadata",
+      "language": "ja",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "public gallery or livestream metadata",
+      "language": "ko",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "public gallery or livestream metadata",
+      "language": "it",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "public gallery or livestream metadata",
+      "language": "tr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "organization profile page",
+      "language": "en",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "organization profile page",
+      "language": "zh",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "organization profile page",
+      "language": "ru",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "organization profile page",
+      "language": "ar",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "organization profile page",
+      "language": "fr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "organization profile page",
+      "language": "de",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "organization profile page",
+      "language": "es",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "organization profile page",
+      "language": "pt",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "organization profile page",
+      "language": "ja",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "organization profile page",
+      "language": "ko",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "organization profile page",
+      "language": "it",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Donald Trump",
+      "sourceFamily": "organization profile page",
+      "language": "tr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "official schedule",
+      "language": "en",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "official schedule",
+      "language": "zh",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "official schedule",
+      "language": "ru",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "official schedule",
+      "language": "ar",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "official schedule",
+      "language": "fr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "official schedule",
+      "language": "de",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "official schedule",
+      "language": "es",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "official schedule",
+      "language": "pt",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "official schedule",
+      "language": "ja",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "official schedule",
+      "language": "ko",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "official schedule",
+      "language": "it",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "official schedule",
+      "language": "tr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "protocol office",
+      "language": "en",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "protocol office",
+      "language": "zh",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "protocol office",
+      "language": "ru",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "protocol office",
+      "language": "ar",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "protocol office",
+      "language": "fr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "protocol office",
+      "language": "de",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "protocol office",
+      "language": "es",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "protocol office",
+      "language": "pt",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "protocol office",
+      "language": "ja",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "protocol office",
+      "language": "ko",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "protocol office",
+      "language": "it",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "protocol office",
+      "language": "tr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "foreign ministry readout",
+      "language": "en",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "foreign ministry readout",
+      "language": "zh",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "foreign ministry readout",
+      "language": "ru",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "foreign ministry readout",
+      "language": "ar",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "foreign ministry readout",
+      "language": "fr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "foreign ministry readout",
+      "language": "de",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "foreign ministry readout",
+      "language": "es",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "foreign ministry readout",
+      "language": "pt",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "foreign ministry readout",
+      "language": "ja",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "foreign ministry readout",
+      "language": "ko",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "foreign ministry readout",
+      "language": "it",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "foreign ministry readout",
+      "language": "tr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "central bank speech page",
+      "language": "en",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "central bank speech page",
+      "language": "zh",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "central bank speech page",
+      "language": "ru",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "central bank speech page",
+      "language": "ar",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "central bank speech page",
+      "language": "fr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "central bank speech page",
+      "language": "de",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "central bank speech page",
+      "language": "es",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "central bank speech page",
+      "language": "pt",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "central bank speech page",
+      "language": "ja",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "central bank speech page",
+      "language": "ko",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "central bank speech page",
+      "language": "it",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "central bank speech page",
+      "language": "tr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "summit participant list",
+      "language": "en",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "summit participant list",
+      "language": "zh",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "summit participant list",
+      "language": "ru",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "summit participant list",
+      "language": "ar",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "summit participant list",
+      "language": "fr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "summit participant list",
+      "language": "de",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "summit participant list",
+      "language": "es",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "summit participant list",
+      "language": "pt",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "summit participant list",
+      "language": "ja",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "summit participant list",
+      "language": "ko",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "summit participant list",
+      "language": "it",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "summit participant list",
+      "language": "tr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "event agenda PDF",
+      "language": "en",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "event agenda PDF",
+      "language": "zh",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "event agenda PDF",
+      "language": "ru",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "event agenda PDF",
+      "language": "ar",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "event agenda PDF",
+      "language": "fr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "event agenda PDF",
+      "language": "de",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "event agenda PDF",
+      "language": "es",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "event agenda PDF",
+      "language": "pt",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "event agenda PDF",
+      "language": "ja",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "event agenda PDF",
+      "language": "ko",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "event agenda PDF",
+      "language": "it",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "event agenda PDF",
+      "language": "tr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "speaker list",
+      "language": "en",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "speaker list",
+      "language": "zh",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "speaker list",
+      "language": "ru",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "speaker list",
+      "language": "ar",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "speaker list",
+      "language": "fr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "speaker list",
+      "language": "de",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "speaker list",
+      "language": "es",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "speaker list",
+      "language": "pt",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "speaker list",
+      "language": "ja",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "speaker list",
+      "language": "ko",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "speaker list",
+      "language": "it",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "speaker list",
+      "language": "tr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "university event page",
+      "language": "en",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "university event page",
+      "language": "zh",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "university event page",
+      "language": "ru",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "university event page",
+      "language": "ar",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "university event page",
+      "language": "fr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "university event page",
+      "language": "de",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "university event page",
+      "language": "es",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "university event page",
+      "language": "pt",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "university event page",
+      "language": "ja",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "university event page",
+      "language": "ko",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "university event page",
+      "language": "it",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "university event page",
+      "language": "tr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "think tank event",
+      "language": "en",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "think tank event",
+      "language": "zh",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "think tank event",
+      "language": "ru",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "think tank event",
+      "language": "ar",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "think tank event",
+      "language": "fr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "think tank event",
+      "language": "de",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "think tank event",
+      "language": "es",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "think tank event",
+      "language": "pt",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "think tank event",
+      "language": "ja",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "think tank event",
+      "language": "ko",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "think tank event",
+      "language": "it",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "think tank event",
+      "language": "tr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "corporate IR event",
+      "language": "en",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "corporate IR event",
+      "language": "zh",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "corporate IR event",
+      "language": "ru",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "corporate IR event",
+      "language": "ar",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "corporate IR event",
+      "language": "fr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "corporate IR event",
+      "language": "de",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "corporate IR event",
+      "language": "es",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "corporate IR event",
+      "language": "pt",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "corporate IR event",
+      "language": "ja",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "corporate IR event",
+      "language": "ko",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "corporate IR event",
+      "language": "it",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "corporate IR event",
+      "language": "tr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "verified social lead",
+      "language": "en",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "verified social lead",
+      "language": "zh",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "verified social lead",
+      "language": "ru",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "verified social lead",
+      "language": "ar",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "verified social lead",
+      "language": "fr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "verified social lead",
+      "language": "de",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "verified social lead",
+      "language": "es",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "verified social lead",
+      "language": "pt",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "verified social lead",
+      "language": "ja",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "verified social lead",
+      "language": "ko",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "verified social lead",
+      "language": "it",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "verified social lead",
+      "language": "tr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "local media lead",
+      "language": "en",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "local media lead",
+      "language": "zh",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "local media lead",
+      "language": "ru",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "local media lead",
+      "language": "ar",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "local media lead",
+      "language": "fr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "local media lead",
+      "language": "de",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "local media lead",
+      "language": "es",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "local media lead",
+      "language": "pt",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "local media lead",
+      "language": "ja",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "local media lead",
+      "language": "ko",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "local media lead",
+      "language": "it",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "local media lead",
+      "language": "tr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "public gallery or livestream metadata",
+      "language": "en",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "public gallery or livestream metadata",
+      "language": "zh",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "public gallery or livestream metadata",
+      "language": "ru",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "public gallery or livestream metadata",
+      "language": "ar",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "public gallery or livestream metadata",
+      "language": "fr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "public gallery or livestream metadata",
+      "language": "de",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "public gallery or livestream metadata",
+      "language": "es",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "public gallery or livestream metadata",
+      "language": "pt",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "public gallery or livestream metadata",
+      "language": "ja",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "public gallery or livestream metadata",
+      "language": "ko",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "public gallery or livestream metadata",
+      "language": "it",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "public gallery or livestream metadata",
+      "language": "tr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "organization profile page",
+      "language": "en",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "organization profile page",
+      "language": "zh",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "organization profile page",
+      "language": "ru",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "organization profile page",
+      "language": "ar",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "organization profile page",
+      "language": "fr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "organization profile page",
+      "language": "de",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "organization profile page",
+      "language": "es",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "organization profile page",
+      "language": "pt",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "organization profile page",
+      "language": "ja",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "organization profile page",
+      "language": "ko",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "organization profile page",
+      "language": "it",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Xi Jinping",
+      "sourceFamily": "organization profile page",
+      "language": "tr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "official schedule",
+      "language": "en",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "official schedule",
+      "language": "zh",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "official schedule",
+      "language": "ru",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "official schedule",
+      "language": "ar",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "official schedule",
+      "language": "fr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "official schedule",
+      "language": "de",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "official schedule",
+      "language": "es",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "official schedule",
+      "language": "pt",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "official schedule",
+      "language": "ja",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "official schedule",
+      "language": "ko",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "official schedule",
+      "language": "it",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "official schedule",
+      "language": "tr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "protocol office",
+      "language": "en",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "protocol office",
+      "language": "zh",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "protocol office",
+      "language": "ru",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "protocol office",
+      "language": "ar",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "protocol office",
+      "language": "fr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "protocol office",
+      "language": "de",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "protocol office",
+      "language": "es",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "protocol office",
+      "language": "pt",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "protocol office",
+      "language": "ja",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "protocol office",
+      "language": "ko",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "protocol office",
+      "language": "it",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "protocol office",
+      "language": "tr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "foreign ministry readout",
+      "language": "en",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "foreign ministry readout",
+      "language": "zh",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "foreign ministry readout",
+      "language": "ru",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "foreign ministry readout",
+      "language": "ar",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "foreign ministry readout",
+      "language": "fr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "foreign ministry readout",
+      "language": "de",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "foreign ministry readout",
+      "language": "es",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "foreign ministry readout",
+      "language": "pt",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "foreign ministry readout",
+      "language": "ja",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "foreign ministry readout",
+      "language": "ko",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "foreign ministry readout",
+      "language": "it",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "foreign ministry readout",
+      "language": "tr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 80
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "central bank speech page",
+      "language": "en",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "central bank speech page",
+      "language": "zh",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "central bank speech page",
+      "language": "ru",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "central bank speech page",
+      "language": "ar",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "central bank speech page",
+      "language": "fr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "central bank speech page",
+      "language": "de",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "central bank speech page",
+      "language": "es",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "central bank speech page",
+      "language": "pt",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "central bank speech page",
+      "language": "ja",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "central bank speech page",
+      "language": "ko",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "central bank speech page",
+      "language": "it",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "central bank speech page",
+      "language": "tr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "summit participant list",
+      "language": "en",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "summit participant list",
+      "language": "zh",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "summit participant list",
+      "language": "ru",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "summit participant list",
+      "language": "ar",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "summit participant list",
+      "language": "fr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "summit participant list",
+      "language": "de",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "summit participant list",
+      "language": "es",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "summit participant list",
+      "language": "pt",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "summit participant list",
+      "language": "ja",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "summit participant list",
+      "language": "ko",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "summit participant list",
+      "language": "it",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "summit participant list",
+      "language": "tr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "event agenda PDF",
+      "language": "en",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "event agenda PDF",
+      "language": "zh",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "event agenda PDF",
+      "language": "ru",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "event agenda PDF",
+      "language": "ar",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "event agenda PDF",
+      "language": "fr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "event agenda PDF",
+      "language": "de",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "event agenda PDF",
+      "language": "es",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "event agenda PDF",
+      "language": "pt",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "event agenda PDF",
+      "language": "ja",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "event agenda PDF",
+      "language": "ko",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "event agenda PDF",
+      "language": "it",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "event agenda PDF",
+      "language": "tr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "speaker list",
+      "language": "en",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "speaker list",
+      "language": "zh",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "speaker list",
+      "language": "ru",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "speaker list",
+      "language": "ar",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "speaker list",
+      "language": "fr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "speaker list",
+      "language": "de",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "speaker list",
+      "language": "es",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "speaker list",
+      "language": "pt",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "speaker list",
+      "language": "ja",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "speaker list",
+      "language": "ko",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "speaker list",
+      "language": "it",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "speaker list",
+      "language": "tr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "university event page",
+      "language": "en",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "university event page",
+      "language": "zh",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "university event page",
+      "language": "ru",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "university event page",
+      "language": "ar",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "university event page",
+      "language": "fr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "university event page",
+      "language": "de",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "university event page",
+      "language": "es",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "university event page",
+      "language": "pt",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "university event page",
+      "language": "ja",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "university event page",
+      "language": "ko",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "university event page",
+      "language": "it",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "university event page",
+      "language": "tr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "think tank event",
+      "language": "en",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "think tank event",
+      "language": "zh",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "think tank event",
+      "language": "ru",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "think tank event",
+      "language": "ar",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "think tank event",
+      "language": "fr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "think tank event",
+      "language": "de",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "think tank event",
+      "language": "es",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "think tank event",
+      "language": "pt",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "think tank event",
+      "language": "ja",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "think tank event",
+      "language": "ko",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "think tank event",
+      "language": "it",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "think tank event",
+      "language": "tr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "corporate IR event",
+      "language": "en",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "corporate IR event",
+      "language": "zh",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "corporate IR event",
+      "language": "ru",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "corporate IR event",
+      "language": "ar",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "corporate IR event",
+      "language": "fr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "corporate IR event",
+      "language": "de",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "corporate IR event",
+      "language": "es",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "corporate IR event",
+      "language": "pt",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "corporate IR event",
+      "language": "ja",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "corporate IR event",
+      "language": "ko",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "corporate IR event",
+      "language": "it",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "corporate IR event",
+      "language": "tr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "verified social lead",
+      "language": "en",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "verified social lead",
+      "language": "zh",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "verified social lead",
+      "language": "ru",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "verified social lead",
+      "language": "ar",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "verified social lead",
+      "language": "fr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "verified social lead",
+      "language": "de",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "verified social lead",
+      "language": "es",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "verified social lead",
+      "language": "pt",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "verified social lead",
+      "language": "ja",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "verified social lead",
+      "language": "ko",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "verified social lead",
+      "language": "it",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "verified social lead",
+      "language": "tr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "local media lead",
+      "language": "en",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "local media lead",
+      "language": "zh",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "local media lead",
+      "language": "ru",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "local media lead",
+      "language": "ar",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "local media lead",
+      "language": "fr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "local media lead",
+      "language": "de",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "local media lead",
+      "language": "es",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "local media lead",
+      "language": "pt",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "local media lead",
+      "language": "ja",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "local media lead",
+      "language": "ko",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "local media lead",
+      "language": "it",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "local media lead",
+      "language": "tr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "public gallery or livestream metadata",
+      "language": "en",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "public gallery or livestream metadata",
+      "language": "zh",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "public gallery or livestream metadata",
+      "language": "ru",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "public gallery or livestream metadata",
+      "language": "ar",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "public gallery or livestream metadata",
+      "language": "fr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "public gallery or livestream metadata",
+      "language": "de",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "public gallery or livestream metadata",
+      "language": "es",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "public gallery or livestream metadata",
+      "language": "pt",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "public gallery or livestream metadata",
+      "language": "ja",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "public gallery or livestream metadata",
+      "language": "ko",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "public gallery or livestream metadata",
+      "language": "it",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "public gallery or livestream metadata",
+      "language": "tr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "organization profile page",
+      "language": "en",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "organization profile page",
+      "language": "zh",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "organization profile page",
+      "language": "ru",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "organization profile page",
+      "language": "ar",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "organization profile page",
+      "language": "fr",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "organization profile page",
+      "language": "de",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "organization profile page",
+      "language": "es",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
+    },
+    {
+      "person": "Vladimir Putin",
+      "sourceFamily": "organization profile page",
+      "language": "pt",
+      "output": "person-event edge, alert, topic tag, organization edge",
+      "confidenceFloor": 60
     }
   ]
 }

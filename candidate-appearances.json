@@ -1,1 +1,104 @@
-[]
+{
+  "generatedAt": "2026-05-29T09:49:52.366Z",
+  "dryRun": true,
+  "updateSite": false,
+  "since": "2024-05-29",
+  "until": "2026-09-26",
+  "sources": [
+    {
+      "id": "eu-commission-calendar",
+      "name": "European Commission calendar items",
+      "url": "https://commission.europa.eu/about/organisation/college-commissioners/calendar-items-president-and-commissioners_en",
+      "status": "planned: dry-run did not fetch network source",
+      "candidates": 0
+    },
+    {
+      "id": "eu-individual-calendars",
+      "name": "European Commission individual calendars",
+      "url": "https://commission.europa.eu/about/organisation/college-commissioners/individual-calendars-president-and-commissioners_en",
+      "status": "planned: dry-run did not fetch network source",
+      "candidates": 0
+    },
+    {
+      "id": "royal-diary-future",
+      "name": "UK Royal Diary future engagements",
+      "url": "https://www.royal.uk/media-centre/future-engagements",
+      "status": "planned: dry-run did not fetch network source",
+      "candidates": 0
+    },
+    {
+      "id": "royal-court-circular",
+      "name": "UK Court Circular past engagements",
+      "url": "https://www.royal.uk/media-centre/court-circulars",
+      "status": "planned: dry-run did not fetch network source",
+      "candidates": 0
+    },
+    {
+      "id": "us-state-public-schedule",
+      "name": "U.S. State Department public schedule",
+      "url": "https://www.state.gov/public-schedule/",
+      "status": "planned: dry-run did not fetch network source",
+      "candidates": 0
+    },
+    {
+      "id": "white-house-news",
+      "name": "White House official news and videos",
+      "url": "https://www.whitehouse.gov/",
+      "status": "planned: dry-run did not fetch network source",
+      "candidates": 0
+    },
+    {
+      "id": "pm-india-news",
+      "name": "Prime Minister of India official news updates",
+      "url": "https://www.pmindia.gov.in/en/news_updates/",
+      "status": "planned: dry-run did not fetch network source",
+      "candidates": 0
+    },
+    {
+      "id": "kremlin-events",
+      "name": "Kremlin official events",
+      "url": "http://en.kremlin.ru/events/president/news",
+      "status": "planned: dry-run did not fetch network source",
+      "candidates": 0
+    },
+    {
+      "id": "china-mfa-news",
+      "name": "China MFA top news",
+      "url": "https://www.mfa.gov.cn/eng/xw/zyxw/",
+      "status": "planned: dry-run did not fetch network source",
+      "candidates": 0
+    },
+    {
+      "id": "nato-news-events",
+      "name": "NATO news and summit pages",
+      "url": "https://www.nato.int/cps/en/natohq/news.htm",
+      "status": "planned: dry-run did not fetch network source",
+      "candidates": 0
+    },
+    {
+      "id": "un-secretary-general",
+      "name": "UN Secretary-General press releases",
+      "url": "https://www.un.org/sg/en/latest/sg/press-release",
+      "status": "planned: dry-run did not fetch network source",
+      "candidates": 0
+    },
+    {
+      "id": "wef-events",
+      "name": "World Economic Forum events and press material",
+      "url": "https://www.weforum.org/events/",
+      "status": "planned: dry-run did not fetch network source",
+      "candidates": 0
+    },
+    {
+      "id": "gdelt-discovery",
+      "name": "GDELT discovery layer",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc",
+      "status": "planned: dry-run did not fetch network source",
+      "candidates": 0
+    }
+  ],
+  "candidates": 0,
+  "promoted": 0,
+  "portraitUpdates": 0,
+  "errors": []
+}
