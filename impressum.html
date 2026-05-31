@@ -1,1 +1,30 @@
-parleymap.com
+# ParleyMap GitHub Pages 404 repair
+
+The live repository currently has two deployment-breaking files:
+
+- `index.html` is the small corrections page instead of the ParleyMap app.
+- `CNAME` is empty instead of containing `parleymap.com`.
+
+Upload the contents of this folder directly into the repository root. Do not upload the zip itself. Do not place the files inside a folder.
+
+Files included:
+
+- `index.html` - the ParleyMap app homepage
+- `CNAME` - contains `parleymap.com`
+- `.nojekyll` - disables Jekyll processing
+- `404.html` - lightweight redirect back to the homepage
+- `impressum.html`
+- `privacy.html`
+- `corrections.html`
+- `data/operator.json`
+
+After uploading:
+
+1. Commit directly to `main`.
+2. Go to Settings > Pages.
+3. Source: Deploy from a branch.
+4. Branch: `main` and folder `/ (root)`.
+5. Custom domain: `parleymap.com`.
+6. Save.
+7. Wait for the Pages build to finish.
+8. Open `https://parleymap.com/?repair=501`.
