@@ -1,55 +1,74 @@
-name: Nightly public-source refresh and deploy
-
-on:
-  schedule:
-    - cron: "17 2 * * *"
-  workflow_dispatch:
-
-permissions:
-  contents: write
-  pages: write
-  id-token: write
-
-concurrency:
-  group: parleymap-nightly-refresh
-  cancel-in-progress: false
-
-jobs:
-  refresh-build-deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - name: Run 24-month public-source crawler and future scan
-        env:
-          PARLEYMAP_USER_AGENT: ${{ secrets.PARLEYMAP_USER_AGENT }}
-          GDELT_API_KEY: ${{ secrets.GDELT_API_KEY }}
-          PARLEYMAP_MAX_ROSTER: "200"
-          PARLEYMAP_MAX_PER_PERSON: "25"
-        run: npm run crawl:nightly
-      - name: Review top-200 roster
-        env:
-          PARLEYMAP_USER_AGENT: ${{ secrets.PARLEYMAP_USER_AGENT }}
-        run: npm run roster:review || true
-      - name: Validate and build standalone page
-        run: npm run check
-      - name: Commit refreshed data and build
-        run: |
-          git config user.name "parleymap-bot"
-          git config user.email "parleymap-bot@users.noreply.github.com"
-          git add data index.html docs recovery MANIFEST.txt README.md
-          git commit -m "Nightly ParleyMap public-source refresh" || echo "No generated changes to commit"
-          git push || echo "Push skipped or not permitted"
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: .
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+{
+  "version": "4.0.0",
+  "alertTypes": [
+    "New attendee announced",
+    "Agenda published",
+    "Speaker added",
+    "Event moved",
+    "Registration opens"
+  ],
+  "topics": [
+    "AI",
+    "Defense",
+    "Inflation",
+    "Energy",
+    "China",
+    "Semiconductors",
+    "Climate",
+    "Debt",
+    "Trade",
+    "Capital",
+    "Health"
+  ],
+  "organizationProfiles": [
+    "BlackRock",
+    "NATO",
+    "IMF",
+    "BIS",
+    "Microsoft",
+    "OpenAI",
+    "Brookings",
+    "Council on Foreign Relations",
+    "World Bank",
+    "OECD",
+    "OPEC",
+    "World Economic Forum"
+  ],
+  "eventOverlapFamilies": [
+    "Davos",
+    "Bilderberg",
+    "Munich",
+    "FII",
+    "Jackson Hole",
+    "IMF / World Bank"
+  ],
+  "powerGeography": [
+    "Zurich",
+    "Geneva",
+    "Basel",
+    "Washington",
+    "Brussels",
+    "London",
+    "Riyadh",
+    "Abu Dhabi",
+    "Beijing",
+    "New York",
+    "Paris",
+    "Davos",
+    "Munich",
+    "Singapore"
+  ],
+  "crawlerFields": [
+    "event",
+    "person",
+    "organization",
+    "role",
+    "year",
+    "speaker_or_attendee",
+    "source_url",
+    "topic",
+    "theme",
+    "location",
+    "confidence"
+  ]
+}

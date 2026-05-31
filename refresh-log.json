@@ -1,10 +1,15 @@
-export const gdeltDiscoveryConnector = {
-  id: "gdelt-discovery",
-  label: "GDELT event and story discovery",
-  priority: "secondary-discovery-only",
-  cadence: "daily",
-  notes: "Use news discovery to propose candidate events. Do not publish records from news discovery alone unless editorial policy explicitly allows it and confidence is high.",
-  async discover() {
-    return [];
-  }
-};
+import fs from "node:fs";
+
+export function loadSourceRegistry(file = "data/source-registry.json") {
+  const registry = JSON.parse(fs.readFileSync(file, "utf8"));
+  if (!Array.isArray(registry.sources)) throw new Error("source registry missing sources array");
+  return registry;
+}
+
+export function officialSources(registry) {
+  return (registry.sources || []).filter((source) => /official|host/i.test(source.type || ""));
+}
+
+export function discoverySources(registry) {
+  return (registry.sources || []).filter((source) => /discovery/i.test(source.type || ""));
+}

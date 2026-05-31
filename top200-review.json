@@ -1,22 +1,39 @@
 {
-  "generatedAt": "2026-05-29T09:41:05.977Z",
-  "rosterSize": 200,
-  "mappedRosterProfiles": 22,
-  "top20Mapped": 15,
-  "imageHydration": "Runtime Wikimedia pageimage hydration is enabled for every roster item with a wikiTitle; production should cache and audit portraits.",
-  "reviewPolicy": "Daily drift check; monthly high-calibre additions; annual full rebuild; immediate review when a head of state/government, monarch, foreign minister, central banker, multilateral head or major CEO changes role.",
-  "issues": [
+  "generatedAt": "2026-05-29T09:43:35.936Z",
+  "windowMonths": 24,
+  "futureDays": 120,
+  "preview": [
     {
-      "type": "missing_birth_date",
-      "name": "Dario Amodei"
+      "person": "Donald Trump",
+      "query": "(\"Donald Trump\" OR \"United States government\") (\"meeting\" OR \"meets\" OR \"met\" OR \"visit\" OR \"visits\" OR \"visited\" OR \"summit\" OR \"conference\" OR \"state visit\" OR \"bilateral\" OR \"attends\" OR \"addressed\" OR \"opened\" OR \"forum\" OR \"talks\")"
     },
     {
-      "type": "missing_birth_date",
-      "name": "C. C. Wei"
+      "person": "Xi Jinping",
+      "query": "(\"Xi Jinping\" OR \"People’s Republic of China\") (\"meeting\" OR \"meets\" OR \"met\" OR \"visit\" OR \"visits\" OR \"visited\" OR \"summit\" OR \"conference\" OR \"state visit\" OR \"bilateral\" OR \"attends\" OR \"addressed\" OR \"opened\" OR \"forum\" OR \"talks\")"
     },
     {
-      "type": "missing_birth_date",
-      "name": "Wael Sawan"
+      "person": "Vladimir Putin",
+      "query": "(\"Vladimir Putin\" OR \"Russian Federation\") (\"meeting\" OR \"meets\" OR \"met\" OR \"visit\" OR \"visits\" OR \"visited\" OR \"summit\" OR \"conference\" OR \"state visit\" OR \"bilateral\" OR \"attends\" OR \"addressed\" OR \"opened\" OR \"forum\" OR \"talks\")"
+    },
+    {
+      "person": "Elon Musk",
+      "query": "(\"Elon Musk\" OR \"Tesla / SpaceX / X / xAI\") (\"meeting\" OR \"meets\" OR \"met\" OR \"visit\" OR \"visits\" OR \"visited\" OR \"summit\" OR \"conference\" OR \"state visit\" OR \"bilateral\" OR \"attends\" OR \"addressed\" OR \"opened\" OR \"forum\" OR \"talks\")"
+    },
+    {
+      "person": "Narendra Modi",
+      "query": "(\"Narendra Modi\" OR \"Government of India\") (\"meeting\" OR \"meets\" OR \"met\" OR \"visit\" OR \"visits\" OR \"visited\" OR \"summit\" OR \"conference\" OR \"state visit\" OR \"bilateral\" OR \"attends\" OR \"addressed\" OR \"opened\" OR \"forum\" OR \"talks\")"
+    },
+    {
+      "person": "Ursula von der Leyen",
+      "query": "(\"Ursula von der Leyen\" OR \"European Commission\") (\"meeting\" OR \"meets\" OR \"met\" OR \"visit\" OR \"visits\" OR \"visited\" OR \"summit\" OR \"conference\" OR \"state visit\" OR \"bilateral\" OR \"attends\" OR \"addressed\" OR \"opened\" OR \"forum\" OR \"talks\")"
+    },
+    {
+      "person": "Kaja Kallas",
+      "query": "(\"Kaja Kallas\" OR \"European Union external action\") (\"meeting\" OR \"meets\" OR \"met\" OR \"visit\" OR \"visits\" OR \"visited\" OR \"summit\" OR \"conference\" OR \"state visit\" OR \"bilateral\" OR \"attends\" OR \"addressed\" OR \"opened\" OR \"forum\" OR \"talks\")"
+    },
+    {
+      "person": "Friedrich Merz",
+      "query": "(\"Friedrich Merz\" OR \"Germany\") (\"meeting\" OR \"meets\" OR \"met\" OR \"visit\" OR \"visits\" OR \"visited\" OR \"summit\" OR \"conference\" OR \"state visit\" OR \"bilateral\" OR \"attends\" OR \"addressed\" OR \"opened\" OR \"forum\" OR \"talks\")"
     }
   ]
 }

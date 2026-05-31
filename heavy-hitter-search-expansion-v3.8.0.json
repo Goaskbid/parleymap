@@ -1,1 +1,3312 @@
-[]
+{
+  "generatedAt": "2026-05-30T09:02:01.128Z",
+  "people": 68,
+  "sources": 26,
+  "plannedJobs": 367,
+  "jobs": [
+    {
+      "person": "Wang Yi",
+      "countryFocus": "CN",
+      "source": "China MFA minister activities",
+      "url": "https://www.mfa.gov.cn/eng/wjbzhd/",
+      "mode": "official_activity_index",
+      "cadence": "nightly",
+      "reason": "named-source match"
+    },
+    {
+      "person": "Wang Yi",
+      "countryFocus": "CN",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Wang Yi",
+      "countryFocus": "CN",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Wang Yi",
+      "countryFocus": "CN",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Wang Yi",
+      "countryFocus": "CN",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Subrahmanyam Jaishankar",
+      "countryFocus": "IN",
+      "source": "India MEA External Affairs Minister visits",
+      "url": "https://www.mea.gov.in/eam-visits.htm",
+      "mode": "official_travel_index",
+      "cadence": "nightly",
+      "reason": "named-source match"
+    },
+    {
+      "person": "Subrahmanyam Jaishankar",
+      "countryFocus": "IN",
+      "source": "MEA visits index",
+      "url": "https://www.mea.gov.in/visits.htm",
+      "mode": "official_travel_index",
+      "cadence": "nightly",
+      "reason": "named-source match"
+    },
+    {
+      "person": "Christine Lagarde",
+      "countryFocus": "DE",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Christine Lagarde",
+      "countryFocus": "DE",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Christine Lagarde",
+      "countryFocus": "DE",
+      "source": "BIS speeches index",
+      "url": "https://www.bis.org/speeches/index.htm",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "named-source match"
+    },
+    {
+      "person": "Christine Lagarde",
+      "countryFocus": "DE",
+      "source": "Federal Reserve speeches",
+      "url": "https://www.federalreserve.gov/newsevents/speeches.htm",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Christine Lagarde",
+      "countryFocus": "DE",
+      "source": "ECB speeches and interviews",
+      "url": "https://www.ecb.europa.eu/press/key/html/index.en.html",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "country/source match"
+    },
+    {
+      "person": "Christine Lagarde",
+      "countryFocus": "DE",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Christine Lagarde",
+      "countryFocus": "DE",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "named-source match"
+    },
+    {
+      "person": "Jerome Powell",
+      "countryFocus": "US",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Jerome Powell",
+      "countryFocus": "US",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Jerome Powell",
+      "countryFocus": "US",
+      "source": "BIS speeches index",
+      "url": "https://www.bis.org/speeches/index.htm",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "named-source match"
+    },
+    {
+      "person": "Jerome Powell",
+      "countryFocus": "US",
+      "source": "Federal Reserve speeches",
+      "url": "https://www.federalreserve.gov/newsevents/speeches.htm",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "country/source match"
+    },
+    {
+      "person": "Jerome Powell",
+      "countryFocus": "US",
+      "source": "ECB speeches and interviews",
+      "url": "https://www.ecb.europa.eu/press/key/html/index.en.html",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Jerome Powell",
+      "countryFocus": "US",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Jerome Powell",
+      "countryFocus": "US",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "named-source match"
+    },
+    {
+      "person": "JD Vance",
+      "countryFocus": "US",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "JD Vance",
+      "countryFocus": "US",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "JD Vance",
+      "countryFocus": "US",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "JD Vance",
+      "countryFocus": "US",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Marco Rubio",
+      "countryFocus": "US",
+      "source": "U.S. Secretary of State countries visited and mileage",
+      "url": "https://www.state.gov/secretary-rubios-countries-visited-and-mileage/",
+      "mode": "official_travel_index",
+      "cadence": "nightly",
+      "reason": "named-source match"
+    },
+    {
+      "person": "Marco Rubio",
+      "countryFocus": "US",
+      "source": "U.S. Secretary of State trip releases",
+      "url": "https://www.state.gov/secretary-of-states-trip-releases/",
+      "mode": "official_travel_index",
+      "cadence": "nightly",
+      "reason": "named-source match"
+    },
+    {
+      "person": "Marco Rubio",
+      "countryFocus": "US",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Marco Rubio",
+      "countryFocus": "US",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Marco Rubio",
+      "countryFocus": "US",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Marco Rubio",
+      "countryFocus": "US",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Sheikh Mansour bin Zayed Al Nahyan",
+      "countryFocus": "AE",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Sheikh Mansour bin Zayed Al Nahyan",
+      "countryFocus": "AE",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Sheikh Mansour bin Zayed Al Nahyan",
+      "countryFocus": "AE",
+      "source": "UAE MOFA media hub",
+      "url": "https://www.mofa.gov.ae/en/mediahub/news",
+      "mode": "official_activity_index",
+      "cadence": "nightly",
+      "reason": "country/source match"
+    },
+    {
+      "person": "Sheikh Mansour bin Zayed Al Nahyan",
+      "countryFocus": "AE",
+      "source": "BIS speeches index",
+      "url": "https://www.bis.org/speeches/index.htm",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Sheikh Mansour bin Zayed Al Nahyan",
+      "countryFocus": "AE",
+      "source": "Federal Reserve speeches",
+      "url": "https://www.federalreserve.gov/newsevents/speeches.htm",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Sheikh Mansour bin Zayed Al Nahyan",
+      "countryFocus": "AE",
+      "source": "ECB speeches and interviews",
+      "url": "https://www.ecb.europa.eu/press/key/html/index.en.html",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Sheikh Mansour bin Zayed Al Nahyan",
+      "countryFocus": "AE",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Sheikh Mansour bin Zayed Al Nahyan",
+      "countryFocus": "AE",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "named-source match"
+    },
+    {
+      "person": "Yasir Al-Rumayyan",
+      "countryFocus": "SA",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Yasir Al-Rumayyan",
+      "countryFocus": "SA",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Yasir Al-Rumayyan",
+      "countryFocus": "SA",
+      "source": "Saudi Ministry of Foreign Affairs news",
+      "url": "https://www.mofa.gov.sa/en/ministry/news/Pages/default.aspx",
+      "mode": "official_activity_index",
+      "cadence": "nightly",
+      "reason": "country/source match"
+    },
+    {
+      "person": "Yasir Al-Rumayyan",
+      "countryFocus": "SA",
+      "source": "BIS speeches index",
+      "url": "https://www.bis.org/speeches/index.htm",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Yasir Al-Rumayyan",
+      "countryFocus": "SA",
+      "source": "Federal Reserve speeches",
+      "url": "https://www.federalreserve.gov/newsevents/speeches.htm",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Yasir Al-Rumayyan",
+      "countryFocus": "SA",
+      "source": "ECB speeches and interviews",
+      "url": "https://www.ecb.europa.eu/press/key/html/index.en.html",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Yasir Al-Rumayyan",
+      "countryFocus": "SA",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Yasir Al-Rumayyan",
+      "countryFocus": "SA",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "named-source match"
+    },
+    {
+      "person": "Sergey Lavrov",
+      "countryFocus": "RU",
+      "source": "Russian MFA Lavrov speeches and remarks",
+      "url": "https://www.mid.ru/en/press_service/minister_speeches/",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "named-source match"
+    },
+    {
+      "person": "Sergey Lavrov",
+      "countryFocus": "RU",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Sergey Lavrov",
+      "countryFocus": "RU",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Sergey Lavrov",
+      "countryFocus": "RU",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Sergey Lavrov",
+      "countryFocus": "RU",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Yvette Cooper",
+      "countryFocus": "GB",
+      "source": "UK FCDO ministerial transparency data",
+      "url": "https://www.gov.uk/government/collections/ministerial-transparency-data",
+      "mode": "official_travel_index",
+      "cadence": "nightly",
+      "reason": "country/source match"
+    },
+    {
+      "person": "Yvette Cooper",
+      "countryFocus": "GB",
+      "source": "UK FCDO news and speeches",
+      "url": "https://www.gov.uk/government/organisations/foreign-commonwealth-development-office",
+      "mode": "official_activity_index",
+      "cadence": "nightly",
+      "reason": "country/source match"
+    },
+    {
+      "person": "Yvette Cooper",
+      "countryFocus": "GB",
+      "source": "Rothschild & Co newsroom",
+      "url": "https://www.rothschildandco.com/en/newsroom/",
+      "mode": "official_activity_index",
+      "cadence": "nightly",
+      "reason": "country/source match"
+    },
+    {
+      "person": "Jean-Noël Barrot",
+      "countryFocus": "FR",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Jean-Noël Barrot",
+      "countryFocus": "FR",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Jean-Noël Barrot",
+      "countryFocus": "FR",
+      "source": "Rothschild & Co newsroom",
+      "url": "https://www.rothschildandco.com/en/newsroom/",
+      "mode": "official_activity_index",
+      "cadence": "nightly",
+      "reason": "country/source match"
+    },
+    {
+      "person": "Jean-Noël Barrot",
+      "countryFocus": "FR",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Jean-Noël Barrot",
+      "countryFocus": "FR",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Johann Wadephul",
+      "countryFocus": "DE",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Johann Wadephul",
+      "countryFocus": "DE",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Johann Wadephul",
+      "countryFocus": "DE",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Johann Wadephul",
+      "countryFocus": "DE",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Antonio Tajani",
+      "countryFocus": "IT",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Antonio Tajani",
+      "countryFocus": "IT",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Antonio Tajani",
+      "countryFocus": "IT",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Antonio Tajani",
+      "countryFocus": "IT",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Demis Hassabis",
+      "countryFocus": "UN",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Demis Hassabis",
+      "countryFocus": "UN",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Demis Hassabis",
+      "countryFocus": "UN",
+      "source": "UN Secretary-General travel and meetings",
+      "url": "https://www.un.org/sg/en/latest/sg/travels",
+      "mode": "official_travel_index",
+      "cadence": "nightly",
+      "reason": "country/source match"
+    },
+    {
+      "person": "Demis Hassabis",
+      "countryFocus": "UN",
+      "source": "BIS speeches index",
+      "url": "https://www.bis.org/speeches/index.htm",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "named-source match"
+    },
+    {
+      "person": "Demis Hassabis",
+      "countryFocus": "UN",
+      "source": "Federal Reserve speeches",
+      "url": "https://www.federalreserve.gov/newsevents/speeches.htm",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Demis Hassabis",
+      "countryFocus": "UN",
+      "source": "ECB speeches and interviews",
+      "url": "https://www.ecb.europa.eu/press/key/html/index.en.html",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Demis Hassabis",
+      "countryFocus": "UN",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Demis Hassabis",
+      "countryFocus": "UN",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Anita Anand",
+      "countryFocus": "CA",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Anita Anand",
+      "countryFocus": "CA",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Anita Anand",
+      "countryFocus": "CA",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Anita Anand",
+      "countryFocus": "CA",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Hakan Fidan",
+      "countryFocus": "TR",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Hakan Fidan",
+      "countryFocus": "TR",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Hakan Fidan",
+      "countryFocus": "TR",
+      "source": "Türkiye MFA news",
+      "url": "https://www.mfa.gov.tr/default.en.mfa",
+      "mode": "official_activity_index",
+      "cadence": "nightly",
+      "reason": "country/source match"
+    },
+    {
+      "person": "Hakan Fidan",
+      "countryFocus": "TR",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Hakan Fidan",
+      "countryFocus": "TR",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Faisal bin Farhan Al Saud",
+      "countryFocus": "SA",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Faisal bin Farhan Al Saud",
+      "countryFocus": "SA",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Faisal bin Farhan Al Saud",
+      "countryFocus": "SA",
+      "source": "Saudi Ministry of Foreign Affairs news",
+      "url": "https://www.mofa.gov.sa/en/ministry/news/Pages/default.aspx",
+      "mode": "official_activity_index",
+      "cadence": "nightly",
+      "reason": "country/source match"
+    },
+    {
+      "person": "Faisal bin Farhan Al Saud",
+      "countryFocus": "SA",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Faisal bin Farhan Al Saud",
+      "countryFocus": "SA",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Abbas Araghchi",
+      "countryFocus": "IR",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Abbas Araghchi",
+      "countryFocus": "IR",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Abbas Araghchi",
+      "countryFocus": "IR",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Abbas Araghchi",
+      "countryFocus": "IR",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Mauro Vieira",
+      "countryFocus": "BR",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Mauro Vieira",
+      "countryFocus": "BR",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Mauro Vieira",
+      "countryFocus": "BR",
+      "source": "Brazil Itamaraty press area",
+      "url": "https://www.gov.br/mre/en/contact-us/press-area",
+      "mode": "official_activity_index",
+      "cadence": "nightly",
+      "reason": "country/source match"
+    },
+    {
+      "person": "Mauro Vieira",
+      "countryFocus": "BR",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Mauro Vieira",
+      "countryFocus": "BR",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Ronald Lamola",
+      "countryFocus": "ZA",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Ronald Lamola",
+      "countryFocus": "ZA",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Ronald Lamola",
+      "countryFocus": "ZA",
+      "source": "South Africa DIRCO media statements",
+      "url": "https://dirco.gov.za/media-statements/",
+      "mode": "official_activity_index",
+      "cadence": "nightly",
+      "reason": "country/source match"
+    },
+    {
+      "person": "Ronald Lamola",
+      "countryFocus": "ZA",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Ronald Lamola",
+      "countryFocus": "ZA",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Børge Brende",
+      "countryFocus": "UN",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Børge Brende",
+      "countryFocus": "UN",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Børge Brende",
+      "countryFocus": "UN",
+      "source": "UN Secretary-General travel and meetings",
+      "url": "https://www.un.org/sg/en/latest/sg/travels",
+      "mode": "official_travel_index",
+      "cadence": "nightly",
+      "reason": "country/source match"
+    },
+    {
+      "person": "Børge Brende",
+      "countryFocus": "UN",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "named-source match"
+    },
+    {
+      "person": "Børge Brende",
+      "countryFocus": "UN",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Klaus Schwab",
+      "countryFocus": "UN",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Klaus Schwab",
+      "countryFocus": "UN",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Klaus Schwab",
+      "countryFocus": "UN",
+      "source": "UN Secretary-General travel and meetings",
+      "url": "https://www.un.org/sg/en/latest/sg/travels",
+      "mode": "official_travel_index",
+      "cadence": "nightly",
+      "reason": "country/source match"
+    },
+    {
+      "person": "Klaus Schwab",
+      "countryFocus": "UN",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "named-source match"
+    },
+    {
+      "person": "Klaus Schwab",
+      "countryFocus": "UN",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Mario Draghi",
+      "countryFocus": "UN",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Mario Draghi",
+      "countryFocus": "UN",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Mario Draghi",
+      "countryFocus": "UN",
+      "source": "UN Secretary-General travel and meetings",
+      "url": "https://www.un.org/sg/en/latest/sg/travels",
+      "mode": "official_travel_index",
+      "cadence": "nightly",
+      "reason": "country/source match"
+    },
+    {
+      "person": "Mario Draghi",
+      "countryFocus": "UN",
+      "source": "BIS speeches index",
+      "url": "https://www.bis.org/speeches/index.htm",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "named-source match"
+    },
+    {
+      "person": "Mario Draghi",
+      "countryFocus": "UN",
+      "source": "Federal Reserve speeches",
+      "url": "https://www.federalreserve.gov/newsevents/speeches.htm",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Mario Draghi",
+      "countryFocus": "UN",
+      "source": "ECB speeches and interviews",
+      "url": "https://www.ecb.europa.eu/press/key/html/index.en.html",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "named-source match"
+    },
+    {
+      "person": "Mario Draghi",
+      "countryFocus": "UN",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Mario Draghi",
+      "countryFocus": "UN",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "named-source match"
+    },
+    {
+      "person": "Mélanie Joly",
+      "countryFocus": "CA",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Mélanie Joly",
+      "countryFocus": "CA",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Mélanie Joly",
+      "countryFocus": "CA",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Mélanie Joly",
+      "countryFocus": "CA",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Prince Rahim Aga Khan V",
+      "countryFocus": "AKDN",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Prince Rahim Aga Khan V",
+      "countryFocus": "AKDN",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Prince Rahim Aga Khan V",
+      "countryFocus": "AKDN",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Prince Rahim Aga Khan V",
+      "countryFocus": "AKDN",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Alexandre de Rothschild",
+      "countryFocus": "FR",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Alexandre de Rothschild",
+      "countryFocus": "FR",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Alexandre de Rothschild",
+      "countryFocus": "FR",
+      "source": "BIS speeches index",
+      "url": "https://www.bis.org/speeches/index.htm",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Alexandre de Rothschild",
+      "countryFocus": "FR",
+      "source": "Federal Reserve speeches",
+      "url": "https://www.federalreserve.gov/newsevents/speeches.htm",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Alexandre de Rothschild",
+      "countryFocus": "FR",
+      "source": "ECB speeches and interviews",
+      "url": "https://www.ecb.europa.eu/press/key/html/index.en.html",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Alexandre de Rothschild",
+      "countryFocus": "FR",
+      "source": "Rothschild & Co newsroom",
+      "url": "https://www.rothschildandco.com/en/newsroom/",
+      "mode": "official_activity_index",
+      "cadence": "nightly",
+      "reason": "country/source match"
+    },
+    {
+      "person": "Alexandre de Rothschild",
+      "countryFocus": "FR",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Alexandre de Rothschild",
+      "countryFocus": "FR",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "named-source match"
+    },
+    {
+      "person": "Penny Wong",
+      "countryFocus": "AU",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Penny Wong",
+      "countryFocus": "AU",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Penny Wong",
+      "countryFocus": "AU",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Penny Wong",
+      "countryFocus": "AU",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Henri de Castries",
+      "countryFocus": "FR",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "named-source match"
+    },
+    {
+      "person": "Henri de Castries",
+      "countryFocus": "FR",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Henri de Castries",
+      "countryFocus": "FR",
+      "source": "Rothschild & Co newsroom",
+      "url": "https://www.rothschildandco.com/en/newsroom/",
+      "mode": "official_activity_index",
+      "cadence": "nightly",
+      "reason": "country/source match"
+    },
+    {
+      "person": "Henri de Castries",
+      "countryFocus": "FR",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Henri de Castries",
+      "countryFocus": "FR",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "John Williams",
+      "countryFocus": "US",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "John Williams",
+      "countryFocus": "US",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "John Williams",
+      "countryFocus": "US",
+      "source": "BIS speeches index",
+      "url": "https://www.bis.org/speeches/index.htm",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "named-source match"
+    },
+    {
+      "person": "John Williams",
+      "countryFocus": "US",
+      "source": "Federal Reserve speeches",
+      "url": "https://www.federalreserve.gov/newsevents/speeches.htm",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "country/source match"
+    },
+    {
+      "person": "John Williams",
+      "countryFocus": "US",
+      "source": "ECB speeches and interviews",
+      "url": "https://www.ecb.europa.eu/press/key/html/index.en.html",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "John Williams",
+      "countryFocus": "US",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "John Williams",
+      "countryFocus": "US",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "named-source match"
+    },
+    {
+      "person": "François Villeroy de Galhau",
+      "countryFocus": "FR",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "François Villeroy de Galhau",
+      "countryFocus": "FR",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "François Villeroy de Galhau",
+      "countryFocus": "FR",
+      "source": "BIS speeches index",
+      "url": "https://www.bis.org/speeches/index.htm",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "named-source match"
+    },
+    {
+      "person": "François Villeroy de Galhau",
+      "countryFocus": "FR",
+      "source": "Federal Reserve speeches",
+      "url": "https://www.federalreserve.gov/newsevents/speeches.htm",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "François Villeroy de Galhau",
+      "countryFocus": "FR",
+      "source": "ECB speeches and interviews",
+      "url": "https://www.ecb.europa.eu/press/key/html/index.en.html",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "François Villeroy de Galhau",
+      "countryFocus": "FR",
+      "source": "Rothschild & Co newsroom",
+      "url": "https://www.rothschildandco.com/en/newsroom/",
+      "mode": "official_activity_index",
+      "cadence": "nightly",
+      "reason": "country/source match"
+    },
+    {
+      "person": "François Villeroy de Galhau",
+      "countryFocus": "FR",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "François Villeroy de Galhau",
+      "countryFocus": "FR",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "named-source match"
+    },
+    {
+      "person": "Takeshi Iwaya",
+      "countryFocus": "JP",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Takeshi Iwaya",
+      "countryFocus": "JP",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Takeshi Iwaya",
+      "countryFocus": "JP",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Takeshi Iwaya",
+      "countryFocus": "JP",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Radoslaw Sikorski",
+      "countryFocus": "PL",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Radoslaw Sikorski",
+      "countryFocus": "PL",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Radoslaw Sikorski",
+      "countryFocus": "PL",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Radoslaw Sikorski",
+      "countryFocus": "PL",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Elina Valtonen",
+      "countryFocus": "FI",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Elina Valtonen",
+      "countryFocus": "FI",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Elina Valtonen",
+      "countryFocus": "FI",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Elina Valtonen",
+      "countryFocus": "FI",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Lars Lokke Rasmussen",
+      "countryFocus": "DK",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Lars Lokke Rasmussen",
+      "countryFocus": "DK",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Lars Lokke Rasmussen",
+      "countryFocus": "DK",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Lars Lokke Rasmussen",
+      "countryFocus": "DK",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Winston Peters",
+      "countryFocus": "NZ",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Winston Peters",
+      "countryFocus": "NZ",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Winston Peters",
+      "countryFocus": "NZ",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Winston Peters",
+      "countryFocus": "NZ",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Enrique Manalo",
+      "countryFocus": "PH",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Enrique Manalo",
+      "countryFocus": "PH",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Enrique Manalo",
+      "countryFocus": "PH",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Enrique Manalo",
+      "countryFocus": "PH",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "George Yeo",
+      "countryFocus": "SG",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "named-source match"
+    },
+    {
+      "person": "George Yeo",
+      "countryFocus": "SG",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "George Yeo",
+      "countryFocus": "SG",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "George Yeo",
+      "countryFocus": "SG",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Klaas Knot",
+      "countryFocus": "NL",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Klaas Knot",
+      "countryFocus": "NL",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Klaas Knot",
+      "countryFocus": "NL",
+      "source": "BIS speeches index",
+      "url": "https://www.bis.org/speeches/index.htm",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "named-source match"
+    },
+    {
+      "person": "Klaas Knot",
+      "countryFocus": "NL",
+      "source": "Federal Reserve speeches",
+      "url": "https://www.federalreserve.gov/newsevents/speeches.htm",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Klaas Knot",
+      "countryFocus": "NL",
+      "source": "ECB speeches and interviews",
+      "url": "https://www.ecb.europa.eu/press/key/html/index.en.html",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Klaas Knot",
+      "countryFocus": "NL",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Klaas Knot",
+      "countryFocus": "NL",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "named-source match"
+    },
+    {
+      "person": "Lesetja Kganyago",
+      "countryFocus": "ZA",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Lesetja Kganyago",
+      "countryFocus": "ZA",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Lesetja Kganyago",
+      "countryFocus": "ZA",
+      "source": "South Africa DIRCO media statements",
+      "url": "https://dirco.gov.za/media-statements/",
+      "mode": "official_activity_index",
+      "cadence": "nightly",
+      "reason": "country/source match"
+    },
+    {
+      "person": "Lesetja Kganyago",
+      "countryFocus": "ZA",
+      "source": "BIS speeches index",
+      "url": "https://www.bis.org/speeches/index.htm",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "named-source match"
+    },
+    {
+      "person": "Lesetja Kganyago",
+      "countryFocus": "ZA",
+      "source": "Federal Reserve speeches",
+      "url": "https://www.federalreserve.gov/newsevents/speeches.htm",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Lesetja Kganyago",
+      "countryFocus": "ZA",
+      "source": "ECB speeches and interviews",
+      "url": "https://www.ecb.europa.eu/press/key/html/index.en.html",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Lesetja Kganyago",
+      "countryFocus": "ZA",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Lesetja Kganyago",
+      "countryFocus": "ZA",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "named-source match"
+    },
+    {
+      "person": "Rahim Aga Khan V",
+      "countryFocus": "CH",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Rahim Aga Khan V",
+      "countryFocus": "CH",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Rahim Aga Khan V",
+      "countryFocus": "CH",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Rahim Aga Khan V",
+      "countryFocus": "CH",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Raghuram Rajan",
+      "countryFocus": "IN",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Raghuram Rajan",
+      "countryFocus": "IN",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Raghuram Rajan",
+      "countryFocus": "IN",
+      "source": "BIS speeches index",
+      "url": "https://www.bis.org/speeches/index.htm",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "named-source match"
+    },
+    {
+      "person": "Raghuram Rajan",
+      "countryFocus": "IN",
+      "source": "Federal Reserve speeches",
+      "url": "https://www.federalreserve.gov/newsevents/speeches.htm",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Raghuram Rajan",
+      "countryFocus": "IN",
+      "source": "ECB speeches and interviews",
+      "url": "https://www.ecb.europa.eu/press/key/html/index.en.html",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Raghuram Rajan",
+      "countryFocus": "IN",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Raghuram Rajan",
+      "countryFocus": "IN",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "named-source match"
+    },
+    {
+      "person": "Tharman Shanmugaratnam",
+      "countryFocus": "SG",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Tharman Shanmugaratnam",
+      "countryFocus": "SG",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Tharman Shanmugaratnam",
+      "countryFocus": "SG",
+      "source": "BIS speeches index",
+      "url": "https://www.bis.org/speeches/index.htm",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Tharman Shanmugaratnam",
+      "countryFocus": "SG",
+      "source": "Federal Reserve speeches",
+      "url": "https://www.federalreserve.gov/newsevents/speeches.htm",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Tharman Shanmugaratnam",
+      "countryFocus": "SG",
+      "source": "ECB speeches and interviews",
+      "url": "https://www.ecb.europa.eu/press/key/html/index.en.html",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Tharman Shanmugaratnam",
+      "countryFocus": "SG",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Tharman Shanmugaratnam",
+      "countryFocus": "SG",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "named-source match"
+    },
+    {
+      "person": "Andrew Bailey",
+      "countryFocus": "GB",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Andrew Bailey",
+      "countryFocus": "GB",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Andrew Bailey",
+      "countryFocus": "GB",
+      "source": "UK FCDO ministerial transparency data",
+      "url": "https://www.gov.uk/government/collections/ministerial-transparency-data",
+      "mode": "official_travel_index",
+      "cadence": "nightly",
+      "reason": "country/source match"
+    },
+    {
+      "person": "Andrew Bailey",
+      "countryFocus": "GB",
+      "source": "UK FCDO news and speeches",
+      "url": "https://www.gov.uk/government/organisations/foreign-commonwealth-development-office",
+      "mode": "official_activity_index",
+      "cadence": "nightly",
+      "reason": "country/source match"
+    },
+    {
+      "person": "Andrew Bailey",
+      "countryFocus": "GB",
+      "source": "BIS speeches index",
+      "url": "https://www.bis.org/speeches/index.htm",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "named-source match"
+    },
+    {
+      "person": "Andrew Bailey",
+      "countryFocus": "GB",
+      "source": "Federal Reserve speeches",
+      "url": "https://www.federalreserve.gov/newsevents/speeches.htm",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Andrew Bailey",
+      "countryFocus": "GB",
+      "source": "ECB speeches and interviews",
+      "url": "https://www.ecb.europa.eu/press/key/html/index.en.html",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Andrew Bailey",
+      "countryFocus": "GB",
+      "source": "Rothschild & Co newsroom",
+      "url": "https://www.rothschildandco.com/en/newsroom/",
+      "mode": "official_activity_index",
+      "cadence": "nightly",
+      "reason": "country/source match"
+    },
+    {
+      "person": "Andrew Bailey",
+      "countryFocus": "GB",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Andrew Bailey",
+      "countryFocus": "GB",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "named-source match"
+    },
+    {
+      "person": "Kazuo Ueda",
+      "countryFocus": "JP",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Kazuo Ueda",
+      "countryFocus": "JP",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Kazuo Ueda",
+      "countryFocus": "JP",
+      "source": "BIS speeches index",
+      "url": "https://www.bis.org/speeches/index.htm",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "named-source match"
+    },
+    {
+      "person": "Kazuo Ueda",
+      "countryFocus": "JP",
+      "source": "Federal Reserve speeches",
+      "url": "https://www.federalreserve.gov/newsevents/speeches.htm",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Kazuo Ueda",
+      "countryFocus": "JP",
+      "source": "ECB speeches and interviews",
+      "url": "https://www.ecb.europa.eu/press/key/html/index.en.html",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Kazuo Ueda",
+      "countryFocus": "JP",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Kazuo Ueda",
+      "countryFocus": "JP",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "named-source match"
+    },
+    {
+      "person": "Tiff Macklem",
+      "countryFocus": "CA",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Tiff Macklem",
+      "countryFocus": "CA",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Tiff Macklem",
+      "countryFocus": "CA",
+      "source": "BIS speeches index",
+      "url": "https://www.bis.org/speeches/index.htm",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "named-source match"
+    },
+    {
+      "person": "Tiff Macklem",
+      "countryFocus": "CA",
+      "source": "Federal Reserve speeches",
+      "url": "https://www.federalreserve.gov/newsevents/speeches.htm",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Tiff Macklem",
+      "countryFocus": "CA",
+      "source": "ECB speeches and interviews",
+      "url": "https://www.ecb.europa.eu/press/key/html/index.en.html",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Tiff Macklem",
+      "countryFocus": "CA",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Tiff Macklem",
+      "countryFocus": "CA",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "named-source match"
+    },
+    {
+      "person": "Joachim Nagel",
+      "countryFocus": "DE",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Joachim Nagel",
+      "countryFocus": "DE",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Joachim Nagel",
+      "countryFocus": "DE",
+      "source": "BIS speeches index",
+      "url": "https://www.bis.org/speeches/index.htm",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "named-source match"
+    },
+    {
+      "person": "Joachim Nagel",
+      "countryFocus": "DE",
+      "source": "Federal Reserve speeches",
+      "url": "https://www.federalreserve.gov/newsevents/speeches.htm",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Joachim Nagel",
+      "countryFocus": "DE",
+      "source": "ECB speeches and interviews",
+      "url": "https://www.ecb.europa.eu/press/key/html/index.en.html",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "country/source match"
+    },
+    {
+      "person": "Joachim Nagel",
+      "countryFocus": "DE",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Joachim Nagel",
+      "countryFocus": "DE",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "named-source match"
+    },
+    {
+      "person": "Pablo Hernández de Cos",
+      "countryFocus": "ES",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Pablo Hernández de Cos",
+      "countryFocus": "ES",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Pablo Hernández de Cos",
+      "countryFocus": "ES",
+      "source": "BIS speeches index",
+      "url": "https://www.bis.org/speeches/index.htm",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "named-source match"
+    },
+    {
+      "person": "Pablo Hernández de Cos",
+      "countryFocus": "ES",
+      "source": "Federal Reserve speeches",
+      "url": "https://www.federalreserve.gov/newsevents/speeches.htm",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Pablo Hernández de Cos",
+      "countryFocus": "ES",
+      "source": "ECB speeches and interviews",
+      "url": "https://www.ecb.europa.eu/press/key/html/index.en.html",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Pablo Hernández de Cos",
+      "countryFocus": "ES",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Pablo Hernández de Cos",
+      "countryFocus": "ES",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "named-source match"
+    },
+    {
+      "person": "Jens Stoltenberg",
+      "countryFocus": "NO",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Jens Stoltenberg",
+      "countryFocus": "NO",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Jens Stoltenberg",
+      "countryFocus": "NO",
+      "source": "BIS speeches index",
+      "url": "https://www.bis.org/speeches/index.htm",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Jens Stoltenberg",
+      "countryFocus": "NO",
+      "source": "Federal Reserve speeches",
+      "url": "https://www.federalreserve.gov/newsevents/speeches.htm",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Jens Stoltenberg",
+      "countryFocus": "NO",
+      "source": "ECB speeches and interviews",
+      "url": "https://www.ecb.europa.eu/press/key/html/index.en.html",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Jens Stoltenberg",
+      "countryFocus": "NO",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Jens Stoltenberg",
+      "countryFocus": "NO",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "named-source match"
+    },
+    {
+      "person": "Radosław Sikorski",
+      "countryFocus": "PL",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Radosław Sikorski",
+      "countryFocus": "PL",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Radosław Sikorski",
+      "countryFocus": "PL",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Radosław Sikorski",
+      "countryFocus": "PL",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Marie-Josée Kravis",
+      "countryFocus": "US",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "named-source match"
+    },
+    {
+      "person": "Marie-Josée Kravis",
+      "countryFocus": "US",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Marie-Josée Kravis",
+      "countryFocus": "US",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Marie-Josée Kravis",
+      "countryFocus": "US",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Ariane de Rothschild",
+      "countryFocus": "CH",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Ariane de Rothschild",
+      "countryFocus": "CH",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Ariane de Rothschild",
+      "countryFocus": "CH",
+      "source": "BIS speeches index",
+      "url": "https://www.bis.org/speeches/index.htm",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Ariane de Rothschild",
+      "countryFocus": "CH",
+      "source": "Federal Reserve speeches",
+      "url": "https://www.federalreserve.gov/newsevents/speeches.htm",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Ariane de Rothschild",
+      "countryFocus": "CH",
+      "source": "ECB speeches and interviews",
+      "url": "https://www.ecb.europa.eu/press/key/html/index.en.html",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Ariane de Rothschild",
+      "countryFocus": "CH",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Ariane de Rothschild",
+      "countryFocus": "CH",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "named-source match"
+    },
+    {
+      "person": "Sheikh Tahnoun bin Zayed Al Nahyan",
+      "countryFocus": "AE",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Sheikh Tahnoun bin Zayed Al Nahyan",
+      "countryFocus": "AE",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Sheikh Tahnoun bin Zayed Al Nahyan",
+      "countryFocus": "AE",
+      "source": "UAE MOFA media hub",
+      "url": "https://www.mofa.gov.ae/en/mediahub/news",
+      "mode": "official_activity_index",
+      "cadence": "nightly",
+      "reason": "country/source match"
+    },
+    {
+      "person": "Sheikh Tahnoun bin Zayed Al Nahyan",
+      "countryFocus": "AE",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Sheikh Tahnoun bin Zayed Al Nahyan",
+      "countryFocus": "AE",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Khaldoon Al Mubarak",
+      "countryFocus": "AE",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Khaldoon Al Mubarak",
+      "countryFocus": "AE",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Khaldoon Al Mubarak",
+      "countryFocus": "AE",
+      "source": "UAE MOFA media hub",
+      "url": "https://www.mofa.gov.ae/en/mediahub/news",
+      "mode": "official_activity_index",
+      "cadence": "nightly",
+      "reason": "country/source match"
+    },
+    {
+      "person": "Khaldoon Al Mubarak",
+      "countryFocus": "AE",
+      "source": "BIS speeches index",
+      "url": "https://www.bis.org/speeches/index.htm",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Khaldoon Al Mubarak",
+      "countryFocus": "AE",
+      "source": "Federal Reserve speeches",
+      "url": "https://www.federalreserve.gov/newsevents/speeches.htm",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Khaldoon Al Mubarak",
+      "countryFocus": "AE",
+      "source": "ECB speeches and interviews",
+      "url": "https://www.ecb.europa.eu/press/key/html/index.en.html",
+      "mode": "official_speech_index",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Khaldoon Al Mubarak",
+      "countryFocus": "AE",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Khaldoon Al Mubarak",
+      "countryFocus": "AE",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "named-source match"
+    },
+    {
+      "person": "Haitham Al Ghais",
+      "countryFocus": "KW",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Haitham Al Ghais",
+      "countryFocus": "KW",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Haitham Al Ghais",
+      "countryFocus": "KW",
+      "source": "OPEC press room",
+      "url": "https://www.opec.org/opec_web/en/press_room/28.htm",
+      "mode": "official_activity_index",
+      "cadence": "nightly",
+      "reason": "named-source match"
+    },
+    {
+      "person": "Haitham Al Ghais",
+      "countryFocus": "KW",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Haitham Al Ghais",
+      "countryFocus": "KW",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Donald Trump",
+      "countryFocus": "US",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Donald Trump",
+      "countryFocus": "US",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Donald Trump",
+      "countryFocus": "US",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Donald Trump",
+      "countryFocus": "US",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Xi Jinping",
+      "countryFocus": "CN",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Xi Jinping",
+      "countryFocus": "CN",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Xi Jinping",
+      "countryFocus": "CN",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Xi Jinping",
+      "countryFocus": "CN",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Vladimir Putin",
+      "countryFocus": "RU",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Vladimir Putin",
+      "countryFocus": "RU",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Vladimir Putin",
+      "countryFocus": "RU",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Vladimir Putin",
+      "countryFocus": "RU",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Narendra Modi",
+      "countryFocus": "IN",
+      "source": "India MEA Prime Minister visits",
+      "url": "https://www.mea.gov.in/prime-minister-visits.htm",
+      "mode": "official_travel_index",
+      "cadence": "nightly",
+      "reason": "named-source match"
+    },
+    {
+      "person": "Narendra Modi",
+      "countryFocus": "IN",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Narendra Modi",
+      "countryFocus": "IN",
+      "source": "MEA visits index",
+      "url": "https://www.mea.gov.in/visits.htm",
+      "mode": "official_travel_index",
+      "cadence": "nightly",
+      "reason": "named-source match"
+    },
+    {
+      "person": "Narendra Modi",
+      "countryFocus": "IN",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Narendra Modi",
+      "countryFocus": "IN",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Narendra Modi",
+      "countryFocus": "IN",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Ursula von der Leyen",
+      "countryFocus": "EU",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Ursula von der Leyen",
+      "countryFocus": "EU",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Ursula von der Leyen",
+      "countryFocus": "EU",
+      "source": "EU EEAS press materials",
+      "url": "https://www.eeas.europa.eu/eeas/press-materials_en",
+      "mode": "official_activity_index",
+      "cadence": "nightly",
+      "reason": "country/source match"
+    },
+    {
+      "person": "Ursula von der Leyen",
+      "countryFocus": "EU",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Ursula von der Leyen",
+      "countryFocus": "EU",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Kaja Kallas",
+      "countryFocus": "EU",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Kaja Kallas",
+      "countryFocus": "EU",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Kaja Kallas",
+      "countryFocus": "EU",
+      "source": "EU EEAS press materials",
+      "url": "https://www.eeas.europa.eu/eeas/press-materials_en",
+      "mode": "official_activity_index",
+      "cadence": "nightly",
+      "reason": "country/source match"
+    },
+    {
+      "person": "Kaja Kallas",
+      "countryFocus": "EU",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Kaja Kallas",
+      "countryFocus": "EU",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Emmanuel Macron",
+      "countryFocus": "FR",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Emmanuel Macron",
+      "countryFocus": "FR",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Emmanuel Macron",
+      "countryFocus": "FR",
+      "source": "Rothschild & Co newsroom",
+      "url": "https://www.rothschildandco.com/en/newsroom/",
+      "mode": "official_activity_index",
+      "cadence": "nightly",
+      "reason": "country/source match"
+    },
+    {
+      "person": "Emmanuel Macron",
+      "countryFocus": "FR",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Emmanuel Macron",
+      "countryFocus": "FR",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Keir Starmer",
+      "countryFocus": "GB",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Keir Starmer",
+      "countryFocus": "GB",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Keir Starmer",
+      "countryFocus": "GB",
+      "source": "UK FCDO ministerial transparency data",
+      "url": "https://www.gov.uk/government/collections/ministerial-transparency-data",
+      "mode": "official_travel_index",
+      "cadence": "nightly",
+      "reason": "country/source match"
+    },
+    {
+      "person": "Keir Starmer",
+      "countryFocus": "GB",
+      "source": "UK FCDO news and speeches",
+      "url": "https://www.gov.uk/government/organisations/foreign-commonwealth-development-office",
+      "mode": "official_activity_index",
+      "cadence": "nightly",
+      "reason": "country/source match"
+    },
+    {
+      "person": "Keir Starmer",
+      "countryFocus": "GB",
+      "source": "Rothschild & Co newsroom",
+      "url": "https://www.rothschildandco.com/en/newsroom/",
+      "mode": "official_activity_index",
+      "cadence": "nightly",
+      "reason": "country/source match"
+    },
+    {
+      "person": "Keir Starmer",
+      "countryFocus": "GB",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Keir Starmer",
+      "countryFocus": "GB",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Giorgia Meloni",
+      "countryFocus": "IT",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Giorgia Meloni",
+      "countryFocus": "IT",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Giorgia Meloni",
+      "countryFocus": "IT",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Giorgia Meloni",
+      "countryFocus": "IT",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Mark Carney",
+      "countryFocus": "CA",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Mark Carney",
+      "countryFocus": "CA",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Mark Carney",
+      "countryFocus": "CA",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Mark Carney",
+      "countryFocus": "CA",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Luiz Inácio Lula da Silva",
+      "countryFocus": "BR",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Luiz Inácio Lula da Silva",
+      "countryFocus": "BR",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Luiz Inácio Lula da Silva",
+      "countryFocus": "BR",
+      "source": "Brazil Itamaraty press area",
+      "url": "https://www.gov.br/mre/en/contact-us/press-area",
+      "mode": "official_activity_index",
+      "cadence": "nightly",
+      "reason": "country/source match"
+    },
+    {
+      "person": "Luiz Inácio Lula da Silva",
+      "countryFocus": "BR",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Luiz Inácio Lula da Silva",
+      "countryFocus": "BR",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Recep Tayyip Erdoğan",
+      "countryFocus": "TR",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Recep Tayyip Erdoğan",
+      "countryFocus": "TR",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Recep Tayyip Erdoğan",
+      "countryFocus": "TR",
+      "source": "Türkiye MFA news",
+      "url": "https://www.mfa.gov.tr/default.en.mfa",
+      "mode": "official_activity_index",
+      "cadence": "nightly",
+      "reason": "country/source match"
+    },
+    {
+      "person": "Recep Tayyip Erdoğan",
+      "countryFocus": "TR",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Recep Tayyip Erdoğan",
+      "countryFocus": "TR",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Volodymyr Zelenskyy",
+      "countryFocus": "UA",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Volodymyr Zelenskyy",
+      "countryFocus": "UA",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Volodymyr Zelenskyy",
+      "countryFocus": "UA",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Volodymyr Zelenskyy",
+      "countryFocus": "UA",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Benjamin Netanyahu",
+      "countryFocus": "IL",
+      "source": "Bilderberg participant pages",
+      "url": "https://www.bilderbergmeetings.org/meetings",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Benjamin Netanyahu",
+      "countryFocus": "IL",
+      "source": "Milken Institute event speakers",
+      "url": "https://milkeninstitute.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "weekly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Benjamin Netanyahu",
+      "countryFocus": "IL",
+      "source": "Davos / World Economic Forum agenda",
+      "url": "https://www.weforum.org/meetings/",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    },
+    {
+      "person": "Benjamin Netanyahu",
+      "countryFocus": "IL",
+      "source": "Group of Thirty member and events pages",
+      "url": "https://group30.org/events",
+      "mode": "host_event_participant_lists",
+      "cadence": "nightly",
+      "reason": "event/speech watch match"
+    }
+  ],
+  "note": "Planner only. Networked production run fetches official pages, extracts person/date/city/event lines, rejects private-location terms, deduplicates by source/date/city, and promotes only verified public records."
+}

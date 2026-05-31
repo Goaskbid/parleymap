@@ -1,15 +1,33 @@
-import fs from "node:fs";
-
-export function loadSourceRegistry(file = "data/source-registry.json") {
-  const registry = JSON.parse(fs.readFileSync(file, "utf8"));
-  if (!Array.isArray(registry.sources)) throw new Error("source registry missing sources array");
-  return registry;
-}
-
-export function officialSources(registry) {
-  return (registry.sources || []).filter((source) => /official|host/i.test(source.type || ""));
-}
-
-export function discoverySources(registry) {
-  return (registry.sources || []).filter((source) => /discovery/i.test(source.type || ""));
+{
+  "generatedAt": "2026-05-30T10:45:00+02:00",
+  "addedPeople": [
+    "Sergey Lavrov",
+    "Wang Yi",
+    "Mauro Vieira",
+    "Jean-Noël Barrot",
+    "Yvette Cooper",
+    "David Lammy",
+    "Johann Wadephul",
+    "Antonio Tajani",
+    "Toshimitsu Motegi",
+    "Anita Anand",
+    "Hakan Fidan",
+    "Abbas Araghchi",
+    "Prince Rahim Aga Khan V",
+    "Alexandre de Rothschild"
+  ],
+  "addedRecords": 63,
+  "addedAgendas": 4,
+  "focus": [
+    "foreign ministers",
+    "second-line principals",
+    "BRICS",
+    "G7",
+    "Bilderberg",
+    "Group of Thirty",
+    "AKDN",
+    "Netanyahu US visits",
+    "official travel indexes"
+  ],
+  "sourceRule": "Publish only official or host-public city-level records. Media and X/social posts are discovery leads until verified against official pages or clearly official accounts."
 }

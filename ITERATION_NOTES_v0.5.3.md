@@ -51,4 +51,4 @@ Built index.html
 
 ## Notes for the next developer
 
-The collision handler is deliberately lightweight and works client-side for the current pilot scale. At larger scale, replace this with a label-placement layer that supports tile-aware collision, clustering, or decluttering by zoom and priority. The current route-arc offset is deterministic and prevents exact overlap, but a production implementation should add route bundling and per-person trail filtering for dense corridors.
+The collision handler is deliberately lightweight and works client-side for the current build scale. At larger scale, replace this with a label-placement layer that supports tile-aware collision, clustering, or decluttering by zoom and priority. The current route-arc offset is deterministic and prevents exact overlap, but a production implementation should add route bundling and per-person trail filtering for dense corridors.
