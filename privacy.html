@@ -1,9 +1,31 @@
-<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ParleyMap Privacy Notice</title><style>body{margin:0;background:#050b13;color:#edf4ff;font-family:"Arial Narrow",Arial,sans-serif;font-size:17px;line-height:1.45}main{max-width:980px;margin:0 auto;padding:28px}a{color:#9fd2ff}h1{font-size:30px}h2{font-size:22px;margin-top:28px}section{border:1px solid #334258;padding:18px;margin:16px 0;background:#0b131e}</style></head><body><main>
-<p><a href="index.html">← Back to ParleyMap</a></p><h1>Privacy notice</h1>
-<section><h2>Controller / contact</h2><p><strong>Torsten Sauter</strong>, Alte Landstr. 77, 8706 Meilen, Switzerland. Email: <a href="mailto:torsten.sauter@icloud.com">torsten.sauter@icloud.com</a>.</p></section>
-<section><h2>Public-source scope</h2><p>ParleyMap displays public records about public appearances, meetings, speeches, summits, official calls and announced public event windows. It does not publish private addresses, hotel guesses, live location, aircraft tracking, medical locations, family locations or leaked itineraries.</p></section>
-<section><h2>Website data</h2><p>The static site may use hosting logs, browser requests, map tiles, remote portraits and external source links. External providers may receive standard technical request data when their resources are loaded or opened.</p></section>
-<section><h2>Correction, objection and removal</h2><p>For privacy, safety or source-quality objections, send the affected URL and reason to <a href="mailto:torsten.sauter@icloud.com">torsten.sauter@icloud.com</a>. Records can be hidden during review and corrected or removed where appropriate.</p></section>
-<section><h2>Advertising</h2><p>Advertising and partner enquiries use the same contact: <a href="mailto:torsten.sauter@icloud.com">torsten.sauter@icloud.com</a>. Partner placements are labelled and separated from editorial records.</p></section>
-</main></body></html>
+{
+  "name": "parleymap-static",
+  "version": "5.0.0",
+  "private": true,
+  "description": "Static ParleyMap influence cockpit v5.0 with compact organisation penetration, readable influence timeline and repaired relationship web layout.",
+  "scripts": {
+    "build": "node scripts/build-standalone.mjs",
+    "validate:data": "node scripts/validate-data.mjs",
+    "crawl:dry-run": "node scripts/evergreen-crawl.mjs --dry-run",
+    "crawl:nightly": "node scripts/evergreen-crawl.mjs --write --update-site --promote-official",
+    "crawl:overnight": "npm run crawl:nightly",
+    "crawl:24m": "node scripts/crawl-24-months.mjs",
+    "crawl:24m:dry-run": "node scripts/crawl-24-months.mjs --dry-run",
+    "refresh:dry-run": "node scripts/nightly-refresh.mjs --dry-run",
+    "refresh:nightly": "node scripts/crawl-24-months.mjs --publish --max-roster 200 --max-per-person 160 && node scripts/review-top200.mjs --apply && node scripts/nightly-refresh.mjs --live && npm run build",
+    "refresh:backfill": "node scripts/crawl-24-months.mjs --publish --max-roster 200 --max-per-person 240",
+    "nightly": "npm run refresh:nightly",
+    "roster:review": "node scripts/review-top200.mjs --apply && node scripts/evergreen-roster-review.mjs --write",
+    "portraits:dry-run": "node scripts/cache-portraits.mjs --dry-run",
+    "portraits:update": "node scripts/cache-portraits.mjs --live",
+    "crawler:plan": "node scripts/evergreen-refresh.mjs --dry-run --offline --backfill --months=24 --max-people=200",
+    "check:js": "node --check src/app.js && node --check scripts/build-standalone.mjs && node --check scripts/validate-data.mjs && node --check scripts/evergreen-crawl.mjs && node --check scripts/evergreen-roster-review.mjs && node --check scripts/nightly-refresh.mjs && node --check scripts/cache-portraits.mjs && node --check scripts/crawl-24-months.mjs && node --check scripts/review-top200.mjs && node --check scripts/evergreen-refresh.mjs && node --check scripts/roster-review.mjs && node --check connectors/wikimedia-portraits.mjs && node --check connectors/gdelt-doc.mjs && node --check connectors/official-source-registry.mjs && node --check scripts/foreign-minister-travel-index.mjs && node --check scripts/heavy-hitter-capture-plan.mjs && node --check scripts/influence-intelligence-plan.mjs && node --check scripts/alert-theme-graph-planner.mjs",
+    "check": "npm run check:js && npm run validate:data && npm run crawl:24m:dry-run && npm run portraits:dry-run && npm run crawler:plan && npm run build && npm run crawl:heavy-hitters && npm run crawl:alerts && npm run crawl:influence-intel && npm run crawl:intelligence-plan",
+    "crawl:evergreen": "node scripts/crawl-24-months.mjs --publish --max-roster 200 --max-per-person 160 && node scripts/review-top200.mjs --apply && npm run build",
+    "crawl:foreign-ministers": "node scripts/foreign-minister-travel-index.mjs",
+    "crawl:heavy-hitters": "node scripts/heavy-hitter-capture-plan.mjs",
+    "crawl:alerts": "node scripts/alert-theme-graph-planner.mjs",
+    "crawl:influence-intel": "node scripts/influence-intelligence-plan.mjs",
+    "crawl:intelligence-plan": "node scripts/influence-intelligence-plan.mjs"
+  }
+}

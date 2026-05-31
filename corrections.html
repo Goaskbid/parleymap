@@ -1,8 +1,53 @@
-<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ParleyMap Corrections and Takedown</title><style>body{margin:0;background:#050b13;color:#edf4ff;font-family:"Arial Narrow",Arial,sans-serif;font-size:17px;line-height:1.45}main{max-width:980px;margin:0 auto;padding:28px}a{color:#9fd2ff}h1{font-size:30px}h2{font-size:22px;margin-top:28px}section{border:1px solid #334258;padding:18px;margin:16px 0;background:#0b131e}</style></head><body><main>
-<p><a href="index.html">← Back to ParleyMap</a></p><h1>Corrections, takedown and image-rights review</h1>
-<section><h2>Contact</h2><p>Send correction, removal, privacy, safety, image-rights and advertising matters to <a href="mailto:torsten.sauter@icloud.com">torsten.sauter@icloud.com</a>.</p></section>
-<section><h2>What to include</h2><p>Include the page URL, the specific record or image, the issue, supporting source material, and whether the request concerns accuracy, safety, privacy, copyright, attribution, image rights, advertising or another matter.</p></section>
-<section><h2>Review handling</h2><p>Records may be hidden during review if there is a credible safety, privacy, source-quality or rights concern. Outcomes may include correction, source downgrade, clearer wording, image replacement, record removal or no change with a documented reason.</p></section>
-<section><h2>Publication boundary</h2><p>ParleyMap does not accept live tracking, private addresses, hotel guesses, private family movements, leaked itineraries, aircraft tracking, medical locations or unsourced sightings.</p></section>
-</main></body></html>
+
+> parleymap-static@4.8.0 check
+> npm run check:js && npm run validate:data && npm run crawl:24m:dry-run && npm run portraits:dry-run && npm run crawler:plan && npm run build && npm run crawl:heavy-hitters && npm run crawl:alerts && npm run crawl:influence-intel && npm run crawl:intelligence-plan
+
+
+> parleymap-static@4.8.0 check:js
+> node --check src/app.js && node --check scripts/build-standalone.mjs && node --check scripts/validate-data.mjs && node --check scripts/evergreen-crawl.mjs && node --check scripts/evergreen-roster-review.mjs && node --check scripts/nightly-refresh.mjs && node --check scripts/cache-portraits.mjs && node --check scripts/crawl-24-months.mjs && node --check scripts/review-top200.mjs && node --check scripts/evergreen-refresh.mjs && node --check scripts/roster-review.mjs && node --check connectors/wikimedia-portraits.mjs && node --check connectors/gdelt-doc.mjs && node --check connectors/official-source-registry.mjs && node --check scripts/foreign-minister-travel-index.mjs && node --check scripts/heavy-hitter-capture-plan.mjs && node --check scripts/influence-intelligence-plan.mjs && node --check scripts/alert-theme-graph-planner.mjs
+
+
+> parleymap-static@4.8.0 validate:data
+> node scripts/validate-data.mjs
+
+Valid demo data: 94 people, 536 appearances, 64 encounters, 200 roster seeds.
+
+> parleymap-static@4.8.0 crawl:24m:dry-run
+> node scripts/crawl-24-months.mjs --dry-run
+
+ParleyMap 24-month crawl dry-run: 0 candidates, 0 publishable.
+
+> parleymap-static@4.8.0 portraits:dry-run
+> node scripts/cache-portraits.mjs --dry-run
+
+Portrait dry-run: 200 profiles, 25 preview rows written.
+
+> parleymap-static@4.8.0 crawler:plan
+> node scripts/evergreen-refresh.mjs --dry-run --offline --backfill --months=24 --max-people=200
+
+ParleyMap evergreen refresh: dry-run; 4800 backfill jobs planned; 0 leads; 0 publishable candidates.
+
+> parleymap-static@4.8.0 build
+> node scripts/build-standalone.mjs
+
+Built index.html
+
+> parleymap-static@4.8.0 crawl:heavy-hitters
+> node scripts/heavy-hitter-capture-plan.mjs
+
+Heavy-hitter capture plan: 14410 jobs for 174 heavy-hitter targets across 30 event families.
+
+> parleymap-static@4.8.0 crawl:alerts
+> node scripts/alert-theme-graph-planner.mjs
+
+Alert/theme graph planner: 232 jobs for 28 event families, 7 topics and 8 organizations.
+
+> parleymap-static@4.8.0 crawl:influence-intel
+> node scripts/influence-intelligence-plan.mjs
+
+Influence intelligence planner: 33600 planned jobs for 200 people across 14 source families and 12 languages.
+
+> parleymap-static@4.8.0 crawl:intelligence-plan
+> node scripts/influence-intelligence-plan.mjs
+
+Influence intelligence planner: 33600 planned jobs for 200 people across 14 source families and 12 languages.

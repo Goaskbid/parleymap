@@ -1,18 +1,18 @@
-# Deploy ParleyMap v3.9.0 to GitHub Pages
+# Deploy ParleyMap v4.9.0
 
-Upload the contents of this folder directly into the GitHub repository root and commit to `main`.
+Upload the extracted contents of this folder directly into the GitHub repository root. Do not upload the zip itself and do not place the files inside a nested folder.
 
-Do not upload the zip file itself.
-Do not put the files into a subfolder.
-
-Minimum files needed for the public site:
+Required root files include:
 
 - `index.html`
+- `CNAME`
+- `.nojekyll`
 - `impressum.html`
 - `privacy.html`
 - `corrections.html`
-- `CNAME`
-- `.nojekyll`
-- `data/operator.json`
-
-The full package also contains crawler scripts, data packs, docs and workflow scaffolding.
+- `assets/`
+- `data/`
+- `src/`
+- `templates/`
+- `scripts/`
+- `docs/`
