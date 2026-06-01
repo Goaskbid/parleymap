@@ -1,10 +1,10 @@
 {
-  "version": "4.0.0",
-  "generatedAt": "2026-05-31T19:14:12.266Z",
-  "priorityPeople": 200,
+  "version": "5.1.0",
+  "generatedAt": "2026-06-01T05:41:19.794Z",
+  "priorityPeople": 314,
   "sourceFamilies": 14,
   "languages": 12,
-  "plannedJobs": 33600,
+  "plannedJobs": 52752,
   "alertTypes": [
     "New attendee announced",
     "Agenda published",
@@ -50,7 +50,7 @@
   "currentStaticRecords": {
     "people": 94,
     "appearances": 508,
-    "eventAgendas": 35,
+    "eventAgendas": 41,
     "encounters": 64,
     "calls": 12
   },

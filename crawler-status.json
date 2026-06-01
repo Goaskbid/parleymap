@@ -1,11 +1,12 @@
 {
   "meta": {
-    "version": "3.8.0",
+    "version": "5.1.0",
     "purpose": "Public-source registry for ParleyMap nightly crawler. Sources are discovery inputs; publication still requires source pack, city-level precision, safety screening, and duplicate checks.",
     "lastReviewed": "2026-05-30",
     "granularExpansion": "v3.7 adds foreign-minister office crawlers, secretary travel archives, BRICS/G7 ministerial participant capture, Netanyahu U.S. public-visit backfill, and dynamic connector profiles.",
     "frequentTravellerExpansion": "v3.7 prioritises official travel ledgers, foreign-minister readouts, speeches, participant lists, verified social leads and invitation-only event attendee graphs.",
-    "heavyHitterDeepSearch": "v3.8 adds lead-only and official-source search families for heavy-traveller principals, foreign ministers, central bankers, event connectors and corporate heavy hitters."
+    "heavyHitterDeepSearch": "v3.8 adds lead-only and official-source search families for heavy-traveller principals, foreign ministers, central bankers, event connectors and corporate heavy hitters.",
+    "priorityEntityExpansion": "v5.1 adds official-source watch families for former leaders, foreign ministers, G30, think tanks, royalty, IAEA/SIPRI/CFR/Brookings/Bruegel/WEF/Trilateral/Open Society and City of London finance diplomacy."
   },
   "officialDomains": [
     "whitehouse.gov",
@@ -98,7 +99,48 @@
     "newyorkfed.org",
     "banque-france.fr",
     "dnb.nl",
-    "resbank.co.za"
+    "resbank.co.za",
+    "trilateral.org",
+    "opensocietyfoundations.org",
+    "iaea.org",
+    "sipri.org",
+    "cfr.org",
+    "brookings.edu",
+    "chathamhouse.org",
+    "csis.org",
+    "rand.org",
+    "iiss.org",
+    "swp-berlin.org",
+    "piie.com",
+    "nber.org",
+    "bruegel.org",
+    "ifw-kiel.de",
+    "ifs.org.uk",
+    "cset.georgetown.edu",
+    "turing.ac.uk",
+    "iftf.org",
+    "governance.ai",
+    "itif.org",
+    "lowyinstitute.org",
+    "merics.org",
+    "asiasociety.org",
+    "orfonline.org",
+    "isas.nus.edu.sg",
+    "wri.org",
+    "rmi.org",
+    "iisd.org",
+    "sei.org",
+    "ceps.eu",
+    "ecfr.eu",
+    "institutdelors.eu",
+    "cityoflondon.gov.uk",
+    "admin.ch",
+    "wbf.admin.ch",
+    "royal-house.nl",
+    "kongehuset.dk",
+    "monarchie.lu",
+    "palais.mc",
+    "imperialhousehold.go.jp"
   ],
   "sitemaps": [
     {
@@ -153,6 +195,90 @@
       "id": "worldbank-sitemap",
       "label": "World Bank sitemap",
       "url": "https://www.worldbank.org/sitemap.xml",
+      "type": "official"
+    },
+    {
+      "id": "g30-members",
+      "label": "Group of Thirty members",
+      "url": "https://group30.org/members",
+      "type": "official"
+    },
+    {
+      "id": "bilderberg-participants",
+      "label": "Bilderberg participant lists",
+      "url": "https://www.bilderbergmeetings.org/meetings/meeting-2026/participants-2026",
+      "type": "host"
+    },
+    {
+      "id": "cfr-events",
+      "label": "CFR events",
+      "url": "https://www.cfr.org/events",
+      "type": "host"
+    },
+    {
+      "id": "brookings-events",
+      "label": "Brookings events",
+      "url": "https://www.brookings.edu/events/",
+      "type": "host"
+    },
+    {
+      "id": "chatham-events",
+      "label": "Chatham House events",
+      "url": "https://www.chathamhouse.org/events",
+      "type": "host"
+    },
+    {
+      "id": "csis-events",
+      "label": "CSIS events",
+      "url": "https://www.csis.org/events",
+      "type": "host"
+    },
+    {
+      "id": "rand-events",
+      "label": "RAND events",
+      "url": "https://www.rand.org/events.html",
+      "type": "host"
+    },
+    {
+      "id": "iiss-events",
+      "label": "IISS events",
+      "url": "https://www.iiss.org/events/",
+      "type": "host"
+    },
+    {
+      "id": "bruegel-events",
+      "label": "Bruegel events",
+      "url": "https://www.bruegel.org/events",
+      "type": "host"
+    },
+    {
+      "id": "iaea-dg",
+      "label": "IAEA Director General",
+      "url": "https://www.iaea.org/about/rafael-mariano-grossi",
+      "type": "official"
+    },
+    {
+      "id": "trilateral-members",
+      "label": "Trilateral Commission members",
+      "url": "https://www.trilateral.org/about/members-fellows/",
+      "type": "official"
+    },
+    {
+      "id": "open-society-leadership",
+      "label": "Open Society leadership",
+      "url": "https://www.opensocietyfoundations.org/who-we-are/leadership",
+      "type": "official"
+    },
+    {
+      "id": "city-london-lord-mayor",
+      "label": "City of London Lord Mayor",
+      "url": "https://www.cityoflondon.gov.uk/about-us/about-the-city-of-london-corporation/lord-mayor/lord-mayor-mayor-of-london",
+      "type": "official"
+    },
+    {
+      "id": "swiss-presidency-2026",
+      "label": "Swiss presidential year",
+      "url": "https://www.wbf.admin.ch/en/presidential-year-2026",
       "type": "official"
     }
   ],
@@ -239,7 +365,20 @@
     "CERAWeek",
     "ADIPEC",
     "Paris Air Show",
-    "Farnborough"
+    "Farnborough",
+    "side meeting",
+    "members",
+    "leadership",
+    "royal diary",
+    "annual meeting",
+    "policy dialogue",
+    "public lecture",
+    "fireside chat",
+    "investor day",
+    "official biography",
+    "public schedule",
+    "agenda pdf",
+    "programme pdf"
   ],
   "blockedLocationTerms": [
     "hotel",

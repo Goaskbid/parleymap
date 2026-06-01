@@ -1,0 +1,991 @@
+{
+  "alertTypes": [
+    {
+      "kind": "New attendee announced",
+      "example": "A public participant list names a new minister, CEO or central banker.",
+      "action": "Create Person ↔ Event edge and show an alert."
+    },
+    {
+      "kind": "Agenda published",
+      "example": "A summit posts its first programme or PDF agenda.",
+      "action": "Extract sessions, themes and likely attendee clusters."
+    },
+    {
+      "kind": "Speaker added",
+      "example": "A conference adds a keynote or panel participant.",
+      "action": "Update the profile timeline and notify subscribed users."
+    },
+    {
+      "kind": "Event moved",
+      "example": "Host changes city, dates or venue.",
+      "action": "Retire old watch card and publish the updated public window."
+    },
+    {
+      "kind": "Registration opens",
+      "example": "A major forum opens registration or media accreditation.",
+      "action": "Flag the event for closer agenda monitoring."
+    },
+    {
+      "kind": "Call readout posted",
+      "example": "An official page publishes a telephone conversation.",
+      "action": "Add a red call edge with source and counterpart profile."
+    }
+  ],
+  "topics": [
+    {
+      "id": "ai",
+      "label": "AI",
+      "growth": "+41%",
+      "records": 38,
+      "why": "AI moved from technology panels into security, industrial-policy and sovereign-investment sessions.",
+      "events": [
+        "Davos",
+        "Munich Security",
+        "G7",
+        "NATO",
+        "Paris AI Action Summit"
+      ],
+      "sectors": [
+        "Technology",
+        "Defense",
+        "Capital"
+      ]
+    },
+    {
+      "id": "defense",
+      "label": "Defense",
+      "growth": "+34%",
+      "records": 44,
+      "why": "Security forums, NATO events and airshows keep defense policy close to procurement and industrial capacity.",
+      "events": [
+        "NATO",
+        "Munich Security",
+        "Shangri-La",
+        "Farnborough",
+        "Paris Air Show"
+      ],
+      "sectors": [
+        "Security",
+        "Aerospace",
+        "Government"
+      ]
+    },
+    {
+      "id": "inflation",
+      "label": "Inflation",
+      "growth": "+19%",
+      "records": 31,
+      "why": "Central-bank speeches and Jackson Hole / Sintra meetings frame rates, growth, wages and market expectations.",
+      "events": [
+        "Jackson Hole",
+        "ECB Sintra",
+        "BIS",
+        "IMF / World Bank"
+      ],
+      "sectors": [
+        "Macro",
+        "Finance"
+      ]
+    },
+    {
+      "id": "energy",
+      "label": "Energy",
+      "growth": "+22%",
+      "records": 36,
+      "why": "OPEC, CERAWeek, ADIPEC and Gulf investment events connect supply, pricing, LNG, grid demand and transition capital.",
+      "events": [
+        "OPEC",
+        "CERAWeek",
+        "ADIPEC",
+        "FII",
+        "COP"
+      ],
+      "sectors": [
+        "Energy",
+        "Commodities",
+        "Infrastructure"
+      ]
+    },
+    {
+      "id": "china",
+      "label": "China",
+      "growth": "+27%",
+      "records": 29,
+      "why": "China appears across trade, security, supply-chain, BRICS and AI policy conversations.",
+      "events": [
+        "APEC",
+        "BRICS",
+        "Boao",
+        "Shangri-La",
+        "G20"
+      ],
+      "sectors": [
+        "Trade",
+        "Security",
+        "Technology"
+      ]
+    },
+    {
+      "id": "semiconductors",
+      "label": "Semiconductors",
+      "growth": "+33%",
+      "records": 21,
+      "why": "Chip supply chains sit at the overlap of AI, defense, export controls, industrial policy and market concentration.",
+      "events": [
+        "Davos",
+        "CES",
+        "G7",
+        "APEC",
+        "AI summits"
+      ],
+      "sectors": [
+        "Technology",
+        "Manufacturing",
+        "Security"
+      ]
+    },
+    {
+      "id": "climate",
+      "label": "Climate",
+      "growth": "+16%",
+      "records": 34,
+      "why": "COP, UNGA, Davos and development-bank windows keep climate finance and regulation in the policy stream.",
+      "events": [
+        "COP",
+        "UNGA",
+        "Davos",
+        "World Bank",
+        "G20"
+      ],
+      "sectors": [
+        "Climate",
+        "Finance",
+        "Energy"
+      ]
+    }
+  ],
+  "recurringPages": [
+    {
+      "title": "Most Connected People",
+      "metric": "counterpart edges",
+      "why": "Who repeatedly appears with other high-value figures.",
+      "examples": [
+        "Donald Trump",
+        "Ursula von der Leyen",
+        "Mark Rutte",
+        "Mohammed bin Salman"
+      ]
+    },
+    {
+      "title": "Rising Attendees",
+      "metric": "new event edges",
+      "why": "People gaining access to high-signal venues.",
+      "examples": [
+        "AI executives",
+        "new foreign ministers",
+        "new central-bank governors"
+      ]
+    },
+    {
+      "title": "New Entrants",
+      "metric": "first verified attendance",
+      "why": "A first Davos / Bilderberg / Munich / G30 appearance can matter more than another routine meeting.",
+      "examples": [
+        "new CEOs",
+        "new ministers",
+        "new sovereign wealth leaders"
+      ]
+    },
+    {
+      "title": "Most Cross-Network Individuals",
+      "metric": "distinct event families",
+      "why": "People bridging politics, finance, security, technology and philanthropy.",
+      "examples": [
+        "Christine Lagarde",
+        "Larry Fink",
+        "Sam Altman",
+        "Kristalina Georgieva"
+      ]
+    }
+  ],
+  "organizationProfiles": [
+    {
+      "id": "blackrock",
+      "name": "BlackRock",
+      "type": "Asset manager",
+      "home": "New York",
+      "icon": "🧭",
+      "representatives": [
+        "Larry Fink",
+        "Robert Kapito"
+      ],
+      "events": [
+        "Davos",
+        "Milken",
+        "FII",
+        "IMF / World Bank",
+        "COP",
+        "G20 side events"
+      ],
+      "why": "A recurring capital-allocation presence across finance, climate, Gulf investment and global-policy events."
+    },
+    {
+      "id": "nato",
+      "name": "NATO",
+      "type": "Security alliance",
+      "home": "Brussels",
+      "icon": "🛡️",
+      "representatives": [
+        "Mark Rutte"
+      ],
+      "events": [
+        "NATO Summit",
+        "Munich Security",
+        "Shangri-La",
+        "Raisina",
+        "G7 security side meetings"
+      ],
+      "why": "Security posture, defense spending, Ukraine policy and alliance coordination."
+    },
+    {
+      "id": "imf",
+      "name": "IMF",
+      "type": "Multilateral finance",
+      "home": "Washington",
+      "icon": "🏦",
+      "representatives": [
+        "Kristalina Georgieva"
+      ],
+      "events": [
+        "IMF / World Bank",
+        "G20",
+        "Davos",
+        "Munich Security",
+        "UNGA"
+      ],
+      "why": "Debt, growth, financial stability, emerging-market financing and macro surveillance."
+    },
+    {
+      "id": "bis",
+      "name": "BIS",
+      "type": "Central-bank hub",
+      "home": "Basel",
+      "icon": "🏛️",
+      "representatives": [
+        "Agustín Carstens",
+        "Pablo Hernández de Cos"
+      ],
+      "events": [
+        "BIS AGM",
+        "BIS Innovation Summit",
+        "Jackson Hole",
+        "ECB Sintra",
+        "G30"
+      ],
+      "why": "Under-the-radar central-bank coordination, payments, liquidity and financial-stability networks."
+    },
+    {
+      "id": "microsoft",
+      "name": "Microsoft",
+      "type": "Technology",
+      "home": "Redmond",
+      "icon": "💻",
+      "representatives": [
+        "Satya Nadella",
+        "Brad Smith"
+      ],
+      "events": [
+        "Davos",
+        "Munich Security",
+        "AI summits",
+        "Sun Valley",
+        "CES"
+      ],
+      "why": "AI infrastructure, cloud, cybersecurity, sovereignty and public-sector technology policy."
+    },
+    {
+      "id": "openai",
+      "name": "OpenAI",
+      "type": "AI lab",
+      "home": "San Francisco",
+      "icon": "◎",
+      "representatives": [
+        "Sam Altman"
+      ],
+      "events": [
+        "Davos",
+        "AI Safety Summit",
+        "Paris AI Action Summit",
+        "Sun Valley",
+        "policy roundtables"
+      ],
+      "why": "AI safety, compute, regulation, sovereign AI and enterprise adoption."
+    },
+    {
+      "id": "brookings",
+      "name": "Brookings",
+      "type": "Think tank",
+      "home": "Washington",
+      "icon": "▦",
+      "representatives": [
+        "institutional fellows"
+      ],
+      "events": [
+        "Washington policy forums",
+        "Munich side events",
+        "IMF week",
+        "G20 side events"
+      ],
+      "why": "Policy ideas, research convening and elite circulation between government, academia and media."
+    },
+    {
+      "id": "cfr",
+      "name": "CFR",
+      "type": "Think tank",
+      "home": "New York / Washington",
+      "icon": "◈",
+      "representatives": [
+        "institutional fellows"
+      ],
+      "events": [
+        "CFR events",
+        "UNGA week",
+        "Munich side events",
+        "Davos side events"
+      ],
+      "why": "Foreign-policy agenda setting and elite debate around security, trade, China and institutions."
+    }
+  ],
+  "eventOverlapMatrix": {
+    "labels": [
+      "Davos",
+      "Bilderberg",
+      "Munich",
+      "FII",
+      "Jackson Hole",
+      "UNGA"
+    ],
+    "note": "Illustrative matrix for the current build. Production values should be computed from verified Person ↔ Event edges only.",
+    "values": [
+      [
+        100,
+        35,
+        42,
+        28,
+        12,
+        39
+      ],
+      [
+        35,
+        100,
+        19,
+        8,
+        14,
+        17
+      ],
+      [
+        42,
+        19,
+        100,
+        7,
+        6,
+        31
+      ],
+      [
+        28,
+        8,
+        7,
+        100,
+        3,
+        18
+      ],
+      [
+        12,
+        14,
+        6,
+        3,
+        100,
+        9
+      ],
+      [
+        39,
+        17,
+        31,
+        18,
+        9,
+        100
+      ]
+    ]
+  },
+  "organizationPenetration": [
+    {
+      "name": "BlackRock",
+      "score": 86,
+      "events": [
+        "Davos",
+        "Milken",
+        "FII",
+        "IMF",
+        "COP",
+        "G20 side events"
+      ]
+    },
+    {
+      "name": "Microsoft",
+      "score": 79,
+      "events": [
+        "Davos",
+        "Munich",
+        "AI summits",
+        "Sun Valley",
+        "CES"
+      ]
+    },
+    {
+      "name": "IMF",
+      "score": 78,
+      "events": [
+        "IMF / World Bank",
+        "G20",
+        "Davos",
+        "UNGA",
+        "Munich"
+      ]
+    },
+    {
+      "name": "BIS",
+      "score": 74,
+      "events": [
+        "BIS AGM",
+        "Jackson Hole",
+        "ECB Sintra",
+        "G30",
+        "IMF"
+      ]
+    },
+    {
+      "name": "NATO",
+      "score": 72,
+      "events": [
+        "NATO",
+        "Munich",
+        "Shangri-La",
+        "Raisina",
+        "G7"
+      ]
+    },
+    {
+      "name": "OpenAI",
+      "score": 69,
+      "events": [
+        "Davos",
+        "AI Safety Summit",
+        "Paris AI",
+        "Sun Valley",
+        "policy forums"
+      ]
+    },
+    {
+      "name": "Goldman Sachs",
+      "score": 67,
+      "events": [
+        "Davos",
+        "Milken",
+        "FII",
+        "IMF week",
+        "Sun Valley"
+      ]
+    },
+    {
+      "name": "Brookings / CFR",
+      "score": 61,
+      "events": [
+        "Washington forums",
+        "UNGA week",
+        "Munich sides",
+        "Davos sides"
+      ]
+    }
+  ],
+  "topicMigrations": [
+    {
+      "topic": "AI safety",
+      "path": [
+        "2023 Aspen",
+        "2023 Davos",
+        "2024 Munich",
+        "2024 G7",
+        "2025 NATO",
+        "2026 AI policy windows"
+      ],
+      "why": "AI safety is no longer only a technology theme; it now travels through defense, trade and sovereign-capacity venues."
+    },
+    {
+      "topic": "Defense industrial capacity",
+      "path": [
+        "Munich",
+        "NATO",
+        "G7",
+        "Farnborough",
+        "Paris Air Show"
+      ],
+      "why": "Defense spending moved from security speeches into procurement and industrial-policy events."
+    },
+    {
+      "topic": "De-dollarization",
+      "path": [
+        "BRICS",
+        "OPEC",
+        "G20",
+        "IMF week",
+        "BIS"
+      ],
+      "why": "Reserve-currency debates spread through energy, development finance and payments infrastructure."
+    },
+    {
+      "topic": "Climate finance",
+      "path": [
+        "COP",
+        "Davos",
+        "World Bank",
+        "G20",
+        "UNGA"
+      ],
+      "why": "Climate language increasingly appears in finance, development and infrastructure forums."
+    },
+    {
+      "topic": "Semiconductor sovereignty",
+      "path": [
+        "CES",
+        "Davos",
+        "APEC",
+        "G7",
+        "security forums"
+      ],
+      "why": "Chips link AI, export controls, industrial subsidies and alliance strategy."
+    }
+  ],
+  "influenceTimeline": [
+    {
+      "month": "Jan",
+      "events": [
+        "Davos",
+        "CES"
+      ],
+      "themes": [
+        "AI",
+        "Capital",
+        "Technology"
+      ]
+    },
+    {
+      "month": "Feb",
+      "events": [
+        "Munich Security"
+      ],
+      "themes": [
+        "Defense",
+        "Ukraine",
+        "China"
+      ]
+    },
+    {
+      "month": "Mar",
+      "events": [
+        "Raisina",
+        "Boao"
+      ],
+      "themes": [
+        "India",
+        "China",
+        "Trade"
+      ]
+    },
+    {
+      "month": "Apr",
+      "events": [
+        "IMF / World Bank",
+        "BIS Innovation"
+      ],
+      "themes": [
+        "Inflation",
+        "Debt",
+        "Payments"
+      ]
+    },
+    {
+      "month": "May",
+      "events": [
+        "Bilderberg",
+        "Milken"
+      ],
+      "themes": [
+        "Capital",
+        "Security",
+        "Technology"
+      ]
+    },
+    {
+      "month": "Jun",
+      "events": [
+        "G7",
+        "NATO",
+        "ECB Sintra"
+      ],
+      "themes": [
+        "Security",
+        "Rates",
+        "Sanctions"
+      ]
+    },
+    {
+      "month": "Aug",
+      "events": [
+        "Jackson Hole"
+      ],
+      "themes": [
+        "Inflation",
+        "Rates",
+        "Macro"
+      ]
+    },
+    {
+      "month": "Sep",
+      "events": [
+        "UNGA"
+      ],
+      "themes": [
+        "Diplomacy",
+        "Climate",
+        "Development"
+      ]
+    },
+    {
+      "month": "Oct",
+      "events": [
+        "FII",
+        "IMF / World Bank"
+      ],
+      "themes": [
+        "Capital",
+        "Energy",
+        "Debt"
+      ]
+    },
+    {
+      "month": "Nov",
+      "events": [
+        "G20",
+        "APEC"
+      ],
+      "themes": [
+        "Trade",
+        "Growth",
+        "China"
+      ]
+    },
+    {
+      "month": "Dec",
+      "events": [
+        "COP",
+        "year-end policy"
+      ],
+      "themes": [
+        "Climate",
+        "Energy",
+        "Budgets"
+      ]
+    }
+  ],
+  "powerGeography": [
+    {
+      "city": "Washington",
+      "countryCode": "US",
+      "countryName": "United States",
+      "lat": 38.9072,
+      "lng": -77.0369,
+      "events": [
+        "White House meetings",
+        "IMF / World Bank",
+        "CFR / Brookings"
+      ],
+      "organizations": [
+        "White House",
+        "IMF",
+        "World Bank",
+        "CFR",
+        "Brookings"
+      ],
+      "themes": [
+        "Security",
+        "Macro",
+        "China"
+      ],
+      "score": 96
+    },
+    {
+      "city": "Brussels",
+      "countryCode": "BE",
+      "countryName": "Belgium",
+      "lat": 50.8503,
+      "lng": 4.3517,
+      "events": [
+        "EU councils",
+        "NATO",
+        "Commission meetings"
+      ],
+      "organizations": [
+        "EU",
+        "NATO"
+      ],
+      "themes": [
+        "Defense",
+        "Trade",
+        "Regulation"
+      ],
+      "score": 91
+    },
+    {
+      "city": "London",
+      "countryCode": "GB",
+      "countryName": "United Kingdom",
+      "lat": 51.5074,
+      "lng": -0.1278,
+      "events": [
+        "Chatham House",
+        "Bank of England",
+        "royal / diplomatic"
+      ],
+      "organizations": [
+        "UK Government",
+        "Bank of England",
+        "Chatham House"
+      ],
+      "themes": [
+        "Finance",
+        "Security",
+        "Diplomacy"
+      ],
+      "score": 88
+    },
+    {
+      "city": "Geneva",
+      "countryCode": "CH",
+      "countryName": "Switzerland",
+      "lat": 46.2044,
+      "lng": 6.1432,
+      "events": [
+        "UN Geneva",
+        "WTO",
+        "WHO"
+      ],
+      "organizations": [
+        "UN",
+        "WTO",
+        "WHO"
+      ],
+      "themes": [
+        "Trade",
+        "Health",
+        "Humanitarian"
+      ],
+      "score": 84
+    },
+    {
+      "city": "Basel",
+      "countryCode": "CH",
+      "countryName": "Switzerland",
+      "lat": 47.5596,
+      "lng": 7.5886,
+      "events": [
+        "BIS AGM",
+        "central-bank meetings"
+      ],
+      "organizations": [
+        "BIS"
+      ],
+      "themes": [
+        "Rates",
+        "Payments",
+        "Financial stability"
+      ],
+      "score": 82
+    },
+    {
+      "city": "Riyadh",
+      "countryCode": "SA",
+      "countryName": "Saudi Arabia",
+      "lat": 24.7136,
+      "lng": 46.6753,
+      "events": [
+        "FII",
+        "Gulf investment",
+        "energy diplomacy"
+      ],
+      "organizations": [
+        "PIF",
+        "Saudi Government"
+      ],
+      "themes": [
+        "Energy",
+        "Capital",
+        "Security"
+      ],
+      "score": 83
+    },
+    {
+      "city": "Abu Dhabi",
+      "countryCode": "AE",
+      "countryName": "United Arab Emirates",
+      "lat": 24.4539,
+      "lng": 54.3773,
+      "events": [
+        "ADIPEC",
+        "sovereign wealth",
+        "climate / energy"
+      ],
+      "organizations": [
+        "ADNOC",
+        "Mubadala",
+        "UAE Government"
+      ],
+      "themes": [
+        "Energy",
+        "AI",
+        "Capital"
+      ],
+      "score": 80
+    },
+    {
+      "city": "Beijing",
+      "countryCode": "CN",
+      "countryName": "China",
+      "lat": 39.9042,
+      "lng": 116.4074,
+      "events": [
+        "state visits",
+        "BRICS / SCO diplomacy",
+        "trade meetings"
+      ],
+      "organizations": [
+        "PRC leadership",
+        "MFA China"
+      ],
+      "themes": [
+        "China",
+        "Trade",
+        "Security"
+      ],
+      "score": 89
+    },
+    {
+      "city": "Zurich",
+      "countryCode": "CH",
+      "countryName": "Switzerland",
+      "lat": 47.3769,
+      "lng": 8.5417,
+      "events": [
+        "finance forums",
+        "university / ETH activity"
+      ],
+      "organizations": [
+        "UBS",
+        "ETH Zurich"
+      ],
+      "themes": [
+        "Capital",
+        "Technology"
+      ],
+      "score": 72
+    }
+  ],
+  "heavyHitterDeepSearch": {
+    "version": "4.0.0",
+    "objective": "Capture more public appearances, event edges, agenda changes, speaker additions and call readouts for frequent-traveller heavy hitters.",
+    "sourceFamilies": [
+      "official schedules",
+      "protocol offices",
+      "foreign-ministry releases",
+      "government calendars",
+      "summit attendance lists",
+      "organizer websites",
+      "PDF agendas",
+      "conference speaker lists",
+      "embassy releases",
+      "local newspapers",
+      "regional television reports",
+      "livestream descriptions",
+      "think tank event pages",
+      "university events",
+      "Flickr / official galleries",
+      "YouTube metadata",
+      "verified X / LinkedIn leads",
+      "corporate IR releases",
+      "SEC / annual reports",
+      "central bank calendars",
+      "parliamentary calendars",
+      "regional event calendars",
+      "Davos participant lists",
+      "Bilderberg official lists",
+      "NGO conference schedules",
+      "trade fair records",
+      "religious institution schedules",
+      "sports diplomacy events"
+    ],
+    "restrictedLeadOnly": [
+      "aircraft movement",
+      "airport notices",
+      "convoy activity",
+      "police advisories",
+      "temporary security zones",
+      "hotel closures",
+      "property clues",
+      "private-meeting rumours"
+    ],
+    "multilingualTerms": [
+      "working visit",
+      "official visit",
+      "telephone conversation",
+      "held talks",
+      "courtesy call",
+      "received by",
+      "participated in",
+      "on the sidelines",
+      "attended",
+      "met with",
+      "roundtable",
+      "inspection visit",
+      "strategic dialogue",
+      "工作访问",
+      "正式访问",
+      "通电话",
+      "举行会谈",
+      "рабочий визит",
+      "официальный визит",
+      "телефонный разговор",
+      "عقد محادثات",
+      "visite de travail",
+      "visite officielle",
+      "Gespräch am Rande",
+      "visita de trabajo",
+      "visita oficial",
+      "reunião bilateral",
+      "公式訪問",
+      "회담",
+      "visita ufficiale",
+      "çalışma ziyareti"
+    ],
+    "priorityTargets": [
+      "foreign ministers",
+      "defense ministers",
+      "finance ministers",
+      "central bankers",
+      "sovereign wealth leaders",
+      "Fortune 500 CEOs",
+      "think tank leadership",
+      "technology founders",
+      "royalty",
+      "BIS / G30 / OECD / OPEC / UN connectors"
+    ]
+  }
+}

@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-05-31T19:14:09.733Z",
+  "generatedAt": "2026-06-01T05:41:17.010Z",
   "mode": "dry-run",
   "window": {
-    "since": "2024-05-31T19:14:09.733Z",
-    "until": "2026-05-31T19:14:09.733Z",
-    "futureUntil": "2026-09-28T19:14:09.733Z"
+    "since": "2024-06-01T05:41:17.010Z",
+    "until": "2026-06-01T05:41:17.010Z",
+    "futureUntil": "2026-09-29T05:41:17.010Z"
   },
   "rosterScanned": 200,
   "sourcesScanned": 0,

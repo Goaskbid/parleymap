@@ -1,10 +1,57 @@
-export const gdeltDiscoveryConnector = {
-  id: "gdelt-discovery",
-  label: "GDELT event and story discovery",
-  priority: "secondary-discovery-only",
-  cadence: "daily",
-  notes: "Use news discovery to propose candidate events. Do not publish records from news discovery alone unless editorial policy explicitly allows it and confidence is high.",
-  async discover() {
-    return [];
-  }
-};
+name: Nightly public-source refresh and deploy
+
+on:
+  schedule:
+    - cron: "17 2 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: parleymap-nightly-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh-build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Run 24-month public-source crawler and future scan
+        env:
+          PARLEYMAP_USER_AGENT: ${{ secrets.PARLEYMAP_USER_AGENT }}
+          GDELT_API_KEY: ${{ secrets.GDELT_API_KEY }}
+          PARLEYMAP_MAX_ROSTER: "340"
+          PARLEYMAP_MAX_PER_PERSON: "25"
+        run: npm run crawl:nightly
+      - name: Review top-200 roster
+        env:
+          PARLEYMAP_USER_AGENT: ${{ secrets.PARLEYMAP_USER_AGENT }}
+        run: npm run roster:review || true
+      - name: Refresh influence intelligence plans
+        run: npm run crawl:priority-expansion && npm run crawl:heavy-hitters && npm run crawl:alerts && npm run crawl:influence-intel
+      - name: Validate and build standalone page
+        run: npm run check
+      - name: Commit refreshed data and build
+        run: |
+          git config user.name "parleymap-bot"
+          git config user.email "parleymap-bot@users.noreply.github.com"
+          git add data index.html docs recovery MANIFEST.txt README.md
+          git commit -m "Nightly ParleyMap public-source refresh" || echo "No generated changes to commit"
+          git push || echo "Push skipped or not permitted"
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

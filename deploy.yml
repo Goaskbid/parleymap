@@ -1,33 +1,74 @@
 {
-  "generatedAt": "2026-05-30T10:45:00+02:00",
-  "addedPeople": [
-    "Sergey Lavrov",
-    "Wang Yi",
-    "Mauro Vieira",
-    "Jean-Noël Barrot",
-    "Yvette Cooper",
-    "David Lammy",
-    "Johann Wadephul",
-    "Antonio Tajani",
-    "Toshimitsu Motegi",
-    "Anita Anand",
-    "Hakan Fidan",
-    "Abbas Araghchi",
-    "Prince Rahim Aga Khan V",
-    "Alexandre de Rothschild"
+  "version": "4.0.0",
+  "alertTypes": [
+    "New attendee announced",
+    "Agenda published",
+    "Speaker added",
+    "Event moved",
+    "Registration opens"
   ],
-  "addedRecords": 63,
-  "addedAgendas": 4,
-  "focus": [
-    "foreign ministers",
-    "second-line principals",
-    "BRICS",
-    "G7",
+  "topics": [
+    "AI",
+    "Defense",
+    "Inflation",
+    "Energy",
+    "China",
+    "Semiconductors",
+    "Climate",
+    "Debt",
+    "Trade",
+    "Capital",
+    "Health"
+  ],
+  "organizationProfiles": [
+    "BlackRock",
+    "NATO",
+    "IMF",
+    "BIS",
+    "Microsoft",
+    "OpenAI",
+    "Brookings",
+    "Council on Foreign Relations",
+    "World Bank",
+    "OECD",
+    "OPEC",
+    "World Economic Forum"
+  ],
+  "eventOverlapFamilies": [
+    "Davos",
     "Bilderberg",
-    "Group of Thirty",
-    "AKDN",
-    "Netanyahu US visits",
-    "official travel indexes"
+    "Munich",
+    "FII",
+    "Jackson Hole",
+    "IMF / World Bank"
   ],
-  "sourceRule": "Publish only official or host-public city-level records. Media and X/social posts are discovery leads until verified against official pages or clearly official accounts."
+  "powerGeography": [
+    "Zurich",
+    "Geneva",
+    "Basel",
+    "Washington",
+    "Brussels",
+    "London",
+    "Riyadh",
+    "Abu Dhabi",
+    "Beijing",
+    "New York",
+    "Paris",
+    "Davos",
+    "Munich",
+    "Singapore"
+  ],
+  "crawlerFields": [
+    "event",
+    "person",
+    "organization",
+    "role",
+    "year",
+    "speaker_or_attendee",
+    "source_url",
+    "topic",
+    "theme",
+    "location",
+    "confidence"
+  ]
 }
