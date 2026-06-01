@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-06-01T05:41:17.650Z",
+  "generatedAt": "2026-06-01T08:46:27.797Z",
   "mode": "dry-run",
   "offline": true,
   "selectedPeople": 314,
   "rosterSize": 314,
   "officialSources": 57,
-  "backfillMonths": 24,
-  "plannedBackfillJobs": 7536,
+  "backfillMonths": 36,
+  "plannedBackfillJobs": 11304,
   "candidatesFound": 0,
   "publishableCandidates": 0,
   "errors": [],
@@ -31,5 +31,5 @@
     ],
     "futurePrecision": "city-level unless an official organizer deliberately publishes the public venue"
   },
-  "note": "Network calls skipped. GitHub Actions nightly refresh runs this same crawler with network access."
+  "note": "Network calls skipped. GitHub Actions nightly refresh runs this same crawler with network access and a rolling 36-month backfill plan."
 }

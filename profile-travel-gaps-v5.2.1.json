@@ -1,0 +1,3222 @@
+{
+  "generatedAt": "2026-06-01T08:46:29.762Z",
+  "alerts": 6,
+  "topicTags": 7,
+  "organizations": 8,
+  "eventFamilies": 28,
+  "plannedJobs": 232,
+  "jobs": [
+    {
+      "type": "agenda-change-watch",
+      "eventFamily": "Davos",
+      "sourceTargets": [
+        "official agenda",
+        "speaker list",
+        "participant list",
+        "PDF programme",
+        "livestream metadata"
+      ],
+      "alertTypes": [
+        "New attendee announced",
+        "Agenda published",
+        "Speaker added",
+        "Event moved",
+        "Registration opens",
+        "Call readout posted"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Davos",
+      "topic": "AI",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Davos",
+      "topic": "Defence",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Davos",
+      "topic": "Inflation",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Davos",
+      "topic": "Energy",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Davos",
+      "topic": "China",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Davos",
+      "topic": "Semiconductors",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Davos",
+      "topic": "Climate",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "agenda-change-watch",
+      "eventFamily": "Bilderberg",
+      "sourceTargets": [
+        "official agenda",
+        "speaker list",
+        "participant list",
+        "PDF programme",
+        "livestream metadata"
+      ],
+      "alertTypes": [
+        "New attendee announced",
+        "Agenda published",
+        "Speaker added",
+        "Event moved",
+        "Registration opens",
+        "Call readout posted"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Bilderberg",
+      "topic": "AI",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Bilderberg",
+      "topic": "Defence",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Bilderberg",
+      "topic": "Inflation",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Bilderberg",
+      "topic": "Energy",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Bilderberg",
+      "topic": "China",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Bilderberg",
+      "topic": "Semiconductors",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Bilderberg",
+      "topic": "Climate",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "agenda-change-watch",
+      "eventFamily": "Munich",
+      "sourceTargets": [
+        "official agenda",
+        "speaker list",
+        "participant list",
+        "PDF programme",
+        "livestream metadata"
+      ],
+      "alertTypes": [
+        "New attendee announced",
+        "Agenda published",
+        "Speaker added",
+        "Event moved",
+        "Registration opens",
+        "Call readout posted"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Munich",
+      "topic": "AI",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Munich",
+      "topic": "Defence",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Munich",
+      "topic": "Inflation",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Munich",
+      "topic": "Energy",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Munich",
+      "topic": "China",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Munich",
+      "topic": "Semiconductors",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Munich",
+      "topic": "Climate",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "agenda-change-watch",
+      "eventFamily": "FII",
+      "sourceTargets": [
+        "official agenda",
+        "speaker list",
+        "participant list",
+        "PDF programme",
+        "livestream metadata"
+      ],
+      "alertTypes": [
+        "New attendee announced",
+        "Agenda published",
+        "Speaker added",
+        "Event moved",
+        "Registration opens",
+        "Call readout posted"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "FII",
+      "topic": "AI",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "FII",
+      "topic": "Defence",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "FII",
+      "topic": "Inflation",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "FII",
+      "topic": "Energy",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "FII",
+      "topic": "China",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "FII",
+      "topic": "Semiconductors",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "FII",
+      "topic": "Climate",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "agenda-change-watch",
+      "eventFamily": "Jackson Hole",
+      "sourceTargets": [
+        "official agenda",
+        "speaker list",
+        "participant list",
+        "PDF programme",
+        "livestream metadata"
+      ],
+      "alertTypes": [
+        "New attendee announced",
+        "Agenda published",
+        "Speaker added",
+        "Event moved",
+        "Registration opens",
+        "Call readout posted"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Jackson Hole",
+      "topic": "AI",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Jackson Hole",
+      "topic": "Defence",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Jackson Hole",
+      "topic": "Inflation",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Jackson Hole",
+      "topic": "Energy",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Jackson Hole",
+      "topic": "China",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Jackson Hole",
+      "topic": "Semiconductors",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Jackson Hole",
+      "topic": "Climate",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "agenda-change-watch",
+      "eventFamily": "IMF / World Bank",
+      "sourceTargets": [
+        "official agenda",
+        "speaker list",
+        "participant list",
+        "PDF programme",
+        "livestream metadata"
+      ],
+      "alertTypes": [
+        "New attendee announced",
+        "Agenda published",
+        "Speaker added",
+        "Event moved",
+        "Registration opens",
+        "Call readout posted"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "IMF / World Bank",
+      "topic": "AI",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "IMF / World Bank",
+      "topic": "Defence",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "IMF / World Bank",
+      "topic": "Inflation",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "IMF / World Bank",
+      "topic": "Energy",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "IMF / World Bank",
+      "topic": "China",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "IMF / World Bank",
+      "topic": "Semiconductors",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "IMF / World Bank",
+      "topic": "Climate",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "agenda-change-watch",
+      "eventFamily": "G20",
+      "sourceTargets": [
+        "official agenda",
+        "speaker list",
+        "participant list",
+        "PDF programme",
+        "livestream metadata"
+      ],
+      "alertTypes": [
+        "New attendee announced",
+        "Agenda published",
+        "Speaker added",
+        "Event moved",
+        "Registration opens",
+        "Call readout posted"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "G20",
+      "topic": "AI",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "G20",
+      "topic": "Defence",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "G20",
+      "topic": "Inflation",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "G20",
+      "topic": "Energy",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "G20",
+      "topic": "China",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "G20",
+      "topic": "Semiconductors",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "G20",
+      "topic": "Climate",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "agenda-change-watch",
+      "eventFamily": "G7",
+      "sourceTargets": [
+        "official agenda",
+        "speaker list",
+        "participant list",
+        "PDF programme",
+        "livestream metadata"
+      ],
+      "alertTypes": [
+        "New attendee announced",
+        "Agenda published",
+        "Speaker added",
+        "Event moved",
+        "Registration opens",
+        "Call readout posted"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "G7",
+      "topic": "AI",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "G7",
+      "topic": "Defence",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "G7",
+      "topic": "Inflation",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "G7",
+      "topic": "Energy",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "G7",
+      "topic": "China",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "G7",
+      "topic": "Semiconductors",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "G7",
+      "topic": "Climate",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "agenda-change-watch",
+      "eventFamily": "NATO",
+      "sourceTargets": [
+        "official agenda",
+        "speaker list",
+        "participant list",
+        "PDF programme",
+        "livestream metadata"
+      ],
+      "alertTypes": [
+        "New attendee announced",
+        "Agenda published",
+        "Speaker added",
+        "Event moved",
+        "Registration opens",
+        "Call readout posted"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "NATO",
+      "topic": "AI",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "NATO",
+      "topic": "Defence",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "NATO",
+      "topic": "Inflation",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "NATO",
+      "topic": "Energy",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "NATO",
+      "topic": "China",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "NATO",
+      "topic": "Semiconductors",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "NATO",
+      "topic": "Climate",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "agenda-change-watch",
+      "eventFamily": "COP",
+      "sourceTargets": [
+        "official agenda",
+        "speaker list",
+        "participant list",
+        "PDF programme",
+        "livestream metadata"
+      ],
+      "alertTypes": [
+        "New attendee announced",
+        "Agenda published",
+        "Speaker added",
+        "Event moved",
+        "Registration opens",
+        "Call readout posted"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "COP",
+      "topic": "AI",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "COP",
+      "topic": "Defence",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "COP",
+      "topic": "Inflation",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "COP",
+      "topic": "Energy",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "COP",
+      "topic": "China",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "COP",
+      "topic": "Semiconductors",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "COP",
+      "topic": "Climate",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "agenda-change-watch",
+      "eventFamily": "OPEC",
+      "sourceTargets": [
+        "official agenda",
+        "speaker list",
+        "participant list",
+        "PDF programme",
+        "livestream metadata"
+      ],
+      "alertTypes": [
+        "New attendee announced",
+        "Agenda published",
+        "Speaker added",
+        "Event moved",
+        "Registration opens",
+        "Call readout posted"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "OPEC",
+      "topic": "AI",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "OPEC",
+      "topic": "Defence",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "OPEC",
+      "topic": "Inflation",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "OPEC",
+      "topic": "Energy",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "OPEC",
+      "topic": "China",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "OPEC",
+      "topic": "Semiconductors",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "OPEC",
+      "topic": "Climate",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "agenda-change-watch",
+      "eventFamily": "BIS",
+      "sourceTargets": [
+        "official agenda",
+        "speaker list",
+        "participant list",
+        "PDF programme",
+        "livestream metadata"
+      ],
+      "alertTypes": [
+        "New attendee announced",
+        "Agenda published",
+        "Speaker added",
+        "Event moved",
+        "Registration opens",
+        "Call readout posted"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "BIS",
+      "topic": "AI",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "BIS",
+      "topic": "Defence",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "BIS",
+      "topic": "Inflation",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "BIS",
+      "topic": "Energy",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "BIS",
+      "topic": "China",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "BIS",
+      "topic": "Semiconductors",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "BIS",
+      "topic": "Climate",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "agenda-change-watch",
+      "eventFamily": "ECB Sintra",
+      "sourceTargets": [
+        "official agenda",
+        "speaker list",
+        "participant list",
+        "PDF programme",
+        "livestream metadata"
+      ],
+      "alertTypes": [
+        "New attendee announced",
+        "Agenda published",
+        "Speaker added",
+        "Event moved",
+        "Registration opens",
+        "Call readout posted"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "ECB Sintra",
+      "topic": "AI",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "ECB Sintra",
+      "topic": "Defence",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "ECB Sintra",
+      "topic": "Inflation",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "ECB Sintra",
+      "topic": "Energy",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "ECB Sintra",
+      "topic": "China",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "ECB Sintra",
+      "topic": "Semiconductors",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "ECB Sintra",
+      "topic": "Climate",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "agenda-change-watch",
+      "eventFamily": "Sun Valley",
+      "sourceTargets": [
+        "official agenda",
+        "speaker list",
+        "participant list",
+        "PDF programme",
+        "livestream metadata"
+      ],
+      "alertTypes": [
+        "New attendee announced",
+        "Agenda published",
+        "Speaker added",
+        "Event moved",
+        "Registration opens",
+        "Call readout posted"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Sun Valley",
+      "topic": "AI",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Sun Valley",
+      "topic": "Defence",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Sun Valley",
+      "topic": "Inflation",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Sun Valley",
+      "topic": "Energy",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Sun Valley",
+      "topic": "China",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Sun Valley",
+      "topic": "Semiconductors",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Sun Valley",
+      "topic": "Climate",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "agenda-change-watch",
+      "eventFamily": "Milken",
+      "sourceTargets": [
+        "official agenda",
+        "speaker list",
+        "participant list",
+        "PDF programme",
+        "livestream metadata"
+      ],
+      "alertTypes": [
+        "New attendee announced",
+        "Agenda published",
+        "Speaker added",
+        "Event moved",
+        "Registration opens",
+        "Call readout posted"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Milken",
+      "topic": "AI",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Milken",
+      "topic": "Defence",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Milken",
+      "topic": "Inflation",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Milken",
+      "topic": "Energy",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Milken",
+      "topic": "China",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Milken",
+      "topic": "Semiconductors",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Milken",
+      "topic": "Climate",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "agenda-change-watch",
+      "eventFamily": "Raisina",
+      "sourceTargets": [
+        "official agenda",
+        "speaker list",
+        "participant list",
+        "PDF programme",
+        "livestream metadata"
+      ],
+      "alertTypes": [
+        "New attendee announced",
+        "Agenda published",
+        "Speaker added",
+        "Event moved",
+        "Registration opens",
+        "Call readout posted"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Raisina",
+      "topic": "AI",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Raisina",
+      "topic": "Defence",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Raisina",
+      "topic": "Inflation",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Raisina",
+      "topic": "Energy",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Raisina",
+      "topic": "China",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Raisina",
+      "topic": "Semiconductors",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Raisina",
+      "topic": "Climate",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "agenda-change-watch",
+      "eventFamily": "Shangri-La",
+      "sourceTargets": [
+        "official agenda",
+        "speaker list",
+        "participant list",
+        "PDF programme",
+        "livestream metadata"
+      ],
+      "alertTypes": [
+        "New attendee announced",
+        "Agenda published",
+        "Speaker added",
+        "Event moved",
+        "Registration opens",
+        "Call readout posted"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Shangri-La",
+      "topic": "AI",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Shangri-La",
+      "topic": "Defence",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Shangri-La",
+      "topic": "Inflation",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Shangri-La",
+      "topic": "Energy",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Shangri-La",
+      "topic": "China",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Shangri-La",
+      "topic": "Semiconductors",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Shangri-La",
+      "topic": "Climate",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "agenda-change-watch",
+      "eventFamily": "APEC",
+      "sourceTargets": [
+        "official agenda",
+        "speaker list",
+        "participant list",
+        "PDF programme",
+        "livestream metadata"
+      ],
+      "alertTypes": [
+        "New attendee announced",
+        "Agenda published",
+        "Speaker added",
+        "Event moved",
+        "Registration opens",
+        "Call readout posted"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "APEC",
+      "topic": "AI",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "APEC",
+      "topic": "Defence",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "APEC",
+      "topic": "Inflation",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "APEC",
+      "topic": "Energy",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "APEC",
+      "topic": "China",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "APEC",
+      "topic": "Semiconductors",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "APEC",
+      "topic": "Climate",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "agenda-change-watch",
+      "eventFamily": "BRICS",
+      "sourceTargets": [
+        "official agenda",
+        "speaker list",
+        "participant list",
+        "PDF programme",
+        "livestream metadata"
+      ],
+      "alertTypes": [
+        "New attendee announced",
+        "Agenda published",
+        "Speaker added",
+        "Event moved",
+        "Registration opens",
+        "Call readout posted"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "BRICS",
+      "topic": "AI",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "BRICS",
+      "topic": "Defence",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "BRICS",
+      "topic": "Inflation",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "BRICS",
+      "topic": "Energy",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "BRICS",
+      "topic": "China",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "BRICS",
+      "topic": "Semiconductors",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "BRICS",
+      "topic": "Climate",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "agenda-change-watch",
+      "eventFamily": "UNGA",
+      "sourceTargets": [
+        "official agenda",
+        "speaker list",
+        "participant list",
+        "PDF programme",
+        "livestream metadata"
+      ],
+      "alertTypes": [
+        "New attendee announced",
+        "Agenda published",
+        "Speaker added",
+        "Event moved",
+        "Registration opens",
+        "Call readout posted"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "UNGA",
+      "topic": "AI",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "UNGA",
+      "topic": "Defence",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "UNGA",
+      "topic": "Inflation",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "UNGA",
+      "topic": "Energy",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "UNGA",
+      "topic": "China",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "UNGA",
+      "topic": "Semiconductors",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "UNGA",
+      "topic": "Climate",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "agenda-change-watch",
+      "eventFamily": "Boao",
+      "sourceTargets": [
+        "official agenda",
+        "speaker list",
+        "participant list",
+        "PDF programme",
+        "livestream metadata"
+      ],
+      "alertTypes": [
+        "New attendee announced",
+        "Agenda published",
+        "Speaker added",
+        "Event moved",
+        "Registration opens",
+        "Call readout posted"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Boao",
+      "topic": "AI",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Boao",
+      "topic": "Defence",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Boao",
+      "topic": "Inflation",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Boao",
+      "topic": "Energy",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Boao",
+      "topic": "China",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Boao",
+      "topic": "Semiconductors",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Boao",
+      "topic": "Climate",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "agenda-change-watch",
+      "eventFamily": "Ambrosetti",
+      "sourceTargets": [
+        "official agenda",
+        "speaker list",
+        "participant list",
+        "PDF programme",
+        "livestream metadata"
+      ],
+      "alertTypes": [
+        "New attendee announced",
+        "Agenda published",
+        "Speaker added",
+        "Event moved",
+        "Registration opens",
+        "Call readout posted"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Ambrosetti",
+      "topic": "AI",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Ambrosetti",
+      "topic": "Defence",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Ambrosetti",
+      "topic": "Inflation",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Ambrosetti",
+      "topic": "Energy",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Ambrosetti",
+      "topic": "China",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Ambrosetti",
+      "topic": "Semiconductors",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Ambrosetti",
+      "topic": "Climate",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "agenda-change-watch",
+      "eventFamily": "CERAWeek",
+      "sourceTargets": [
+        "official agenda",
+        "speaker list",
+        "participant list",
+        "PDF programme",
+        "livestream metadata"
+      ],
+      "alertTypes": [
+        "New attendee announced",
+        "Agenda published",
+        "Speaker added",
+        "Event moved",
+        "Registration opens",
+        "Call readout posted"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "CERAWeek",
+      "topic": "AI",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "CERAWeek",
+      "topic": "Defence",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "CERAWeek",
+      "topic": "Inflation",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "CERAWeek",
+      "topic": "Energy",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "CERAWeek",
+      "topic": "China",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "CERAWeek",
+      "topic": "Semiconductors",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "CERAWeek",
+      "topic": "Climate",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "agenda-change-watch",
+      "eventFamily": "ADIPEC",
+      "sourceTargets": [
+        "official agenda",
+        "speaker list",
+        "participant list",
+        "PDF programme",
+        "livestream metadata"
+      ],
+      "alertTypes": [
+        "New attendee announced",
+        "Agenda published",
+        "Speaker added",
+        "Event moved",
+        "Registration opens",
+        "Call readout posted"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "ADIPEC",
+      "topic": "AI",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "ADIPEC",
+      "topic": "Defence",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "ADIPEC",
+      "topic": "Inflation",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "ADIPEC",
+      "topic": "Energy",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "ADIPEC",
+      "topic": "China",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "ADIPEC",
+      "topic": "Semiconductors",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "ADIPEC",
+      "topic": "Climate",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "agenda-change-watch",
+      "eventFamily": "Paris Air Show",
+      "sourceTargets": [
+        "official agenda",
+        "speaker list",
+        "participant list",
+        "PDF programme",
+        "livestream metadata"
+      ],
+      "alertTypes": [
+        "New attendee announced",
+        "Agenda published",
+        "Speaker added",
+        "Event moved",
+        "Registration opens",
+        "Call readout posted"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Paris Air Show",
+      "topic": "AI",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Paris Air Show",
+      "topic": "Defence",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Paris Air Show",
+      "topic": "Inflation",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Paris Air Show",
+      "topic": "Energy",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Paris Air Show",
+      "topic": "China",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Paris Air Show",
+      "topic": "Semiconductors",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Paris Air Show",
+      "topic": "Climate",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "agenda-change-watch",
+      "eventFamily": "Farnborough",
+      "sourceTargets": [
+        "official agenda",
+        "speaker list",
+        "participant list",
+        "PDF programme",
+        "livestream metadata"
+      ],
+      "alertTypes": [
+        "New attendee announced",
+        "Agenda published",
+        "Speaker added",
+        "Event moved",
+        "Registration opens",
+        "Call readout posted"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Farnborough",
+      "topic": "AI",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Farnborough",
+      "topic": "Defence",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Farnborough",
+      "topic": "Inflation",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Farnborough",
+      "topic": "Energy",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Farnborough",
+      "topic": "China",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Farnborough",
+      "topic": "Semiconductors",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "Farnborough",
+      "topic": "Climate",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "agenda-change-watch",
+      "eventFamily": "WTO",
+      "sourceTargets": [
+        "official agenda",
+        "speaker list",
+        "participant list",
+        "PDF programme",
+        "livestream metadata"
+      ],
+      "alertTypes": [
+        "New attendee announced",
+        "Agenda published",
+        "Speaker added",
+        "Event moved",
+        "Registration opens",
+        "Call readout posted"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "WTO",
+      "topic": "AI",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "WTO",
+      "topic": "Defence",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "WTO",
+      "topic": "Inflation",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "WTO",
+      "topic": "Energy",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "WTO",
+      "topic": "China",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "WTO",
+      "topic": "Semiconductors",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "WTO",
+      "topic": "Climate",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "agenda-change-watch",
+      "eventFamily": "CES",
+      "sourceTargets": [
+        "official agenda",
+        "speaker list",
+        "participant list",
+        "PDF programme",
+        "livestream metadata"
+      ],
+      "alertTypes": [
+        "New attendee announced",
+        "Agenda published",
+        "Speaker added",
+        "Event moved",
+        "Registration opens",
+        "Call readout posted"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "CES",
+      "topic": "AI",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "CES",
+      "topic": "Defence",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "CES",
+      "topic": "Inflation",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "CES",
+      "topic": "Energy",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "CES",
+      "topic": "China",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "CES",
+      "topic": "Semiconductors",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "topic-extraction",
+      "eventFamily": "CES",
+      "topic": "Climate",
+      "fields": [
+        "session title",
+        "speaker",
+        "organization",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "organization-penetration",
+      "organization": "BlackRock",
+      "eventFamilies": [
+        "Davos",
+        "Bilderberg",
+        "Munich",
+        "FII",
+        "Jackson Hole",
+        "IMF / World Bank",
+        "G20",
+        "G7",
+        "NATO",
+        "COP",
+        "OPEC",
+        "BIS",
+        "ECB Sintra",
+        "Sun Valley",
+        "Milken",
+        "Raisina",
+        "Shangri-La",
+        "APEC",
+        "BRICS",
+        "UNGA",
+        "Boao",
+        "Ambrosetti",
+        "CERAWeek",
+        "ADIPEC",
+        "Paris Air Show",
+        "Farnborough",
+        "WTO",
+        "CES"
+      ],
+      "output": [
+        "representative",
+        "role",
+        "event",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "organization-penetration",
+      "organization": "NATO",
+      "eventFamilies": [
+        "Davos",
+        "Bilderberg",
+        "Munich",
+        "FII",
+        "Jackson Hole",
+        "IMF / World Bank",
+        "G20",
+        "G7",
+        "NATO",
+        "COP",
+        "OPEC",
+        "BIS",
+        "ECB Sintra",
+        "Sun Valley",
+        "Milken",
+        "Raisina",
+        "Shangri-La",
+        "APEC",
+        "BRICS",
+        "UNGA",
+        "Boao",
+        "Ambrosetti",
+        "CERAWeek",
+        "ADIPEC",
+        "Paris Air Show",
+        "Farnborough",
+        "WTO",
+        "CES"
+      ],
+      "output": [
+        "representative",
+        "role",
+        "event",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "organization-penetration",
+      "organization": "IMF",
+      "eventFamilies": [
+        "Davos",
+        "Bilderberg",
+        "Munich",
+        "FII",
+        "Jackson Hole",
+        "IMF / World Bank",
+        "G20",
+        "G7",
+        "NATO",
+        "COP",
+        "OPEC",
+        "BIS",
+        "ECB Sintra",
+        "Sun Valley",
+        "Milken",
+        "Raisina",
+        "Shangri-La",
+        "APEC",
+        "BRICS",
+        "UNGA",
+        "Boao",
+        "Ambrosetti",
+        "CERAWeek",
+        "ADIPEC",
+        "Paris Air Show",
+        "Farnborough",
+        "WTO",
+        "CES"
+      ],
+      "output": [
+        "representative",
+        "role",
+        "event",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "organization-penetration",
+      "organization": "BIS",
+      "eventFamilies": [
+        "Davos",
+        "Bilderberg",
+        "Munich",
+        "FII",
+        "Jackson Hole",
+        "IMF / World Bank",
+        "G20",
+        "G7",
+        "NATO",
+        "COP",
+        "OPEC",
+        "BIS",
+        "ECB Sintra",
+        "Sun Valley",
+        "Milken",
+        "Raisina",
+        "Shangri-La",
+        "APEC",
+        "BRICS",
+        "UNGA",
+        "Boao",
+        "Ambrosetti",
+        "CERAWeek",
+        "ADIPEC",
+        "Paris Air Show",
+        "Farnborough",
+        "WTO",
+        "CES"
+      ],
+      "output": [
+        "representative",
+        "role",
+        "event",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "organization-penetration",
+      "organization": "Microsoft",
+      "eventFamilies": [
+        "Davos",
+        "Bilderberg",
+        "Munich",
+        "FII",
+        "Jackson Hole",
+        "IMF / World Bank",
+        "G20",
+        "G7",
+        "NATO",
+        "COP",
+        "OPEC",
+        "BIS",
+        "ECB Sintra",
+        "Sun Valley",
+        "Milken",
+        "Raisina",
+        "Shangri-La",
+        "APEC",
+        "BRICS",
+        "UNGA",
+        "Boao",
+        "Ambrosetti",
+        "CERAWeek",
+        "ADIPEC",
+        "Paris Air Show",
+        "Farnborough",
+        "WTO",
+        "CES"
+      ],
+      "output": [
+        "representative",
+        "role",
+        "event",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "organization-penetration",
+      "organization": "OpenAI",
+      "eventFamilies": [
+        "Davos",
+        "Bilderberg",
+        "Munich",
+        "FII",
+        "Jackson Hole",
+        "IMF / World Bank",
+        "G20",
+        "G7",
+        "NATO",
+        "COP",
+        "OPEC",
+        "BIS",
+        "ECB Sintra",
+        "Sun Valley",
+        "Milken",
+        "Raisina",
+        "Shangri-La",
+        "APEC",
+        "BRICS",
+        "UNGA",
+        "Boao",
+        "Ambrosetti",
+        "CERAWeek",
+        "ADIPEC",
+        "Paris Air Show",
+        "Farnborough",
+        "WTO",
+        "CES"
+      ],
+      "output": [
+        "representative",
+        "role",
+        "event",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "organization-penetration",
+      "organization": "Brookings",
+      "eventFamilies": [
+        "Davos",
+        "Bilderberg",
+        "Munich",
+        "FII",
+        "Jackson Hole",
+        "IMF / World Bank",
+        "G20",
+        "G7",
+        "NATO",
+        "COP",
+        "OPEC",
+        "BIS",
+        "ECB Sintra",
+        "Sun Valley",
+        "Milken",
+        "Raisina",
+        "Shangri-La",
+        "APEC",
+        "BRICS",
+        "UNGA",
+        "Boao",
+        "Ambrosetti",
+        "CERAWeek",
+        "ADIPEC",
+        "Paris Air Show",
+        "Farnborough",
+        "WTO",
+        "CES"
+      ],
+      "output": [
+        "representative",
+        "role",
+        "event",
+        "year",
+        "source URL"
+      ]
+    },
+    {
+      "type": "organization-penetration",
+      "organization": "CFR",
+      "eventFamilies": [
+        "Davos",
+        "Bilderberg",
+        "Munich",
+        "FII",
+        "Jackson Hole",
+        "IMF / World Bank",
+        "G20",
+        "G7",
+        "NATO",
+        "COP",
+        "OPEC",
+        "BIS",
+        "ECB Sintra",
+        "Sun Valley",
+        "Milken",
+        "Raisina",
+        "Shangri-La",
+        "APEC",
+        "BRICS",
+        "UNGA",
+        "Boao",
+        "Ambrosetti",
+        "CERAWeek",
+        "ADIPEC",
+        "Paris Air Show",
+        "Farnborough",
+        "WTO",
+        "CES"
+      ],
+      "output": [
+        "representative",
+        "role",
+        "event",
+        "year",
+        "source URL"
+      ]
+    }
+  ]
+}

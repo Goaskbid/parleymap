@@ -1,3222 +1,3197 @@
 {
-  "generatedAt": "2026-06-01T05:41:19.105Z",
-  "alerts": 6,
-  "topicTags": 7,
-  "organizations": 8,
-  "eventFamilies": 28,
-  "plannedJobs": 232,
-  "jobs": [
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "Davos",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Davos",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Davos",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Davos",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Davos",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Davos",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Davos",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Davos",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "Bilderberg",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Bilderberg",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Bilderberg",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Bilderberg",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Bilderberg",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Bilderberg",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Bilderberg",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Bilderberg",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "Munich",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Munich",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Munich",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Munich",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Munich",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Munich",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Munich",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Munich",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "FII",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "FII",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "FII",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "FII",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "FII",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "FII",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "FII",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "FII",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "Jackson Hole",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Jackson Hole",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Jackson Hole",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Jackson Hole",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Jackson Hole",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Jackson Hole",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Jackson Hole",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Jackson Hole",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "IMF / World Bank",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "IMF / World Bank",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "IMF / World Bank",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "IMF / World Bank",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "IMF / World Bank",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "IMF / World Bank",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "IMF / World Bank",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "IMF / World Bank",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "G20",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "G20",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "G20",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "G20",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "G20",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "G20",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "G20",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "G20",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "G7",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "G7",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "G7",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "G7",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "G7",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "G7",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "G7",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "G7",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "NATO",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "NATO",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "NATO",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "NATO",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "NATO",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "NATO",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "NATO",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "NATO",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "COP",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "COP",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "COP",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "COP",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "COP",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "COP",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "COP",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "COP",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "OPEC",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "OPEC",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "OPEC",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "OPEC",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "OPEC",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "OPEC",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "OPEC",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "OPEC",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "BIS",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "BIS",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "BIS",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "BIS",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "BIS",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "BIS",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "BIS",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "BIS",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "ECB Sintra",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "ECB Sintra",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "ECB Sintra",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "ECB Sintra",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "ECB Sintra",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "ECB Sintra",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "ECB Sintra",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "ECB Sintra",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "Sun Valley",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Sun Valley",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Sun Valley",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Sun Valley",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Sun Valley",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Sun Valley",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Sun Valley",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Sun Valley",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "Milken",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Milken",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Milken",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Milken",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Milken",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Milken",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Milken",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Milken",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "Raisina",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Raisina",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Raisina",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Raisina",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Raisina",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Raisina",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Raisina",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Raisina",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "Shangri-La",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Shangri-La",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Shangri-La",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Shangri-La",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Shangri-La",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Shangri-La",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Shangri-La",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Shangri-La",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "APEC",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "APEC",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "APEC",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "APEC",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "APEC",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "APEC",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "APEC",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "APEC",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "BRICS",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "BRICS",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "BRICS",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "BRICS",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "BRICS",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "BRICS",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "BRICS",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "BRICS",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "UNGA",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "UNGA",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "UNGA",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "UNGA",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "UNGA",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "UNGA",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "UNGA",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "UNGA",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "Boao",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Boao",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Boao",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Boao",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Boao",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Boao",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Boao",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Boao",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "Ambrosetti",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Ambrosetti",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Ambrosetti",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Ambrosetti",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Ambrosetti",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Ambrosetti",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Ambrosetti",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Ambrosetti",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "CERAWeek",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "CERAWeek",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "CERAWeek",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "CERAWeek",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "CERAWeek",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "CERAWeek",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "CERAWeek",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "CERAWeek",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "ADIPEC",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "ADIPEC",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "ADIPEC",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "ADIPEC",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "ADIPEC",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "ADIPEC",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "ADIPEC",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "ADIPEC",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "Paris Air Show",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Paris Air Show",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Paris Air Show",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Paris Air Show",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Paris Air Show",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Paris Air Show",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Paris Air Show",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Paris Air Show",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "Farnborough",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Farnborough",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Farnborough",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Farnborough",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Farnborough",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Farnborough",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Farnborough",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "Farnborough",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "WTO",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "WTO",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "WTO",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "WTO",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "WTO",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "WTO",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "WTO",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "WTO",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "agenda-change-watch",
-      "eventFamily": "CES",
-      "sourceTargets": [
-        "official agenda",
-        "speaker list",
-        "participant list",
-        "PDF programme",
-        "livestream metadata"
-      ],
-      "alertTypes": [
-        "New attendee announced",
-        "Agenda published",
-        "Speaker added",
-        "Event moved",
-        "Registration opens",
-        "Call readout posted"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "CES",
-      "topic": "AI",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "CES",
-      "topic": "Defence",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "CES",
-      "topic": "Inflation",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "CES",
-      "topic": "Energy",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "CES",
-      "topic": "China",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "CES",
-      "topic": "Semiconductors",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "topic-extraction",
-      "eventFamily": "CES",
-      "topic": "Climate",
-      "fields": [
-        "session title",
-        "speaker",
-        "organization",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "organization-penetration",
-      "organization": "BlackRock",
-      "eventFamilies": [
-        "Davos",
-        "Bilderberg",
-        "Munich",
-        "FII",
-        "Jackson Hole",
-        "IMF / World Bank",
-        "G20",
-        "G7",
-        "NATO",
-        "COP",
-        "OPEC",
-        "BIS",
-        "ECB Sintra",
-        "Sun Valley",
-        "Milken",
-        "Raisina",
-        "Shangri-La",
-        "APEC",
-        "BRICS",
-        "UNGA",
-        "Boao",
-        "Ambrosetti",
-        "CERAWeek",
-        "ADIPEC",
-        "Paris Air Show",
-        "Farnborough",
-        "WTO",
-        "CES"
-      ],
-      "output": [
-        "representative",
-        "role",
-        "event",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "organization-penetration",
-      "organization": "NATO",
-      "eventFamilies": [
-        "Davos",
-        "Bilderberg",
-        "Munich",
-        "FII",
-        "Jackson Hole",
-        "IMF / World Bank",
-        "G20",
-        "G7",
-        "NATO",
-        "COP",
-        "OPEC",
-        "BIS",
-        "ECB Sintra",
-        "Sun Valley",
-        "Milken",
-        "Raisina",
-        "Shangri-La",
-        "APEC",
-        "BRICS",
-        "UNGA",
-        "Boao",
-        "Ambrosetti",
-        "CERAWeek",
-        "ADIPEC",
-        "Paris Air Show",
-        "Farnborough",
-        "WTO",
-        "CES"
-      ],
-      "output": [
-        "representative",
-        "role",
-        "event",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "organization-penetration",
-      "organization": "IMF",
-      "eventFamilies": [
-        "Davos",
-        "Bilderberg",
-        "Munich",
-        "FII",
-        "Jackson Hole",
-        "IMF / World Bank",
-        "G20",
-        "G7",
-        "NATO",
-        "COP",
-        "OPEC",
-        "BIS",
-        "ECB Sintra",
-        "Sun Valley",
-        "Milken",
-        "Raisina",
-        "Shangri-La",
-        "APEC",
-        "BRICS",
-        "UNGA",
-        "Boao",
-        "Ambrosetti",
-        "CERAWeek",
-        "ADIPEC",
-        "Paris Air Show",
-        "Farnborough",
-        "WTO",
-        "CES"
-      ],
-      "output": [
-        "representative",
-        "role",
-        "event",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "organization-penetration",
-      "organization": "BIS",
-      "eventFamilies": [
-        "Davos",
-        "Bilderberg",
-        "Munich",
-        "FII",
-        "Jackson Hole",
-        "IMF / World Bank",
-        "G20",
-        "G7",
-        "NATO",
-        "COP",
-        "OPEC",
-        "BIS",
-        "ECB Sintra",
-        "Sun Valley",
-        "Milken",
-        "Raisina",
-        "Shangri-La",
-        "APEC",
-        "BRICS",
-        "UNGA",
-        "Boao",
-        "Ambrosetti",
-        "CERAWeek",
-        "ADIPEC",
-        "Paris Air Show",
-        "Farnborough",
-        "WTO",
-        "CES"
-      ],
-      "output": [
-        "representative",
-        "role",
-        "event",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "organization-penetration",
-      "organization": "Microsoft",
-      "eventFamilies": [
-        "Davos",
-        "Bilderberg",
-        "Munich",
-        "FII",
-        "Jackson Hole",
-        "IMF / World Bank",
-        "G20",
-        "G7",
-        "NATO",
-        "COP",
-        "OPEC",
-        "BIS",
-        "ECB Sintra",
-        "Sun Valley",
-        "Milken",
-        "Raisina",
-        "Shangri-La",
-        "APEC",
-        "BRICS",
-        "UNGA",
-        "Boao",
-        "Ambrosetti",
-        "CERAWeek",
-        "ADIPEC",
-        "Paris Air Show",
-        "Farnborough",
-        "WTO",
-        "CES"
-      ],
-      "output": [
-        "representative",
-        "role",
-        "event",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "organization-penetration",
-      "organization": "OpenAI",
-      "eventFamilies": [
-        "Davos",
-        "Bilderberg",
-        "Munich",
-        "FII",
-        "Jackson Hole",
-        "IMF / World Bank",
-        "G20",
-        "G7",
-        "NATO",
-        "COP",
-        "OPEC",
-        "BIS",
-        "ECB Sintra",
-        "Sun Valley",
-        "Milken",
-        "Raisina",
-        "Shangri-La",
-        "APEC",
-        "BRICS",
-        "UNGA",
-        "Boao",
-        "Ambrosetti",
-        "CERAWeek",
-        "ADIPEC",
-        "Paris Air Show",
-        "Farnborough",
-        "WTO",
-        "CES"
-      ],
-      "output": [
-        "representative",
-        "role",
-        "event",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "organization-penetration",
-      "organization": "Brookings",
-      "eventFamilies": [
-        "Davos",
-        "Bilderberg",
-        "Munich",
-        "FII",
-        "Jackson Hole",
-        "IMF / World Bank",
-        "G20",
-        "G7",
-        "NATO",
-        "COP",
-        "OPEC",
-        "BIS",
-        "ECB Sintra",
-        "Sun Valley",
-        "Milken",
-        "Raisina",
-        "Shangri-La",
-        "APEC",
-        "BRICS",
-        "UNGA",
-        "Boao",
-        "Ambrosetti",
-        "CERAWeek",
-        "ADIPEC",
-        "Paris Air Show",
-        "Farnborough",
-        "WTO",
-        "CES"
-      ],
-      "output": [
-        "representative",
-        "role",
-        "event",
-        "year",
-        "source URL"
-      ]
-    },
-    {
-      "type": "organization-penetration",
-      "organization": "CFR",
-      "eventFamilies": [
-        "Davos",
-        "Bilderberg",
-        "Munich",
-        "FII",
-        "Jackson Hole",
-        "IMF / World Bank",
-        "G20",
-        "G7",
-        "NATO",
-        "COP",
-        "OPEC",
-        "BIS",
-        "ECB Sintra",
-        "Sun Valley",
-        "Milken",
-        "Raisina",
-        "Shangri-La",
-        "APEC",
-        "BRICS",
-        "UNGA",
-        "Boao",
-        "Ambrosetti",
-        "CERAWeek",
-        "ADIPEC",
-        "Paris Air Show",
-        "Farnborough",
-        "WTO",
-        "CES"
-      ],
-      "output": [
-        "representative",
-        "role",
-        "event",
-        "year",
-        "source URL"
-      ]
+  "summary": {
+    "generatedAt": "2026-06-01T08:46:31.800Z",
+    "lookbackMonths": 36,
+    "lookbackDays": 1096,
+    "futureDays": 180,
+    "rosterSize": 314,
+    "monthlyBackfillJobs": 11304,
+    "dailySourceWatchJobs": 3768,
+    "totalPlannedJobs": 15072,
+    "profileOnly": 226,
+    "thinTrail": 37,
+    "mediumTrail": 37,
+    "covered": 14,
+    "publicationBoundary": "No private homes, hotels, live tracking, aircraft tracking, leaked routes, medical locations or family locations. Social/local/media clues stay as leads unless converted into safe public source packs."
+  },
+  "gaps": [
+    {
+      "id": "x-229-abdallah-bou-habib",
+      "name": "Abdallah Bou Habib",
+      "role": "Minister of Foreign Affairs",
+      "country": "UN",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-034-abdel-fattah-el-sisi",
+      "name": "Abdel Fattah el-Sisi",
+      "role": "Head of state/government",
+      "country": "EG",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-226-abdullah-bin-zayed-al-nahyan",
+      "name": "Abdullah bin Zayed Al Nahyan",
+      "role": "Minister of Foreign Affairs",
+      "country": "AE",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-114-abigail-johnson",
+      "name": "Abigail Johnson",
+      "role": "Asset management principal",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-035-abiy-ahmed",
+      "name": "Abiy Ahmed",
+      "role": "Head of government",
+      "country": "ET",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-060-achim-steiner",
+      "name": "Achim Steiner",
+      "role": "Development institution principal",
+      "country": "UN",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-247-adair-turner",
+      "name": "Adair Turner",
+      "role": "Chair, Energy Transitions Commission",
+      "country": "GB",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-262-adam-posen",
+      "name": "Adam Posen",
+      "role": "President, Peterson Institute for International Economics",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-146-al-gore",
+      "name": "Al Gore",
+      "role": "Climate / former political principal",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-222-alexander-schallenberg",
+      "name": "Alexander Schallenberg",
+      "role": "Former foreign minister / senior diplomat",
+      "country": "AT",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-285-alexander-soros",
+      "name": "Alexander Soros",
+      "role": "Chair, Open Society Foundations",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-019-ali-khamenei",
+      "name": "Ali Khamenei",
+      "role": "Religious / state principal",
+      "country": "IR",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-270-allan-dafoe",
+      "name": "Allan Dafoe",
+      "role": "Director, Centre for the Governance of AI",
+      "country": "GB",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-286-alois-zwinggi",
+      "name": "Alois Zwinggi",
+      "role": "President and CEO, World Economic Forum",
+      "country": "CH",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-104-amin-h-nasser",
+      "name": "Amin H. Nasser",
+      "role": "Energy executive principal",
+      "country": "SA",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-313-andrius-kubilius",
+      "name": "Andrius Kubilius",
+      "role": "European Commissioner for Defence and Space",
+      "country": "EU",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-125-andy-jassy",
+      "name": "Andy Jassy",
+      "role": "Cloud technology principal",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-038-angela-merkel",
+      "name": "Angela Merkel",
+      "role": "Former head of government",
+      "country": "DE",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-277-ani-dasgupta",
+      "name": "Ani Dasgupta",
+      "role": "President and CEO, World Resources Institute",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-026-anthony-albanese",
+      "name": "Anthony Albanese",
+      "role": "Head of government",
+      "country": "AU",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-235-arminio-fraga",
+      "name": "Arminio Fraga",
+      "role": "Former Governor, Banco Central do Brasil",
+      "country": "BR",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-225-badr-abdelatty",
+      "name": "Badr Abdelatty",
+      "role": "Minister of Foreign Affairs",
+      "country": "EG",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-039-barack-obama",
+      "name": "Barack Obama",
+      "role": "Former head of state/government",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-077-bernard-arnault",
+      "name": "Bernard Arnault",
+      "role": "Luxury / investor principal",
+      "country": "FR",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-042-bill-clinton",
+      "name": "Bill Clinton",
+      "role": "Former head of state/government",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-284-binaifer-nowrojee",
+      "name": "Binaifer Nowrojee",
+      "role": "President, Open Society Foundations",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-310-blaise-metreweli",
+      "name": "Blaise Metreweli",
+      "role": "Chief, Secret Intelligence Service",
+      "country": "GB",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-032-bola-tinubu",
+      "name": "Bola Tinubu",
+      "role": "Head of state/government",
+      "country": "NG",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-093-boris-johnson",
+      "name": "Boris Johnson",
+      "role": "Former head of government",
+      "country": "GB",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-084-brian-chesky",
+      "name": "Brian Chesky",
+      "role": "Platform technology principal",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-112-brian-moynihan",
+      "name": "Brian Moynihan",
+      "role": "Banking principal",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-256-bronwen-maddox",
+      "name": "Bronwen Maddox",
+      "role": "Director and CEO, Chatham House",
+      "country": "GB",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-193-c-c-wei",
+      "name": "C. C. Wei",
+      "role": "Semiconductor executive principal",
+      "country": "TW",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-276-c-raja-mohan",
+      "name": "C. Raja Mohan",
+      "role": "Senior fellow / South Asia policy principal",
+      "country": "SG",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-116-carlos-slim",
+      "name": "Carlos Slim",
+      "role": "Telecom investor principal",
+      "country": "MX",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-244-carmen-reinhart",
+      "name": "Carmen Reinhart",
+      "role": "Harvard economist",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-061-catherine-russell",
+      "name": "Catherine Russell",
+      "role": "Humanitarian institution principal",
+      "country": "UN",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-255-cecilia-rouse",
+      "name": "Cecilia Rouse",
+      "role": "President, Brookings Institution",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-312-christopher-cavoli",
+      "name": "Christopher Cavoli",
+      "role": "Supreme Allied Commander Europe",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-058-cindy-mccain",
+      "name": "Cindy McCain",
+      "role": "Humanitarian institution principal",
+      "country": "UN",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-028-claudia-sheinbaum",
+      "name": "Claudia Sheinbaum",
+      "role": "Head of state/government",
+      "country": "MX",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-306-crown-prince-akishino",
+      "name": "Crown Prince Akishino",
+      "role": "Crown Prince of Japan",
+      "country": "JP",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-294-crown-prince-haakon",
+      "name": "Crown Prince Haakon",
+      "role": "Crown Prince of Norway",
+      "country": "NO",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-307-crown-prince-hussein",
+      "name": "Crown Prince Hussein",
+      "role": "Crown Prince of Jordan",
+      "country": "JO",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-296-crown-princess-victoria",
+      "name": "Crown Princess Victoria",
+      "role": "Crown Princess of Sweden",
+      "country": "SE",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-031-cyril-ramaphosa",
+      "name": "Cyril Ramaphosa",
+      "role": "Head of state/government",
+      "country": "ZA",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-290-dame-susan-langley",
+      "name": "Dame Susan Langley",
+      "role": "Lady Mayor of the City of London",
+      "country": "GB",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-232-daron-acemoglu",
+      "name": "Daron Acemoglu",
+      "role": "MIT Institute Professor",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-105-darren-woods",
+      "name": "Darren Woods",
+      "role": "Energy executive principal",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-203-david-cameron",
+      "name": "David Cameron",
+      "role": "Former Prime Minister / former Foreign Secretary",
+      "country": "GB",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-309-david-de-rothschild",
+      "name": "David de Rothschild",
+      "role": "Rothschild family-capital principal",
+      "country": "GB",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-164-david-petraeus",
+      "name": "David Petraeus",
+      "role": "Former CIA director",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-111-david-solomon",
+      "name": "David Solomon",
+      "role": "Banking principal",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-267-dewey-murdick",
+      "name": "Dewey Murdick",
+      "role": "Executive Director, CSET",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-209-dmitry-medvedev",
+      "name": "Dmitry Medvedev",
+      "role": "Former President of Russia",
+      "country": "RU",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-087-donald-tusk",
+      "name": "Donald Tusk",
+      "role": "Head of government",
+      "country": "PL",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-210-ehud-barak",
+      "name": "Ehud Barak",
+      "role": "Former Prime Minister of Israel",
+      "country": "IL",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-211-ehud-olmert",
+      "name": "Ehud Olmert",
+      "role": "Former Prime Minister of Israel",
+      "country": "IL",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-158-elina-valtonen",
+      "name": "Elina Valtonen",
+      "role": "Foreign minister",
+      "country": "FI",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-304-emperor-naruhito",
+      "name": "Emperor Naruhito",
+      "role": "Emperor of Japan",
+      "country": "JP",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-305-empress-masako",
+      "name": "Empress Masako",
+      "role": "Empress of Japan",
+      "country": "JP",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-162-enrique-manalo",
+      "name": "Enrique Manalo",
+      "role": "Foreign minister",
+      "country": "PH",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-216-espen-barth-eide",
+      "name": "Espen Barth Eide",
+      "role": "Minister of Foreign Affairs",
+      "country": "NO",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-188-fei-fei-li",
+      "name": "Fei-Fei Li",
+      "role": "AI research leader",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-059-filippo-grandi",
+      "name": "Filippo Grandi",
+      "role": "Humanitarian institution principal",
+      "country": "UN",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-208-francois-hollande",
+      "name": "François Hollande",
+      "role": "Former President of France",
+      "country": "FR",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-francois-villeroy-de-galhau",
+      "name": "François Villeroy de Galhau",
+      "role": "Central banker",
+      "country": "FR",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-100-gabriel-boric",
+      "name": "Gabriel Boric",
+      "role": "Head of state/government",
+      "country": "CL",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-241-gail-kelly",
+      "name": "Gail Kelly",
+      "role": "Former Westpac CEO / UBS board member",
+      "country": "AU",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-079-gautam-adani",
+      "name": "Gautam Adani",
+      "role": "Industrial principal",
+      "country": "IN",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-122-george-soros",
+      "name": "George Soros",
+      "role": "Philanthropy / investor principal",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-041-george-w-bush",
+      "name": "George W. Bush",
+      "role": "Former head of state/government",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-163-george-yeo",
+      "name": "George Yeo",
+      "role": "Former foreign minister",
+      "country": "SG",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-206-gerhard-schroder",
+      "name": "Gerhard Schröder",
+      "role": "Former Chancellor of Germany",
+      "country": "DE",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-062-gianni-infantino",
+      "name": "Gianni Infantino",
+      "role": "Sports governance principal",
+      "country": "FIFA",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-237-gita-gopinath",
+      "name": "Gita Gopinath",
+      "role": "Economist, former IMF First Deputy Managing Director",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-202-gordon-brown",
+      "name": "Gordon Brown",
+      "role": "Former Prime Minister of the United Kingdom",
+      "country": "GB",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-301-grand-duke-henri",
+      "name": "Grand Duke Henri",
+      "role": "Grand Duke of Luxembourg",
+      "country": "LU",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-231-guillermo-ortiz",
+      "name": "Guillermo Ortiz",
+      "role": "Treasurer, Group of Thirty",
+      "country": "MX",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-099-gustavo-petro",
+      "name": "Gustavo Petro",
+      "role": "Head of state/government",
+      "country": "CO",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-223-guy-parmelin",
+      "name": "Guy Parmelin",
+      "role": "President of the Swiss Confederation / Economy Minister",
+      "country": "CH",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-133-hakan-fidan",
+      "name": "Hakan Fidan",
+      "role": "Foreign minister",
+      "country": "TR",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-245-helene-rey",
+      "name": "Hélène Rey",
+      "role": "London Business School economist",
+      "country": "GB",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-303-hereditary-prince-alois",
+      "name": "Hereditary Prince Alois",
+      "role": "Hereditary Prince of Liechtenstein",
+      "country": "LI",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-240-huang-yiping",
+      "name": "Huang Yiping",
+      "role": "Peking University economist",
+      "country": "CN",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-224-ignazio-cassis",
+      "name": "Ignazio Cassis",
+      "role": "Head of the Federal Department of Foreign Affairs",
+      "country": "CH",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-215-jacinda-ardern",
+      "name": "Jacinda Ardern",
+      "role": "Former Prime Minister of New Zealand",
+      "country": "UN",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-178-jack-clark",
+      "name": "Jack Clark",
+      "role": "AI policy executive",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-080-jack-ma",
+      "name": "Jack Ma",
+      "role": "Technology / commerce principal",
+      "country": "CN",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-230-jacob-frenkel",
+      "name": "Jacob Frenkel",
+      "role": "Chairman Emeritus, Group of Thirty",
+      "country": "IL",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-263-james-poterba",
+      "name": "James Poterba",
+      "role": "President, National Bureau of Economic Research",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-220-jan-lipavsky",
+      "name": "Jan Lipavský",
+      "role": "Minister of Foreign Affairs",
+      "country": "CZ",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-076-jane-fraser",
+      "name": "Jane Fraser",
+      "role": "Banking principal",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-236-jason-furman",
+      "name": "Jason Furman",
+      "role": "Harvard economist",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-258-jason-matheny",
+      "name": "Jason Matheny",
+      "role": "President and CEO, RAND Corporation",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-030-javier-milei",
+      "name": "Javier Milei",
+      "role": "Head of state/government",
+      "country": "AR",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-268-jean-innes",
+      "name": "Jean Innes",
+      "role": "CEO, Alan Turing Institute",
+      "country": "GB",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-289-jean-claude-trichet",
+      "name": "Jean-Claude Trichet",
+      "role": "European Chair, Trilateral Commission / G30 honorary chair",
+      "country": "FR",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-067-jeff-bezos",
+      "name": "Jeff Bezos",
+      "role": "Technology / media principal",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-264-jeromin-zettelmeyer",
+      "name": "Jeromin Zettelmeyer",
+      "role": "Director, Bruegel",
+      "country": "BE",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-040-joe-biden",
+      "name": "Joe Biden",
+      "role": "Former head of state/government",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-248-john-c-williams",
+      "name": "John C. Williams",
+      "role": "President, Federal Reserve Bank of New York",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-257-john-hamre",
+      "name": "John Hamre",
+      "role": "President and CEO, CSIS",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-201-john-major",
+      "name": "John Major",
+      "role": "Former Prime Minister of the United Kingdom",
+      "country": "GB",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-john-williams",
+      "name": "John Williams",
+      "role": "Central banker",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-278-jon-creyts",
+      "name": "Jon Creyts",
+      "role": "CEO, Rocky Mountain Institute",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-219-jose-manuel-albares",
+      "name": "José Manuel Albares",
+      "role": "Minister of Foreign Affairs",
+      "country": "ES",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-281-karel-lannoo",
+      "name": "Karel Lannoo",
+      "role": "CEO, CEPS",
+      "country": "BE",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-260-karim-haggag",
+      "name": "Karim Haggag",
+      "role": "Director, SIPRI",
+      "country": "EG",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-108-ken-griffin",
+      "name": "Ken Griffin",
+      "role": "Hedge fund principal",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-253-kenneth-rogoff",
+      "name": "Kenneth Rogoff",
+      "role": "Harvard economist",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-274-kevin-rudd",
+      "name": "Kevin Rudd",
+      "role": "Asia Society Policy Institute president / former Australian PM",
+      "country": "AU",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-198-khaldoon-al-mubarak",
+      "name": "Khaldoon Al Mubarak",
+      "role": "Sovereign wealth / investment principal",
+      "country": "AE",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-149-king-abdullah-ii",
+      "name": "King Abdullah II",
+      "role": "Head of state / royal principal",
+      "country": "JO",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-295-king-carl-xvi-gustaf",
+      "name": "King Carl XVI Gustaf",
+      "role": "King of Sweden",
+      "country": "SE",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-043-king-charles-iii",
+      "name": "King Charles III",
+      "role": "Royal principal",
+      "country": "GB",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-147-king-felipe-vi",
+      "name": "King Felipe VI",
+      "role": "Royal principal",
+      "country": "ES",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-291-king-frederik-x",
+      "name": "King Frederik X",
+      "role": "King of Denmark",
+      "country": "DK",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-293-king-harald-v",
+      "name": "King Harald V",
+      "role": "King of Norway",
+      "country": "NO",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-299-king-philippe",
+      "name": "King Philippe",
+      "role": "King of the Belgians",
+      "country": "BE",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-297-king-willem-alexander",
+      "name": "King Willem-Alexander",
+      "role": "King of the Netherlands",
+      "country": "NL",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-063-kirsty-coventry",
+      "name": "Kirsty Coventry",
+      "role": "Sports governance principal",
+      "country": "IO",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-klaas-knot",
+      "name": "Klaas Knot",
+      "role": "Central banker",
+      "country": "NL",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-142-klaus-schwab",
+      "name": "Klaus Schwab",
+      "role": "Forum founder / former principal",
+      "country": "UN",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-183-larry-ellison",
+      "name": "Larry Ellison",
+      "role": "Technology investor and founder",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-159-lars-lokke-rasmussen",
+      "name": "Lars Lokke Rasmussen",
+      "role": "Foreign minister",
+      "country": "DK",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-218-lars-l-kke-rasmussen",
+      "name": "Lars Løkke Rasmussen",
+      "role": "Minister for Foreign Affairs",
+      "country": "DK",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-lesetja-kganyago",
+      "name": "Lesetja Kganyago",
+      "role": "Central banker",
+      "country": "ZA",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-083-lisa-su",
+      "name": "Lisa Su",
+      "role": "Semiconductor principal",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-205-liz-truss",
+      "name": "Liz Truss",
+      "role": "Former Prime Minister of the United Kingdom",
+      "country": "GB",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-280-mans-nilsson",
+      "name": "Måns Nilsson",
+      "role": "Executive Director, Stockholm Environment Institute",
+      "country": "SE",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-135-marc-benioff",
+      "name": "Marc Benioff",
+      "role": "Enterprise software principal",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-217-maria-malmer-stenergard",
+      "name": "Maria Malmer Stenergard",
+      "role": "Minister for Foreign Affairs",
+      "country": "SE",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-243-maria-ramos",
+      "name": "Maria Ramos",
+      "role": "Chair, Standard Chartered Bank",
+      "country": "ZA",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-269-marina-gorbis",
+      "name": "Marina Gorbis",
+      "role": "Executive Director, Institute for the Future",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-144-mario-draghi",
+      "name": "Mario Draghi",
+      "role": "Former government / central bank principal",
+      "country": "IT",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-282-mark-leonard",
+      "name": "Mark Leonard",
+      "role": "Director, European Council on Foreign Relations",
+      "country": "GB",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-259-mark-sedwill",
+      "name": "Mark Sedwill",
+      "role": "Chair of Trustees, IISS",
+      "country": "GB",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-068-mark-zuckerberg",
+      "name": "Mark Zuckerberg",
+      "role": "Technology principal",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-082-masayoshi-son",
+      "name": "Masayoshi Son",
+      "role": "Technology investor principal",
+      "country": "JP",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-020-masoud-pezeshkian",
+      "name": "Masoud Pezeshkian",
+      "role": "Head of state/government",
+      "country": "IR",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-287-meghan-o-sullivan",
+      "name": "Meghan O’Sullivan",
+      "role": "North American Chair, Trilateral Commission",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-120-melinda-french-gates",
+      "name": "Melinda French Gates",
+      "role": "Philanthropy principal",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-250-mervyn-king",
+      "name": "Mervyn King",
+      "role": "Former Governor, Bank of England",
+      "country": "GB",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-115-michael-bloomberg",
+      "name": "Michael Bloomberg",
+      "role": "Media / data / political principal",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-136-michael-dell",
+      "name": "Michael Dell",
+      "role": "Computing technology principal",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-254-michael-froman",
+      "name": "Michael Froman",
+      "role": "President, Council on Foreign Relations",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-272-michael-fullilove",
+      "name": "Michael Fullilove",
+      "role": "Executive Director, Lowy Institute",
+      "country": "AU",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-273-mikko-huotari",
+      "name": "Mikko Huotari",
+      "role": "Executive Director, MERICS",
+      "country": "DE",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-017-mohamed-bin-zayed-al-nahyan",
+      "name": "Mohamed bin Zayed Al Nahyan",
+      "role": "Head of state / royalty",
+      "country": "AE",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-233-mohamed-el-erian",
+      "name": "Mohamed El-Erian",
+      "role": "Economist and Allianz adviser",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-046-mohammed-bin-abdulrahman-al-thani",
+      "name": "Mohammed bin Abdulrahman Al Thani",
+      "role": "Government / diplomacy principal",
+      "country": "QA",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-016-mohammed-bin-salman",
+      "name": "Mohammed bin Salman",
+      "role": "Royal / government principal",
+      "country": "SA",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-265-moritz-schularick",
+      "name": "Moritz Schularick",
+      "role": "President, Kiel Institute for the World Economy",
+      "country": "DE",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-078-mukesh-ambani",
+      "name": "Mukesh Ambani",
+      "role": "Industrial principal",
+      "country": "IN",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-190-nadia-calvino",
+      "name": "Nadia Calviño",
+      "role": "Development finance principal",
+      "country": "ES",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-212-naftali-bennett",
+      "name": "Naftali Bennett",
+      "role": "Former Prime Minister of Israel",
+      "country": "IL",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-094-nancy-pelosi",
+      "name": "Nancy Pelosi",
+      "role": "Legislative power broker",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-227-nasser-bourita",
+      "name": "Nasser Bourita",
+      "role": "Minister of Foreign Affairs",
+      "country": "UN",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-234-niall-ferguson",
+      "name": "Niall Ferguson",
+      "role": "Hoover Institution senior fellow",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-207-nicolas-sarkozy",
+      "name": "Nicolas Sarkozy",
+      "role": "Former President of France",
+      "country": "FR",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-091-olaf-scholz",
+      "name": "Olaf Scholz",
+      "role": "Former / current government principal",
+      "country": "DE",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-169-oliver-zipse",
+      "name": "Oliver Zipse",
+      "role": "CEO",
+      "country": "DE",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-242-pan-gongsheng",
+      "name": "Pan Gongsheng",
+      "role": "Governor, People’s Bank of China",
+      "country": "CN",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-086-patriarch-kirill",
+      "name": "Patriarch Kirill",
+      "role": "Religious principal",
+      "country": "RU",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-279-patricia-fuller",
+      "name": "Patricia Fuller",
+      "role": "President and CEO, IISD",
+      "country": "CA",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-194-patrick-collison",
+      "name": "Patrick Collison",
+      "role": "CEO",
+      "country": "IE",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-266-paul-johnson",
+      "name": "Paul Johnson",
+      "role": "Director, Institute for Fiscal Studies",
+      "country": "GB",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-036-paul-kagame",
+      "name": "Paul Kagame",
+      "role": "Head of state/government",
+      "country": "RW",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-088-pedro-sanchez",
+      "name": "Pedro Sánchez",
+      "role": "Head of government",
+      "country": "ES",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-221-peter-szijjarto",
+      "name": "Péter Szijjártó",
+      "role": "Minister of Foreign Affairs and Trade",
+      "country": "HU",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-239-philipp-hildebrand",
+      "name": "Philipp Hildebrand",
+      "role": "Vice Chairman, BlackRock",
+      "country": "CH",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-081-pony-ma",
+      "name": "Pony Ma",
+      "role": "Technology principal",
+      "country": "CN",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-085-pope-leo-xiv",
+      "name": "Pope Leo XIV",
+      "role": "Religious principal",
+      "country": "VA",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-021-prabowo-subianto",
+      "name": "Prabowo Subianto",
+      "role": "Head of state/government",
+      "country": "ID",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-302-prince-albert-ii-of-monaco",
+      "name": "Prince Albert II of Monaco",
+      "role": "Sovereign Prince of Monaco",
+      "country": "MC",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-044-prince-william",
+      "name": "Prince William",
+      "role": "Royal principal",
+      "country": "GB",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-308-princess-zahra-aga-khan",
+      "name": "Princess Zahra Aga Khan",
+      "role": "AKDN board and family-capital principal",
+      "country": "UN",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-045-queen-camilla",
+      "name": "Queen Camilla",
+      "role": "Royal principal",
+      "country": "GB",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-148-queen-letizia",
+      "name": "Queen Letizia",
+      "role": "Royal principal",
+      "country": "ES",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-292-queen-mary-of-denmark",
+      "name": "Queen Mary of Denmark",
+      "role": "Queen of Denmark",
+      "country": "DK",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-300-queen-mathilde",
+      "name": "Queen Mathilde",
+      "role": "Queen of the Belgians",
+      "country": "BE",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-298-queen-maxima",
+      "name": "Queen Máxima",
+      "role": "Queen of the Netherlands",
+      "country": "NL",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-157-radoslaw-sikorski",
+      "name": "Radoslaw Sikorski",
+      "role": "Foreign minister",
+      "country": "PL",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-057-rafael-grossi",
+      "name": "Rafael Grossi",
+      "role": "Nuclear governance principal",
+      "country": "IA",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-314-rafael-mariano-grossi",
+      "name": "Rafael Mariano Grossi",
+      "role": "Director General, International Atomic Energy Agency",
+      "country": "IAEA",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-170-rahim-aga-khan-v",
+      "name": "Rahim Aga Khan V",
+      "role": "Aga Khan / Chair of the Aga Khan Development Network",
+      "country": "CH",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-109-ray-dalio",
+      "name": "Ray Dalio",
+      "role": "Investor principal",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-129-ren-zhengfei",
+      "name": "Ren Zhengfei",
+      "role": "Telecom technology principal",
+      "country": "CN",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-092-rishi-sunak",
+      "name": "Rishi Sunak",
+      "role": "Former head of government",
+      "country": "GB",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-271-robert-atkinson",
+      "name": "Robert Atkinson",
+      "role": "President, ITIF",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-090-roberta-metsola",
+      "name": "Roberta Metsola",
+      "role": "Parliamentary principal",
+      "country": "EU",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-252-roger-w-ferguson-jr",
+      "name": "Roger W. Ferguson Jr.",
+      "role": "CFR economics fellow / former Fed vice chair",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-139-rupert-murdoch",
+      "name": "Rupert Murdoch",
+      "role": "Media principal",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-126-safra-catz",
+      "name": "Safra Catz",
+      "role": "Enterprise software principal",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-275-samir-saran",
+      "name": "Samir Saran",
+      "role": "President, Observer Research Foundation",
+      "country": "IN",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-311-samuel-paparo",
+      "name": "Samuel Paparo",
+      "role": "Commander, U.S. Indo-Pacific Command",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-054-sania-nishtar",
+      "name": "Sania Nishtar",
+      "role": "Health institution principal",
+      "country": "UN",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-214-sanna-marin",
+      "name": "Sanna Marin",
+      "role": "Former Prime Minister of Finland",
+      "country": "FI",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-097-scott-bessent",
+      "name": "Scott Bessent",
+      "role": "Finance / government principal",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-283-sebastien-maillard",
+      "name": "Sébastien Maillard",
+      "role": "Director, Jacques Delors Institute",
+      "country": "FR",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-238-sergei-guriev",
+      "name": "Sergei Guriev",
+      "role": "Dean, London Business School",
+      "country": "GB",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-113-sergio-ermotti",
+      "name": "Sergio Ermotti",
+      "role": "Banking principal",
+      "country": "CH",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-098-sergio-mattarella",
+      "name": "Sergio Mattarella",
+      "role": "Head of state",
+      "country": "IT",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-101-sheikh-mansour-bin-zayed-al-nahyan",
+      "name": "Sheikh Mansour bin Zayed Al Nahyan",
+      "role": "Royal / sovereign wealth principal",
+      "country": "AE",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-192-sheikh-tahnoun-bin-zayed-al-nahyan",
+      "name": "Sheikh Tahnoun bin Zayed Al Nahyan",
+      "role": "Royal / security / investment principal",
+      "country": "AE",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-025-shigeru-ishiba",
+      "name": "Shigeru Ishiba",
+      "role": "Head of government",
+      "country": "JP",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-261-stefan-mair",
+      "name": "Stefan Mair",
+      "role": "Director, SWP",
+      "country": "DE",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-110-stephen-schwarzman",
+      "name": "Stephen Schwarzman",
+      "role": "Private equity principal",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-184-steve-ballmer",
+      "name": "Steve Ballmer",
+      "role": "Technology investor and philanthropist",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-103-sultan-ahmed-al-jaber",
+      "name": "Sultan Ahmed Al Jaber",
+      "role": "Energy / climate principal",
+      "country": "AE",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-288-takeshi-niinami",
+      "name": "Takeshi Niinami",
+      "role": "Asia Pacific Chair, Trilateral Commission",
+      "country": "JP",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-047-tamim-bin-hamad-al-thani",
+      "name": "Tamim bin Hamad Al Thani",
+      "role": "Head of state / royalty",
+      "country": "QA",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-204-theresa-may",
+      "name": "Theresa May",
+      "role": "Former Prime Minister of the United Kingdom",
+      "country": "GB",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-064-thomas-bach",
+      "name": "Thomas Bach",
+      "role": "Sports governance principal",
+      "country": "IO",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-246-tidjane-thiam",
+      "name": "Tidjane Thiam",
+      "role": "Political and finance principal",
+      "country": "UN",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-037-tony-blair",
+      "name": "Tony Blair",
+      "role": "Former head of government",
+      "country": "GB",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-089-viktor-orban",
+      "name": "Viktor Orbán",
+      "role": "Head of government",
+      "country": "HU",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-066-warren-buffett",
+      "name": "Warren Buffett",
+      "role": "Investor principal",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-251-william-c-dudley",
+      "name": "William C. Dudley",
+      "role": "Former President, New York Fed",
+      "country": "US",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-033-william-ruto",
+      "name": "William Ruto",
+      "role": "Head of state/government",
+      "country": "KE",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-160-winston-peters",
+      "name": "Winston Peters",
+      "role": "Foreign minister",
+      "country": "NZ",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-165-wolfgang-ischinger",
+      "name": "Wolfgang Ischinger",
+      "role": "Security forum chair emeritus",
+      "country": "DE",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-213-yair-lapid",
+      "name": "Yair Lapid",
+      "role": "Former Prime Minister / opposition leader",
+      "country": "IL",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-249-yi-gang",
+      "name": "Yi Gang",
+      "role": "Former Governor, People’s Bank of China",
+      "country": "CN",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "x-228-yvan-gil",
+      "name": "Yvan Gil",
+      "role": "Minister of Foreign Affairs",
+      "country": "UN",
+      "knownRecords": 0,
+      "latestRecord": null,
+      "priority": "profile-only: run every source family until first safe trail exists"
+    },
+    {
+      "id": "r-137-abbas-araghchi",
+      "name": "Abbas Araghchi",
+      "role": "Foreign minister",
+      "country": "IR",
+      "knownRecords": 1,
+      "latestRecord": {
+        "startsAt": "2025-04-29T12:00:00-03:00",
+        "city": "Rio de Janeiro",
+        "title": "BRICS foreign ministers in Rio de Janeiro"
+      },
+      "priority": "thin-trail: backfill monthly and scan daily"
+    },
+    {
+      "id": "r-200-abdulaziz-bin-salman",
+      "name": "Abdulaziz bin Salman",
+      "role": "Energy minister",
+      "country": "SA",
+      "knownRecords": 1,
+      "latestRecord": {
+        "startsAt": "2025-07-09T09:00:00+02:00",
+        "city": "Vienna",
+        "title": "OPEC International Seminar 2025 in Vienna"
+      },
+      "priority": "thin-trail: backfill monthly and scan daily"
+    },
+    {
+      "id": "r-015-antonio-guterres",
+      "name": "António Guterres",
+      "role": "Multilateral principal",
+      "country": "UN",
+      "knownRecords": 1,
+      "latestRecord": {
+        "startsAt": "2025-09-22T09:00:00-04:00",
+        "city": "New York",
+        "title": "UN General Assembly High-level Week 2025"
+      },
+      "priority": "thin-trail: backfill monthly and scan daily"
+    },
+    {
+      "id": "r-141-b-rge-brende",
+      "name": "Børge Brende",
+      "role": "Forum / convening principal",
+      "country": "UN",
+      "knownRecords": 1,
+      "latestRecord": {
+        "startsAt": "2025-01-20T09:00:00+01:00",
+        "city": "Davos",
+        "title": "World Economic Forum Annual Meeting 2025 in Davos"
+      },
+      "priority": "thin-trail: backfill monthly and scan daily"
+    },
+    {
+      "id": "r-195-daniel-ek",
+      "name": "Daniel Ek",
+      "role": "Technology / media principal",
+      "country": "SE",
+      "knownRecords": 1,
+      "latestRecord": {
+        "startsAt": "2025-06-12T09:00:00+02:00",
+        "city": "Stockholm",
+        "title": "Bilderberg 2025 in Stockholm"
+      },
+      "priority": "thin-trail: backfill monthly and scan daily"
+    },
+    {
+      "id": "r-191-dario-amodei",
+      "name": "Dario Amodei",
+      "role": "AI company leader",
+      "country": "US",
+      "knownRecords": 1,
+      "latestRecord": {
+        "startsAt": "2024-05-30T09:00:00+02:00",
+        "city": "Madrid",
+        "title": "Bilderberg 2024 in Madrid"
+      },
+      "priority": "thin-trail: backfill monthly and scan daily"
+    },
+    {
+      "id": "r-134-faisal-bin-farhan",
+      "name": "Faisal bin Farhan Al Saud",
+      "role": "Foreign minister",
+      "country": "SA",
+      "knownRecords": 1,
+      "latestRecord": {
+        "startsAt": "2025-11-11T12:00:00Z",
+        "city": "Niagara Region",
+        "title": "G7 foreign ministers in Niagara"
+      },
+      "priority": "thin-trail: backfill monthly and scan daily"
+    },
+    {
+      "id": "r-199-haitham-al-ghais",
+      "name": "Haitham Al Ghais",
+      "role": "OPEC secretary general",
+      "country": "KW",
+      "knownRecords": 1,
+      "latestRecord": {
+        "startsAt": "2025-07-09T09:00:00+02:00",
+        "city": "Vienna",
+        "title": "OPEC International Seminar 2025 in Vienna"
+      },
+      "priority": "thin-trail: backfill monthly and scan daily"
+    },
+    {
+      "id": "r-075-jamie-dimon",
+      "name": "Jamie Dimon",
+      "role": "Banking principal",
+      "country": "US",
+      "knownRecords": 1,
+      "latestRecord": {
+        "startsAt": "2025-05-04T09:00:00-07:00",
+        "city": "Los Angeles",
+        "title": "Milken Institute Global Conference 2025 in Los Angeles"
+      },
+      "priority": "thin-trail: backfill monthly and scan daily"
+    },
+    {
+      "id": "r-143-janet-yellen",
+      "name": "Janet Yellen",
+      "role": "Former finance principal",
+      "country": "US",
+      "knownRecords": 1,
+      "latestRecord": {
+        "startsAt": "2025-10-13T09:00:00-04:00",
+        "city": "Washington",
+        "title": "IMF and World Bank Annual Meetings 2025 in Washington"
+      },
+      "priority": "thin-trail: backfill monthly and scan daily"
+    },
+    {
+      "id": "r-176-joachim-nagel",
+      "name": "Joachim Nagel",
+      "role": "Central bank governor",
+      "country": "DE",
+      "knownRecords": 1,
+      "latestRecord": {
+        "startsAt": "2025-09-09T09:00:00+02:00",
+        "city": "Basel",
+        "title": "BIS Innovation Summit 2025 in Basel"
+      },
+      "priority": "thin-trail: backfill monthly and scan daily"
+    },
+    {
+      "id": "r-180-jose-manuel-barroso",
+      "name": "José Manuel Barroso",
+      "role": "Former leader / finance adviser",
+      "country": "PT",
+      "knownRecords": 1,
+      "latestRecord": {
+        "startsAt": "2026-04-09T09:00:00-04:00",
+        "city": "Washington",
+        "title": "Bilderberg 2026 in Washington"
+      },
+      "priority": "thin-trail: backfill monthly and scan daily"
+    },
+    {
+      "id": "r-022-li-qiang",
+      "name": "Li Qiang",
+      "role": "Premier",
+      "country": "CN",
+      "knownRecords": 1,
+      "latestRecord": {
+        "startsAt": "2025-03-27T12:00:00Z",
+        "city": "Beijing",
+        "title": "Boao and China policy forum watch anchor"
+      },
+      "priority": "thin-trail: backfill monthly and scan daily"
+    },
+    {
+      "id": "r-106-mary-barra",
+      "name": "Mary Barra",
+      "role": "Industrial executive principal",
+      "country": "US",
+      "knownRecords": 1,
+      "latestRecord": {
+        "startsAt": "2025-05-04T09:00:00-07:00",
+        "city": "Los Angeles",
+        "title": "Milken Institute Global Conference 2025 in Los Angeles"
+      },
+      "priority": "thin-trail: backfill monthly and scan daily"
+    },
+    {
+      "id": "r-145-melanie-joly",
+      "name": "Melanie Joly",
+      "role": "Former Canadian foreign minister",
+      "country": "CA",
+      "knownRecords": 1,
+      "latestRecord": {
+        "startsAt": "2025-03-13T12:00:00-04:00",
+        "city": "Charlevoix",
+        "title": "G7 foreign ministers in Charlevoix"
+      },
+      "priority": "thin-trail: backfill monthly and scan daily"
+    },
+    {
+      "id": "r-161-melanie-joly",
+      "name": "Mélanie Joly",
+      "role": "Former Canadian Foreign Minister / senior political figure",
+      "country": "CA",
+      "knownRecords": 1,
+      "latestRecord": {
+        "startsAt": "2025-03-13T12:00:00-04:00",
+        "city": "Charlevoix",
+        "title": "G7 foreign ministers in Charlevoix"
+      },
+      "priority": "thin-trail: backfill monthly and scan daily"
+    },
+    {
+      "id": "r-052-ngozi-okonjo-iweala",
+      "name": "Ngozi Okonjo-Iweala",
+      "role": "Trade institution principal",
+      "country": "WT",
+      "knownRecords": 1,
+      "latestRecord": {
+        "startsAt": "2025-09-22T09:00:00-04:00",
+        "city": "New York",
+        "title": "UN General Assembly High-level Week 2025"
+      },
+      "priority": "thin-trail: backfill monthly and scan daily"
+    },
+    {
+      "id": "r-171-raghuram-rajan",
+      "name": "Raghuram Rajan",
+      "role": "G30 chair / former central-bank governor",
+      "country": "IN",
+      "knownRecords": 1,
+      "latestRecord": {
+        "startsAt": "2025-04-01T12:00:00-04:00",
+        "city": "Washington",
+        "title": "Group of Thirty leadership and membership record"
+      },
+      "priority": "thin-trail: backfill monthly and scan daily"
+    },
+    {
+      "id": "r-069-sundar-pichai",
+      "name": "Sundar Pichai",
+      "role": "Technology principal",
+      "country": "US",
+      "knownRecords": 1,
+      "latestRecord": {
+        "startsAt": "2025-02-10T09:00:00+01:00",
+        "city": "Paris",
+        "title": "AI Action Summit 2025 in Paris"
+      },
+      "priority": "thin-trail: backfill monthly and scan daily"
+    },
+    {
+      "id": "r-156-takeshi-iwaya",
+      "name": "Takeshi Iwaya",
+      "role": "Former Japanese foreign minister",
+      "country": "JP",
+      "knownRecords": 1,
+      "latestRecord": {
+        "startsAt": "2025-03-13T12:00:00-04:00",
+        "city": "Charlevoix",
+        "title": "G7 foreign ministers in Charlevoix"
+      },
+      "priority": "thin-trail: backfill monthly and scan daily"
+    },
+    {
+      "id": "r-053-tedros-adhanom-ghebreyesus",
+      "name": "Tedros Adhanom Ghebreyesus",
+      "role": "Health institution principal",
+      "country": "WH",
+      "knownRecords": 1,
+      "latestRecord": {
+        "startsAt": "2025-09-22T09:00:00-04:00",
+        "city": "New York",
+        "title": "UN General Assembly High-level Week 2025"
+      },
+      "priority": "thin-trail: backfill monthly and scan daily"
+    },
+    {
+      "id": "r-172-tharman-shanmugaratnam",
+      "name": "Tharman Shanmugaratnam",
+      "role": "G30 trustee chair / president",
+      "country": "SG",
+      "knownRecords": 1,
+      "latestRecord": {
+        "startsAt": "2025-04-01T12:00:00-04:00",
+        "city": "Washington",
+        "title": "Group of Thirty leadership and membership record"
+      },
+      "priority": "thin-trail: backfill monthly and scan daily"
+    },
+    {
+      "id": "r-071-tim-cook",
+      "name": "Tim Cook",
+      "role": "Technology principal",
+      "country": "US",
+      "knownRecords": 1,
+      "latestRecord": {
+        "startsAt": "2025-03-23T09:00:00+08:00",
+        "city": "Beijing",
+        "title": "China Development Forum Beijing visit window"
+      },
+      "priority": "thin-trail: backfill monthly and scan daily"
+    },
+    {
+      "id": "r-197-wael-sawan",
+      "name": "Wael Sawan",
+      "role": "Energy executive principal",
+      "country": "GB",
+      "knownRecords": 1,
+      "latestRecord": {
+        "startsAt": "2024-05-30T09:00:00+02:00",
+        "city": "Madrid",
+        "title": "Bilderberg 2024 in Madrid"
+      },
+      "priority": "thin-trail: backfill monthly and scan daily"
+    },
+    {
+      "id": "r-102-yasir-al-rumayyan",
+      "name": "Yasir Al-Rumayyan",
+      "role": "Sovereign wealth principal",
+      "country": "SA",
+      "knownRecords": 1,
+      "latestRecord": {
+        "startsAt": "2025-10-27T12:00:00+03:00",
+        "city": "Riyadh",
+        "title": "Yasir Al-Rumayyan FII / PIF network watch in Riyadh"
+      },
+      "priority": "thin-trail: backfill monthly and scan daily"
+    },
+    {
+      "id": "r-189-alexander-stubb",
+      "name": "Alexander Stubb",
+      "role": "Head of state/government",
+      "country": "FI",
+      "knownRecords": 2,
+      "latestRecord": {
+        "startsAt": "2025-06-12T09:00:00+02:00",
+        "city": "Stockholm",
+        "title": "Bilderberg 2025 in Stockholm"
+      },
+      "priority": "thin-trail: backfill monthly and scan daily"
+    },
+    {
+      "id": "r-107-ana-botin",
+      "name": "Ana Botín",
+      "role": "Banking principal",
+      "country": "ES",
+      "knownRecords": 2,
+      "latestRecord": {
+        "startsAt": "2025-06-12T09:00:00+02:00",
+        "city": "Stockholm",
+        "title": "Bilderberg 2025 in Stockholm"
+      },
+      "priority": "thin-trail: backfill monthly and scan daily"
+    },
+    {
+      "id": "r-128-demis-hassabis",
+      "name": "Demis Hassabis",
+      "role": "AI research principal",
+      "country": "GB",
+      "knownRecords": 2,
+      "latestRecord": {
+        "startsAt": "2026-04-09T09:00:00-04:00",
+        "city": "Washington",
+        "title": "Bilderberg 2026 in Washington"
+      },
+      "priority": "thin-trail: backfill monthly and scan daily"
+    },
+    {
+      "id": "r-072-jensen-huang",
+      "name": "Jensen Huang",
+      "role": "Technology principal",
+      "country": "US",
+      "knownRecords": 2,
+      "latestRecord": {
+        "startsAt": "2026-06-01T11:00:00+08:00",
+        "city": "Taipei",
+        "title": "GTC Taipei keynote watch window"
+      },
+      "priority": "thin-trail: backfill monthly and scan daily"
+    },
+    {
+      "id": "r-074-larry-fink",
+      "name": "Larry Fink",
+      "role": "Asset management principal",
+      "country": "US",
+      "knownRecords": 2,
+      "latestRecord": {
+        "startsAt": "2025-05-04T09:00:00-07:00",
+        "city": "Los Angeles",
+        "title": "Milken Institute Global Conference 2025 in Los Angeles"
+      },
+      "priority": "thin-trail: backfill monthly and scan daily"
+    },
+    {
+      "id": "r-029-luiz-inacio-lula-da-silva",
+      "name": "Luiz Inácio Lula da Silva",
+      "role": "Head of state/government",
+      "country": "BR",
+      "knownRecords": 2,
+      "latestRecord": {
+        "startsAt": "2025-06-17T12:00:00-06:00",
+        "city": "Kananaskis",
+        "title": "G7 Kananaskis leaders’ summit"
+      },
+      "priority": "thin-trail: backfill monthly and scan daily"
+    },
+    {
+      "id": "r-055-mathias-cormann",
+      "name": "Mathias Cormann",
+      "role": "Economic institution principal",
+      "country": "OC",
+      "knownRecords": 2,
+      "latestRecord": {
+        "startsAt": "2026-06-03T09:00:00+02:00",
+        "city": "Paris",
+        "title": "OECD Ministerial Council Meeting 2026 in Paris"
+      },
+      "priority": "thin-trail: backfill monthly and scan daily"
+    },
+    {
+      "id": "r-penny-wong",
+      "name": "Penny Wong",
+      "role": "Foreign minister",
+      "country": "AU",
+      "knownRecords": 2,
+      "latestRecord": {
+        "startsAt": "2026-05-26T10:00:00+05:30",
+        "city": "New Delhi",
+        "title": "Penny Wong joins Quad foreign ministers in New Delhi"
+      },
+      "priority": "thin-trail: backfill monthly and scan daily"
+    },
+    {
+      "id": "r-013-recep-tayyip-erdogan",
+      "name": "Recep Tayyip Erdoğan",
+      "role": "Head of state/government",
+      "country": "TR",
+      "knownRecords": 2,
+      "latestRecord": {
+        "startsAt": "2026-07-07T10:00:00+03:00",
+        "city": "Ankara",
+        "title": "NATO Ankara 2026 announced summit"
+      },
+      "priority": "thin-trail: backfill monthly and scan daily"
+    },
+    {
+      "id": "r-140-ronald-lamola",
+      "name": "Ronald Lamola",
+      "role": "Foreign minister",
+      "country": "ZA",
+      "knownRecords": 2,
+      "latestRecord": {
+        "startsAt": "2025-11-11T12:00:00Z",
+        "city": "Niagara Region",
+        "title": "G7 foreign ministers in Niagara"
+      },
+      "priority": "thin-trail: backfill monthly and scan daily"
+    },
+    {
+      "id": "r-073-sam-altman",
+      "name": "Sam Altman",
+      "role": "AI principal",
+      "country": "US",
+      "knownRecords": 2,
+      "latestRecord": {
+        "startsAt": "2025-02-10T09:00:00+01:00",
+        "city": "Paris",
+        "title": "AI Action Summit 2025 in Paris"
+      },
+      "priority": "thin-trail: backfill monthly and scan daily"
+    },
+    {
+      "id": "r-070-satya-nadella",
+      "name": "Satya Nadella",
+      "role": "Technology principal",
+      "country": "US",
+      "knownRecords": 2,
+      "latestRecord": {
+        "startsAt": "2025-06-12T09:00:00+02:00",
+        "city": "Stockholm",
+        "title": "Bilderberg 2025 in Stockholm"
+      },
+      "priority": "thin-trail: backfill monthly and scan daily"
+    },
+    {
+      "id": "r-049-ajay-banga",
+      "name": "Ajay Banga",
+      "role": "Development finance principal",
+      "country": "WB",
+      "knownRecords": 3,
+      "latestRecord": {
+        "startsAt": "2026-04-13T09:00:00-04:00",
+        "city": "Washington",
+        "title": "IMF and World Bank Spring Meetings 2026 in Washington"
+      },
+      "priority": "medium-trail: expand official/source event coverage"
+    },
+    {
+      "id": "r-124-alex-karp",
+      "name": "Alex Karp",
+      "role": "Defence technology principal",
+      "country": "US",
+      "knownRecords": 3,
+      "latestRecord": {
+        "startsAt": "2026-04-09T09:00:00-04:00",
+        "city": "Washington",
+        "title": "Bilderberg 2026 in Washington"
+      },
+      "priority": "medium-trail: expand official/source event coverage"
+    },
+    {
+      "id": "r-186-ariane-de-rothschild",
+      "name": "Ariane de Rothschild",
+      "role": "Banking chair",
+      "country": "CH",
+      "knownRecords": 3,
+      "latestRecord": {
+        "startsAt": "2026-04-09T12:00:00Z",
+        "city": "Washington",
+        "title": "Bilderberg 2026 Washington"
+      },
+      "priority": "medium-trail: expand official/source event coverage"
+    },
+    {
+      "id": "r-004-elon-musk",
+      "name": "Elon Musk",
+      "role": "Technology principal",
+      "country": "US",
+      "knownRecords": 3,
+      "latestRecord": {
+        "startsAt": "2025-11-06T16:00:00-06:00",
+        "city": "Austin",
+        "title": "Tesla 2025 annual shareholder meeting"
+      },
+      "priority": "medium-trail: expand official/source event coverage"
+    },
+    {
+      "id": "r-187-eric-schmidt",
+      "name": "Eric Schmidt",
+      "role": "Technology investor / former CEO",
+      "country": "US",
+      "knownRecords": 3,
+      "latestRecord": {
+        "startsAt": "2026-04-09T12:00:00Z",
+        "city": "Washington",
+        "title": "Bilderberg 2026 Washington"
+      },
+      "priority": "medium-trail: expand official/source event coverage"
+    },
+    {
+      "id": "r-179-fatih-birol",
+      "name": "Fatih Birol",
+      "role": "Energy-policy institution head",
+      "country": "IEA",
+      "knownRecords": 3,
+      "latestRecord": {
+        "startsAt": "2026-04-09T12:00:00Z",
+        "city": "Washington",
+        "title": "Bilderberg 2026 Washington"
+      },
+      "priority": "medium-trail: expand official/source event coverage"
+    },
+    {
+      "id": "r-138-mauro-vieira",
+      "name": "Mauro Vieira",
+      "role": "Foreign minister",
+      "country": "BR",
+      "knownRecords": 3,
+      "latestRecord": {
+        "startsAt": "2025-11-11T12:00:00Z",
+        "city": "Niagara Region",
+        "title": "G7 foreign ministers in Niagara"
+      },
+      "priority": "medium-trail: expand official/source event coverage"
+    },
+    {
+      "id": "r-166-patrick-pouyanne",
+      "name": "Patrick Pouyanne",
+      "role": "CEO",
+      "country": "FR",
+      "knownRecords": 3,
+      "latestRecord": {
+        "startsAt": "2026-04-09T09:00:00-04:00",
+        "city": "Washington",
+        "title": "Bilderberg 2026 in Washington"
+      },
+      "priority": "medium-trail: expand official/source event coverage"
+    },
+    {
+      "id": "r-196-patrick-pouyanne",
+      "name": "Patrick Pouyanné",
+      "role": "Energy executive principal",
+      "country": "FR",
+      "knownRecords": 3,
+      "latestRecord": {
+        "startsAt": "2026-04-09T09:00:00-04:00",
+        "city": "Washington",
+        "title": "Bilderberg 2026 in Washington"
+      },
+      "priority": "medium-trail: expand official/source event coverage"
+    },
+    {
+      "id": "r-123-peter-thiel",
+      "name": "Peter Thiel",
+      "role": "Technology investor principal",
+      "country": "US",
+      "knownRecords": 3,
+      "latestRecord": {
+        "startsAt": "2026-04-09T12:00:00Z",
+        "city": "Washington",
+        "title": "Bilderberg 2026 Washington"
+      },
+      "priority": "medium-trail: expand official/source event coverage"
+    },
+    {
+      "id": "r-182-rados-aw-sikorski",
+      "name": "Radosław Sikorski",
+      "role": "Foreign minister",
+      "country": "PL",
+      "knownRecords": 3,
+      "latestRecord": {
+        "startsAt": "2026-04-09T09:00:00-04:00",
+        "city": "Washington",
+        "title": "Bilderberg 2026 in Washington"
+      },
+      "priority": "medium-trail: expand official/source event coverage"
+    },
+    {
+      "id": "r-003-vladimir-putin",
+      "name": "Vladimir Putin",
+      "role": "Head of state",
+      "country": "RU",
+      "knownRecords": 3,
+      "latestRecord": {
+        "startsAt": "2026-05-27T17:45:00+05:00",
+        "city": "Astana",
+        "title": "Kazakhstan state-visit public record"
+      },
+      "priority": "medium-trail: expand official/source event coverage"
+    },
+    {
+      "id": "r-012-volodymyr-zelenskyy",
+      "name": "Volodymyr Zelenskyy",
+      "role": "Head of state/government",
+      "country": "UA",
+      "knownRecords": 3,
+      "latestRecord": {
+        "startsAt": "2025-12-28T15:00:00-05:00",
+        "city": "Palm Beach",
+        "title": "Ukraine peace-process public meeting at Palm Beach"
+      },
+      "priority": "medium-trail: expand official/source event coverage"
+    },
+    {
+      "id": "r-130-anita-anand",
+      "name": "Anita Anand",
+      "role": "Foreign minister",
+      "country": "CA",
+      "knownRecords": 4,
+      "latestRecord": {
+        "startsAt": "2026-03-16T12:00:00+03:00",
+        "city": "Ankara",
+        "title": "Anand Türkiye and UK travel announcement"
+      },
+      "priority": "medium-trail: expand official/source event coverage"
+    },
+    {
+      "id": "r-065-bill-gates",
+      "name": "Bill Gates",
+      "role": "Philanthropy / technology principal",
+      "country": "US",
+      "knownRecords": 4,
+      "latestRecord": {
+        "startsAt": "2025-09-22T12:00:00-04:00",
+        "city": "New York",
+        "title": "Goalkeepers New York City 2025"
+      },
+      "priority": "medium-trail: expand official/source event coverage"
+    },
+    {
+      "id": "r-181-jens-stoltenberg",
+      "name": "Jens Stoltenberg",
+      "role": "Former NATO secretary general / finance minister",
+      "country": "NO",
+      "knownRecords": 4,
+      "latestRecord": {
+        "startsAt": "2026-04-13T09:00:00-04:00",
+        "city": "Washington",
+        "title": "IMF and World Bank Spring Meetings 2026 in Washington"
+      },
+      "priority": "medium-trail: expand official/source event coverage"
+    },
+    {
+      "id": "r-121-johann-wadephul",
+      "name": "Johann Wadephul",
+      "role": "Foreign minister",
+      "country": "DE",
+      "knownRecords": 4,
+      "latestRecord": {
+        "startsAt": "2026-03-27T12:00:00Z",
+        "city": "Cernay-la-Ville",
+        "title": "G7 foreign ministers in France"
+      },
+      "priority": "medium-trail: expand official/source event coverage"
+    },
+    {
+      "id": "r-048-kristalina-georgieva",
+      "name": "Kristalina Georgieva",
+      "role": "Financial institution principal",
+      "country": "IM",
+      "knownRecords": 4,
+      "latestRecord": {
+        "startsAt": "2026-04-13T09:00:00-04:00",
+        "city": "Washington",
+        "title": "IMF and World Bank Spring Meetings 2026 in Washington"
+      },
+      "priority": "medium-trail: expand official/source event coverage"
+    },
+    {
+      "id": "r-185-marie-josee-kravis",
+      "name": "Marie-Josée Kravis",
+      "role": "Bilderberg co-chair",
+      "country": "US",
+      "knownRecords": 4,
+      "latestRecord": {
+        "startsAt": "2026-04-09T12:00:00-04:00",
+        "city": "Washington",
+        "title": "Bilderberg Washington participant list"
+      },
+      "priority": "medium-trail: expand official/source event coverage"
+    },
+    {
+      "id": "r-151-alexandre-de-rothschild",
+      "name": "Alexandre de Rothschild",
+      "role": "Finance principal",
+      "country": "FR",
+      "knownRecords": 5,
+      "latestRecord": {
+        "startsAt": "2026-05-30T10:00:00+02:00",
+        "city": "Paris",
+        "title": "Rothschild & Co executive profile anchor"
+      },
+      "priority": "medium-trail: expand official/source event coverage"
+    },
+    {
+      "id": "r-173-andrew-bailey",
+      "name": "Andrew Bailey",
+      "role": "Central bank governor",
+      "country": "GB",
+      "knownRecords": 5,
+      "latestRecord": {
+        "startsAt": "2025-09-09T09:00:00+02:00",
+        "city": "Basel",
+        "title": "BIS Innovation Summit 2025 in Basel"
+      },
+      "priority": "medium-trail: expand official/source event coverage"
+    },
+    {
+      "id": "r-011-giorgia-meloni",
+      "name": "Giorgia Meloni",
+      "role": "Head of government",
+      "country": "IT",
+      "knownRecords": 5,
+      "latestRecord": {
+        "startsAt": "2026-07-07T10:00:00+03:00",
+        "city": "Ankara",
+        "title": "NATO Ankara 2026 announced summit"
+      },
+      "priority": "medium-trail: expand official/source event coverage"
+    },
+    {
+      "id": "r-henri-de-castries",
+      "name": "Henri de Castries",
+      "role": "Bilderberg co-chair",
+      "country": "FR",
+      "knownRecords": 5,
+      "latestRecord": {
+        "startsAt": "2026-04-09T12:00:00-04:00",
+        "city": "Washington",
+        "title": "Bilderberg Washington participant list"
+      },
+      "priority": "medium-trail: expand official/source event coverage"
+    },
+    {
+      "id": "r-095-jd-vance",
+      "name": "JD Vance",
+      "role": "Vice president",
+      "country": "US",
+      "knownRecords": 5,
+      "latestRecord": {
+        "startsAt": "2026-05-28T12:00:00-06:00",
+        "city": "Colorado Springs",
+        "title": "Vance delivers Air Force Academy commencement address"
+      },
+      "priority": "medium-trail: expand official/source event coverage"
+    },
+    {
+      "id": "r-174-kazuo-ueda",
+      "name": "Kazuo Ueda",
+      "role": "Central bank governor",
+      "country": "JP",
+      "knownRecords": 5,
+      "latestRecord": {
+        "startsAt": "2025-12-25T09:00:00+09:00",
+        "city": "Tokyo",
+        "title": "Ueda at Keidanren councillors meeting"
+      },
+      "priority": "medium-trail: expand official/source event coverage"
+    },
+    {
+      "id": "r-056-agustin-carstens",
+      "name": "Agustín Carstens",
+      "role": "Financial institution principal",
+      "country": "BI",
+      "knownRecords": 6,
+      "latestRecord": {
+        "startsAt": "2026-06-28T12:00:00+02:00",
+        "city": "Basel",
+        "title": "BIS Annual General Meeting public watch window"
+      },
+      "priority": "medium-trail: expand official/source event coverage"
+    },
+    {
+      "id": "r-127-antonio-tajani",
+      "name": "Antonio Tajani",
+      "role": "Foreign minister",
+      "country": "IT",
+      "knownRecords": 6,
+      "latestRecord": {
+        "startsAt": "2026-03-27T12:00:00Z",
+        "city": "Cernay-la-Ville",
+        "title": "G7 foreign ministers in France"
+      },
+      "priority": "medium-trail: expand official/source event coverage"
+    },
+    {
+      "id": "r-009-emmanuel-macron",
+      "name": "Emmanuel Macron",
+      "role": "Head of state/government",
+      "country": "FR",
+      "knownRecords": 6,
+      "latestRecord": {
+        "startsAt": "2026-07-07T10:00:00+03:00",
+        "city": "Ankara",
+        "title": "NATO Ankara 2026 announced summit"
+      },
+      "priority": "medium-trail: expand official/source event coverage"
+    },
+    {
+      "id": "r-008-friedrich-merz",
+      "name": "Friedrich Merz",
+      "role": "Head of government",
+      "country": "DE",
+      "knownRecords": 6,
+      "latestRecord": {
+        "startsAt": "2026-07-07T10:00:00+03:00",
+        "city": "Ankara",
+        "title": "NATO Ankara 2026 announced summit"
+      },
+      "priority": "medium-trail: expand official/source event coverage"
+    },
+    {
+      "id": "r-010-keir-starmer",
+      "name": "Keir Starmer",
+      "role": "Head of government",
+      "country": "GB",
+      "knownRecords": 6,
+      "latestRecord": {
+        "startsAt": "2026-07-07T10:00:00+03:00",
+        "city": "Ankara",
+        "title": "NATO Ankara 2026 announced summit"
+      },
+      "priority": "medium-trail: expand official/source event coverage"
+    },
+    {
+      "id": "r-027-mark-carney",
+      "name": "Mark Carney",
+      "role": "Government / finance principal",
+      "country": "CA",
+      "knownRecords": 6,
+      "latestRecord": {
+        "startsAt": "2026-06-15T10:00:00+02:00",
+        "city": "Évian-les-Bains",
+        "title": "G7 Évian 2026 announced summit window"
+      },
+      "priority": "medium-trail: expand official/source event coverage"
+    },
+    {
+      "id": "r-014-mark-rutte",
+      "name": "Mark Rutte",
+      "role": "Security alliance principal",
+      "country": "NATO",
+      "knownRecords": 6,
+      "latestRecord": {
+        "startsAt": "2026-07-07T10:00:00+03:00",
+        "city": "Ankara",
+        "title": "NATO Ankara 2026 announced summit"
+      },
+      "priority": "medium-trail: expand official/source event coverage"
+    },
+    {
+      "id": "r-177-pablo-hernandez-de-cos",
+      "name": "Pablo Hernández de Cos",
+      "role": "BIS General Manager",
+      "country": "ES",
+      "knownRecords": 6,
+      "latestRecord": {
+        "startsAt": "2026-04-20T09:00:00+09:00",
+        "city": "Tokyo",
+        "title": "Hernández de Cos at Bank of Japan seminar"
+      },
+      "priority": "medium-trail: expand official/source event coverage"
+    },
+    {
+      "id": "r-175-tiff-macklem",
+      "name": "Tiff Macklem",
+      "role": "Central bank governor",
+      "country": "CA",
+      "knownRecords": 6,
+      "latestRecord": {
+        "startsAt": "2025-12-16T13:00:00-05:00",
+        "city": "Montréal",
+        "title": "Macklem Montréal speech on money and central banks"
+      },
+      "priority": "medium-trail: expand official/source event coverage"
+    },
+    {
+      "id": "r-131-toshimitsu-motegi",
+      "name": "Toshimitsu Motegi",
+      "role": "Foreign-policy principal",
+      "country": "JP",
+      "knownRecords": 6,
+      "latestRecord": {
+        "startsAt": "2026-05-26T10:00:00+05:30",
+        "city": "New Delhi",
+        "title": "Toshimitsu Motegi joins Quad foreign ministers in New Delhi"
+      },
+      "priority": "medium-trail: expand official/source event coverage"
+    },
+    {
+      "id": "r-002-xi-jinping",
+      "name": "Xi Jinping",
+      "role": "Head of state / party leadership",
+      "country": "CN",
+      "knownRecords": 6,
+      "latestRecord": {
+        "startsAt": "2026-05-25T15:00:00+08:00",
+        "city": "Beijing",
+        "title": "Xi-Vučić talks and Serbia state-visit reception"
+      },
+      "priority": "medium-trail: expand official/source event coverage"
+    },
+    {
+      "id": "r-118-yvette-cooper",
+      "name": "Yvette Cooper",
+      "role": "Foreign minister",
+      "country": "GB",
+      "knownRecords": 6,
+      "latestRecord": {
+        "startsAt": "2026-04-25T12:00:00+04:00",
+        "city": "Abu Dhabi",
+        "title": "UK-UAE foreign ministers joint statement"
+      },
+      "priority": "medium-trail: expand official/source event coverage"
+    },
+    {
+      "id": "r-006-ursula-von-der-leyen",
+      "name": "Ursula von der Leyen",
+      "role": "Supranational executive",
+      "country": "EU",
+      "knownRecords": 8,
+      "latestRecord": {
+        "startsAt": "2026-06-15T10:00:00+02:00",
+        "city": "Évian-les-Bains",
+        "title": "G7 Évian 2026 announced summit window"
+      },
+      "priority": "covered: keep daily delta and event watch"
+    },
+    {
+      "id": "r-132-david-lammy",
+      "name": "David Lammy",
+      "role": "Foreign-policy principal",
+      "country": "GB",
+      "knownRecords": 9,
+      "latestRecord": {
+        "startsAt": "2025-05-14T12:00:00+03:00",
+        "city": "Antalya",
+        "title": "Lammy at NATO foreign ministers and related stops"
+      },
+      "priority": "covered: keep daily delta and event watch"
+    },
+    {
+      "id": "r-007-kaja-kallas",
+      "name": "Kaja Kallas",
+      "role": "Diplomacy principal",
+      "country": "EU",
+      "knownRecords": 9,
+      "latestRecord": {
+        "startsAt": "2026-04-21T15:00:00+02:00",
+        "city": "Luxembourg",
+        "title": "Foreign Affairs Council press conference"
+      },
+      "priority": "covered: keep daily delta and event watch"
+    },
+    {
+      "id": "r-050-christine-lagarde",
+      "name": "Christine Lagarde",
+      "role": "Central bank principal",
+      "country": "DE",
+      "knownRecords": 10,
+      "latestRecord": {
+        "startsAt": "2025-11-21T09:00:00+01:00",
+        "city": "Frankfurt",
+        "title": "Lagarde at Frankfurt European Banking Congress"
+      },
+      "priority": "covered: keep daily delta and event watch"
+    },
+    {
+      "id": "r-119-jean-noel-barrot",
+      "name": "Jean-Noël Barrot",
+      "role": "Foreign minister",
+      "country": "FR",
+      "knownRecords": 11,
+      "latestRecord": {
+        "startsAt": "2026-04-27T12:00:00-04:00",
+        "city": "New York",
+        "title": "Barrot at NPT Review Conference in New York"
+      },
+      "priority": "covered: keep daily delta and event watch"
+    },
+    {
+      "id": "r-051-jerome-powell",
+      "name": "Jerome Powell",
+      "role": "Central bank principal",
+      "country": "US",
+      "knownRecords": 11,
+      "latestRecord": {
+        "startsAt": "2026-04-13T09:00:00-04:00",
+        "city": "Washington",
+        "title": "IMF and World Bank Spring Meetings 2026 in Washington"
+      },
+      "priority": "covered: keep daily delta and event watch"
+    },
+    {
+      "id": "r-005-narendra-modi",
+      "name": "Narendra Modi",
+      "role": "Head of government",
+      "country": "IN",
+      "knownRecords": 12,
+      "latestRecord": {
+        "startsAt": "2026-02-19T09:40:00+05:30",
+        "city": "New Delhi",
+        "title": "India AI Impact Summit 2026 inauguration"
+      },
+      "priority": "covered: keep daily delta and event watch"
+    },
+    {
+      "id": "r-150-rahim-aga-khan-v",
+      "name": "Prince Rahim Aga Khan V",
+      "role": "Development and philanthropy principal",
+      "country": "AKDN",
+      "knownRecords": 12,
+      "latestRecord": {
+        "startsAt": "2026-05-20T12:00:00+05:00",
+        "city": "Islamabad",
+        "title": "Aga Khan official visit to Pakistan"
+      },
+      "priority": "covered: keep daily delta and event watch"
+    },
+    {
+      "id": "r-023-wang-yi",
+      "name": "Wang Yi",
+      "role": "Foreign Minister of China",
+      "country": "CN",
+      "knownRecords": 13,
+      "latestRecord": {
+        "startsAt": "2026-02-14T12:00:00Z",
+        "city": "Munich",
+        "title": "Munich Security Conference speech"
+      },
+      "priority": "covered: keep daily delta and event watch"
+    },
+    {
+      "id": "r-001-donald-trump",
+      "name": "Donald Trump",
+      "role": "Head of state/government",
+      "country": "US",
+      "knownRecords": 16,
+      "latestRecord": {
+        "startsAt": "2026-07-07T10:00:00+03:00",
+        "city": "Ankara",
+        "title": "NATO Ankara 2026 announced summit"
+      },
+      "priority": "covered: keep daily delta and event watch"
+    },
+    {
+      "id": "r-018-benjamin-netanyahu",
+      "name": "Benjamin Netanyahu",
+      "role": "Head of government",
+      "country": "IL",
+      "knownRecords": 19,
+      "latestRecord": {
+        "startsAt": "2026-02-11T17:00:00Z",
+        "city": "Washington",
+        "title": "White House meeting on Iran, Gaza and regional developments"
+      },
+      "priority": "covered: keep daily delta and event watch"
+    },
+    {
+      "id": "r-117-sergey-lavrov",
+      "name": "Sergey Lavrov",
+      "role": "Foreign minister",
+      "country": "RU",
+      "knownRecords": 25,
+      "latestRecord": {
+        "startsAt": "2026-06-15T12:00:00+05:30",
+        "city": "New Delhi",
+        "title": "Upcoming Lavrov India visit preparation"
+      },
+      "priority": "covered: keep daily delta and event watch"
+    },
+    {
+      "id": "r-024-s-jaishankar",
+      "name": "Subrahmanyam Jaishankar",
+      "role": "External Affairs Minister of India",
+      "country": "IN",
+      "knownRecords": 60,
+      "latestRecord": {
+        "startsAt": "2026-05-27T12:00:00+03:00",
+        "city": "Nicosia",
+        "title": "Jaishankar visit to Cyprus"
+      },
+      "priority": "covered: keep daily delta and event watch"
+    },
+    {
+      "id": "r-096-marco-rubio",
+      "name": "Marco Rubio",
+      "role": "U.S. Secretary of State",
+      "country": "US",
+      "knownRecords": 83,
+      "latestRecord": {
+        "startsAt": "2026-05-26T17:00:00+04:00",
+        "city": "Yerevan",
+        "title": "Rubio signs TRIPP framework documents in Yerevan"
+      },
+      "priority": "covered: keep daily delta and event watch"
     }
   ]
 }

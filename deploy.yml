@@ -1,74 +1,15 @@
-{
-  "version": "4.0.0",
-  "alertTypes": [
-    "New attendee announced",
-    "Agenda published",
-    "Speaker added",
-    "Event moved",
-    "Registration opens"
-  ],
-  "topics": [
-    "AI",
-    "Defense",
-    "Inflation",
-    "Energy",
-    "China",
-    "Semiconductors",
-    "Climate",
-    "Debt",
-    "Trade",
-    "Capital",
-    "Health"
-  ],
-  "organizationProfiles": [
-    "BlackRock",
-    "NATO",
-    "IMF",
-    "BIS",
-    "Microsoft",
-    "OpenAI",
-    "Brookings",
-    "Council on Foreign Relations",
-    "World Bank",
-    "OECD",
-    "OPEC",
-    "World Economic Forum"
-  ],
-  "eventOverlapFamilies": [
-    "Davos",
-    "Bilderberg",
-    "Munich",
-    "FII",
-    "Jackson Hole",
-    "IMF / World Bank"
-  ],
-  "powerGeography": [
-    "Zurich",
-    "Geneva",
-    "Basel",
-    "Washington",
-    "Brussels",
-    "London",
-    "Riyadh",
-    "Abu Dhabi",
-    "Beijing",
-    "New York",
-    "Paris",
-    "Davos",
-    "Munich",
-    "Singapore"
-  ],
-  "crawlerFields": [
-    "event",
-    "person",
-    "organization",
-    "role",
-    "year",
-    "speaker_or_attendee",
-    "source_url",
-    "topic",
-    "theme",
-    "location",
-    "confidence"
-  ]
+import fs from "node:fs";
+
+export function loadSourceRegistry(file = "data/source-registry.json") {
+  const registry = JSON.parse(fs.readFileSync(file, "utf8"));
+  if (!Array.isArray(registry.sources)) throw new Error("source registry missing sources array");
+  return registry;
+}
+
+export function officialSources(registry) {
+  return (registry.sources || []).filter((source) => /official|host/i.test(source.type || ""));
+}
+
+export function discoverySources(registry) {
+  return (registry.sources || []).filter((source) => /discovery/i.test(source.type || ""));
 }

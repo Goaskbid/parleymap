@@ -1,0 +1,2517 @@
+{
+  "generatedAt": "2026-06-01T08:20:00.258Z",
+  "gaps": [
+    {
+      "id": "r-137-abbas-araghchi",
+      "name": "Abbas Araghchi",
+      "role": "Foreign minister",
+      "country": "IR",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-229-abdallah-bou-habib",
+      "name": "Abdallah Bou Habib",
+      "role": "Minister of Foreign Affairs",
+      "country": "UN",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-034-abdel-fattah-el-sisi",
+      "name": "Abdel Fattah el-Sisi",
+      "role": "Head of state/government",
+      "country": "EG",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-200-abdulaziz-bin-salman",
+      "name": "Abdulaziz bin Salman",
+      "role": "Energy minister",
+      "country": "SA",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-226-abdullah-bin-zayed-al-nahyan",
+      "name": "Abdullah bin Zayed Al Nahyan",
+      "role": "Minister of Foreign Affairs",
+      "country": "AE",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-114-abigail-johnson",
+      "name": "Abigail Johnson",
+      "role": "Asset management principal",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-035-abiy-ahmed",
+      "name": "Abiy Ahmed",
+      "role": "Head of government",
+      "country": "ET",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-060-achim-steiner",
+      "name": "Achim Steiner",
+      "role": "Development institution principal",
+      "country": "UN",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-247-adair-turner",
+      "name": "Adair Turner",
+      "role": "Chair, Energy Transitions Commission",
+      "country": "GB",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-262-adam-posen",
+      "name": "Adam Posen",
+      "role": "President, Peterson Institute for International Economics",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-056-agustin-carstens",
+      "name": "Agustín Carstens",
+      "role": "Financial institution principal",
+      "country": "BI",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-049-ajay-banga",
+      "name": "Ajay Banga",
+      "role": "Development finance principal",
+      "country": "WB",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-146-al-gore",
+      "name": "Al Gore",
+      "role": "Climate / former political principal",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-124-alex-karp",
+      "name": "Alex Karp",
+      "role": "Defence technology principal",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-222-alexander-schallenberg",
+      "name": "Alexander Schallenberg",
+      "role": "Former foreign minister / senior diplomat",
+      "country": "AT",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-285-alexander-soros",
+      "name": "Alexander Soros",
+      "role": "Chair, Open Society Foundations",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-189-alexander-stubb",
+      "name": "Alexander Stubb",
+      "role": "Head of state/government",
+      "country": "FI",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-151-alexandre-de-rothschild",
+      "name": "Alexandre de Rothschild",
+      "role": "Finance principal",
+      "country": "FR",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-019-ali-khamenei",
+      "name": "Ali Khamenei",
+      "role": "Religious / state principal",
+      "country": "IR",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-270-allan-dafoe",
+      "name": "Allan Dafoe",
+      "role": "Director, Centre for the Governance of AI",
+      "country": "GB",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-286-alois-zwinggi",
+      "name": "Alois Zwinggi",
+      "role": "President and CEO, World Economic Forum",
+      "country": "CH",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-104-amin-h-nasser",
+      "name": "Amin H. Nasser",
+      "role": "Energy executive principal",
+      "country": "SA",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-107-ana-botin",
+      "name": "Ana Botín",
+      "role": "Banking principal",
+      "country": "ES",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-173-andrew-bailey",
+      "name": "Andrew Bailey",
+      "role": "Central bank governor",
+      "country": "GB",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-313-andrius-kubilius",
+      "name": "Andrius Kubilius",
+      "role": "European Commissioner for Defence and Space",
+      "country": "EU",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-125-andy-jassy",
+      "name": "Andy Jassy",
+      "role": "Cloud technology principal",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-038-angela-merkel",
+      "name": "Angela Merkel",
+      "role": "Former head of government",
+      "country": "DE",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-277-ani-dasgupta",
+      "name": "Ani Dasgupta",
+      "role": "President and CEO, World Resources Institute",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-130-anita-anand",
+      "name": "Anita Anand",
+      "role": "Foreign minister",
+      "country": "CA",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-026-anthony-albanese",
+      "name": "Anthony Albanese",
+      "role": "Head of government",
+      "country": "AU",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-015-antonio-guterres",
+      "name": "António Guterres",
+      "role": "Multilateral principal",
+      "country": "UN",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-127-antonio-tajani",
+      "name": "Antonio Tajani",
+      "role": "Foreign minister",
+      "country": "IT",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-186-ariane-de-rothschild",
+      "name": "Ariane de Rothschild",
+      "role": "Banking chair",
+      "country": "CH",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-235-arminio-fraga",
+      "name": "Arminio Fraga",
+      "role": "Former Governor, Banco Central do Brasil",
+      "country": "BR",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-225-badr-abdelatty",
+      "name": "Badr Abdelatty",
+      "role": "Minister of Foreign Affairs",
+      "country": "EG",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-039-barack-obama",
+      "name": "Barack Obama",
+      "role": "Former head of state/government",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-018-benjamin-netanyahu",
+      "name": "Benjamin Netanyahu",
+      "role": "Head of government",
+      "country": "IL",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-077-bernard-arnault",
+      "name": "Bernard Arnault",
+      "role": "Luxury / investor principal",
+      "country": "FR",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-042-bill-clinton",
+      "name": "Bill Clinton",
+      "role": "Former head of state/government",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-065-bill-gates",
+      "name": "Bill Gates",
+      "role": "Philanthropy / technology principal",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-284-binaifer-nowrojee",
+      "name": "Binaifer Nowrojee",
+      "role": "President, Open Society Foundations",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-310-blaise-metreweli",
+      "name": "Blaise Metreweli",
+      "role": "Chief, Secret Intelligence Service",
+      "country": "GB",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-032-bola-tinubu",
+      "name": "Bola Tinubu",
+      "role": "Head of state/government",
+      "country": "NG",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-141-b-rge-brende",
+      "name": "Børge Brende",
+      "role": "Forum / convening principal",
+      "country": "UN",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-093-boris-johnson",
+      "name": "Boris Johnson",
+      "role": "Former head of government",
+      "country": "GB",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-084-brian-chesky",
+      "name": "Brian Chesky",
+      "role": "Platform technology principal",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-112-brian-moynihan",
+      "name": "Brian Moynihan",
+      "role": "Banking principal",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-256-bronwen-maddox",
+      "name": "Bronwen Maddox",
+      "role": "Director and CEO, Chatham House",
+      "country": "GB",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-193-c-c-wei",
+      "name": "C. C. Wei",
+      "role": "Semiconductor executive principal",
+      "country": "TW",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-276-c-raja-mohan",
+      "name": "C. Raja Mohan",
+      "role": "Senior fellow / South Asia policy principal",
+      "country": "SG",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-116-carlos-slim",
+      "name": "Carlos Slim",
+      "role": "Telecom investor principal",
+      "country": "MX",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-244-carmen-reinhart",
+      "name": "Carmen Reinhart",
+      "role": "Harvard economist",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-061-catherine-russell",
+      "name": "Catherine Russell",
+      "role": "Humanitarian institution principal",
+      "country": "UN",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-255-cecilia-rouse",
+      "name": "Cecilia Rouse",
+      "role": "President, Brookings Institution",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-050-christine-lagarde",
+      "name": "Christine Lagarde",
+      "role": "Central bank principal",
+      "country": "DE",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-312-christopher-cavoli",
+      "name": "Christopher Cavoli",
+      "role": "Supreme Allied Commander Europe",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-058-cindy-mccain",
+      "name": "Cindy McCain",
+      "role": "Humanitarian institution principal",
+      "country": "UN",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-028-claudia-sheinbaum",
+      "name": "Claudia Sheinbaum",
+      "role": "Head of state/government",
+      "country": "MX",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-306-crown-prince-akishino",
+      "name": "Crown Prince Akishino",
+      "role": "Crown Prince of Japan",
+      "country": "JP",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-294-crown-prince-haakon",
+      "name": "Crown Prince Haakon",
+      "role": "Crown Prince of Norway",
+      "country": "NO",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-307-crown-prince-hussein",
+      "name": "Crown Prince Hussein",
+      "role": "Crown Prince of Jordan",
+      "country": "JO",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-296-crown-princess-victoria",
+      "name": "Crown Princess Victoria",
+      "role": "Crown Princess of Sweden",
+      "country": "SE",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-031-cyril-ramaphosa",
+      "name": "Cyril Ramaphosa",
+      "role": "Head of state/government",
+      "country": "ZA",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-290-dame-susan-langley",
+      "name": "Dame Susan Langley",
+      "role": "Lady Mayor of the City of London",
+      "country": "GB",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-195-daniel-ek",
+      "name": "Daniel Ek",
+      "role": "Technology / media principal",
+      "country": "SE",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-191-dario-amodei",
+      "name": "Dario Amodei",
+      "role": "AI company leader",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-232-daron-acemoglu",
+      "name": "Daron Acemoglu",
+      "role": "MIT Institute Professor",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-105-darren-woods",
+      "name": "Darren Woods",
+      "role": "Energy executive principal",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-203-david-cameron",
+      "name": "David Cameron",
+      "role": "Former Prime Minister / former Foreign Secretary",
+      "country": "GB",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-309-david-de-rothschild",
+      "name": "David de Rothschild",
+      "role": "Rothschild family-capital principal",
+      "country": "GB",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-132-david-lammy",
+      "name": "David Lammy",
+      "role": "Foreign-policy principal",
+      "country": "GB",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-164-david-petraeus",
+      "name": "David Petraeus",
+      "role": "Former CIA director",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-111-david-solomon",
+      "name": "David Solomon",
+      "role": "Banking principal",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-128-demis-hassabis",
+      "name": "Demis Hassabis",
+      "role": "AI research principal",
+      "country": "GB",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-267-dewey-murdick",
+      "name": "Dewey Murdick",
+      "role": "Executive Director, CSET",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-209-dmitry-medvedev",
+      "name": "Dmitry Medvedev",
+      "role": "Former President of Russia",
+      "country": "RU",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-001-donald-trump",
+      "name": "Donald Trump",
+      "role": "Head of state/government",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-087-donald-tusk",
+      "name": "Donald Tusk",
+      "role": "Head of government",
+      "country": "PL",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-210-ehud-barak",
+      "name": "Ehud Barak",
+      "role": "Former Prime Minister of Israel",
+      "country": "IL",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-211-ehud-olmert",
+      "name": "Ehud Olmert",
+      "role": "Former Prime Minister of Israel",
+      "country": "IL",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-158-elina-valtonen",
+      "name": "Elina Valtonen",
+      "role": "Foreign minister",
+      "country": "FI",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-004-elon-musk",
+      "name": "Elon Musk",
+      "role": "Technology principal",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-009-emmanuel-macron",
+      "name": "Emmanuel Macron",
+      "role": "Head of state/government",
+      "country": "FR",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-304-emperor-naruhito",
+      "name": "Emperor Naruhito",
+      "role": "Emperor of Japan",
+      "country": "JP",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-305-empress-masako",
+      "name": "Empress Masako",
+      "role": "Empress of Japan",
+      "country": "JP",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-162-enrique-manalo",
+      "name": "Enrique Manalo",
+      "role": "Foreign minister",
+      "country": "PH",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-187-eric-schmidt",
+      "name": "Eric Schmidt",
+      "role": "Technology investor / former CEO",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-216-espen-barth-eide",
+      "name": "Espen Barth Eide",
+      "role": "Minister of Foreign Affairs",
+      "country": "NO",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-134-faisal-bin-farhan",
+      "name": "Faisal bin Farhan Al Saud",
+      "role": "Foreign minister",
+      "country": "SA",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-179-fatih-birol",
+      "name": "Fatih Birol",
+      "role": "Energy-policy institution head",
+      "country": "IEA",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-188-fei-fei-li",
+      "name": "Fei-Fei Li",
+      "role": "AI research leader",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-059-filippo-grandi",
+      "name": "Filippo Grandi",
+      "role": "Humanitarian institution principal",
+      "country": "UN",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-208-francois-hollande",
+      "name": "François Hollande",
+      "role": "Former President of France",
+      "country": "FR",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-francois-villeroy-de-galhau",
+      "name": "François Villeroy de Galhau",
+      "role": "Central banker",
+      "country": "FR",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-008-friedrich-merz",
+      "name": "Friedrich Merz",
+      "role": "Head of government",
+      "country": "DE",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-100-gabriel-boric",
+      "name": "Gabriel Boric",
+      "role": "Head of state/government",
+      "country": "CL",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-241-gail-kelly",
+      "name": "Gail Kelly",
+      "role": "Former Westpac CEO / UBS board member",
+      "country": "AU",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-079-gautam-adani",
+      "name": "Gautam Adani",
+      "role": "Industrial principal",
+      "country": "IN",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-122-george-soros",
+      "name": "George Soros",
+      "role": "Philanthropy / investor principal",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-041-george-w-bush",
+      "name": "George W. Bush",
+      "role": "Former head of state/government",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-163-george-yeo",
+      "name": "George Yeo",
+      "role": "Former foreign minister",
+      "country": "SG",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-206-gerhard-schroder",
+      "name": "Gerhard Schröder",
+      "role": "Former Chancellor of Germany",
+      "country": "DE",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-062-gianni-infantino",
+      "name": "Gianni Infantino",
+      "role": "Sports governance principal",
+      "country": "FIFA",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-011-giorgia-meloni",
+      "name": "Giorgia Meloni",
+      "role": "Head of government",
+      "country": "IT",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-237-gita-gopinath",
+      "name": "Gita Gopinath",
+      "role": "Economist, former IMF First Deputy Managing Director",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-202-gordon-brown",
+      "name": "Gordon Brown",
+      "role": "Former Prime Minister of the United Kingdom",
+      "country": "GB",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-301-grand-duke-henri",
+      "name": "Grand Duke Henri",
+      "role": "Grand Duke of Luxembourg",
+      "country": "LU",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-231-guillermo-ortiz",
+      "name": "Guillermo Ortiz",
+      "role": "Treasurer, Group of Thirty",
+      "country": "MX",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-099-gustavo-petro",
+      "name": "Gustavo Petro",
+      "role": "Head of state/government",
+      "country": "CO",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-223-guy-parmelin",
+      "name": "Guy Parmelin",
+      "role": "President of the Swiss Confederation / Economy Minister",
+      "country": "CH",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-199-haitham-al-ghais",
+      "name": "Haitham Al Ghais",
+      "role": "OPEC secretary general",
+      "country": "KW",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-133-hakan-fidan",
+      "name": "Hakan Fidan",
+      "role": "Foreign minister",
+      "country": "TR",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-245-helene-rey",
+      "name": "Hélène Rey",
+      "role": "London Business School economist",
+      "country": "GB",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-henri-de-castries",
+      "name": "Henri de Castries",
+      "role": "Bilderberg co-chair",
+      "country": "FR",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-303-hereditary-prince-alois",
+      "name": "Hereditary Prince Alois",
+      "role": "Hereditary Prince of Liechtenstein",
+      "country": "LI",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-240-huang-yiping",
+      "name": "Huang Yiping",
+      "role": "Peking University economist",
+      "country": "CN",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-224-ignazio-cassis",
+      "name": "Ignazio Cassis",
+      "role": "Head of the Federal Department of Foreign Affairs",
+      "country": "CH",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-215-jacinda-ardern",
+      "name": "Jacinda Ardern",
+      "role": "Former Prime Minister of New Zealand",
+      "country": "UN",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-178-jack-clark",
+      "name": "Jack Clark",
+      "role": "AI policy executive",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-080-jack-ma",
+      "name": "Jack Ma",
+      "role": "Technology / commerce principal",
+      "country": "CN",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-230-jacob-frenkel",
+      "name": "Jacob Frenkel",
+      "role": "Chairman Emeritus, Group of Thirty",
+      "country": "IL",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-263-james-poterba",
+      "name": "James Poterba",
+      "role": "President, National Bureau of Economic Research",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-075-jamie-dimon",
+      "name": "Jamie Dimon",
+      "role": "Banking principal",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-220-jan-lipavsky",
+      "name": "Jan Lipavský",
+      "role": "Minister of Foreign Affairs",
+      "country": "CZ",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-076-jane-fraser",
+      "name": "Jane Fraser",
+      "role": "Banking principal",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-143-janet-yellen",
+      "name": "Janet Yellen",
+      "role": "Former finance principal",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-236-jason-furman",
+      "name": "Jason Furman",
+      "role": "Harvard economist",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-258-jason-matheny",
+      "name": "Jason Matheny",
+      "role": "President and CEO, RAND Corporation",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-030-javier-milei",
+      "name": "Javier Milei",
+      "role": "Head of state/government",
+      "country": "AR",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-095-jd-vance",
+      "name": "JD Vance",
+      "role": "Vice president",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-268-jean-innes",
+      "name": "Jean Innes",
+      "role": "CEO, Alan Turing Institute",
+      "country": "GB",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-289-jean-claude-trichet",
+      "name": "Jean-Claude Trichet",
+      "role": "European Chair, Trilateral Commission / G30 honorary chair",
+      "country": "FR",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-119-jean-noel-barrot",
+      "name": "Jean-Noël Barrot",
+      "role": "Foreign minister",
+      "country": "FR",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-067-jeff-bezos",
+      "name": "Jeff Bezos",
+      "role": "Technology / media principal",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-181-jens-stoltenberg",
+      "name": "Jens Stoltenberg",
+      "role": "Former NATO secretary general / finance minister",
+      "country": "NO",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-072-jensen-huang",
+      "name": "Jensen Huang",
+      "role": "Technology principal",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-051-jerome-powell",
+      "name": "Jerome Powell",
+      "role": "Central bank principal",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-264-jeromin-zettelmeyer",
+      "name": "Jeromin Zettelmeyer",
+      "role": "Director, Bruegel",
+      "country": "BE",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-176-joachim-nagel",
+      "name": "Joachim Nagel",
+      "role": "Central bank governor",
+      "country": "DE",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-040-joe-biden",
+      "name": "Joe Biden",
+      "role": "Former head of state/government",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-121-johann-wadephul",
+      "name": "Johann Wadephul",
+      "role": "Foreign minister",
+      "country": "DE",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-248-john-c-williams",
+      "name": "John C. Williams",
+      "role": "President, Federal Reserve Bank of New York",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-257-john-hamre",
+      "name": "John Hamre",
+      "role": "President and CEO, CSIS",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-201-john-major",
+      "name": "John Major",
+      "role": "Former Prime Minister of the United Kingdom",
+      "country": "GB",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-john-williams",
+      "name": "John Williams",
+      "role": "Central banker",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-278-jon-creyts",
+      "name": "Jon Creyts",
+      "role": "CEO, Rocky Mountain Institute",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-219-jose-manuel-albares",
+      "name": "José Manuel Albares",
+      "role": "Minister of Foreign Affairs",
+      "country": "ES",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-180-jose-manuel-barroso",
+      "name": "José Manuel Barroso",
+      "role": "Former leader / finance adviser",
+      "country": "PT",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-007-kaja-kallas",
+      "name": "Kaja Kallas",
+      "role": "Diplomacy principal",
+      "country": "EU",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-281-karel-lannoo",
+      "name": "Karel Lannoo",
+      "role": "CEO, CEPS",
+      "country": "BE",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-260-karim-haggag",
+      "name": "Karim Haggag",
+      "role": "Director, SIPRI",
+      "country": "EG",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-174-kazuo-ueda",
+      "name": "Kazuo Ueda",
+      "role": "Central bank governor",
+      "country": "JP",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-010-keir-starmer",
+      "name": "Keir Starmer",
+      "role": "Head of government",
+      "country": "GB",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-108-ken-griffin",
+      "name": "Ken Griffin",
+      "role": "Hedge fund principal",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-253-kenneth-rogoff",
+      "name": "Kenneth Rogoff",
+      "role": "Harvard economist",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-274-kevin-rudd",
+      "name": "Kevin Rudd",
+      "role": "Asia Society Policy Institute president / former Australian PM",
+      "country": "AU",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-198-khaldoon-al-mubarak",
+      "name": "Khaldoon Al Mubarak",
+      "role": "Sovereign wealth / investment principal",
+      "country": "AE",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-149-king-abdullah-ii",
+      "name": "King Abdullah II",
+      "role": "Head of state / royal principal",
+      "country": "JO",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-295-king-carl-xvi-gustaf",
+      "name": "King Carl XVI Gustaf",
+      "role": "King of Sweden",
+      "country": "SE",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-043-king-charles-iii",
+      "name": "King Charles III",
+      "role": "Royal principal",
+      "country": "GB",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-147-king-felipe-vi",
+      "name": "King Felipe VI",
+      "role": "Royal principal",
+      "country": "ES",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-291-king-frederik-x",
+      "name": "King Frederik X",
+      "role": "King of Denmark",
+      "country": "DK",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-293-king-harald-v",
+      "name": "King Harald V",
+      "role": "King of Norway",
+      "country": "NO",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-299-king-philippe",
+      "name": "King Philippe",
+      "role": "King of the Belgians",
+      "country": "BE",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-297-king-willem-alexander",
+      "name": "King Willem-Alexander",
+      "role": "King of the Netherlands",
+      "country": "NL",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-063-kirsty-coventry",
+      "name": "Kirsty Coventry",
+      "role": "Sports governance principal",
+      "country": "IO",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-klaas-knot",
+      "name": "Klaas Knot",
+      "role": "Central banker",
+      "country": "NL",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-142-klaus-schwab",
+      "name": "Klaus Schwab",
+      "role": "Forum founder / former principal",
+      "country": "UN",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-048-kristalina-georgieva",
+      "name": "Kristalina Georgieva",
+      "role": "Financial institution principal",
+      "country": "IM",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-183-larry-ellison",
+      "name": "Larry Ellison",
+      "role": "Technology investor and founder",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-074-larry-fink",
+      "name": "Larry Fink",
+      "role": "Asset management principal",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-159-lars-lokke-rasmussen",
+      "name": "Lars Lokke Rasmussen",
+      "role": "Foreign minister",
+      "country": "DK",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-218-lars-l-kke-rasmussen",
+      "name": "Lars Løkke Rasmussen",
+      "role": "Minister for Foreign Affairs",
+      "country": "DK",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-lesetja-kganyago",
+      "name": "Lesetja Kganyago",
+      "role": "Central banker",
+      "country": "ZA",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-022-li-qiang",
+      "name": "Li Qiang",
+      "role": "Premier",
+      "country": "CN",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-083-lisa-su",
+      "name": "Lisa Su",
+      "role": "Semiconductor principal",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-205-liz-truss",
+      "name": "Liz Truss",
+      "role": "Former Prime Minister of the United Kingdom",
+      "country": "GB",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-029-luiz-inacio-lula-da-silva",
+      "name": "Luiz Inácio Lula da Silva",
+      "role": "Head of state/government",
+      "country": "BR",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-280-mans-nilsson",
+      "name": "Måns Nilsson",
+      "role": "Executive Director, Stockholm Environment Institute",
+      "country": "SE",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-135-marc-benioff",
+      "name": "Marc Benioff",
+      "role": "Enterprise software principal",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-096-marco-rubio",
+      "name": "Marco Rubio",
+      "role": "U.S. Secretary of State",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-217-maria-malmer-stenergard",
+      "name": "Maria Malmer Stenergard",
+      "role": "Minister for Foreign Affairs",
+      "country": "SE",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-243-maria-ramos",
+      "name": "Maria Ramos",
+      "role": "Chair, Standard Chartered Bank",
+      "country": "ZA",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-185-marie-josee-kravis",
+      "name": "Marie-Josée Kravis",
+      "role": "Bilderberg co-chair",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-269-marina-gorbis",
+      "name": "Marina Gorbis",
+      "role": "Executive Director, Institute for the Future",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-144-mario-draghi",
+      "name": "Mario Draghi",
+      "role": "Former government / central bank principal",
+      "country": "IT",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-027-mark-carney",
+      "name": "Mark Carney",
+      "role": "Government / finance principal",
+      "country": "CA",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-282-mark-leonard",
+      "name": "Mark Leonard",
+      "role": "Director, European Council on Foreign Relations",
+      "country": "GB",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-014-mark-rutte",
+      "name": "Mark Rutte",
+      "role": "Security alliance principal",
+      "country": "NATO",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-259-mark-sedwill",
+      "name": "Mark Sedwill",
+      "role": "Chair of Trustees, IISS",
+      "country": "GB",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-068-mark-zuckerberg",
+      "name": "Mark Zuckerberg",
+      "role": "Technology principal",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-106-mary-barra",
+      "name": "Mary Barra",
+      "role": "Industrial executive principal",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-082-masayoshi-son",
+      "name": "Masayoshi Son",
+      "role": "Technology investor principal",
+      "country": "JP",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-020-masoud-pezeshkian",
+      "name": "Masoud Pezeshkian",
+      "role": "Head of state/government",
+      "country": "IR",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-055-mathias-cormann",
+      "name": "Mathias Cormann",
+      "role": "Economic institution principal",
+      "country": "OC",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-138-mauro-vieira",
+      "name": "Mauro Vieira",
+      "role": "Foreign minister",
+      "country": "BR",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-287-meghan-o-sullivan",
+      "name": "Meghan O’Sullivan",
+      "role": "North American Chair, Trilateral Commission",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-145-melanie-joly",
+      "name": "Melanie Joly",
+      "role": "Former Canadian foreign minister",
+      "country": "CA",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-161-melanie-joly",
+      "name": "Mélanie Joly",
+      "role": "Former Canadian Foreign Minister / senior political figure",
+      "country": "CA",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-120-melinda-french-gates",
+      "name": "Melinda French Gates",
+      "role": "Philanthropy principal",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-250-mervyn-king",
+      "name": "Mervyn King",
+      "role": "Former Governor, Bank of England",
+      "country": "GB",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-115-michael-bloomberg",
+      "name": "Michael Bloomberg",
+      "role": "Media / data / political principal",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-136-michael-dell",
+      "name": "Michael Dell",
+      "role": "Computing technology principal",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-254-michael-froman",
+      "name": "Michael Froman",
+      "role": "President, Council on Foreign Relations",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-272-michael-fullilove",
+      "name": "Michael Fullilove",
+      "role": "Executive Director, Lowy Institute",
+      "country": "AU",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-273-mikko-huotari",
+      "name": "Mikko Huotari",
+      "role": "Executive Director, MERICS",
+      "country": "DE",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-017-mohamed-bin-zayed-al-nahyan",
+      "name": "Mohamed bin Zayed Al Nahyan",
+      "role": "Head of state / royalty",
+      "country": "AE",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-233-mohamed-el-erian",
+      "name": "Mohamed El-Erian",
+      "role": "Economist and Allianz adviser",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-046-mohammed-bin-abdulrahman-al-thani",
+      "name": "Mohammed bin Abdulrahman Al Thani",
+      "role": "Government / diplomacy principal",
+      "country": "QA",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-016-mohammed-bin-salman",
+      "name": "Mohammed bin Salman",
+      "role": "Royal / government principal",
+      "country": "SA",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-265-moritz-schularick",
+      "name": "Moritz Schularick",
+      "role": "President, Kiel Institute for the World Economy",
+      "country": "DE",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-078-mukesh-ambani",
+      "name": "Mukesh Ambani",
+      "role": "Industrial principal",
+      "country": "IN",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-190-nadia-calvino",
+      "name": "Nadia Calviño",
+      "role": "Development finance principal",
+      "country": "ES",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-212-naftali-bennett",
+      "name": "Naftali Bennett",
+      "role": "Former Prime Minister of Israel",
+      "country": "IL",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-094-nancy-pelosi",
+      "name": "Nancy Pelosi",
+      "role": "Legislative power broker",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-005-narendra-modi",
+      "name": "Narendra Modi",
+      "role": "Head of government",
+      "country": "IN",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-227-nasser-bourita",
+      "name": "Nasser Bourita",
+      "role": "Minister of Foreign Affairs",
+      "country": "UN",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-052-ngozi-okonjo-iweala",
+      "name": "Ngozi Okonjo-Iweala",
+      "role": "Trade institution principal",
+      "country": "WT",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-234-niall-ferguson",
+      "name": "Niall Ferguson",
+      "role": "Hoover Institution senior fellow",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-207-nicolas-sarkozy",
+      "name": "Nicolas Sarkozy",
+      "role": "Former President of France",
+      "country": "FR",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-091-olaf-scholz",
+      "name": "Olaf Scholz",
+      "role": "Former / current government principal",
+      "country": "DE",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-169-oliver-zipse",
+      "name": "Oliver Zipse",
+      "role": "CEO",
+      "country": "DE",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-177-pablo-hernandez-de-cos",
+      "name": "Pablo Hernández de Cos",
+      "role": "BIS General Manager",
+      "country": "ES",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-242-pan-gongsheng",
+      "name": "Pan Gongsheng",
+      "role": "Governor, People’s Bank of China",
+      "country": "CN",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-086-patriarch-kirill",
+      "name": "Patriarch Kirill",
+      "role": "Religious principal",
+      "country": "RU",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-279-patricia-fuller",
+      "name": "Patricia Fuller",
+      "role": "President and CEO, IISD",
+      "country": "CA",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-194-patrick-collison",
+      "name": "Patrick Collison",
+      "role": "CEO",
+      "country": "IE",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-166-patrick-pouyanne",
+      "name": "Patrick Pouyanne",
+      "role": "CEO",
+      "country": "FR",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-196-patrick-pouyanne",
+      "name": "Patrick Pouyanné",
+      "role": "Energy executive principal",
+      "country": "FR",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-266-paul-johnson",
+      "name": "Paul Johnson",
+      "role": "Director, Institute for Fiscal Studies",
+      "country": "GB",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-036-paul-kagame",
+      "name": "Paul Kagame",
+      "role": "Head of state/government",
+      "country": "RW",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-088-pedro-sanchez",
+      "name": "Pedro Sánchez",
+      "role": "Head of government",
+      "country": "ES",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-penny-wong",
+      "name": "Penny Wong",
+      "role": "Foreign minister",
+      "country": "AU",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-221-peter-szijjarto",
+      "name": "Péter Szijjártó",
+      "role": "Minister of Foreign Affairs and Trade",
+      "country": "HU",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-123-peter-thiel",
+      "name": "Peter Thiel",
+      "role": "Technology investor principal",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-239-philipp-hildebrand",
+      "name": "Philipp Hildebrand",
+      "role": "Vice Chairman, BlackRock",
+      "country": "CH",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-081-pony-ma",
+      "name": "Pony Ma",
+      "role": "Technology principal",
+      "country": "CN",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-085-pope-leo-xiv",
+      "name": "Pope Leo XIV",
+      "role": "Religious principal",
+      "country": "VA",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-021-prabowo-subianto",
+      "name": "Prabowo Subianto",
+      "role": "Head of state/government",
+      "country": "ID",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-302-prince-albert-ii-of-monaco",
+      "name": "Prince Albert II of Monaco",
+      "role": "Sovereign Prince of Monaco",
+      "country": "MC",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-150-rahim-aga-khan-v",
+      "name": "Prince Rahim Aga Khan V",
+      "role": "Development and philanthropy principal",
+      "country": "AKDN",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-044-prince-william",
+      "name": "Prince William",
+      "role": "Royal principal",
+      "country": "GB",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-308-princess-zahra-aga-khan",
+      "name": "Princess Zahra Aga Khan",
+      "role": "AKDN board and family-capital principal",
+      "country": "UN",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-045-queen-camilla",
+      "name": "Queen Camilla",
+      "role": "Royal principal",
+      "country": "GB",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-148-queen-letizia",
+      "name": "Queen Letizia",
+      "role": "Royal principal",
+      "country": "ES",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-292-queen-mary-of-denmark",
+      "name": "Queen Mary of Denmark",
+      "role": "Queen of Denmark",
+      "country": "DK",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-300-queen-mathilde",
+      "name": "Queen Mathilde",
+      "role": "Queen of the Belgians",
+      "country": "BE",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-298-queen-maxima",
+      "name": "Queen Máxima",
+      "role": "Queen of the Netherlands",
+      "country": "NL",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-157-radoslaw-sikorski",
+      "name": "Radoslaw Sikorski",
+      "role": "Foreign minister",
+      "country": "PL",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-182-rados-aw-sikorski",
+      "name": "Radosław Sikorski",
+      "role": "Foreign minister",
+      "country": "PL",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-057-rafael-grossi",
+      "name": "Rafael Grossi",
+      "role": "Nuclear governance principal",
+      "country": "IA",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-314-rafael-mariano-grossi",
+      "name": "Rafael Mariano Grossi",
+      "role": "Director General, International Atomic Energy Agency",
+      "country": "IAEA",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-171-raghuram-rajan",
+      "name": "Raghuram Rajan",
+      "role": "G30 chair / former central-bank governor",
+      "country": "IN",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-170-rahim-aga-khan-v",
+      "name": "Rahim Aga Khan V",
+      "role": "Aga Khan / Chair of the Aga Khan Development Network",
+      "country": "CH",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-109-ray-dalio",
+      "name": "Ray Dalio",
+      "role": "Investor principal",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-013-recep-tayyip-erdogan",
+      "name": "Recep Tayyip Erdoğan",
+      "role": "Head of state/government",
+      "country": "TR",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-129-ren-zhengfei",
+      "name": "Ren Zhengfei",
+      "role": "Telecom technology principal",
+      "country": "CN",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-092-rishi-sunak",
+      "name": "Rishi Sunak",
+      "role": "Former head of government",
+      "country": "GB",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-271-robert-atkinson",
+      "name": "Robert Atkinson",
+      "role": "President, ITIF",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-090-roberta-metsola",
+      "name": "Roberta Metsola",
+      "role": "Parliamentary principal",
+      "country": "EU",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-252-roger-w-ferguson-jr",
+      "name": "Roger W. Ferguson Jr.",
+      "role": "CFR economics fellow / former Fed vice chair",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-140-ronald-lamola",
+      "name": "Ronald Lamola",
+      "role": "Foreign minister",
+      "country": "ZA",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-139-rupert-murdoch",
+      "name": "Rupert Murdoch",
+      "role": "Media principal",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-126-safra-catz",
+      "name": "Safra Catz",
+      "role": "Enterprise software principal",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-073-sam-altman",
+      "name": "Sam Altman",
+      "role": "AI principal",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-275-samir-saran",
+      "name": "Samir Saran",
+      "role": "President, Observer Research Foundation",
+      "country": "IN",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-311-samuel-paparo",
+      "name": "Samuel Paparo",
+      "role": "Commander, U.S. Indo-Pacific Command",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-054-sania-nishtar",
+      "name": "Sania Nishtar",
+      "role": "Health institution principal",
+      "country": "UN",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-214-sanna-marin",
+      "name": "Sanna Marin",
+      "role": "Former Prime Minister of Finland",
+      "country": "FI",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-070-satya-nadella",
+      "name": "Satya Nadella",
+      "role": "Technology principal",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-097-scott-bessent",
+      "name": "Scott Bessent",
+      "role": "Finance / government principal",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-283-sebastien-maillard",
+      "name": "Sébastien Maillard",
+      "role": "Director, Jacques Delors Institute",
+      "country": "FR",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-238-sergei-guriev",
+      "name": "Sergei Guriev",
+      "role": "Dean, London Business School",
+      "country": "GB",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-117-sergey-lavrov",
+      "name": "Sergey Lavrov",
+      "role": "Foreign minister",
+      "country": "RU",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-113-sergio-ermotti",
+      "name": "Sergio Ermotti",
+      "role": "Banking principal",
+      "country": "CH",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-098-sergio-mattarella",
+      "name": "Sergio Mattarella",
+      "role": "Head of state",
+      "country": "IT",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-101-sheikh-mansour-bin-zayed-al-nahyan",
+      "name": "Sheikh Mansour bin Zayed Al Nahyan",
+      "role": "Royal / sovereign wealth principal",
+      "country": "AE",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-192-sheikh-tahnoun-bin-zayed-al-nahyan",
+      "name": "Sheikh Tahnoun bin Zayed Al Nahyan",
+      "role": "Royal / security / investment principal",
+      "country": "AE",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-025-shigeru-ishiba",
+      "name": "Shigeru Ishiba",
+      "role": "Head of government",
+      "country": "JP",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-261-stefan-mair",
+      "name": "Stefan Mair",
+      "role": "Director, SWP",
+      "country": "DE",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-110-stephen-schwarzman",
+      "name": "Stephen Schwarzman",
+      "role": "Private equity principal",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-184-steve-ballmer",
+      "name": "Steve Ballmer",
+      "role": "Technology investor and philanthropist",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-024-s-jaishankar",
+      "name": "Subrahmanyam Jaishankar",
+      "role": "External Affairs Minister of India",
+      "country": "IN",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-103-sultan-ahmed-al-jaber",
+      "name": "Sultan Ahmed Al Jaber",
+      "role": "Energy / climate principal",
+      "country": "AE",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-069-sundar-pichai",
+      "name": "Sundar Pichai",
+      "role": "Technology principal",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-156-takeshi-iwaya",
+      "name": "Takeshi Iwaya",
+      "role": "Former Japanese foreign minister",
+      "country": "JP",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-288-takeshi-niinami",
+      "name": "Takeshi Niinami",
+      "role": "Asia Pacific Chair, Trilateral Commission",
+      "country": "JP",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-047-tamim-bin-hamad-al-thani",
+      "name": "Tamim bin Hamad Al Thani",
+      "role": "Head of state / royalty",
+      "country": "QA",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-053-tedros-adhanom-ghebreyesus",
+      "name": "Tedros Adhanom Ghebreyesus",
+      "role": "Health institution principal",
+      "country": "WH",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-172-tharman-shanmugaratnam",
+      "name": "Tharman Shanmugaratnam",
+      "role": "G30 trustee chair / president",
+      "country": "SG",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-204-theresa-may",
+      "name": "Theresa May",
+      "role": "Former Prime Minister of the United Kingdom",
+      "country": "GB",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-064-thomas-bach",
+      "name": "Thomas Bach",
+      "role": "Sports governance principal",
+      "country": "IO",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-246-tidjane-thiam",
+      "name": "Tidjane Thiam",
+      "role": "Political and finance principal",
+      "country": "UN",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-175-tiff-macklem",
+      "name": "Tiff Macklem",
+      "role": "Central bank governor",
+      "country": "CA",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-071-tim-cook",
+      "name": "Tim Cook",
+      "role": "Technology principal",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-037-tony-blair",
+      "name": "Tony Blair",
+      "role": "Former head of government",
+      "country": "GB",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-131-toshimitsu-motegi",
+      "name": "Toshimitsu Motegi",
+      "role": "Foreign-policy principal",
+      "country": "JP",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-006-ursula-von-der-leyen",
+      "name": "Ursula von der Leyen",
+      "role": "Supranational executive",
+      "country": "EU",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-089-viktor-orban",
+      "name": "Viktor Orbán",
+      "role": "Head of government",
+      "country": "HU",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-003-vladimir-putin",
+      "name": "Vladimir Putin",
+      "role": "Head of state",
+      "country": "RU",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-012-volodymyr-zelenskyy",
+      "name": "Volodymyr Zelenskyy",
+      "role": "Head of state/government",
+      "country": "UA",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-197-wael-sawan",
+      "name": "Wael Sawan",
+      "role": "Energy executive principal",
+      "country": "GB",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-023-wang-yi",
+      "name": "Wang Yi",
+      "role": "Foreign Minister of China",
+      "country": "CN",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-066-warren-buffett",
+      "name": "Warren Buffett",
+      "role": "Investor principal",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-251-william-c-dudley",
+      "name": "William C. Dudley",
+      "role": "Former President, New York Fed",
+      "country": "US",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-033-william-ruto",
+      "name": "William Ruto",
+      "role": "Head of state/government",
+      "country": "KE",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-160-winston-peters",
+      "name": "Winston Peters",
+      "role": "Foreign minister",
+      "country": "NZ",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-165-wolfgang-ischinger",
+      "name": "Wolfgang Ischinger",
+      "role": "Security forum chair emeritus",
+      "country": "DE",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-002-xi-jinping",
+      "name": "Xi Jinping",
+      "role": "Head of state / party leadership",
+      "country": "CN",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-213-yair-lapid",
+      "name": "Yair Lapid",
+      "role": "Former Prime Minister / opposition leader",
+      "country": "IL",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-102-yasir-al-rumayyan",
+      "name": "Yasir Al-Rumayyan",
+      "role": "Sovereign wealth principal",
+      "country": "SA",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-249-yi-gang",
+      "name": "Yi Gang",
+      "role": "Former Governor, People’s Bank of China",
+      "country": "CN",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "x-228-yvan-gil",
+      "name": "Yvan Gil",
+      "role": "Minister of Foreign Affairs",
+      "country": "UN",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    },
+    {
+      "id": "r-118-yvette-cooper",
+      "name": "Yvette Cooper",
+      "role": "Foreign minister",
+      "country": "GB",
+      "knownRecords": 0,
+      "priority": "profile-only"
+    }
+  ]
+}

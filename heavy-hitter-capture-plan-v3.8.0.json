@@ -1,10 +1,12 @@
 {
-  "generatedAt": "2026-06-01T05:41:17.010Z",
+  "generatedAt": "2026-06-01T08:46:27.136Z",
   "mode": "dry-run",
   "window": {
-    "since": "2024-06-01T05:41:17.010Z",
-    "until": "2026-06-01T05:41:17.010Z",
-    "futureUntil": "2026-09-29T05:41:17.010Z"
+    "months": 36,
+    "days": 1096,
+    "since": "2023-06-01T08:46:27.136Z",
+    "until": "2026-06-01T08:46:27.136Z",
+    "futureUntil": "2026-09-29T08:46:27.136Z"
   },
   "rosterScanned": 200,
   "sourcesScanned": 0,
@@ -14,6 +16,7 @@
   "notes": [
     "Future records are kept only when a public event date and city are visible in an official or host-public source.",
     "Private addresses, hotels, hospitals, live movement, aircraft tracking, and leaked itineraries are rejected before publication.",
-    "GDELT is used as a recent discovery layer. Official and host sources outrank media leads."
+    "GDELT is used as a discovery layer. Official and host sources outrank media leads.",
+    "Rolling lookback is 36 months, with monthly windows so older profile-only people get coverage attempts."
   ]
 }

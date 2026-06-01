@@ -1,12 +1,13 @@
 {
   "meta": {
-    "version": "5.1.0",
+    "version": "5.3.0",
     "purpose": "Public-source registry for ParleyMap nightly crawler. Sources are discovery inputs; publication still requires source pack, city-level precision, safety screening, and duplicate checks.",
     "lastReviewed": "2026-05-30",
     "granularExpansion": "v3.7 adds foreign-minister office crawlers, secretary travel archives, BRICS/G7 ministerial participant capture, Netanyahu U.S. public-visit backfill, and dynamic connector profiles.",
     "frequentTravellerExpansion": "v3.7 prioritises official travel ledgers, foreign-minister readouts, speeches, participant lists, verified social leads and invitation-only event attendee graphs.",
     "heavyHitterDeepSearch": "v3.8 adds lead-only and official-source search families for heavy-traveller principals, foreign ministers, central bankers, event connectors and corporate heavy hitters.",
-    "priorityEntityExpansion": "v5.1 adds official-source watch families for former leaders, foreign ministers, G30, think tanks, royalty, IAEA/SIPRI/CFR/Brookings/Bruegel/WEF/Trilateral/Open Society and City of London finance diplomacy."
+    "priorityEntityExpansion": "v5.1 adds official-source watch families for former leaders, foreign ministers, G30, think tanks, royalty, IAEA/SIPRI/CFR/Brookings/Bruegel/WEF/Trilateral/Open Society and City of London finance diplomacy.",
+    "rolling36MonthCapture": "v5.3 extends the live crawler and all planners to a rolling 36-month backfill window with daily profile-only and thin-trail prioritisation."
   },
   "officialDomains": [
     "whitehouse.gov",
