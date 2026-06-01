@@ -1,17 +1,319 @@
 #!/usr/bin/env node
-import fs from "node:fs";
-import path from "node:path";
+import fs from 'node:fs';
+import path from 'node:path';
+
 const root = process.cwd();
-const demo = JSON.parse(fs.readFileSync(path.join(root, "data", "demo.json"), "utf8"));
-const intel = JSON.parse(fs.readFileSync(path.join(root, "data", "influence-intelligence-v4.0.0.json"), "utf8"));
-const people = demo.people || [];
-const roster = demo.roster || [];
-const priorityPeople = [...new Set([...people.map((p)=>p.canonicalName), ...roster.slice(0,200).map((p)=>p.name)])].filter(Boolean).slice(0,220);
-const sourceFamilies = ["official schedule", "protocol office", "foreign ministry readout", "central bank speech page", "summit participant list", "event agenda PDF", "speaker list", "university event page", "think tank event", "corporate IR event", "verified social lead", "local media lead", "public gallery or livestream metadata", "organization profile page"];
-const languages = ["en","zh","ru","ar","fr","de","es","pt","ja","ko","it","tr"];
-const jobs = [];
-for (const person of priorityPeople) for (const sourceFamily of sourceFamilies) for (const language of languages) jobs.push({person, sourceFamily, language, output:"person-event edge, alert, topic tag, organization edge", confidenceFloor: sourceFamily.includes("official") || sourceFamily.includes("readout") ? 80 : 60});
-const plan = {version:"4.0.0", generatedAt:new Date().toISOString(), priorityPeople: priorityPeople.length, sourceFamilies: sourceFamilies.length, languages: languages.length, plannedJobs: jobs.length, alertTypes:intel.alertTypes, topics:intel.topics, organizationProfiles:intel.organizationProfiles, eventOverlapFamilies:intel.eventOverlapFamilies, currentStaticRecords:{people:people.length, appearances:(demo.appearances||[]).length, eventAgendas:(demo.eventAgendas||[]).length, encounters:(demo.encounters||[]).length, calls:(demo.telephoneCalls||demo.calls||[]).length}, jobs:jobs.slice(0,500)};
-fs.mkdirSync(path.join(root,"data","crawler"),{recursive:true});
-fs.writeFileSync(path.join(root,"data","crawler","influence-intelligence-plan-v4.0.0.json"), JSON.stringify(plan,null,2));
-console.log(`Influence intelligence planner: ${plan.plannedJobs} planned jobs for ${plan.priorityPeople} people across ${plan.sourceFamilies} source families and ${plan.languages} languages.`);
+const dataPath = path.join(root, 'data', 'demo.json');
+const data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+const existingNames = new Set([...(data.people || []).map(p => norm(p.canonicalName || p.name)), ...(data.roster || []).map(p => norm(p.name || p.canonicalName))]);
+
+const countryCodes = {
+  'United States':'US','United Kingdom':'GB','Germany':'DE','France':'FR','Russia':'RU','Israel':'IL','India':'IN','China':'CN','Brazil':'BR','South Africa':'ZA','Egypt':'EG','Iran':'IR','Turkey':'TR','Saudi Arabia':'SA','United Arab Emirates':'AE','Canada':'CA','Japan':'JP','Australia':'AU','Italy':'IT','Spain':'ES','Poland':'PL','Finland':'FI','Norway':'NO','Sweden':'SE','Denmark':'DK','Netherlands':'NL','Belgium':'BE','Switzerland':'CH','Singapore':'SG','Mexico':'MX','Chile':'CL','Argentina':'AR','Kuwait':'KW','Qatar':'QA','Luxembourg':'LU','Monaco':'MC','Liechtenstein':'LI','Austria':'AT','Czech Republic':'CZ','Slovakia':'SK','Hungary':'HU','Portugal':'PT','Ireland':'IE','Ukraine':'UA','Jordan':'JO','Vatican City':'VA','International':'UN','European Union':'EU','NATO':'NATO','BIS':'BIS','OECD':'OECD','IMF':'IMF','World Bank':'WB','WHO':'WHO','WTO':'WTO','IAEA':'IAEA','WEF':'WEF','OPEC':'OPEC','SIPRI':'SIPRI','CFR':'CFR','Brookings':'BRK','Chatham House':'CHH','Bruegel':'BRG','Open Society Foundations':'OSF','Trilateral Commission':'TC','IISS':'IISS'
+};
+const regions = {
+  'United States':'North America','Canada':'North America','Mexico':'North America','United Kingdom':'Europe','Germany':'Europe','France':'Europe','Russia':'Europe','Israel':'Middle East','India':'Asia','China':'Asia','Brazil':'Latin America','South Africa':'Africa','Egypt':'Africa','Iran':'Middle East','Turkey':'Middle East','Saudi Arabia':'Middle East','United Arab Emirates':'Middle East','Japan':'Asia','Australia':'Asia-Pacific','Italy':'Europe','Spain':'Europe','Poland':'Europe','Finland':'Europe','Norway':'Europe','Sweden':'Europe','Denmark':'Europe','Netherlands':'Europe','Belgium':'Europe','Switzerland':'Europe','Singapore':'Asia','Chile':'Latin America','Argentina':'Latin America','Kuwait':'Middle East','Qatar':'Middle East','Luxembourg':'Europe','Monaco':'Europe','Liechtenstein':'Europe','Austria':'Europe','Czech Republic':'Europe','Slovakia':'Europe','Hungary':'Europe','Portugal':'Europe','Ireland':'Europe','Ukraine':'Europe','Jordan':'Middle East','Vatican City':'Europe','International':'Global','European Union':'Europe','NATO':'Europe','BIS':'Global','OECD':'Global','IMF':'Global','World Bank':'Global','WHO':'Global','WTO':'Global','IAEA':'Global','WEF':'Global','OPEC':'Global','SIPRI':'Europe','CFR':'North America','Brookings':'North America','Chatham House':'Europe','Bruegel':'Europe','Open Society Foundations':'Global','Trilateral Commission':'Global','IISS':'Europe'
+};
+
+const rawProfiles = [
+  // Former heads and senior principals
+  ['John Major','United Kingdom','Former Prime Minister of the United Kingdom','Former head of government','Former leader','Former UK prime minister; useful for diplomatic, finance, charity and conference networks.'],
+  ['Gordon Brown','United Kingdom','Former Prime Minister of the United Kingdom','Former head of government','Former leader','Former UK prime minister and global education/development connector.'],
+  ['David Cameron','United Kingdom','Former Prime Minister / former Foreign Secretary','Former head of government','Former leader','Former UK prime minister; still visible in foreign-policy and business forums.'],
+  ['Theresa May','United Kingdom','Former Prime Minister of the United Kingdom','Former head of government','Former leader','Former UK prime minister; useful for security, governance and parliamentary diplomacy.'],
+  ['Liz Truss','United Kingdom','Former Prime Minister of the United Kingdom','Former head of government','Former leader','Former UK prime minister and international conservative-policy speaker.'],
+  ['Gerhard Schröder','Germany','Former Chancellor of Germany','Former head of government','Former leader','Former German chancellor; relevant for energy, Russia and European political networks.'],
+  ['Olaf Scholz','Germany','Former Chancellor of Germany','Former head of government','Former leader','Former German chancellor; visible in European policy and social-democratic networks.'],
+  ['Nicolas Sarkozy','France','Former President of France','Former head of state','Former leader','Former French president; frequent business, politics and policy forum participant.'],
+  ['François Hollande','France','Former President of France','Former head of state','Former leader','Former French president; visible in universities, diplomacy and European politics.'],
+  ['Dmitry Medvedev','Russia','Former President of Russia','Former head of state','Former leader','Former Russian president and senior security figure; official statements and travel should be carefully sourced.'],
+  ['Ehud Barak','Israel','Former Prime Minister of Israel','Former head of government','Former leader','Former Israeli prime minister; defence, security and strategic-policy forum target.'],
+  ['Ehud Olmert','Israel','Former Prime Minister of Israel','Former head of government','Former leader','Former Israeli prime minister; relevant for peace-process and public-speaking records.'],
+  ['Naftali Bennett','Israel','Former Prime Minister of Israel','Former head of government','Former leader','Former Israeli prime minister and technology/security-policy speaker.'],
+  ['Yair Lapid','Israel','Former Prime Minister / opposition leader','Former head of government','Former leader','Former Israeli prime minister and foreign minister; strong diplomacy trail candidate.'],
+  ['Sanna Marin','Finland','Former Prime Minister of Finland','Former head of government','Former leader','Former Finnish prime minister; visible in technology, leadership and security forums.'],
+  ['Jacinda Ardern','New Zealand','Former Prime Minister of New Zealand','Former head of government','Former leader','Former New Zealand prime minister; university and foundation-event trail candidate.'],
+
+  // Foreign ministers and economic ministers
+  ['Johann Wadephul','Germany','Federal Minister for Foreign Affairs','Foreign minister','Foreign minister','German foreign minister; official travel and readouts are high-yield.'],
+  ['Antonio Tajani','Italy','Minister of Foreign Affairs','Foreign minister','Foreign minister','Italian foreign minister and deputy prime minister; public travel record target.'],
+  ['Anita Anand','Canada','Minister of Foreign Affairs','Foreign minister','Foreign minister','Canadian foreign minister; G7, NATO and bilateral readout watch.'],
+  ['Mélanie Joly','Canada','Former foreign minister / senior Canadian minister','Foreign minister','Foreign minister','Canadian foreign-policy principal with frequent summit and diplomacy records.'],
+  ['Penny Wong','Australia','Minister for Foreign Affairs','Foreign minister','Foreign minister','Australian foreign minister; Indo-Pacific, Quad and ASEAN trail target.'],
+  ['Elina Valtonen','Finland','Minister for Foreign Affairs','Foreign minister','Foreign minister','Finnish foreign minister; security, NATO and European diplomacy trail target.'],
+  ['Espen Barth Eide','Norway','Minister of Foreign Affairs','Foreign minister','Foreign minister','Norwegian foreign minister; Arctic, security and peace-process records.'],
+  ['Maria Malmer Stenergard','Sweden','Minister for Foreign Affairs','Foreign minister','Foreign minister','Swedish foreign minister; NATO, EU and Nordic security records.'],
+  ['Lars Løkke Rasmussen','Denmark','Minister for Foreign Affairs','Foreign minister','Foreign minister','Danish foreign minister and former prime minister; frequent public diplomacy target.'],
+  ['Radosław Sikorski','Poland','Minister of Foreign Affairs','Foreign minister','Foreign minister','Polish foreign minister; NATO, Ukraine and EU readout target.'],
+  ['Hakan Fidan','Turkey','Minister of Foreign Affairs','Foreign minister','Foreign minister','Turkish foreign minister; NATO, Gulf, Russia and regional diplomacy trail target.'],
+  ['José Manuel Albares','Spain','Minister of Foreign Affairs','Foreign minister','Foreign minister','Spanish foreign minister; EU, Mediterranean and Latin America diplomacy records.'],
+  ['Jan Lipavský','Czech Republic','Minister of Foreign Affairs','Foreign minister','Foreign minister','Czech foreign minister; security, Ukraine and EU records.'],
+  ['Péter Szijjártó','Hungary','Minister of Foreign Affairs and Trade','Foreign minister','Foreign minister','Hungarian foreign minister; frequent public travel and energy diplomacy target.'],
+  ['Alexander Schallenberg','Austria','Former foreign minister / senior diplomat','Foreign minister','Foreign minister','Austrian diplomacy principal; OSCE, EU and public speaking records.'],
+  ['Guy Parmelin','Switzerland','President of the Swiss Confederation / Economy Minister','Head of state/government','Government','Swiss president for 2026 and economy minister; official federal records are high-yield.'],
+  ['Ignazio Cassis','Switzerland','Head of the Federal Department of Foreign Affairs','Foreign minister','Foreign minister','Swiss foreign minister; OSCE, UN Geneva and bilateral diplomacy records.'],
+  ['Mauro Vieira','Brazil','Minister of Foreign Affairs','Foreign minister','Foreign minister','Brazilian foreign minister; BRICS, G20, climate and South-South diplomacy target.'],
+  ['Ronald Lamola','South Africa','Minister of International Relations and Cooperation','Foreign minister','Foreign minister','South African foreign minister; BRICS, G20, African diplomacy and peace-process target.'],
+  ['Badr Abdelatty','Egypt','Minister of Foreign Affairs','Foreign minister','Foreign minister','Egyptian foreign minister; Middle East, Africa and ceasefire-diplomacy trail target.'],
+  ['Abbas Araghchi','Iran','Minister of Foreign Affairs','Foreign minister','Foreign minister','Iranian foreign minister; nuclear, Gulf and UN records need strict source review.'],
+  ['Faisal bin Farhan Al Saud','Saudi Arabia','Minister of Foreign Affairs','Foreign minister','Foreign minister','Saudi foreign minister; Gulf diplomacy, Ukraine/peace talks and energy-policy records.'],
+  ['Abdullah bin Zayed Al Nahyan','United Arab Emirates','Minister of Foreign Affairs','Foreign minister','Foreign minister','UAE foreign minister; Gulf, energy, investment and security-trilateral records.'],
+  ['Nasser Bourita','Morocco','Minister of Foreign Affairs','Foreign minister','Foreign minister','Moroccan foreign minister; Africa, Europe, Gulf and UN records.'],
+  ['Yvan Gil','Venezuela','Minister of Foreign Affairs','Foreign minister','Foreign minister','Venezuelan foreign minister; UN, OPEC and sanctions-context records.'],
+  ['Abdallah Bou Habib','Lebanon','Minister of Foreign Affairs','Foreign minister','Foreign minister','Lebanese foreign minister; UN and regional crisis diplomacy records.'],
+  ['David Lammy','United Kingdom','Foreign-policy principal','Foreign minister','Foreign minister','UK foreign-policy principal; visible in G7, NATO, Europe and Middle East records.'],
+  ['Jean-Noël Barrot','France','Minister for Europe and Foreign Affairs','Foreign minister','Foreign minister','French foreign minister; EU, G7 and crisis diplomacy target.'],
+
+  // G30 and central bank connectors
+  ['Raghuram Rajan','India','Chair, Group of Thirty','Central banking','Central banking','G30 chair and former Reserve Bank of India governor; speech and conference trail target.'],
+  ['Jacob Frenkel','Israel','Chairman Emeritus, Group of Thirty','Central banking','Central banking','Former Bank of Israel governor; G30 and financial-policy network target.'],
+  ['Guillermo Ortiz','Mexico','Treasurer, Group of Thirty','Central banking','Central banking','Former Banco de México governor; G30, Latin American finance and policy records.'],
+  ['Daron Acemoglu','United States','MIT Institute Professor','Economics','Think tank / academic','Economist and G30 member; university and policy-event trail target.'],
+  ['Mohamed El-Erian','United States','Economist and Allianz adviser','Economics','Finance','Macro-finance connector; high-yield media, Davos and university-event target.'],
+  ['Niall Ferguson','United States','Hoover Institution senior fellow','Economics','Think tank / academic','Historian and macro/geopolitics commentator; Bilderberg and university trail candidate.'],
+  ['Arminio Fraga','Brazil','Former Governor, Banco Central do Brasil','Central banking','Central banking','Brazilian central-bank and investment connector; G30 and Latin America finance records.'],
+  ['Jane Fraser','United States','Chair and CEO, Citi','Finance','Finance','Citi chief executive; Davos, Milken, IMF/World Bank and investor-event target.'],
+  ['Jason Furman','United States','Harvard economist','Economics','Think tank / academic','Former U.S. CEA chair; frequent policy-event speaker.'],
+  ['Gita Gopinath','United States','Economist, former IMF First Deputy Managing Director','Economics','Multilateral finance','Macro-economics connector; IMF, G30 and university records.'],
+  ['Sergei Guriev','United Kingdom','Dean, London Business School','Economics','Think tank / academic','Economist and Russia/Europe commentator; university and policy-event target.'],
+  ['Philipp Hildebrand','Switzerland','Vice Chairman, BlackRock','Finance','Finance','Former SNB chair and BlackRock executive; Davos, G30 and finance-event target.'],
+  ['Huang Yiping','China','Peking University economist','Economics','Think tank / academic','Chinese economist and G30 member; Peking University and finance forum target.'],
+  ['Gail Kelly','Australia','Former Westpac CEO / UBS board member','Finance','Finance','Financial-sector board connector; G30 and global banking records.'],
+  ['Lesetja Kganyago','South Africa','Governor, South African Reserve Bank','Central banking','Central banking','Central bank governor; G20, BIS and monetary-policy records.'],
+  ['Klaas Knot','Netherlands','Former President, De Nederlandsche Bank','Central banking','Central banking','Former Dutch central banker; BIS, ECB and G30 event target.'],
+  ['Joachim Nagel','Germany','President, Deutsche Bundesbank','Central banking','Central banking','Bundesbank president; ECB, BIS, Jackson Hole and Sintra records.'],
+  ['Pan Gongsheng','China','Governor, People’s Bank of China','Central banking','Central banking','PBOC governor; G20, BIS and China finance records.'],
+  ['Maria Ramos','South Africa','Chair, Standard Chartered Bank','Finance','Finance','Banking and South Africa policy connector; G30 and finance-event target.'],
+  ['Carmen Reinhart','United States','Harvard economist','Economics','Think tank / academic','Debt and crisis-economics authority; IMF/World Bank and university trail target.'],
+  ['Hélène Rey','United Kingdom','London Business School economist','Economics','Think tank / academic','International finance economist; G30, central-bank and university events.'],
+  ['Tidjane Thiam','Côte d’Ivoire','Political and finance principal','Finance','Finance','Former Credit Suisse CEO and political leader; finance and Africa-policy connector.'],
+  ['Adair Turner','United Kingdom','Chair, Energy Transitions Commission','Climate / finance','Think tank / policy','Energy-transition and finance-policy connector; climate and macro forum target.'],
+  ['John C. Williams','United States','President, Federal Reserve Bank of New York','Central banking','Central banking','New York Fed president; central-bank speech and policy-calendar target.'],
+  ['Yi Gang','China','Former Governor, People’s Bank of China','Central banking','Central banking','Former PBOC governor; China finance and G30 trail candidate.'],
+  ['Mervyn King','United Kingdom','Former Governor, Bank of England','Central banking','Central banking','Former Bank of England governor; G30, Lords and monetary-policy events.'],
+  ['William C. Dudley','United States','Former President, New York Fed','Central banking','Central banking','Former New York Fed president; speeches and financial-policy events.'],
+  ['Roger W. Ferguson Jr.','United States','CFR economics fellow / former Fed vice chair','Central banking','Central banking','Former Fed vice chair and finance-sector leader; G30 and CFR events.'],
+  ['Kenneth Rogoff','United States','Harvard economist','Economics','Think tank / academic','International macroeconomist; university, IMF and G30 events.'],
+
+  // Think tanks, security, policy institutions
+  ['Michael Froman','United States','President, Council on Foreign Relations','Think tank leadership','Think tank','CFR president and former U.S. trade representative; high-value diplomacy and trade-event target.'],
+  ['Cecilia Rouse','United States','President, Brookings Institution','Think tank leadership','Think tank','Brookings president and former CEA chair; policy, economics and university-event target.'],
+  ['Bronwen Maddox','United Kingdom','Director and CEO, Chatham House','Think tank leadership','Think tank','Chatham House director; global affairs and convening-event target.'],
+  ['John Hamre','United States','President and CEO, CSIS','Think tank leadership','Think tank','CSIS president; defence, Asia and industrial-policy event target.'],
+  ['Jason Matheny','United States','President and CEO, RAND Corporation','Think tank leadership','Think tank','RAND president; technology, security and long-range strategy records.'],
+  ['Mark Sedwill','United Kingdom','Chair of Trustees, IISS','Think tank leadership','Think tank','IISS chair; security forum and defence-policy network target.'],
+  ['Karim Haggag','Egypt','Director, SIPRI','Think tank leadership','Think tank','SIPRI director; arms control, defence and peace-research event target.'],
+  ['Stefan Mair','Germany','Director, SWP','Think tank leadership','Think tank','SWP director; German and European foreign-policy event target.'],
+  ['Adam Posen','United States','President, Peterson Institute for International Economics','Think tank leadership','Think tank','PIIE president; trade, macro and international economics target.'],
+  ['James Poterba','United States','President, National Bureau of Economic Research','Think tank leadership','Think tank','NBER president; economics conference and public-policy research target.'],
+  ['Jeromin Zettelmeyer','Belgium','Director, Bruegel','Think tank leadership','Think tank','Bruegel director; EU economics and financial-policy event target.'],
+  ['Moritz Schularick','Germany','President, Kiel Institute for the World Economy','Think tank leadership','Think tank','IfW Kiel president; trade, macro and globalisation conference target.'],
+  ['Paul Johnson','United Kingdom','Director, Institute for Fiscal Studies','Think tank leadership','Think tank','IFS director; UK public finance, tax and fiscal-policy event target.'],
+  ['Dewey Murdick','United States','Executive Director, CSET','Think tank leadership','AI policy','CSET executive director; AI, semiconductors and security-policy target.'],
+  ['Jean Innes','United Kingdom','CEO, Alan Turing Institute','AI policy','AI policy','Alan Turing Institute CEO; AI research and policy-event target.'],
+  ['Marina Gorbis','United States','Executive Director, Institute for the Future','Future policy','Think tank','IFTF executive director; futures and technology-policy target.'],
+  ['Allan Dafoe','United Kingdom','Director, Centre for the Governance of AI','AI policy','AI policy','GovAI director; AI governance and safety-event target.'],
+  ['Robert Atkinson','United States','President, ITIF','Technology policy','Think tank','ITIF president; technology, innovation and industrial-policy records.'],
+  ['Michael Fullilove','Australia','Executive Director, Lowy Institute','Think tank leadership','Think tank','Lowy Institute director; Asia-Pacific and foreign-policy event target.'],
+  ['Mikko Huotari','Germany','Executive Director, MERICS','Think tank leadership','Think tank','MERICS director; China and Europe-China event target.'],
+  ['Kevin Rudd','Australia','Asia Society Policy Institute president / former Australian PM','Think tank leadership','Think tank','Former Australian prime minister; China-policy and diplomatic forum target.'],
+  ['Samir Saran','India','President, Observer Research Foundation','Think tank leadership','Think tank','ORF president; Raisina Dialogue and Indian strategic-policy target.'],
+  ['C. Raja Mohan','Singapore','Senior fellow / South Asia policy principal','Think tank leadership','Think tank','South Asia and Indo-Pacific policy voice; conference and university target.'],
+  ['Ani Dasgupta','United States','President and CEO, World Resources Institute','Climate policy','Think tank','WRI president; COP, climate finance and sustainability records.'],
+  ['Jon Creyts','United States','CEO, Rocky Mountain Institute','Energy policy','Think tank','RMI CEO; energy transition and climate-policy event target.'],
+  ['Patricia Fuller','Canada','President and CEO, IISD','Sustainability policy','Think tank','IISD president; climate and sustainable-development records.'],
+  ['Måns Nilsson','Sweden','Executive Director, Stockholm Environment Institute','Climate policy','Think tank','SEI director; climate, environment and sustainability event target.'],
+  ['Karel Lannoo','Belgium','CEO, CEPS','Think tank leadership','Think tank','CEPS chief executive; EU regulation and governance target.'],
+  ['Mark Leonard','United Kingdom','Director, European Council on Foreign Relations','Think tank leadership','Think tank','ECFR director; European foreign-policy and security networks.'],
+  ['Sébastien Maillard','France','Director, Jacques Delors Institute','Think tank leadership','Think tank','Jacques Delors Institute director; EU integration event target.'],
+  ['Binaifer Nowrojee','United States','President, Open Society Foundations','Foundation leadership','Philanthropy','Open Society president; philanthropy and democracy-policy event target.'],
+  ['Alexander Soros','United States','Chair, Open Society Foundations','Foundation leadership','Philanthropy','Open Society chair; philanthropy, politics and civil-society event target.'],
+  ['Alois Zwinggi','Switzerland','President and CEO, World Economic Forum','Forum leadership','International organisation','WEF president and CEO; Davos and forum-governance records.'],
+  ['Meghan O’Sullivan','United States','North American Chair, Trilateral Commission','Think tank leadership','Think tank','Trilateral Commission chair; geopolitics and energy-security forum target.'],
+  ['Takeshi Niinami','Japan','Asia Pacific Chair, Trilateral Commission','Think tank leadership','Think tank','Trilateral Commission chair and Japanese business leader.'],
+  ['Jean-Claude Trichet','France','European Chair, Trilateral Commission / G30 honorary chair','Central banking','Central banking','Former ECB president and central-bank network connector.'],
+  ['Dame Susan Langley','United Kingdom','Lady Mayor of the City of London','Civic / finance diplomacy','Government','City of London Lady Mayor and financial-services ambassador.'],
+
+  // Royalty and imamat / family capital diplomacy
+  ['King Frederik X','Denmark','King of Denmark','Royalty','Royalty','Danish monarch; state visits, royal diplomacy and Nordic network target.'],
+  ['Queen Mary of Denmark','Denmark','Queen of Denmark','Royalty','Royalty','Danish queen; state visits, philanthropy and royal-diplomacy target.'],
+  ['King Harald V','Norway','King of Norway','Royalty','Royalty','Norwegian monarch; state-visit and Nordic diplomacy target.'],
+  ['Crown Prince Haakon','Norway','Crown Prince of Norway','Royalty','Royalty','Norwegian crown prince; Arctic, sustainability and diplomatic-event target.'],
+  ['King Carl XVI Gustaf','Sweden','King of Sweden','Royalty','Royalty','Swedish monarch; state visits, royal diplomacy and business delegations.'],
+  ['Crown Princess Victoria','Sweden','Crown Princess of Sweden','Royalty','Royalty','Swedish crown princess; diplomatic and sustainability engagements.'],
+  ['King Willem-Alexander','Netherlands','King of the Netherlands','Royalty','Royalty','Dutch monarch; state visits and Bilderberg-adjacent source records.'],
+  ['Queen Máxima','Netherlands','Queen of the Netherlands','Royalty','Royalty','Dutch queen; UN finance-for-development and royal diplomacy target.'],
+  ['King Philippe','Belgium','King of the Belgians','Royalty','Royalty','Belgian monarch; EU and state-visit records.'],
+  ['Queen Mathilde','Belgium','Queen of the Belgians','Royalty','Royalty','Belgian queen; UN and royal-diplomacy engagements.'],
+  ['Grand Duke Henri','Luxembourg','Grand Duke of Luxembourg','Royalty','Royalty','Luxembourg grand duke; state visits and European royal network.'],
+  ['Prince Albert II of Monaco','Monaco','Sovereign Prince of Monaco','Royalty','Royalty','Monaco sovereign; climate, ocean and royal-diplomacy events.'],
+  ['Hereditary Prince Alois','Liechtenstein','Hereditary Prince of Liechtenstein','Royalty','Royalty','Liechtenstein royal and acting head-of-state function; public diplomacy records.'],
+  ['Emperor Naruhito','Japan','Emperor of Japan','Royalty','Royalty','Japanese emperor; state visits and official imperial events.'],
+  ['Empress Masako','Japan','Empress of Japan','Royalty','Royalty','Japanese empress; state visits and imperial diplomacy.'],
+  ['Crown Prince Akishino','Japan','Crown Prince of Japan','Royalty','Royalty','Japanese crown prince; official visits and royal events.'],
+  ['King Abdullah II','Jordan','King of Jordan','Head of state/government','Government','Jordanian king; frequent diplomacy around security and Middle East talks.'],
+  ['Crown Prince Hussein','Jordan','Crown Prince of Jordan','Royalty','Royalty','Jordanian crown prince; public diplomacy and regional-security events.'],
+  ['Princess Zahra Aga Khan','International','AKDN board and family-capital principal','Foundation leadership','Philanthropy','AKDN and imamat diplomacy connector; development and philanthropy records.'],
+  ['David de Rothschild','United Kingdom','Rothschild family-capital principal','Finance','Finance','Family-capital and philanthropy connector; public event records only.'],
+
+  // Security, intelligence-adjacent and defence principals where public
+  ['Blaise Metreweli','United Kingdom','Chief, Secret Intelligence Service','Security leadership','Security','Publicly named intelligence chief; include only official public appearances and statements.'],
+  ['Samuel Paparo','United States','Commander, U.S. Indo-Pacific Command','Military leadership','Security','Indo-Pacific military leader; public speeches, hearings and defence forum target.'],
+  ['Christopher Cavoli','United States','Supreme Allied Commander Europe','Military leadership','Security','NATO military commander; public NATO and defence-event records.'],
+  ['Andrius Kubilius','European Union','European Commissioner for Defence and Space','International organisation','Security','EU defence and space commissioner; security and industrial-policy records.'],
+  ['Rafael Mariano Grossi','IAEA','Director General, International Atomic Energy Agency','International organisation','International organisation','IAEA director general; nuclear diplomacy, official visits and statements.'],
+  ['Fatih Birol','International Energy Agency','Executive Director, International Energy Agency','International organisation','Energy','IEA executive director; energy, climate and geopolitical-market records.']
+];
+
+function norm(s){ return String(s||'').toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,' ').trim(); }
+function slug(s){ return norm(s).replace(/ /g,'-'); }
+function profileUrl(name){ return `https://www.google.com/search?q=${encodeURIComponent(name + ' official biography')}`; }
+function socialSearch(name){ return `https://www.google.com/search?q=${encodeURIComponent(name + ' official social media')}`; }
+function linkedinSearch(name, org){ return `https://www.linkedin.com/search/results/all/?keywords=${encodeURIComponent(name + ' ' + (org || ''))}`; }
+function cat(bucket, sector){
+  const b = `${bucket} ${sector}`.toLowerCase();
+  if (/foreign minister/.test(b)) return 'FOREIGN_MINISTER';
+  if (/royalty/.test(b)) return 'ROYALTY';
+  if (/former/.test(b)) return 'FORMER_LEADER';
+  if (/central bank|economics/.test(b)) return 'CENTRAL_BANK';
+  if (/international organisation|international organization|forum leadership/.test(b)) return 'INTERNATIONAL_ORG';
+  if (/foundation|philanthropy/.test(b)) return 'PHILANTHROPY';
+  if (/finance|business|technology/.test(b)) return 'BUSINESS_LEADER';
+  return 'INTERNATIONAL_ORG';
+}
+function icon(category){ return {FOREIGN_MINISTER:'✈', ROYALTY:'♕', FORMER_LEADER:'◇', CENTRAL_BANK:'◍', INTERNATIONAL_ORG:'◎', PHILANTHROPY:'✚', BUSINESS_LEADER:'◈', HEAD_OF_STATE:'♛'}[category] || '◎'; }
+
+const additions = [];
+for (const row of rawProfiles) {
+  const [name, country, roleTitle, bucket, sector, shortBio] = row;
+  if (existingNames.has(norm(name))) continue;
+  existingNames.add(norm(name));
+  const code = countryCodes[country] || countryCodes[sector] || 'UN';
+  const category = cat(bucket, sector);
+  additions.push({
+    rank: 201 + additions.length,
+    id: `x-${String(201 + additions.length).padStart(3,'0')}-${slug(name)}`,
+    name,
+    slug: slug(name),
+    wikiTitle: name.replaceAll(' ', '_'),
+    wikidataId: 'EXPANSION_SOURCE_REVIEW',
+    profileUrl: profileUrl(name),
+    region: regions[country] || 'Global',
+    country,
+    countryName: country,
+    countryFocus: code,
+    countryFocusCode: code,
+    bucket,
+    sector,
+    organization: roleTitle,
+    prominenceScore: Math.max(64, 92 - Math.floor(additions.length / 5)),
+    imageUrl: '',
+    imageProvider: 'portrait hydrator or institution-logo fallback',
+    visualAuditStatus: 'portrait/logo fallback; cache source, author, licence and attribution before production use',
+    trackingStatus: 'priority expansion target; dated public trail pending source promotion',
+    sourcePriority: 'official biography, official diary, host-event page, speech page, participant list, readout, verified social post as lead only',
+    roleTitle,
+    homeRegion: regions[country] || 'Global',
+    industry: sector,
+    shortBio,
+    category,
+    orgIcon: icon(category),
+    locationStatus: 'profile anchor only until dated public records are promoted',
+    profileLine: `${name} is a priority expansion profile because the role produces public meetings, speeches, state visits, conferences or recurring event appearances that can strengthen the event-attendee graph.`,
+    socialLinks: {
+      official: profileUrl(name),
+      wikipedia: `https://en.wikipedia.org/wiki/${name.replaceAll(' ', '_')}`,
+      linkedinSearch: linkedinSearch(name, roleTitle),
+      socialSearch: socialSearch(name),
+      notes: 'Lookup links are not account verification. Verified handles require official-site or platform confirmation.'
+    },
+    profileLines: [
+      { icon:'👤', label:'Role', text:`${roleTitle}.` },
+      { icon:'🗺', label:'Map use', text:'Profile anchor only until a dated public appearance is source-promoted.' },
+      { icon:'📡', label:'Capture path', text:'Crawler watches official diaries, speeches, participant lists, readouts and event programmes before media leads.' },
+      { icon:'🔭', label:'Watch next', text:'Priority for 24-month backfill plus future 14/30/120-day agenda scan.' }
+    ],
+    imageAudit: { status:'logo-or-portrait-fallback', reasons:['new expansion profile'], instruction:'Prefer verified portrait; if absent, use organisation mark rather than a comic avatar.' },
+    flagAudit: { code, status: code.length <= 3 ? 'country/institution flag' : 'institution mark', label: country }
+  });
+}
+
+data.expansionRoster = additions;
+data.meta = { ...(data.meta || {}), version:'5.1.0', uiIteration:'v5.1.0', iteration:'v5.1.0', iterationDate:'2026-06-01', lastDataUpdate:'2026-06-01T00:00:00Z', lastTop200Review:'2026-06-01', top200ReviewLabel:'2026-06-01', status:'v5.1.0 extends the roster beyond the top-200 seed list and adds structured event/travel capture plans for profiles with no visible trail yet.', expansionRosterSize:additions.length, visibleRosterSize:(data.roster||[]).length + additions.length };
+
+data.priorityExpansion = {
+  version: 'v5.1.0',
+  generatedAt: new Date().toISOString(),
+  addedProfiles: additions.length,
+  purpose: 'Turn profile-only names into source-watch targets for public appearances, meetings, speeches, calls and recurring event attendance.',
+  capturePrinciples: [
+    'Official and host pages outrank media leads.',
+    'Participant lists create event edges; speeches and readouts create dated public-stop candidates.',
+    'Verified social posts are leads unless they clearly state person, date, city and public context.',
+    'No live tracking, private addresses, hotels, family movements, aircraft tracking or leaked itineraries.'
+  ],
+  sourceFamilies: [
+    'foreign-ministry travel indexes and readouts', 'central-bank speeches and calendars', 'G30 member and event pages', 'Bilderberg current and archived participant lists', 'royal-household diaries', 'think-tank event pages', 'university public-event calendars', 'government protocol offices', 'conference agendas and PDFs', 'corporate investor-relations events', 'UN/OECD/IAEA/BIS/IMF/World Bank event pages', 'verified social posts as leads only'
+  ],
+  priorityGroups: [
+    { group:'Frequent foreign ministers', count:additions.filter(p=>p.category==='FOREIGN_MINISTER').length, why:'These profiles create the densest official readout and travel records.' },
+    { group:'G30 and central bankers', count:additions.filter(p=>p.category==='CENTRAL_BANK').length, why:'Speeches, seminars and monetary-policy events are well documented and market-relevant.' },
+    { group:'Think-tank and convening heads', count:additions.filter(p=>/Think tank|AI policy|Climate policy|Energy policy|Forum leadership/.test(p.sector + p.bucket)).length, why:'Event pages are structured, repeatable and useful for relationship graphs.' },
+    { group:'Royalty and family-capital diplomacy', count:additions.filter(p=>p.category==='ROYALTY' || /family-capital|AKDN|Rothschild/i.test(p.shortBio)).length, why:'Official diaries and foundation pages capture state visits and institutional philanthropy.' },
+    { group:'Former leaders', count:additions.filter(p=>p.category==='FORMER_LEADER').length, why:'Former leaders remain useful through speeches, boards, foundations and private-policy forums.' }
+  ]
+};
+
+const officialSources = [
+  { id:'g30-current-members', title:'Group of Thirty current members', url:'https://group30.org/members', sourceType:'official_membership', entityTargets:['G30 members','central bankers','economists'], priority:100, cadence:'weekly', extraction:'member cards and role lines' },
+  { id:'bilderberg-current-participants', title:'Bilderberg participant lists', url:'https://www.bilderbergmeetings.org/meetings/meeting-2026/participants-2026', sourceType:'official_participant_list', entityTargets:['Bilderberg participants','frequent decade participants'], priority:100, cadence:'monthly then daily near meeting', extraction:'participant list, country, role, meeting year' },
+  { id:'state-secretary-travel', title:'U.S. Secretary of State travel ledger', url:'https://www.state.gov/secretary-rubios-countries-visited-and-mileage/', sourceType:'official_travel_index', entityTargets:['Marco Rubio','U.S. diplomacy'], priority:100, cadence:'daily', extraction:'trip date, city, country, mileage, itinerary sequence' },
+  { id:'india-mea', title:'India MEA public releases', url:'https://www.mea.gov.in/', sourceType:'official_readout_index', entityTargets:['Subrahmanyam Jaishankar','Indian diplomacy'], priority:95, cadence:'daily', extraction:'visit, meeting, press release, speech, counterparty' },
+  { id:'russian-mfa-lavrov-speeches', title:'Russian MFA Lavrov speeches', url:'https://www.mid.ru/en/press_service/minister_speeches/', sourceType:'official_speech_index', entityTargets:['Sergey Lavrov','Russian diplomacy'], priority:90, cadence:'daily', extraction:'date, city, event title, counterpart names' },
+  { id:'china-mfa-main', title:'China MFA news and activities', url:'https://www.mfa.gov.cn/eng/', sourceType:'official_news_index', entityTargets:['Wang Yi','Chinese foreign ministry'], priority:90, cadence:'daily', extraction:'activities, meetings, visits, readouts' },
+  { id:'wef-leadership', title:'World Economic Forum leadership', url:'https://www.weforum.org/about/leadership-and-governance/', sourceType:'official_leadership', entityTargets:['Alois Zwinggi','WEF board and managing board'], priority:85, cadence:'weekly', extraction:'leadership, event pages, annual meeting agenda' },
+  { id:'trilateral-members', title:'Trilateral Commission members and leadership', url:'https://www.trilateral.org/about/members-fellows/', sourceType:'official_membership', entityTargets:['Trilateral Commission leadership and members'], priority:85, cadence:'monthly', extraction:'member list, regional chairs, PDF member lists' },
+  { id:'open-society-leadership', title:'Open Society Foundations leadership', url:'https://www.opensocietyfoundations.org/who-we-are/leadership', sourceType:'official_leadership', entityTargets:['Binaifer Nowrojee','Alexander Soros'], priority:80, cadence:'weekly', extraction:'leadership, news posts, event appearances' },
+  { id:'iaea-dg', title:'IAEA Director General page', url:'https://www.iaea.org/about/rafael-mariano-grossi', sourceType:'official_bio_and_visits', entityTargets:['Rafael Mariano Grossi'], priority:90, cadence:'daily', extraction:'official visits, statements, speeches' },
+  { id:'city-london-lord-mayor', title:'City of London Lord Mayor', url:'https://www.cityoflondon.gov.uk/about-us/about-the-city-of-london-corporation/lord-mayor/lord-mayor-mayor-of-london', sourceType:'official_civic_role', entityTargets:['Dame Susan Langley','City of London finance diplomacy'], priority:80, cadence:'weekly', extraction:'office holder, speeches, overseas visits, Mansion House events' },
+  { id:'swiss-fdfa', title:'Swiss Federal Administration departments', url:'https://www.admin.ch/en/federal-administration-departements', sourceType:'official_role_index', entityTargets:['Ignazio Cassis','Swiss FDFA'], priority:85, cadence:'weekly', extraction:'role holder, speeches, travel, OSCE/UN Geneva events' },
+  { id:'swiss-presidency-2026', title:'Swiss presidential year 2026', url:'https://www.wbf.admin.ch/en/presidential-year-2026', sourceType:'official_role_index', entityTargets:['Guy Parmelin'], priority:85, cadence:'weekly', extraction:'presidential programme, speeches, official visits' }
+];
+
+data.structuredSourceWatch = officialSources;
+
+const addAgendas = [
+  { id:'watch-g30-membership-and-events', title:'Group of Thirty member and event watch', type:'Membership and events', date:'2026-06-05', city:'Washington', code:'US', country:'United States', participants:['Raghuram Rajan','Tharman Shanmugaratnam','Andrew Bailey','Agustín Carstens','Rafael Mariano Grossi','Gita Gopinath','Joachim Nagel','Pan Gongsheng'], source:officialSources[0], topics:['Monetary policy','Debt','Central banking','Capital'] },
+  { id:'watch-bilderberg-decade-participants', title:'Bilderberg decade participant watch', type:'Participant list', date:'2026-06-06', city:'Washington', code:'US', country:'United States', participants:['Alex Karp','Eric Schmidt','Mark Rutte','Radosław Sikorski','Elina Valtonen','Demis Hassabis','Henry Kravis','Niall Ferguson'], source:officialSources[1], topics:['Defence','AI','Capital','Elite networks'] },
+  { id:'watch-think-tank-leadership-events', title:'Think-tank leadership events watch', type:'Event-page watch', date:'2026-06-07', city:'Washington', code:'US', country:'United States', participants:['Michael Froman','Cecilia Rouse','John Hamre','Jason Matheny','Adam Posen'], source:{label:'CFR / Brookings / CSIS / RAND event pages', url:'https://www.cfr.org/events', type:'official_or_host'}, topics:['Diplomacy','Defence','Trade','AI'] },
+  { id:'watch-royal-diaries-state-visits', title:'Royal diaries and state-visit watch', type:'Official diary watch', date:'2026-06-08', city:'London', code:'GB', country:'United Kingdom', participants:['King Charles III','King Frederik X','King Willem-Alexander','Queen Máxima','Emperor Naruhito'], source:{label:'Royal diary and palace public schedules', url:'https://www.royal.uk/media-centre/future-engagements', type:'official_or_host'}, topics:['Royal diplomacy','State visits','Philanthropy'] },
+  { id:'watch-lord-mayor-finance-diplomacy', title:'City of London finance diplomacy watch', type:'Civic finance diplomacy', date:'2026-06-09', city:'London', code:'GB', country:'United Kingdom', participants:['Dame Susan Langley','Larry Fink','Jane Fraser','Philipp Hildebrand'], source:officialSources[10], topics:['Capital','Finance','Trade'] },
+  { id:'watch-iaea-nuclear-diplomacy', title:'IAEA nuclear diplomacy watch', type:'Official visits and statements', date:'2026-06-10', city:'Vienna', code:'AT', country:'Austria', participants:['Rafael Mariano Grossi','Abbas Araghchi','Sergey Lavrov','Marco Rubio'], source:officialSources[9], topics:['Nuclear','Energy','Middle East','Security'] }
+];
+for (const a of addAgendas) {
+  if ((data.eventAgendas || []).some(e => e.id === a.id)) continue;
+  (data.eventAgendas ||= []).push({
+    id:a.id,
+    title:a.title,
+    type:a.type,
+    startsAt:`${a.date}T09:00:00Z`,
+    endsAt:`${a.date}T17:00:00Z`,
+    location:{ label:`${a.city} public-source city`, city:a.city, countryCode:a.code, countryName:a.country, lat: latLng(a.city)[0], lng: latLng(a.city)[1], precision:'city' },
+    status:'source-watch',
+    whyItMatters:`${a.title} widens the crawler beyond headline leaders and captures the repeat-attendee graph around institutions, former office holders and convening networks.`,
+    sectors:['Government','Finance','Diplomacy','Think tanks'],
+    participantNames:a.participants,
+    sourcePack:[{ label:a.source.title || a.source.label, url:a.source.url, type:a.source.sourceType || a.source.type || 'official_or_host', license:'public web source; rights remain with publisher', checkedAt:'2026-06-01T00:00:00Z', reliability:'primary_or_host' }],
+    topics:a.topics,
+    attendeeMode:'source-watch; not attendance claim until named by source'
+  });
+}
+
+function latLng(city){
+  const m = { Washington:[38.9072,-77.0369], London:[51.5072,-0.1276], Vienna:[48.2082,16.3738] };
+  return m[city] || [0,0];
+}
+
+fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
+fs.writeFileSync(path.join(root, 'data', 'priority-roster-expansion-v5.1.0.json'), JSON.stringify({ generatedAt:new Date().toISOString(), additions, structuredSourceWatch: officialSources, agendas:addAgendas }, null, 2));
+fs.writeFileSync(path.join(root, 'data', 'top300-priority-roster-v5.1.0.json'), JSON.stringify([...(data.roster || []), ...additions], null, 2));
+console.log(`Added ${additions.length} priority expansion profiles and ${addAgendas.length} source-watch agenda cards.`);

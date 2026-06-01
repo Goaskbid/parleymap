@@ -1,205 +1,178 @@
-import fs from 'node:fs';
+#!/usr/bin/env node
+import fs from "node:fs";
+import path from "node:path";
+import { fetchGdeltDoc, personDiscoveryQuery } from "../connectors/gdelt-doc.mjs";
+import { fetchPortraitBatch } from "../connectors/wikimedia-portraits.mjs";
+import { loadSourceRegistry, officialSources } from "../connectors/official-source-registry.mjs";
 
-const demoPath = 'data/demo.json';
-const rosterPath = 'data/top200-roster.json';
-const demo = JSON.parse(fs.readFileSync(demoPath, 'utf8'));
-const top200 = JSON.parse(fs.readFileSync(rosterPath, 'utf8'));
-
-const ORG_CODES = new Map([
-  ['EU','EU'], ['UN','UN'], ['NATO','NATO'], ['OC','OECD'], ['OECD','OECD'], ['BI','BIS'], ['BIS','BIS'], ['IM','IMF'], ['IMF','IMF'], ['WB','WORLD BANK'], ['WBG','WORLD BANK'], ['WH','WHO'], ['WHO','WHO'], ['WT','WTO'], ['WTO','WTO'], ['IA','IAEA'], ['IAEA','IAEA'], ['IO','IOC'], ['IOC','IOC'], ['FI','FIFA'], ['GAVI','GAVI']
-]);
-
-const countryAlias = {
-  'United States':'US','United Kingdom':'GB','China':'CN','Russia':'RU','India':'IN','France':'FR','Germany':'DE','Italy':'IT','Canada':'CA','Brazil':'BR','Turkey':'TR','Saudi Arabia':'SA','United Arab Emirates':'AE','Israel':'IL','Iran':'IR','Japan':'JP','South Korea':'KR','Indonesia':'ID','Mexico':'MX','South Africa':'ZA','Australia':'AU','Spain':'ES','Netherlands':'NL','Belgium':'BE','Switzerland':'CH','Sweden':'SE','Norway':'NO','Denmark':'DK','Finland':'FI','Poland':'PL','Ukraine':'UA','Qatar':'QA','Singapore':'SG','Taiwan':'TW','Greece':'GR','Hungary':'HU','Pakistan':'PK','Bangladesh':'BD','Malaysia':'MY','Cambodia':'KH','Morocco':'MA','Nigeria':'NG','Kenya':'KE','Ethiopia':'ET','Ghana':'GH','Rwanda':'RW','Tanzania':'TZ','Uganda':'UG','Zambia':'ZM','Angola':'AO','DR Congo':'CD',"Cote d'Ivoire":'CI','Côte d’Ivoire':'CI','Senegal':'SN','Jordan':'JO','Egypt':'EG','Argentina':'AR','Chile':'CL','Colombia':'CO','Ecuador':'EC','Venezuela':'VE','Barbados':'BB','Panama':'PA','El Salvador':'SV','Holy See':'VA','Portugal':'PT','Kuwait':'KW'
+const root = process.cwd();
+const args = new Set(process.argv.slice(2));
+const has = (name) => args.has(name);
+const valueOf = (prefix, fallback) => {
+  const raw = Array.from(args).find((arg) => arg.startsWith(`${prefix}=`));
+  return raw ? raw.slice(prefix.length + 1) : fallback;
 };
+const dryRun = has("--dry-run");
+const offline = has("--offline") || process.env.PARLEYMAP_OFFLINE === "1";
+const nightly = has("--nightly");
+const backfill = has("--backfill");
+const months = Math.max(1, Math.min(24, Number(valueOf("--months", backfill ? "24" : "3")) || 3));
+const maxPeople = Math.max(1, Math.min(340, Number(valueOf("--max-people", nightly ? "340" : "20")) || (nightly ? 340 : 20)));
+const now = new Date();
 
-const orgAlias = [
-  [/european union|european commission|eeas/i, ['EU','EU']],
-  [/united nations|unicef|undp|unhcr|wfp|unga/i, ['UN','UN']],
-  [/nato/i, ['NATO','NATO']],
-  [/oecd/i, ['OC','OECD']],
-  [/bis|bank for international settlements/i, ['BI','BIS']],
-  [/imf|international monetary fund/i, ['IM','IMF']],
-  [/world bank|world bank group/i, ['WB','World Bank']],
-  [/world health|\bwho\b/i, ['WH','WHO']],
-  [/world trade|\bwto\b/i, ['WT','WTO']],
-  [/iaea|atomic energy/i, ['IA','IAEA']],
-  [/opec/i, ['OP','OPEC']],
-  [/fifa/i, ['FI','FIFA']],
-  [/ioc|olympic/i, ['IO','IOC']],
-  [/gavi/i, ['GV','Gavi']],
-  [/group of thirty|\bg30\b/i, ['G30','G30']],
-  [/bilderberg/i, ['BBG','Bilderberg']],
-  [/world economic forum|\bwef\b/i, ['WEF','WEF']]
-];
+const dataPath = path.join(root, "data", "demo.json");
+const demo = JSON.parse(fs.readFileSync(dataPath, "utf8"));
+const roster = [...(demo.roster || []), ...(demo.expansionRoster || [])].slice().sort((a, b) => Number(a.rank || 9999) - Number(b.rank || 9999));
+const registry = loadSourceRegistry(path.join(root, "data", "source-registry.json"));
+const outputDir = path.join(root, "data", "crawler");
+fs.mkdirSync(outputDir, { recursive: true });
 
-const url = (s) => encodeURI(String(s || '').trim()).replace(/#/g, '%23');
-const key = (v) => String(v || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
+const cityDb = [
+  ["Washington", "US", "United States", 38.9072, -77.0369], ["New York", "US", "United States", 40.7128, -74.0060], ["Palm Beach", "US", "United States", 26.7056, -80.0364],
+  ["Beijing", "CN", "China", 39.9042, 116.4074], ["Shanghai", "CN", "China", 31.2304, 121.4737], ["Moscow", "RU", "Russia", 55.7558, 37.6173], ["New Delhi", "IN", "India", 28.6139, 77.2090], ["Mumbai", "IN", "India", 19.0760, 72.8777],
+  ["Brussels", "BE", "Belgium", 50.8503, 4.3517], ["Paris", "FR", "France", 48.8566, 2.3522], ["London", "GB", "United Kingdom", 51.5072, -0.1276], ["Berlin", "DE", "Germany", 52.52, 13.405], ["Rome", "IT", "Italy", 41.9028, 12.4964],
+  ["Kyiv", "UA", "Ukraine", 50.4501, 30.5234], ["Ankara", "TR", "Turkey", 39.9334, 32.8597], ["Riyadh", "SA", "Saudi Arabia", 24.7136, 46.6753], ["Abu Dhabi", "AE", "United Arab Emirates", 24.4539, 54.3773], ["Doha", "QA", "Qatar", 25.2854, 51.5310],
+  ["Geneva", "CH", "Switzerland", 46.2044, 6.1432], ["Davos", "CH", "Switzerland", 46.8027, 9.8350], ["Zurich", "CH", "Switzerland", 47.3769, 8.5417], ["Basel", "CH", "Switzerland", 47.5596, 7.5886],
+  ["Tokyo", "JP", "Japan", 35.6762, 139.6503], ["Seoul", "KR", "South Korea", 37.5665, 126.9780], ["Singapore", "SG", "Singapore", 1.3521, 103.8198], ["Jakarta", "ID", "Indonesia", -6.2088, 106.8456],
+  ["Canberra", "AU", "Australia", -35.2809, 149.1300], ["Ottawa", "CA", "Canada", 45.4215, -75.6972], ["Kananaskis", "CA", "Canada", 51.0763, -115.1286], ["Miami", "US", "United States", 25.7617, -80.1918],
+  ["Mexico City", "MX", "Mexico", 19.4326, -99.1332], ["Brasília", "BR", "Brazil", -15.7975, -47.8919], ["Buenos Aires", "AR", "Argentina", -34.6037, -58.3816],
+  ["Pretoria", "ZA", "South Africa", -25.7479, 28.2293], ["Cape Town", "ZA", "South Africa", -33.9249, 18.4241], ["Abuja", "NG", "Nigeria", 9.0765, 7.3986], ["Nairobi", "KE", "Kenya", -1.2921, 36.8219], ["Cairo", "EG", "Egypt", 30.0444, 31.2357], ["Addis Ababa", "ET", "Ethiopia", 8.9806, 38.7578]
+].map(([city, countryCode, countryName, lat, lng]) => ({ city, countryCode, countryName, lat, lng }));
 
-function findRosterMatch(person) {
-  return demo.roster.find(r => key(r.name) === key(person.canonicalName) || key(r.name).includes(key(person.canonicalName)) || key(person.canonicalName).includes(key(r.name))) || top200.find(r => key(r.name) === key(person.canonicalName));
+function isoDay(date) { return date.toISOString().slice(0, 10); }
+function addMonths(date, n) { const copy = new Date(date); copy.setMonth(copy.getMonth() + n); return copy; }
+function monthWindows(count) {
+  const windows = [];
+  const end = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1));
+  for (let i = count - 1; i >= 0; i -= 1) {
+    const start = addMonths(end, -i);
+    windows.push({ start: isoDay(start), end: isoDay(addMonths(start, 1)) });
+  }
+  return windows;
 }
-
-function countryCode(item) {
-  const c = String(item.countryFocus || item.countryFocusCode || item.countryCode || '').toUpperCase();
-  if (c && c.length <= 4) return c;
-  const name = item.countryName || item.country || '';
-  if (countryAlias[name]) return countryAlias[name];
-  return c || 'UN';
+function safeId(value) { return String(value || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "").slice(0, 90) || "item"; }
+function firstCity(text) {
+  const haystack = String(text || "");
+  return cityDb.find((city) => new RegExp(`\\b${escapeRegExp(city.city)}\\b`, "i").test(haystack));
 }
-
-function orgMark(item) {
-  const hay = [item.organization, item.bucket, item.sector, item.countryName, item.roleTitle, item.name, item.canonicalName].filter(Boolean).join(' ');
-  for (const [rx, pair] of orgAlias) if (rx.test(hay)) return { code: pair[0], label: pair[1] };
-  const c = countryCode(item);
-  if (ORG_CODES.has(c)) return { code: c, label: ORG_CODES.get(c) };
-  return null;
-}
-
-function isSuspectImage(urlValue) {
-  const u = String(urlValue || '');
-  const reasons = [];
-  if (!u) reasons.push('missing image');
-  if (/\.svg($|\?)/i.test(u)) reasons.push('svg file');
-  if (/logo|seal|coat|arms|flag|emblem|signature|map|icon/i.test(u)) reasons.push('looks like logo/seal/flag rather than portrait');
-  if (/drawing|caricature|cartoon|painting|portrait_painting|statue/i.test(u)) reasons.push('may be drawing, painting or statue');
-  return reasons;
-}
-
-function sectorNote(item) {
-  const s = String(item.sector || item.industry || item.bucket || '').toLowerCase();
-  if (/central bank|monetary|finance|bank/i.test(s)) return 'Markets care about the public speech trail: rates, liquidity, banking rules and financial-stability language can move expectations.';
-  if (/energy|oil|opec/i.test(s)) return 'Energy users watch the public calendar for production signals, investment deals, security issues and supply language.';
-  if (/technology|ai|semiconductor|software|business/i.test(s)) return 'Technology watchers follow these stops for policy access, chips, AI, cloud, industrial policy and capital-allocation clues.';
-  if (/royal/i.test(s)) return 'Royal engagements matter for state diplomacy, patronage networks, soft power and public ceremonies.';
-  if (/health|philanthropy|foundation/i.test(s)) return 'The public trail can show where funding, health policy and institutional partnerships are being formed.';
-  if (/sport/i.test(s)) return 'Sports-governance stops can reveal host-city politics, broadcasting interests and federation relationships.';
-  return 'The public trail is useful because meetings, speeches and summits show where influence is concentrating.';
-}
-
-function relationshipNote(item) {
-  const bucket = String(item.bucket || item.roleTitle || '').toLowerCase();
-  if (/head of state|head of government|president|prime minister|chancellor|king|crown prince/.test(bucket)) return 'Relationship signals come from bilateral meetings, summit seating, joint statements, readouts and repeated host-city overlap.';
-  if (/central bank|governor|ecb|federal reserve/.test(bucket)) return 'Relationship signals come from speeches, panels, central-bank conferences and repeated appearances with finance ministries or BIS figures.';
-  if (/ceo|founder|chair|investor|capital|wealth/.test(bucket)) return 'Relationship signals come from public investor events, government meetings, university appearances and policy-facing technology forums.';
-  return 'Relationship signals come from documented meetings, panels, host events and repeated public co-presence.';
-}
-
-function crawlerNote(item) {
-  const org = item.organization || item.countryName || item.bucket || 'public-source feeds';
-  return `Crawler priority: official diary, host-event page, speech page and public readout first; media links only add context after a source trail exists for ${org}.`;
-}
-
-function profileLines(item, records = []) {
-  const org = item.organization || item.bucket || 'public institution';
-  const name = item.canonicalName || item.name;
-  const role = item.roleTitle || item.bucket || 'public figure';
-  const country = item.countryName || item.country || 'international';
-  const latest = records.filter(r => r && r.startsAt).sort((a,b)=>new Date(a.startsAt)-new Date(b.startsAt)).at(-1);
-  const future = records.find(r => r && (r.status === 'ANNOUNCED_FUTURE' || new Date(r.startsAt) > new Date(demo.meta?.currentDateForDemo || Date.now())));
-  const cities = [...new Set(records.map(r => r.location?.city).filter(Boolean))].slice(0,5);
-  const lines = [
-    { icon:'👤', label:'Role', text:`${name} is listed as ${role}${country ? ` with a public anchor in ${country}` : ''}.` },
-    { icon:'🏛', label:'Institution', text:`Primary institution: ${org}. Public movements are interpreted through that role, not through private life.` },
-    { icon:'🗺', label:'Map use', text: records.length ? `This profile currently has ${records.length} dated public cards in the static preview.` : 'This profile is ready for the crawler; dated cards appear after source review.' },
-    { icon:'📍', label:'Cities', text: cities.length ? `Visible public stops include ${cities.join(', ')}.` : 'The starting anchor is institutional; no private residences or hotel locations are used.' },
-    { icon:'🧭', label:'Why follow', text: sectorNote(item) },
-    { icon:'🤝', label:'Network', text: relationshipNote(item) },
-    { icon:'🗣', label:'Public record', text: latest ? `Latest visible record: ${latest.location?.city || 'public event'} on ${new Date(latest.startsAt).toISOString().slice(0,10)}.` : 'The profile remains searchable until the crawler promotes source-backed records.' },
-    { icon:'🔭', label:'Watch next', text: future ? `Next public window in the dataset: ${future.location?.city || 'public event'} on ${new Date(future.startsAt).toISOString().slice(0,10)}.` : 'Future cards appear only when a government, organizer, institution or company has made the event public.' },
-    { icon:'📰', label:'Sources', text:'Official diaries, speeches, host pages and public readouts carry the record. News links are context, not the foundation.' },
-    { icon:'🔗', label:'Social', text:'Official profile, social search and LinkedIn search links are separated from verified source packs to avoid mistaking fan pages for official accounts.' },
-    { icon:'🛡', label:'Boundary', text:'No live tracking, no private addresses, no hotels, no leaked itineraries and no unsourced sightings.' },
-    { icon:'⚙', label:'Refresh', text:crawlerNote(item) }
-  ];
-  if (/former/i.test(item.bucket || item.roleTitle || '')) lines.splice(2,0,{icon:'📚', label:'Context', text:'Former leaders are tracked for public diplomacy, speaking circuits, foundations and institutional advisory work.'});
-  return lines.slice(0, 13);
-}
-
-function socialLinks(item) {
-  const name = item.canonicalName || item.name || '';
-  const encoded = encodeURIComponent(name);
-  const org = encodeURIComponent(item.organization || item.countryName || '');
+function escapeRegExp(value) { return String(value).replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); }
+function banned(text) { return /\b(hotel|private residence|home address|hospital|leaked|flight tracker|aircraft tracking|tail number|school)\b/i.test(String(text || "")); }
+function candidateFromArticle(person, article, sourceType = "discovery") {
+  const text = [article.title, article.url].join(" ");
+  const city = firstCity(text);
   return {
-    official: item.officialUrl || item.profileUrl || '',
-    wikipedia: item.profileUrl || (item.wikiTitle ? `https://en.wikipedia.org/wiki/${item.wikiTitle}` : ''),
-    wikidata: item.wikidataId ? `https://www.wikidata.org/wiki/${item.wikidataId}` : '',
-    linkedinSearch: `https://www.linkedin.com/search/results/all/?keywords=${encoded}%20${org}`,
-    socialSearch: `https://www.google.com/search?q=${encoded}+official+social+media`,
-    notes: 'Exact social handles should be treated as verified only after official-site or platform verification.'
+    id: `cand-${safeId(person.id || person.name)}-${safeId(article.id || article.title || article.url)}`,
+    personId: person.id,
+    personName: person.canonicalName || person.name,
+    title: article.title || "Public appearance lead",
+    url: article.url,
+    publishedAt: article.publishedAt || null,
+    sourceType,
+    verificationLevel: sourceType === "official" || sourceType === "official_host" ? "Likely" : "Reported",
+    city: city?.city || null,
+    countryCode: city?.countryCode || null,
+    countryName: city?.countryName || null,
+    lat: city?.lat || null,
+    lng: city?.lng || null,
+    status: city && !banned(text) && /official|host/.test(sourceType) ? "publishable_candidate" : "lead_only",
+    reason: city ? "city detected in public source title or URL" : "needs date/location extraction"
+  };
+}
+function candidateToAppearance(candidate) {
+  if (candidate.status !== "publishable_candidate" || !candidate.lat || !candidate.lng) return null;
+  return {
+    id: `auto-${safeId(candidate.personId)}-${safeId(candidate.publishedAt || now.toISOString())}-${safeId(candidate.city)}-${safeId(candidate.title)}`,
+    personId: candidate.personId,
+    startsAt: candidate.publishedAt || now.toISOString(),
+    endsAt: null,
+    status: new Date(candidate.publishedAt || now) > now ? "ANNOUNCED_FUTURE" : "VERIFIED_PAST",
+    confidence: 0.72,
+    confidenceLabel: "auto-ingested public source candidate; review source pack for publication quality",
+    eventType: "PUBLIC_APPEARANCE",
+    title: candidate.title,
+    summary: `Public source places ${candidate.personName} in or around ${candidate.city}. The record was generated by the evergreen crawler and needs a final source-pack check before prominent display.`,
+    significance: "Public appearance added by crawler because a source, date and city were detected.",
+    decisions: "No decision claim is made by the crawler.",
+    location: { label: `${candidate.city} public city-level record`, city: candidate.city, countryCode: candidate.countryCode, countryName: candidate.countryName, lat: candidate.lat, lng: candidate.lng, precision: "city" },
+    venuePublic: false,
+    securityPrecision: "city-level public-source record only; no private stops, hotels, residences, leaked routes or live proximity",
+    publicInterestScore: 62,
+    eventGroupId: `eg-auto-${safeId(candidate.city)}-${safeId(candidate.publishedAt || now.toISOString()).slice(0, 10)}`,
+    topics: ["crawler", "public source"],
+    counterpartIds: [],
+    sourcePack: [{ label: candidate.title, url: candidate.url, type: candidate.sourceType, license: "public web source; rights remain with publisher", checkedAt: now.toISOString(), reliability: candidate.sourceType === "discovery" ? "secondary" : "primary_or_host" }],
+    visual: { status: "runtime-or-audited-portrait", policy: "Use only self-created, public-domain, official-use, or license-audited media with attribution captured.", license: "not bundled; portraits require license and attribution capture" },
+    lastCheckedAt: now.toISOString(),
+    needsHumanReview: true,
+    verificationLevel: candidate.verificationLevel,
+    importanceScore: 62,
+    peaceProcess: false,
+    marketImpact: { sectors: [], companies: [], countries: [candidate.countryName], confidence: "low" }
   };
 }
 
-const recordsByPerson = new Map();
-for (const a of demo.appearances || []) {
-  if (!recordsByPerson.has(a.personId)) recordsByPerson.set(a.personId, []);
-  recordsByPerson.get(a.personId).push(a);
+const selectedRoster = roster.slice(0, maxPeople);
+const backfillJobs = selectedRoster.flatMap((person) => monthWindows(months).map((window) => ({ personId: person.id, name: person.canonicalName || person.name, window, query: personDiscoveryQuery(person) })));
+const officialJobs = officialSources(registry).map((source) => ({ sourceId: source.id, label: source.label, url: source.url, type: source.type, cadence: source.cadence }));
+const candidates = [];
+const errors = [];
+
+async function runNetwork() {
+  for (const person of selectedRoster) {
+    try {
+      const items = await fetchGdeltDoc(globalThis.fetch, { query: personDiscoveryQuery(person), timespan: nightly ? "72h" : "30d", maxrecords: nightly ? 8 : 12 });
+      for (const item of items) candidates.push(candidateFromArticle(person, item, "discovery"));
+    } catch (error) {
+      errors.push({ stage: "gdelt", person: person.canonicalName || person.name, message: error.message });
+    }
+  }
+
+  // Portrait cache refresh. This is deliberately separate from location publication.
+  const portraitTitles = selectedRoster.map((p) => p.wikiTitle).filter(Boolean);
+  try {
+    const portraitMap = await fetchPortraitBatch(globalThis.fetch, portraitTitles, 180);
+    fs.writeFileSync(path.join(outputDir, "portrait-cache.json"), JSON.stringify(Object.fromEntries(portraitMap.entries()), null, 2));
+  } catch (error) {
+    errors.push({ stage: "portraits", message: error.message });
+  }
 }
 
-const peopleByName = new Map((demo.people || []).map(p => [key(p.canonicalName), p]));
+if (!dryRun && !offline) await runNetwork();
 
-function enrich(item, records=[]) {
-  const code = countryCode(item);
-  item.countryFocus = code;
-  item.countryFocusCode = code;
-  item.countryName = item.countryName || item.country || countryAlias[code] || item.region || 'Global';
-  const mark = orgMark(item);
-  if (mark) item.orgMark = mark;
-  item.socialLinks = { ...(item.socialLinks || {}), ...socialLinks(item) };
-  item.profileLines = profileLines(item, records);
-  const reasons = isSuspectImage(item.imageUrl);
-  item.imageAudit = {
-    status: reasons.length ? (item.imageUrl ? 'review' : 'missing') : 'photo-candidate',
-    reasons,
-    instruction: 'Use only if the cached file matches the person and licence/attribution are stored.'
-  };
-  item.flagAudit = {
-    code,
-    status: mark ? 'institution badge' : (countryAlias[item.countryName] || item.countryName ? 'country flag' : 'review'),
-    label: mark?.label || item.countryName || code
-  };
-  return item;
+const publishable = candidates.map(candidateToAppearance).filter(Boolean);
+if (has("--publish-auto") && publishable.length) {
+  const existing = new Set((demo.appearances || []).map((appearance) => appearance.id));
+  demo.appearances.push(...publishable.filter((appearance) => !existing.has(appearance.id)));
 }
 
-for (const p of demo.people || []) {
-  const r = findRosterMatch(p);
-  const merged = { ...r, ...p, name: p.canonicalName };
-  const enriched = enrich(merged, recordsByPerson.get(p.id) || []);
-  Object.assign(p, {
-    countryFocus: enriched.countryFocus,
-    countryFocusCode: enriched.countryFocusCode,
-    countryName: enriched.countryName,
-    orgMark: enriched.orgMark,
-    socialLinks: enriched.socialLinks,
-    profileLines: enriched.profileLines,
-    imageAudit: enriched.imageAudit,
-    flagAudit: enriched.flagAudit
-  });
-}
-
-for (const r of demo.roster || []) {
-  const p = peopleByName.get(key(r.name));
-  enrich(r, p ? (recordsByPerson.get(p.id) || []) : []);
-}
-for (const r of top200) enrich(r, []);
-
-demo.meta = demo.meta || {};
-demo.meta.version = '3.5.0';
-demo.meta.profileAudit = {
-  generatedAt: new Date().toISOString(),
-  note: 'Each top-200 profile now has profileLines, social search links, flag audit and image audit fields.'
+const status = {
+  generatedAt: now.toISOString(),
+  mode: dryRun ? "dry-run" : nightly ? "nightly" : backfill ? "backfill" : "manual",
+  offline,
+  selectedPeople: selectedRoster.length,
+  rosterSize: roster.length,
+  officialSources: officialJobs.length,
+  backfillMonths: months,
+  plannedBackfillJobs: backfillJobs.length,
+  candidatesFound: candidates.length,
+  publishableCandidates: publishable.length,
+  errors,
+  safetyGate: registry.rules,
+  note: offline || dryRun ? "Network calls skipped. GitHub Actions nightly refresh runs this same crawler with network access." : "Network crawl completed. Publication requires source, date, city and safety checks."
 };
 
-demo.profileAuditSummary = {
-  rosterProfiles: demo.roster.length,
-  mappedPeople: demo.people.length,
-  exactSocialPolicy: 'Show exact profile links only when verified. Otherwise use clearly labelled search links.',
-  portraitPolicy: 'Display candidate portraits, but production cache must store source, author, licence, attribution and takedown path.',
-  flagPolicy: 'Country figures use inline flag badges; international-body profiles use institution badges.'
-};
+fs.writeFileSync(path.join(root, "data", "crawler-status.json"), JSON.stringify(status, null, 2));
+fs.writeFileSync(path.join(outputDir, "latest-candidates.json"), JSON.stringify(candidates, null, 2));
+fs.writeFileSync(path.join(outputDir, "backfill-plan.json"), JSON.stringify({ generatedAt: now.toISOString(), months, jobs: backfillJobs }, null, 2));
+fs.writeFileSync(path.join(root, "data", "refresh-log.json"), JSON.stringify(status, null, 2));
 
-const audit = demo.roster.map(r => ({ rank:r.rank, id:r.id, name:r.name, flagAudit:r.flagAudit, imageAudit:r.imageAudit, socialLinks:r.socialLinks }));
-fs.writeFileSync(demoPath, JSON.stringify(demo, null, 2));
-fs.writeFileSync(rosterPath, JSON.stringify(top200, null, 2));
-fs.writeFileSync('data/profile-link-and-visual-audit.json', JSON.stringify(audit, null, 2));
-console.log(`Enriched ${demo.roster.length} roster profiles and ${demo.people.length} mapped people.`);
+if (!dryRun) {
+  demo.meta = demo.meta || {};
+  demo.meta.lastDataUpdate = now.toISOString();
+  demo.meta.importStatus = `crawler ${status.mode}: ${status.candidatesFound} leads / ${status.publishableCandidates} publishable`;
+  demo.meta.crawlerStatus = status.importStatus || `crawler ${status.mode}`;
+  fs.writeFileSync(dataPath, JSON.stringify(demo, null, 2));
+}
+
+console.log(`ParleyMap evergreen refresh: ${status.mode}; ${status.plannedBackfillJobs} backfill jobs planned; ${status.candidatesFound} leads; ${status.publishableCandidates} publishable candidates.`);
+if (errors.length) console.warn(`${errors.length} non-fatal crawler errors written to data/crawler-status.json`);

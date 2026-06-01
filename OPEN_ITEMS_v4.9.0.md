@@ -1,0 +1,1 @@
+Restart from ParleyMap v4.9.0. Keep the accepted layout and functionality. Do not change the map-first product anchor, selected profile rail, roadmovie, legal pages, or crawler framework unless explicitly asked. Focus only on incremental presentation/usability improvements.

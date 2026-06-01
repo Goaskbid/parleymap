@@ -1,9 +1,7 @@
-<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ParleyMap Privacy Notice</title><style>body{margin:0;background:#050b13;color:#edf4ff;font-family:"Arial Narrow",Arial,sans-serif;font-size:17px;line-height:1.45}main{max-width:980px;margin:0 auto;padding:28px}a{color:#9fd2ff}h1{font-size:30px}h2{font-size:22px;margin-top:28px}section{border:1px solid #334258;padding:18px;margin:16px 0;background:#0b131e}</style></head><body><main>
-<p><a href="index.html">← Back to ParleyMap</a></p><h1>Privacy notice</h1>
-<section><h2>Controller / contact</h2><p><strong>Torsten Sauter</strong>, Alte Landstr. 77, 8706 Meilen, Switzerland. Email: <a href="mailto:torsten.sauter@icloud.com">torsten.sauter@icloud.com</a>.</p></section>
-<section><h2>Public-source scope</h2><p>ParleyMap displays public records about public appearances, meetings, speeches, summits, official calls and announced public event windows. It does not publish private addresses, hotel guesses, live location, aircraft tracking, medical locations, family locations or leaked itineraries.</p></section>
-<section><h2>Website data</h2><p>The static site may use hosting logs, browser requests, map tiles, remote portraits and external source links. External providers may receive standard technical request data when their resources are loaded or opened.</p></section>
-<section><h2>Correction, objection and removal</h2><p>For privacy, safety or source-quality objections, send the affected URL and reason to <a href="mailto:torsten.sauter@icloud.com">torsten.sauter@icloud.com</a>. Records can be hidden during review and corrected or removed where appropriate.</p></section>
-<section><h2>Advertising</h2><p>Advertising and partner enquiries use the same contact: <a href="mailto:torsten.sauter@icloud.com">torsten.sauter@icloud.com</a>. Partner placements are labelled and separated from editorial records.</p></section>
-</main></body></html>
+# Open items
+
+1. Run the live crawler with network access to populate the full top-200 x 24-month archive.
+2. Promote only records with person, public date, city and source evidence.
+3. Continue auditing agenda/event participant contamination.
+4. Cache portraits with source, author, licence, attribution and takedown metadata.
+5. Keep legal/operator fields reviewed before public marketing.

@@ -1,113 +1,32 @@
 #!/usr/bin/env node
 import fs from "node:fs";
-import path from "node:path";
 
-const root = process.cwd();
-const apply = process.argv.includes("--apply");
-const dryRun = process.argv.includes("--dry-run");
 const now = new Date();
-const dataPath = path.join(root, "data", "demo.json");
-const rosterPath = path.join(root, "data", "top200-roster.json");
-const outPath = path.join(root, "data", "top200-review.json");
-
-const data = readJson(dataPath, {});
-const rosterEnvelope = readJson(rosterPath, { meta: {}, roster: data.roster || [] });
-const roster = Array.isArray(rosterEnvelope.roster) ? rosterEnvelope.roster : (data.roster || []);
-const existing = new Set(roster.map((p) => norm(p.name || p.canonicalName)));
-const findings = [];
-const failures = [];
-
-if (!dryRun && typeof fetch === "function") {
-  try {
-    const rows = await queryWikidataHeads();
-    for (const row of rows) {
-      const name = row.personLabel?.value;
-      if (!name || existing.has(norm(name))) continue;
-      findings.push({
-        name,
-        country: row.countryLabel?.value || "",
-        roleTitle: row.positionLabel?.value || "Head of state/government",
-        wikidataId: row.person?.value?.split("/").pop() || "",
-        source: "Wikidata current office query",
-        action: "consider_addition"
-      });
-    }
-  } catch (error) {
-    failures.push({ source: "Wikidata", error: error.message });
-  }
+const data = JSON.parse(fs.readFileSync("data/demo.json", "utf8"));
+const roster = (data.roster || []).slice().sort((a, b) => Number(a.rank || 9999) - Number(b.rank || 9999));
+const names = new Set();
+const issues = [];
+for (const person of roster) {
+  if (names.has(person.canonicalName || person.name)) issues.push({ type: "duplicate_name", name: person.canonicalName || person.name });
+  names.add(person.canonicalName || person.name);
+  if (!person.wikiTitle) issues.push({ type: "missing_wiki_title", name: person.canonicalName || person.name });
+  if (!person.countryFocus) issues.push({ type: "missing_country_focus", name: person.canonicalName || person.name });
+  if (!person.birthDate) issues.push({ type: "missing_birth_date", name: person.canonicalName || person.name });
 }
-
-const review = {
+const mappedNames = new Set((data.people || []).map((p) => p.canonicalName));
+const mappedTop = roster.filter((p) => mappedNames.has(p.canonicalName || p.name)).map((p) => p.rank);
+const report = {
   generatedAt: now.toISOString(),
-  mode: apply ? "apply" : dryRun ? "dry-run" : "review",
-  currentRosterSize: roster.length,
-  findings: findings.slice(0, 80),
-  failures,
-  rule: "Daily delta review. Annual full rebuild remains a separate editorial/analytical step so the roster does not churn from one noisy source."
+  rosterSize: roster.length,
+  mappedRosterProfiles: mappedTop.length,
+  top20Mapped: roster.slice(0, 20).filter((p) => mappedNames.has(p.canonicalName || p.name)).length,
+  imageHydration: "Runtime Wikimedia pageimage hydration is enabled for every roster item with a wikiTitle; production should cache and audit portraits.",
+  reviewPolicy: "Daily drift check; monthly high-calibre additions; annual full rebuild; immediate review when a head of state/government, monarch, foreign minister, central banker, multilateral head or major CEO changes role.",
+  issues: issues.slice(0, 200)
 };
-fs.writeFileSync(outPath, JSON.stringify(review, null, 2));
-
-if (apply) {
-  const updated = roster.slice();
-  let rank = updated.length;
-  for (const item of findings.slice(0, Math.max(0, 200 - updated.length))) {
-    rank += 1;
-    updated.push({
-      rank,
-      id: `r-${String(rank).padStart(3, "0")}-${slug(item.name)}`,
-      name: item.name,
-      canonicalName: item.name,
-      slug: slug(item.name),
-      wikidataId: item.wikidataId,
-      wikiTitle: item.name.replaceAll(" ", "_"),
-      profileUrl: item.wikidataId ? `https://www.wikidata.org/wiki/${item.wikidataId}` : "",
-      region: item.country,
-      country: item.country,
-      countryName: item.country,
-      countryFocus: "UN",
-      bucket: "Head of state/government",
-      sector: "Government",
-      organization: `${item.country} government`,
-      roleTitle: item.roleTitle,
-      prominenceScore: 80,
-      imageUrl: "",
-      sourcePriority: "official appointment page, official calendar, host-public event page",
-      trackingStatus: "profile added by daily office-holder review; travel records require public-source crawl"
-    });
-  }
-  rosterEnvelope.meta = { ...(rosterEnvelope.meta || {}), version: "2.4.0", lastTop200Review: now.toISOString().slice(0,10), generatedAt: now.toISOString() };
-  rosterEnvelope.roster = updated.slice(0, 200).map((p, i) => ({ ...p, rank: i + 1 }));
-  fs.writeFileSync(rosterPath, JSON.stringify(rosterEnvelope, null, 2));
-  data.roster = rosterEnvelope.roster;
-  data.meta = { ...(data.meta || {}), lastTop200Review: now.toISOString().slice(0,10), nextTop200Review: nextMonth(now), importStatus: "top-200 daily review completed" };
-  fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
-}
-
-console.log(`Top-200 review: ${findings.length} possible additions, ${failures.length} soft failures.`);
-
-function readJson(file, fallback) { try { return JSON.parse(fs.readFileSync(file, "utf8")); } catch { return fallback; } }
-function norm(value) { return String(value || "").toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, " ").trim(); }
-function slug(value) { return norm(value).replace(/ /g, "-").slice(0, 80); }
-function nextMonth(date) { const d = new Date(date); d.setUTCMonth(d.getUTCMonth()+1); return d.toISOString().slice(0,10); }
-async function queryWikidataHeads() {
-  const query = `
-SELECT ?person ?personLabel ?positionLabel ?countryLabel WHERE {
-  VALUES ?class { wd:Q6256 }
-  ?country wdt:P31 ?class .
-  ?person p:P39 ?statement .
-  ?statement ps:P39 ?position .
-  FILTER NOT EXISTS { ?statement pq:P582 ?end . }
-  OPTIONAL { ?statement pq:P17 ?country . }
-  VALUES ?positionKind { wd:Q48352 wd:Q2285706 wd:Q14212 wd:Q274948 }
-  ?position wdt:P279* ?positionKind .
-  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
-}
-LIMIT 300`;
-  const url = new URL("https://query.wikidata.org/sparql");
-  url.searchParams.set("query", query);
-  url.searchParams.set("format", "json");
-  const res = await fetch(url, { headers: { "accept": "application/sparql-results+json", "user-agent": "ParleyMapRosterReview/2.4" } });
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
-  const json = await res.json();
-  return json.results?.bindings || [];
-}
+fs.writeFileSync("data/roster-review.json", JSON.stringify(report, null, 2));
+data.meta = data.meta || {};
+data.meta.lastTop200Review = now.toISOString().slice(0, 10);
+data.meta.nextTop200Review = new Date(now.getTime() + 30 * 86400000).toISOString().slice(0, 10);
+fs.writeFileSync("data/demo.json", JSON.stringify(data, null, 2));
+console.log(`Roster review: ${report.rosterSize} profiles; ${report.top20Mapped}/20 top faces have mapped trails; ${report.issues.length} data issues logged.`);
