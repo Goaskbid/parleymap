@@ -4,15 +4,40 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
-  disabled:
+  refresh-candidates-only:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 20
     steps:
-      - name: Safety hold
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Validate current live embedded dataset
+        run: node scripts/validate-demo-data.mjs
+
+      - name: Run crawler candidate refresh only
+        run: node nightly-refresh.mjs
+        env:
+          PARLEYMAP_SAFE_MODE: "1"
+
+      - name: Block index.html changes
         run: |
-          echo "Nightly refresh is disabled."
-          echo "This workflow does not modify index.html."
-          echo "Use data-diagnostics.yml and data-validate.yml first."
+          if git diff --name-only | grep -Fx "index.html"; then
+            echo "ERROR: index.html changed during candidate refresh."
+            git checkout -- index.html
+          fi
+
+      - name: Commit candidate outputs only
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Refresh ParleyMap candidate data"
+          file_pattern: "data/crawler/*.json data/diagnostics/*.json"
