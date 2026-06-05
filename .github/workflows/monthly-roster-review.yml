@@ -16,6 +16,7 @@ jobs:
   roster-review:
     runs-on: ubuntu-latest
     timeout-minutes: 25
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -44,6 +45,30 @@ jobs:
             echo "scripts/roster-review.mjs not present yet. Hygiene completed."
           fi
 
+      - name: Build quick roster review summary
+        if: always()
+        run: |
+          mkdir -p data/diagnostics
+          {
+            echo "# ParleyMap monthly roster review"
+            echo ""
+            echo "Run: ${GITHUB_RUN_NUMBER}"
+            echo "Generated: $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+            echo ""
+            echo "## Changed files before commit"
+            git diff --name-only || true
+            echo ""
+            echo "## Roster hygiene report"
+            if [ -f data/diagnostics/roster-hygiene-report.json ]; then cat data/diagnostics/roster-hygiene-report.json; else echo "No roster hygiene report."; fi
+            echo ""
+            echo "## Roster review"
+            if [ -f data/diagnostics/roster-review.json ]; then cat data/diagnostics/roster-review.json; else echo "No roster review file."; fi
+            echo ""
+            echo "## Roster patch candidates"
+            if [ -f data/diagnostics/roster-patch-candidates.json ]; then cat data/diagnostics/roster-patch-candidates.json; else echo "No roster patch candidates file."; fi
+          } > data/diagnostics/LATEST_RUN_SUMMARY.md
+          cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
+
       - name: Show roster hygiene report
         run: |
           node -e "const fs=require('fs');const p='data/diagnostics/roster-hygiene-report.json';if(!fs.existsSync(p))throw new Error('missing roster hygiene report');const r=JSON.parse(fs.readFileSync(p,'utf8'));console.log(JSON.stringify({status:r.status,fixes:r.fixes.length,unresolved:r.unresolved.length},null,2));"
@@ -52,4 +77,4 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Review and repair ParleyMap roster hygiene"
-          file_pattern: "index.html data/diagnostics/roster-hygiene-report.json data/diagnostics/roster-review.json data/diagnostics/roster-patch-candidates.json"
+          file_pattern: "index.html data/diagnostics/roster-hygiene-report.json data/diagnostics/roster-review.json data/diagnostics/roster-patch-candidates.json data/diagnostics/LATEST_RUN_SUMMARY.md"
