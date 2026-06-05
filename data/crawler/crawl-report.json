@@ -1,514 +1,514 @@
 {
-  "generatedAt": "2026-06-05T20:23:56.221Z",
+  "generatedAt": "2026-06-05T21:00:31.994Z",
   "mode": "candidate-only",
   "window": {
-    "since": "2026-05-15T20:23:56.221Z",
-    "until": "2026-06-05T20:23:56.221Z",
-    "futureUntil": "2026-10-03T20:23:56.221Z"
+    "since": "2026-05-15T21:00:31.994Z",
+    "until": "2026-06-05T21:00:31.994Z",
+    "futureUntil": "2026-10-03T21:00:31.994Z"
   },
   "rosterScanned": 60,
   "sourcesScanned": 9,
-  "candidates": 17,
-  "publishable": 17,
+  "candidates": 15,
+  "publishable": 15,
   "failures": [
     {
       "url": "https://www.consilium.europa.eu/en/sitemap.xml",
       "error": "HTTP 403"
     },
     {
-      "url": "https://commission.europa.eu/news-and-media/news/diversity-democracy-and-solidarity-eu-societies-new-brochure-rea-and-dg-rtd-2020-09-16_en",
-      "error": "HTTP 429"
-    },
-    {
-      "url": "https://commission.europa.eu/ec-events/european-data-conference-reference-data-and-semantics-endorse-2023-2023-03-14_en",
-      "error": "HTTP 429"
+      "url": "https://commission.europa.eu/sitemap.xml",
+      "error": "HTTP 403"
     },
     {
       "url": "https://www.un.org/sitemap.xml",
-      "error": "HTTP 404"
+      "error": "HTTP 403"
+    },
+    {
+      "url": "https://www.elysee.fr/sitemap.publication.xml",
+      "error": "This operation was aborted"
     },
     {
       "url": "https://www.pmindia.gov.in/en/sitemap.xml",
       "error": "HTTP 403"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Donald+Trump%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Donald+Trump%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Donald+Trump%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Donald+Trump%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Xi+Jinping%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Xi+Jinping%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Xi+Jinping%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Xi+Jinping%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Vladimir+Putin%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Vladimir+Putin%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Vladimir+Putin%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Vladimir+Putin%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Elon+Musk%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Elon+Musk%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Elon+Musk%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Elon+Musk%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Narendra+Modi%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Narendra+Modi%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Narendra+Modi%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Narendra+Modi%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Ursula+von+der+Leyen%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Ursula+von+der+Leyen%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Ursula+von+der+Leyen%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Ursula+von+der+Leyen%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Kaja+Kallas%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Kaja+Kallas%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Kaja+Kallas%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Kaja+Kallas%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Friedrich+Merz%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Friedrich+Merz%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Friedrich+Merz%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Friedrich+Merz%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Emmanuel+Macron%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Emmanuel+Macron%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Emmanuel+Macron%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Emmanuel+Macron%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Keir+Starmer%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Keir+Starmer%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Keir+Starmer%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Keir+Starmer%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Giorgia+Meloni%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Giorgia+Meloni%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Giorgia+Meloni%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Giorgia+Meloni%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Volodymyr+Zelenskyy%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Volodymyr+Zelenskyy%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Volodymyr+Zelenskyy%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Volodymyr+Zelenskyy%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Recep+Tayyip+Erdo%C4%9Fan%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Recep+Tayyip+Erdo%C4%9Fan%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Recep+Tayyip+Erdo%C4%9Fan%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Recep+Tayyip+Erdo%C4%9Fan%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Mark+Rutte%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Mark+Rutte%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Mark+Rutte%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Mark+Rutte%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Ant%C3%B3nio+Guterres%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Ant%C3%B3nio+Guterres%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Ant%C3%B3nio+Guterres%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Ant%C3%B3nio+Guterres%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Mohammed+bin+Salman%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Mohammed+bin+Salman%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Mohammed+bin+Salman%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Mohammed+bin+Salman%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Mohamed+bin+Zayed+Al+Nahyan%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Mohamed+bin+Zayed+Al+Nahyan%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Mohamed+bin+Zayed+Al+Nahyan%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Mohamed+bin+Zayed+Al+Nahyan%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Benjamin+Netanyahu%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Benjamin+Netanyahu%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Benjamin+Netanyahu%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Benjamin+Netanyahu%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Ali+Khamenei%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Ali+Khamenei%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Ali+Khamenei%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Ali+Khamenei%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Masoud+Pezeshkian%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Masoud+Pezeshkian%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Masoud+Pezeshkian%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Masoud+Pezeshkian%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Prabowo+Subianto%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Prabowo+Subianto%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Prabowo+Subianto%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Prabowo+Subianto%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Li+Qiang%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Li+Qiang%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Li+Qiang%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Li+Qiang%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Wang+Yi%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Wang+Yi%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Wang+Yi%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Wang+Yi%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Subrahmanyam+Jaishankar%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Subrahmanyam+Jaishankar%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Subrahmanyam+Jaishankar%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Subrahmanyam+Jaishankar%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Shigeru+Ishiba%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Shigeru+Ishiba%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Shigeru+Ishiba%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Shigeru+Ishiba%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Anthony+Albanese%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Anthony+Albanese%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Anthony+Albanese%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Anthony+Albanese%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Mark+Carney%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Mark+Carney%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Mark+Carney%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Mark+Carney%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Claudia+Sheinbaum%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
-      "error": "HTTP 429"
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Claudia+Sheinbaum%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
+      "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Claudia+Sheinbaum%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Claudia+Sheinbaum%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Luiz+In%C3%A1cio+Lula+da+Silva%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Luiz+In%C3%A1cio+Lula+da+Silva%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Luiz+In%C3%A1cio+Lula+da+Silva%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Luiz+In%C3%A1cio+Lula+da+Silva%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Javier+Milei%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Javier+Milei%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Javier+Milei%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Javier+Milei%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Cyril+Ramaphosa%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Cyril+Ramaphosa%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Cyril+Ramaphosa%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Cyril+Ramaphosa%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Bola+Tinubu%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Bola+Tinubu%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Bola+Tinubu%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Bola+Tinubu%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22William+Ruto%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22William+Ruto%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22William+Ruto%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22William+Ruto%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Abdel+Fattah+el-Sisi%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Abdel+Fattah+el-Sisi%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Abdel+Fattah+el-Sisi%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Abdel+Fattah+el-Sisi%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Abiy+Ahmed%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Abiy+Ahmed%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Abiy+Ahmed%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Abiy+Ahmed%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Paul+Kagame%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Paul+Kagame%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Paul+Kagame%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Paul+Kagame%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Tony+Blair%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Tony+Blair%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Tony+Blair%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Tony+Blair%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Angela+Merkel%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Angela+Merkel%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Angela+Merkel%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Angela+Merkel%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Barack+Obama%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Barack+Obama%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Barack+Obama%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Barack+Obama%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Joe+Biden%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Joe+Biden%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Joe+Biden%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Joe+Biden%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22George+W.+Bush%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
-      "error": "HTTP 429"
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22George+W.+Bush%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
+      "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22George+W.+Bush%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
-      "error": "HTTP 429"
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22George+W.+Bush%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
+      "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Bill+Clinton%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Bill+Clinton%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Bill+Clinton%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Bill+Clinton%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22King+Charles+III%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22King+Charles+III%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22King+Charles+III%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22King+Charles+III%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Prince+William%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
-      "error": "HTTP 429"
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Prince+William%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
+      "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Prince+William%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Prince+William%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Queen+Camilla%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
-      "error": "HTTP 429"
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Queen+Camilla%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
+      "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Queen+Camilla%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Queen+Camilla%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Mohammed+bin+Abdulrahman+Al+Thani%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Mohammed+bin+Abdulrahman+Al+Thani%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Mohammed+bin+Abdulrahman+Al+Thani%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
-      "error": "HTTP 429"
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Mohammed+bin+Abdulrahman+Al+Thani%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
+      "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Tamim+bin+Hamad+Al+Thani%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Tamim+bin+Hamad+Al+Thani%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Tamim+bin+Hamad+Al+Thani%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
-      "error": "HTTP 429"
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Tamim+bin+Hamad+Al+Thani%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
+      "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Kristalina+Georgieva%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Kristalina+Georgieva%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Kristalina+Georgieva%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Kristalina+Georgieva%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Ajay+Banga%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Ajay+Banga%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Ajay+Banga%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Ajay+Banga%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Christine+Lagarde%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Christine+Lagarde%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Christine+Lagarde%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
-      "error": "HTTP 429"
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Christine+Lagarde%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
+      "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Jerome+Powell%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Jerome+Powell%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Jerome+Powell%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Jerome+Powell%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Ngozi+Okonjo-Iweala%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Ngozi+Okonjo-Iweala%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Ngozi+Okonjo-Iweala%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
-      "error": "HTTP 429"
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Ngozi+Okonjo-Iweala%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
+      "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Tedros+Adhanom+Ghebreyesus%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Tedros+Adhanom+Ghebreyesus%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Tedros+Adhanom+Ghebreyesus%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Tedros+Adhanom+Ghebreyesus%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Sania+Nishtar%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Sania+Nishtar%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Sania+Nishtar%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
-      "error": "HTTP 429"
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Sania+Nishtar%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
+      "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Mathias+Cormann%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Mathias+Cormann%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Mathias+Cormann%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Mathias+Cormann%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Agust%C3%ADn+Carstens%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Agust%C3%ADn+Carstens%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Agust%C3%ADn+Carstens%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
-      "error": "HTTP 429"
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Agust%C3%ADn+Carstens%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
+      "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Rafael+Grossi%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Rafael+Grossi%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Rafael+Grossi%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Rafael+Grossi%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Cindy+McCain%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Cindy+McCain%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Cindy+McCain%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
-      "error": "HTTP 429"
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Cindy+McCain%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
+      "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Filippo+Grandi%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
-      "error": "HTTP 429"
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Filippo+Grandi%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
+      "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Filippo+Grandi%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Filippo+Grandi%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Achim+Steiner%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515202356&enddatetime=20260531235959",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Achim+Steiner%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260515210031&enddatetime=20260531235959",
       "error": "This operation was aborted"
     },
     {
-      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Achim+Steiner%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605202356",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=%22Achim+Steiner%22+%28meeting+OR+visit+OR+summit+OR+speech+OR+address+OR+forum+OR+bilateral+OR+delegation+OR+opening+OR+ceremony%29&mode=artlist&format=json&maxrecords=3&sort=datedesc&startdatetime=20260601000000&enddatetime=20260605210031",
       "error": "This operation was aborted"
     }
   ],

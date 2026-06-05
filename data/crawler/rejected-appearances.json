@@ -1,78 +1,73 @@
 [
   {
-    "id": "crawl-p-emmanuel-macron-paris-2026-05-29-intervention-de-m-jacques-chirac-preside",
+    "id": "crawl-p-emmanuel-macron-paris-2026-05-29-programme-du-week-end-culturel",
     "personId": "p-emmanuel-macron",
     "personName": "Emmanuel Macron",
-    "title": "Intervention de M. Jacques Chirac, Président de la Républiqu",
+    "title": "Programme du week-end culturel",
     "city": "Paris",
-    "sourceUrl": "https://www.elysee.fr/jacques-chirac/2003/06/21/intervention-de-m-jacques-chirac-president-de-la-republique-sur-laction-de-lunion-europeenne-en-faveur-de-la-paix-et-de-la-reconciliation-dans-les-balkans-thessalonique-le-21-juin-2003",
+    "sourceUrl": "https://www.elysee.fr/sommet-pour-l-action-sur-l-ia/programme-du-week-end-culturel",
     "reasons": [
+      "generic_or_non_event_page",
       "location_not_clearly_evidenced"
     ]
   },
   {
-    "id": "crawl-p-donald-trump-washington-2026-05-29-fete-nationale-du-14-juillet-2017-commun",
-    "personId": "p-donald-trump",
-    "personName": "Donald Trump",
-    "title": "Fête Nationale du 14 juillet 2017 – Communiqué de presse",
-    "city": "Washington",
-    "sourceUrl": "https://www.elysee.fr/emmanuel-macron/2017/06/28/fete-nationale-du-14-juillet-2017-communique-de-presse",
+    "id": "crawl-p-ngozi-okonjo-iweala-london-2026-05-29-programme-du-sommet",
+    "personId": "p-ngozi-okonjo-iweala",
+    "personName": "Ngozi Okonjo-Iweala",
+    "title": "Programme du Sommet",
+    "city": "London",
+    "sourceUrl": "https://www.elysee.fr/sommet-pour-l-action-sur-l-ia/programme-sommet-pour-laction-sur-lintelligence-artificielle",
     "reasons": [
+      "generic_or_non_event_page",
       "location_not_clearly_evidenced"
     ]
   },
   {
-    "id": "crawl-p-emmanuel-macron-paris-2026-05-29-fete-nationale-du-14-juillet-2017-commun",
-    "personId": "p-emmanuel-macron",
-    "personName": "Emmanuel Macron",
-    "title": "Fête Nationale du 14 juillet 2017 – Communiqué de presse",
-    "city": "Paris",
-    "sourceUrl": "https://www.elysee.fr/emmanuel-macron/2017/06/28/fete-nationale-du-14-juillet-2017-communique-de-presse",
+    "id": "crawl-p-mathias-cormann-london-2026-05-29-programme-du-sommet",
+    "personId": "p-mathias-cormann",
+    "personName": "Mathias Cormann",
+    "title": "Programme du Sommet",
+    "city": "London",
+    "sourceUrl": "https://www.elysee.fr/sommet-pour-l-action-sur-l-ia/programme-sommet-pour-laction-sur-lintelligence-artificielle",
     "reasons": [
+      "generic_or_non_event_page",
       "location_not_clearly_evidenced"
     ]
   },
   {
-    "id": "crawl-p-emmanuel-macron-paris-2026-05-29-allocution-de-m-jacques-chirac-president",
+    "id": "crawl-p-emmanuel-macron-paris-2026-05-29-programme-de-la-semaine",
     "personId": "p-emmanuel-macron",
     "personName": "Emmanuel Macron",
-    "title": "Allocution de M. Jacques Chirac, Président de la République,",
+    "title": "Programme de la semaine",
     "city": "Paris",
-    "sourceUrl": "https://www.elysee.fr/jacques-chirac/1998/02/11/allocution-de-m-jacques-chirac-president-de-la-republique-sur-la-prochaine-presidence-autrichienne-de-lunion-europeenne-les-relations-franco-autrichiennes-et-limportance-de-lenseignement-francais-en-autriche-vienne-le-11-fevrier-1998",
+    "sourceUrl": "https://www.elysee.fr/sommet-pour-l-action-sur-l-ia/programme-de-la-semaine-pour-laction-sur-lintelligence-artificielle",
     "reasons": [
+      "generic_or_non_event_page",
       "location_not_clearly_evidenced"
     ]
   },
   {
-    "id": "crawl-p-emmanuel-macron-paris-2026-05-29-conference-de-presse-conjointe-de-mm-jac",
+    "id": "crawl-p-emmanuel-macron-paris-2026-05-29-foire-aux-questions",
     "personId": "p-emmanuel-macron",
     "personName": "Emmanuel Macron",
-    "title": "Conférence de presse conjointe de MM. Jacques Chirac, Présid",
+    "title": "Foire aux questions",
     "city": "Paris",
-    "sourceUrl": "https://www.elysee.fr/jacques-chirac/1998/02/12/conference-de-presse-conjointe-de-mm-jacques-chirac-president-de-la-republique-et-viktor-klima-chancelier-dautriche-sur-les-relations-franco-autrichiennes-lelargissement-de-lunion-europeenne-la-future-presidence-autrichienne-la-reforme-des-inst",
+    "sourceUrl": "https://www.elysee.fr/sommet-pour-l-action-sur-l-ia/faq",
     "reasons": [
+      "generic_or_non_event_page",
       "location_not_clearly_evidenced"
     ]
   },
   {
-    "id": "crawl-p-emmanuel-macron-paris-2026-05-29-conference-de-presse-conjointe-de-m-jacq",
+    "id": "crawl-p-emmanuel-macron-paris-2026-05-29-programmation-culturelle",
     "personId": "p-emmanuel-macron",
     "personName": "Emmanuel Macron",
-    "title": "Conférence de presse conjointe de M. Jacques Chirac, Préside",
+    "title": "Programmation Culturelle",
     "city": "Paris",
-    "sourceUrl": "https://www.elysee.fr/jacques-chirac/1998/02/12/conference-de-presse-conjointe-de-m-jacques-chirac-president-de-la-republique-et-de-m-thomas-klestil-president-de-la-republique-dautriche-sur-la-reforme-des-institutions-communautaires-et-lelargissement-de-lunion-europeenne-lelargissement-de-l",
+    "sourceUrl": "https://www.elysee.fr/sommet-pour-l-action-sur-l-ia/organiser-un-evenement-culturel",
     "reasons": [
-      "location_not_clearly_evidenced"
-    ]
-  },
-  {
-    "id": "crawl-p-emmanuel-macron-paris-2026-05-29-discours-de-m-jacques-chirac-president-d",
-    "personId": "p-emmanuel-macron",
-    "personName": "Emmanuel Macron",
-    "title": "Discours de M. Jacques Chirac, Président de la République, s",
-    "city": "Paris",
-    "sourceUrl": "https://www.elysee.fr/jacques-chirac/1998/02/12/discours-de-m-jacques-chirac-president-de-la-republique-sur-les-relations-franco-autrichiennes-la-reforme-des-institutions-communautaires-prealable-a-lelargissement-la-prochaine-presidence-autrichienne-de-lunion-europeenne-et-la-perspective-du-pas",
-    "reasons": [
+      "generic_or_non_event_page",
       "location_not_clearly_evidenced"
     ]
   },
@@ -190,19 +185,6 @@
     "reasons": [
       "generic_or_non_event_page",
       "location_not_clearly_evidenced"
-    ]
-  },
-  {
-    "id": "crawl-p-emmanuel-macron-paris-2026-05-29-message-de-m-jacques-chirac-president-de",
-    "personId": "p-emmanuel-macron",
-    "personName": "Emmanuel Macron",
-    "title": "Message de M. Jacques Chirac, Président de la République, su",
-    "city": "Paris",
-    "sourceUrl": "https://www.elysee.fr/jacques-chirac/1998/02/12/message-de-m-jacques-chirac-president-de-la-republique-sur-laide-aux-handicapes-dans-leur-vie-quotidienne-leur-integration-dans-la-societe-et-le-role-de-lassociation-des-paralyses-de-france-paris-le-12-fevrier-1998",
-    "reasons": [
-      "person_not_in_title_or_summary",
-      "source_person_conflicts_with_candidate_person",
-      "source_date_conflicts_with_candidate_date"
     ]
   }
 ]
