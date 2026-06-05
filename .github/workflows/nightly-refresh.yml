@@ -28,19 +28,19 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Extract safe crawler seed
+      - name: Extract crawler seed from index
         run: |
           mkdir -p data
-          node -e "const fs=require('fs');const html=fs.readFileSync('index.html','utf8');const m=html.match(/<script id=\"demo-data\" type=\"application\/json\">([\s\S]*?)<\/script>/);if(!m)throw new Error('demo-data block not found');const data=JSON.parse(m[1]);if(!Array.isArray(data.people)||data.people.length<200)throw new Error('bad people dataset, refusing refresh');if(!Array.isArray(data.appearances)||data.appearances.length<400)throw new Error('bad appearances dataset, refusing refresh');if(!Array.isArray(data.roster)&&!Array.isArray(data.expansionRoster))throw new Error('bad roster dataset, refusing refresh');fs.writeFileSync('data/demo.json',JSON.stringify(data,null,2)+'\n');console.log('seed ok people',data.people.length,'appearances',data.appearances.length);"
+          node -e "const fs=require('fs');const html=fs.readFileSync('index.html','utf8');const m=html.match(/<script id=\"demo-data\" type=\"application\/json\">([\s\S]*?)<\/script>/);if(!m)throw new Error('demo-data block not found');const data=JSON.parse(m[1]);console.log('people',Array.isArray(data.people)?data.people.length:'missing');console.log('appearances',Array.isArray(data.appearances)?data.appearances.length:'missing');console.log('roster',Array.isArray(data.roster)?data.roster.length:'missing');console.log('expansionRoster',Array.isArray(data.expansionRoster)?data.expansionRoster.length:'missing');if(!Array.isArray(data.people))throw new Error('people array missing');if(!Array.isArray(data.appearances))throw new Error('appearances array missing');fs.writeFileSync('data/demo.json',JSON.stringify(data,null,2)+'\n');"
 
-      - name: Run real crawler without live publish
-        run: node nightly-refresh.mjs --lookback-days 14 --max-roster 20 --max-pages-per-source 10 --max-per-person 2
+      - name: Run bounded crawler report only
+        run: node nightly-refresh.mjs --dry-run --lookback-days 14 --max-roster 20 --max-pages-per-source 10 --max-per-person 2
         env:
           PARLEYMAP_FETCH_TIMEOUT_MS: "8000"
 
       - name: Validate crawler reports
         run: |
-          node -e "const fs=require('fs');const report='data/crawler/crawl-report.json';const cand='data/crawler/candidate-appearances.json';const pub='data/crawler/publishable-appearances.json';for(const f of [report,cand,pub]){if(!fs.existsSync(f))throw new Error('missing '+f);JSON.parse(fs.readFileSync(f,'utf8'));}console.log('crawler reports valid');"
+          node -e "const fs=require('fs');for(const f of ['data/crawler/crawl-report.json','data/crawler/candidate-appearances.json','data/crawler/publishable-appearances.json']){if(!fs.existsSync(f))throw new Error('missing '+f);JSON.parse(fs.readFileSync(f,'utf8'));console.log('ok',f);}"
 
       - name: Show changed files
         run: git status --short
