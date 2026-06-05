@@ -15,7 +15,7 @@ concurrency:
 jobs:
   refresh:
     runs-on: ubuntu-latest
-    timeout-minutes: 18
+    timeout-minutes: 15
 
     steps:
       - name: Checkout repository
@@ -28,23 +28,29 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Seed data from working index
+      - name: Extract current live dataset from index
         run: |
           mkdir -p data
-          node -e "const fs=require('fs');const html=fs.readFileSync('index.html','utf8');const m=html.match(/<script id=\"demo-data\" type=\"application\/json\">([\s\S]*?)<\/script>/);if(!m)throw new Error('demo-data block not found');JSON.parse(m[1]);fs.writeFileSync('data/demo.json',m[1].trim()+'\n');"
+          node -e "const fs=require('fs');const html=fs.readFileSync('index.html','utf8');const m=html.match(/<script id=\"demo-data\" type=\"application\/json\">([\s\S]*?)<\/script>/);if(!m)throw new Error('demo-data block not found in index.html');const data=JSON.parse(m[1]);if(!Array.isArray(data.people)||data.people.length<50)throw new Error('bad people dataset in index.html');if(!Array.isArray(data.appearances)||data.appearances.length<50)throw new Error('bad appearances dataset in index.html');fs.writeFileSync('data/demo.json',JSON.stringify(data,null,2)+'\n');console.log('seed people',data.people.length,'appearances',data.appearances.length);"
 
       - name: Run real bounded crawler
         run: node nightly-refresh.mjs --publish --lookback-days 14 --max-roster 20 --max-pages-per-source 10 --max-per-person 2
+        env:
+          PARLEYMAP_FETCH_TIMEOUT_MS: "8000"
 
-      - name: Inject refreshed data into index
+      - name: Validate refreshed dataset
         run: |
-          node -e "const fs=require('fs');let html=fs.readFileSync('index.html','utf8');const json=fs.readFileSync('data/demo.json','utf8').trim();JSON.parse(json);html=html.replace(/(<script id=\"demo-data\" type=\"application\/json\">)[\s\S]*?(<\/script>)/,'$1'+json+'$2');fs.writeFileSync('index.html',html);"
+          node -e "const fs=require('fs');const data=JSON.parse(fs.readFileSync('data/demo.json','utf8'));if(!Array.isArray(data.people)||data.people.length<50)throw new Error('crawler damaged people dataset');if(!Array.isArray(data.appearances)||data.appearances.length<50)throw new Error('crawler damaged appearances dataset');data.meta=data.meta||{};data.meta.lastRosterReview=data.meta.lastRosterReview||data.meta.rosterReview||data.meta.iterationDate||new Date().toISOString().slice(0,10);fs.writeFileSync('data/demo.json',JSON.stringify(data,null,2)+'\n');console.log('validated people',data.people.length,'appearances',data.appearances.length);"
+
+      - name: Inject validated dataset back into index
+        run: |
+          node -e "const fs=require('fs');let html=fs.readFileSync('index.html','utf8');const json=fs.readFileSync('data/demo.json','utf8').trim();const data=JSON.parse(json);if(!Array.isArray(data.people)||data.people.length<50)throw new Error('refuse to inject bad people dataset');if(!Array.isArray(data.appearances)||data.appearances.length<50)throw new Error('refuse to inject bad appearances dataset');html=html.replace(/(<script id=\"demo-data\" type=\"application\/json\">)[\s\S]*?(<\/script>)/,'$1'+json+'$2');fs.writeFileSync('index.html',html);"
 
       - name: Show changed files
         run: git status --short
 
-      - name: Commit real refresh output
+      - name: Commit validated nightly refresh
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Nightly real public-source refresh"
+          commit_message: "Nightly validated public-source refresh"
           file_pattern: "index.html data/demo.json data/crawler/*.json"
