@@ -102,6 +102,9 @@ jobs:
       - name: Guard and publish crawler output
         run: node scripts/guarded-publish-from-crawler.mjs
 
+      - name: Strict audit crawler output and embedded records
+        run: node scripts/strict-crawler-audit.mjs
+
       - name: Repair live dataset after publish
         run: node scripts/repair-live-dataset.mjs
 
