@@ -1,0 +1,39 @@
+name: ParleyMap repair map anchors
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  repair-map-anchors:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Force repair three bad map anchors
+        run: node scripts/force-map-anchor-trio.mjs
+
+      - name: Validate updated embedded dataset
+        run: node scripts/validate-demo-data.mjs
+
+      - name: Show repair report
+        run: |
+          cat data/diagnostics/force-map-anchor-repair-report.json
+          cat data/diagnostics/force-map-anchor-repair-report.json >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Commit repaired map anchors
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Fix ParleyMap institutional map anchors"
+          file_pattern: "index.html data/diagnostics/force-map-anchor-repair-report.json"
