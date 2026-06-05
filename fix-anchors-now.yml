@@ -1,31 +1,55 @@
-ParleyMap final fix package
+name: ParleyMap fix anchors now
 
-Upload these folders to the repository root:
-- .github
-- scripts
+on:
+  workflow_dispatch:
 
-Then commit to main with:
-Fix ParleyMap anchors and restore workflows
+permissions:
+  contents: write
 
-Run this workflow first:
-ParleyMap fix anchors now
+jobs:
+  fix-anchors:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
 
-Then wait for pages-build-deployment to finish and hard refresh parleymap.com with Ctrl+F5.
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
 
-Expected fixed anchors:
-- Claudia Sheinbaum -> Mexico City, Mexico
-- Pope Leo XIV -> Vatican City
-- Prabowo Subianto -> Jakarta, Indonesia
-- Mohammed bin Salman -> Riyadh, Saudi Arabia
+      - name: Force correct institutional anchors
+        run: node scripts/fix-anchors-now.mjs
 
-Reports:
-- data/diagnostics/final-anchor-fix-report.json
-- data/diagnostics/LATEST_RUN_SUMMARY.md
-- data/diagnostics/roster-review.json
-- data/diagnostics/roster-patch-candidates.json
+      - name: Validate embedded dataset
+        run: node scripts/validate-demo-data.mjs
 
-Schedules:
-- Nightly refresh: every day at 03:19 UTC
-- Monthly roster review: first day of each month at 04:31 UTC
+      - name: Add report to job summary
+        if: always()
+        run: |
+          if [ -f data/diagnostics/LATEST_RUN_SUMMARY.md ]; then
+            cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
+          fi
 
-Every workflow run uploads downloadable run files as the artifact named parleymap-run-files.
+      - name: Show changed files
+        run: git diff --name-only
+
+      - name: Upload downloadable run files
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: parleymap-run-files
+          path: |
+            data/diagnostics/*.json
+            data/diagnostics/*.md
+            data/crawler/*.json
+          if-no-files-found: ignore
+
+      - name: Commit anchor fix
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Fix ParleyMap institutional map anchors"
+          file_pattern: "index.html data/demo.json data/diagnostics/*.json data/diagnostics/*.md"
