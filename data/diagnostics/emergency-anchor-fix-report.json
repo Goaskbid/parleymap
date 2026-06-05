@@ -1,0 +1,680 @@
+{
+  "generatedAt": "2026-06-05T21:54:37.691Z",
+  "status": "emergency_anchor_fix_applied",
+  "before": {
+    "people": 94,
+    "roster": 200,
+    "expansionRoster": 114,
+    "appearances": 508,
+    "categories": 11
+  },
+  "after": {
+    "people": 94,
+    "roster": 200,
+    "expansionRoster": 114,
+    "appearances": 508,
+    "categories": 11
+  },
+  "fixes": [
+    {
+      "target": "mohammed_bin_salman",
+      "path": "people[78]",
+      "before": {
+        "id": "p-mohammed-bin-salman",
+        "slug": "mohammed-bin-salman",
+        "name": "Mohammed bin Salman",
+        "countryFocus": "SA",
+        "countryFocusCode": "SA",
+        "countryCode": null,
+        "countryName": "Saudi Arabia",
+        "lat": null,
+        "lng": null,
+        "flagAudit": {
+          "code": "SA",
+          "status": "country or institution mark",
+          "label": "Saudi Arabia"
+        },
+        "homeBases": [
+          {
+            "label": "Riyadh institutional base",
+            "city": "Riyadh",
+            "countryCode": "SA",
+            "countryName": "Saudi Arabia",
+            "lat": 24.7136,
+            "lng": 46.6753,
+            "precision": "city",
+            "type": "institutional_base",
+            "privacy": "city-level public institutional base only"
+          }
+        ],
+        "mapAnchor": null
+      },
+      "after": {
+        "id": "p-mohammed-bin-salman",
+        "slug": "mohammed-bin-salman",
+        "name": "Mohammed bin Salman",
+        "countryFocus": "SA",
+        "countryFocusCode": "SA",
+        "countryCode": "SA",
+        "countryName": "Saudi Arabia",
+        "lat": 24.7136,
+        "lng": 46.6753,
+        "flagAudit": {
+          "code": "SA",
+          "status": "country flag",
+          "label": "Saudi Arabia",
+          "countryCode": "SA",
+          "countryName": "Saudi Arabia"
+        },
+        "homeBases": [
+          {
+            "label": "Riyadh institutional base",
+            "city": "Riyadh",
+            "countryCode": "SA",
+            "countryName": "Saudi Arabia",
+            "lat": 24.7136,
+            "lng": 46.6753,
+            "precision": "city",
+            "type": "institutional_base",
+            "privacy": "city-level public institutional base only"
+          }
+        ],
+        "mapAnchor": {
+          "label": "Riyadh institutional base",
+          "city": "Riyadh",
+          "countryCode": "SA",
+          "countryName": "Saudi Arabia",
+          "lat": 24.7136,
+          "lng": 46.6753,
+          "precision": "city",
+          "type": "institutional_base",
+          "privacy": "city-level public institutional base only"
+        }
+      }
+    },
+    {
+      "target": "mohammed_bin_salman",
+      "path": "roster[15]",
+      "before": {
+        "id": "r-016-mohammed-bin-salman",
+        "slug": "mohammed-bin-salman",
+        "name": "Mohammed bin Salman",
+        "countryFocus": "SA",
+        "countryFocusCode": "SA",
+        "countryCode": null,
+        "countryName": "Saudi Arabia",
+        "lat": null,
+        "lng": null,
+        "flagAudit": {
+          "code": "SA",
+          "status": "country flag",
+          "label": "Saudi Arabia"
+        },
+        "homeBases": [
+          {
+            "label": "Riyadh institutional base",
+            "city": "Riyadh",
+            "countryCode": "SA",
+            "countryName": "Saudi Arabia",
+            "lat": 24.7136,
+            "lng": 46.6753,
+            "precision": "city",
+            "type": "institutional_base",
+            "privacy": "city-level public institutional base only"
+          }
+        ],
+        "mapAnchor": null
+      },
+      "after": {
+        "id": "r-016-mohammed-bin-salman",
+        "slug": "mohammed-bin-salman",
+        "name": "Mohammed bin Salman",
+        "countryFocus": "SA",
+        "countryFocusCode": "SA",
+        "countryCode": "SA",
+        "countryName": "Saudi Arabia",
+        "lat": 24.7136,
+        "lng": 46.6753,
+        "flagAudit": {
+          "code": "SA",
+          "status": "country flag",
+          "label": "Saudi Arabia",
+          "countryCode": "SA",
+          "countryName": "Saudi Arabia"
+        },
+        "homeBases": [
+          {
+            "label": "Riyadh institutional base",
+            "city": "Riyadh",
+            "countryCode": "SA",
+            "countryName": "Saudi Arabia",
+            "lat": 24.7136,
+            "lng": 46.6753,
+            "precision": "city",
+            "type": "institutional_base",
+            "privacy": "city-level public institutional base only"
+          }
+        ],
+        "mapAnchor": {
+          "label": "Riyadh institutional base",
+          "city": "Riyadh",
+          "countryCode": "SA",
+          "countryName": "Saudi Arabia",
+          "lat": 24.7136,
+          "lng": 46.6753,
+          "precision": "city",
+          "type": "institutional_base",
+          "privacy": "city-level public institutional base only"
+        }
+      }
+    },
+    {
+      "target": "prabowo_subianto",
+      "path": "roster[20]",
+      "before": {
+        "id": "r-021-prabowo-subianto",
+        "slug": "prabowo-subianto",
+        "name": "Prabowo Subianto",
+        "countryFocus": "ID",
+        "countryFocusCode": "ID",
+        "countryCode": null,
+        "countryName": "Indonesia",
+        "lat": null,
+        "lng": null,
+        "flagAudit": {
+          "code": "ID",
+          "status": "country flag",
+          "label": "Indonesia"
+        },
+        "homeBases": null,
+        "mapAnchor": null
+      },
+      "after": {
+        "id": "r-021-prabowo-subianto",
+        "slug": "prabowo-subianto",
+        "name": "Prabowo Subianto",
+        "countryFocus": "ID",
+        "countryFocusCode": "ID",
+        "countryCode": "ID",
+        "countryName": "Indonesia",
+        "lat": -6.2088,
+        "lng": 106.8456,
+        "flagAudit": {
+          "code": "ID",
+          "status": "country flag",
+          "label": "Indonesia",
+          "countryCode": "ID",
+          "countryName": "Indonesia"
+        },
+        "homeBases": [
+          {
+            "label": "Jakarta institutional base",
+            "city": "Jakarta",
+            "countryCode": "ID",
+            "countryName": "Indonesia",
+            "lat": -6.2088,
+            "lng": 106.8456,
+            "precision": "city",
+            "type": "institutional_base",
+            "privacy": "city-level public institutional base only"
+          }
+        ],
+        "mapAnchor": {
+          "label": "Jakarta institutional base",
+          "city": "Jakarta",
+          "countryCode": "ID",
+          "countryName": "Indonesia",
+          "lat": -6.2088,
+          "lng": 106.8456,
+          "precision": "city",
+          "type": "institutional_base",
+          "privacy": "city-level public institutional base only"
+        }
+      }
+    },
+    {
+      "target": "claudia_sheinbaum",
+      "path": "roster[27]",
+      "before": {
+        "id": "r-028-claudia-sheinbaum",
+        "slug": "claudia-sheinbaum",
+        "name": "Claudia Sheinbaum",
+        "countryFocus": "MX",
+        "countryFocusCode": "MX",
+        "countryCode": null,
+        "countryName": "Mexico",
+        "lat": null,
+        "lng": null,
+        "flagAudit": {
+          "code": "MX",
+          "status": "country flag",
+          "label": "Mexico"
+        },
+        "homeBases": [
+          {
+            "label": "Mexico City institutional base",
+            "city": "Mexico City",
+            "countryCode": "MX",
+            "countryName": "Mexico",
+            "lat": 19.4326,
+            "lng": -99.1332,
+            "precision": "city",
+            "type": "institutional_base",
+            "privacy": "city-level public institutional base only"
+          }
+        ],
+        "mapAnchor": null
+      },
+      "after": {
+        "id": "r-028-claudia-sheinbaum",
+        "slug": "claudia-sheinbaum",
+        "name": "Claudia Sheinbaum",
+        "countryFocus": "MX",
+        "countryFocusCode": "MX",
+        "countryCode": "MX",
+        "countryName": "Mexico",
+        "lat": 19.4326,
+        "lng": -99.1332,
+        "flagAudit": {
+          "code": "MX",
+          "status": "country flag",
+          "label": "Mexico",
+          "countryCode": "MX",
+          "countryName": "Mexico"
+        },
+        "homeBases": [
+          {
+            "label": "Mexico City institutional base",
+            "city": "Mexico City",
+            "countryCode": "MX",
+            "countryName": "Mexico",
+            "lat": 19.4326,
+            "lng": -99.1332,
+            "precision": "city",
+            "type": "institutional_base",
+            "privacy": "city-level public institutional base only"
+          }
+        ],
+        "mapAnchor": {
+          "label": "Mexico City institutional base",
+          "city": "Mexico City",
+          "countryCode": "MX",
+          "countryName": "Mexico",
+          "lat": 19.4326,
+          "lng": -99.1332,
+          "precision": "city",
+          "type": "institutional_base",
+          "privacy": "city-level public institutional base only"
+        }
+      }
+    },
+    {
+      "target": "pope_leo_xiv",
+      "path": "roster[84]",
+      "before": {
+        "id": "r-085-pope-leo-xiv",
+        "slug": "pope-leo-xiv",
+        "name": "Pope Leo XIV",
+        "countryFocus": "VA",
+        "countryFocusCode": "VA",
+        "countryCode": null,
+        "countryName": "Vatican City",
+        "lat": null,
+        "lng": null,
+        "flagAudit": {
+          "code": "VA",
+          "status": "country flag",
+          "label": "Holy See"
+        },
+        "homeBases": [
+          {
+            "label": "Vatican City institutional base",
+            "city": "Vatican City",
+            "countryCode": "VA",
+            "countryName": "Vatican City",
+            "lat": 41.9029,
+            "lng": 12.4534,
+            "precision": "city",
+            "type": "institutional_base",
+            "privacy": "city-level public institutional base only"
+          }
+        ],
+        "mapAnchor": null
+      },
+      "after": {
+        "id": "r-085-pope-leo-xiv",
+        "slug": "pope-leo-xiv",
+        "name": "Pope Leo XIV",
+        "countryFocus": "VA",
+        "countryFocusCode": "VA",
+        "countryCode": "VA",
+        "countryName": "Vatican City",
+        "lat": 41.9029,
+        "lng": 12.4534,
+        "flagAudit": {
+          "code": "VA",
+          "status": "country flag",
+          "label": "Vatican City",
+          "countryCode": "VA",
+          "countryName": "Vatican City"
+        },
+        "homeBases": [
+          {
+            "label": "Vatican City institutional base",
+            "city": "Vatican City",
+            "countryCode": "VA",
+            "countryName": "Vatican City",
+            "lat": 41.9029,
+            "lng": 12.4534,
+            "precision": "city",
+            "type": "institutional_base",
+            "privacy": "city-level public institutional base only"
+          }
+        ],
+        "mapAnchor": {
+          "label": "Vatican City institutional base",
+          "city": "Vatican City",
+          "countryCode": "VA",
+          "countryName": "Vatican City",
+          "lat": 41.9029,
+          "lng": 12.4534,
+          "precision": "city",
+          "type": "institutional_base",
+          "privacy": "city-level public institutional base only"
+        }
+      }
+    },
+    {
+      "target": "mohammed_bin_salman",
+      "path": "topRoster[15]",
+      "before": {
+        "id": "r-016-mohammed-bin-salman",
+        "slug": "mohammed-bin-salman",
+        "name": "Mohammed bin Salman",
+        "countryFocus": "SA",
+        "countryFocusCode": "SA",
+        "countryCode": null,
+        "countryName": "Saudi Arabia",
+        "lat": null,
+        "lng": null,
+        "flagAudit": {
+          "code": "SA",
+          "status": "country flag",
+          "label": "Saudi Arabia"
+        },
+        "homeBases": [
+          {
+            "label": "Riyadh institutional base",
+            "city": "Riyadh",
+            "countryCode": "SA",
+            "countryName": "Saudi Arabia",
+            "lat": 24.7136,
+            "lng": 46.6753,
+            "precision": "city",
+            "type": "institutional_base",
+            "privacy": "city-level public institutional base only"
+          }
+        ],
+        "mapAnchor": null
+      },
+      "after": {
+        "id": "r-016-mohammed-bin-salman",
+        "slug": "mohammed-bin-salman",
+        "name": "Mohammed bin Salman",
+        "countryFocus": "SA",
+        "countryFocusCode": "SA",
+        "countryCode": "SA",
+        "countryName": "Saudi Arabia",
+        "lat": 24.7136,
+        "lng": 46.6753,
+        "flagAudit": {
+          "code": "SA",
+          "status": "country flag",
+          "label": "Saudi Arabia",
+          "countryCode": "SA",
+          "countryName": "Saudi Arabia"
+        },
+        "homeBases": [
+          {
+            "label": "Riyadh institutional base",
+            "city": "Riyadh",
+            "countryCode": "SA",
+            "countryName": "Saudi Arabia",
+            "lat": 24.7136,
+            "lng": 46.6753,
+            "precision": "city",
+            "type": "institutional_base",
+            "privacy": "city-level public institutional base only"
+          }
+        ],
+        "mapAnchor": {
+          "label": "Riyadh institutional base",
+          "city": "Riyadh",
+          "countryCode": "SA",
+          "countryName": "Saudi Arabia",
+          "lat": 24.7136,
+          "lng": 46.6753,
+          "precision": "city",
+          "type": "institutional_base",
+          "privacy": "city-level public institutional base only"
+        }
+      }
+    },
+    {
+      "target": "prabowo_subianto",
+      "path": "topRoster[20]",
+      "before": {
+        "id": "r-021-prabowo-subianto",
+        "slug": "prabowo-subianto",
+        "name": "Prabowo Subianto",
+        "countryFocus": "ID",
+        "countryFocusCode": "ID",
+        "countryCode": null,
+        "countryName": "Indonesia",
+        "lat": null,
+        "lng": null,
+        "flagAudit": {
+          "code": "ID",
+          "status": "country flag",
+          "label": "Indonesia"
+        },
+        "homeBases": null,
+        "mapAnchor": null
+      },
+      "after": {
+        "id": "r-021-prabowo-subianto",
+        "slug": "prabowo-subianto",
+        "name": "Prabowo Subianto",
+        "countryFocus": "ID",
+        "countryFocusCode": "ID",
+        "countryCode": "ID",
+        "countryName": "Indonesia",
+        "lat": -6.2088,
+        "lng": 106.8456,
+        "flagAudit": {
+          "code": "ID",
+          "status": "country flag",
+          "label": "Indonesia",
+          "countryCode": "ID",
+          "countryName": "Indonesia"
+        },
+        "homeBases": [
+          {
+            "label": "Jakarta institutional base",
+            "city": "Jakarta",
+            "countryCode": "ID",
+            "countryName": "Indonesia",
+            "lat": -6.2088,
+            "lng": 106.8456,
+            "precision": "city",
+            "type": "institutional_base",
+            "privacy": "city-level public institutional base only"
+          }
+        ],
+        "mapAnchor": {
+          "label": "Jakarta institutional base",
+          "city": "Jakarta",
+          "countryCode": "ID",
+          "countryName": "Indonesia",
+          "lat": -6.2088,
+          "lng": 106.8456,
+          "precision": "city",
+          "type": "institutional_base",
+          "privacy": "city-level public institutional base only"
+        }
+      }
+    },
+    {
+      "target": "claudia_sheinbaum",
+      "path": "topRoster[27]",
+      "before": {
+        "id": "r-028-claudia-sheinbaum",
+        "slug": "claudia-sheinbaum",
+        "name": "Claudia Sheinbaum",
+        "countryFocus": "MX",
+        "countryFocusCode": "MX",
+        "countryCode": null,
+        "countryName": "Mexico",
+        "lat": null,
+        "lng": null,
+        "flagAudit": {
+          "code": "MX",
+          "status": "country flag",
+          "label": "Mexico"
+        },
+        "homeBases": [
+          {
+            "label": "Mexico City institutional base",
+            "city": "Mexico City",
+            "countryCode": "MX",
+            "countryName": "Mexico",
+            "lat": 19.4326,
+            "lng": -99.1332,
+            "precision": "city",
+            "type": "institutional_base",
+            "privacy": "city-level public institutional base only"
+          }
+        ],
+        "mapAnchor": null
+      },
+      "after": {
+        "id": "r-028-claudia-sheinbaum",
+        "slug": "claudia-sheinbaum",
+        "name": "Claudia Sheinbaum",
+        "countryFocus": "MX",
+        "countryFocusCode": "MX",
+        "countryCode": "MX",
+        "countryName": "Mexico",
+        "lat": 19.4326,
+        "lng": -99.1332,
+        "flagAudit": {
+          "code": "MX",
+          "status": "country flag",
+          "label": "Mexico",
+          "countryCode": "MX",
+          "countryName": "Mexico"
+        },
+        "homeBases": [
+          {
+            "label": "Mexico City institutional base",
+            "city": "Mexico City",
+            "countryCode": "MX",
+            "countryName": "Mexico",
+            "lat": 19.4326,
+            "lng": -99.1332,
+            "precision": "city",
+            "type": "institutional_base",
+            "privacy": "city-level public institutional base only"
+          }
+        ],
+        "mapAnchor": {
+          "label": "Mexico City institutional base",
+          "city": "Mexico City",
+          "countryCode": "MX",
+          "countryName": "Mexico",
+          "lat": 19.4326,
+          "lng": -99.1332,
+          "precision": "city",
+          "type": "institutional_base",
+          "privacy": "city-level public institutional base only"
+        }
+      }
+    },
+    {
+      "target": "pope_leo_xiv",
+      "path": "topRoster[84]",
+      "before": {
+        "id": "r-085-pope-leo-xiv",
+        "slug": "pope-leo-xiv",
+        "name": "Pope Leo XIV",
+        "countryFocus": "VA",
+        "countryFocusCode": "VA",
+        "countryCode": null,
+        "countryName": "Vatican City",
+        "lat": null,
+        "lng": null,
+        "flagAudit": {
+          "code": "VA",
+          "status": "country flag",
+          "label": "Holy See"
+        },
+        "homeBases": [
+          {
+            "label": "Vatican City institutional base",
+            "city": "Vatican City",
+            "countryCode": "VA",
+            "countryName": "Vatican City",
+            "lat": 41.9029,
+            "lng": 12.4534,
+            "precision": "city",
+            "type": "institutional_base",
+            "privacy": "city-level public institutional base only"
+          }
+        ],
+        "mapAnchor": null
+      },
+      "after": {
+        "id": "r-085-pope-leo-xiv",
+        "slug": "pope-leo-xiv",
+        "name": "Pope Leo XIV",
+        "countryFocus": "VA",
+        "countryFocusCode": "VA",
+        "countryCode": "VA",
+        "countryName": "Vatican City",
+        "lat": 41.9029,
+        "lng": 12.4534,
+        "flagAudit": {
+          "code": "VA",
+          "status": "country flag",
+          "label": "Vatican City",
+          "countryCode": "VA",
+          "countryName": "Vatican City"
+        },
+        "homeBases": [
+          {
+            "label": "Vatican City institutional base",
+            "city": "Vatican City",
+            "countryCode": "VA",
+            "countryName": "Vatican City",
+            "lat": 41.9029,
+            "lng": 12.4534,
+            "precision": "city",
+            "type": "institutional_base",
+            "privacy": "city-level public institutional base only"
+          }
+        ],
+        "mapAnchor": {
+          "label": "Vatican City institutional base",
+          "city": "Vatican City",
+          "countryCode": "VA",
+          "countryName": "Vatican City",
+          "lat": 41.9029,
+          "lng": 12.4534,
+          "precision": "city",
+          "type": "institutional_base",
+          "privacy": "city-level public institutional base only"
+        }
+      }
+    }
+  ]
+}
