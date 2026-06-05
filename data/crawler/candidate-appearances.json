@@ -1,1 +1,633 @@
-[]
+[
+  {
+    "id": "crawl-p-emmanuel-macron-paris-2026-05-29-programme-du-week-end-culturel",
+    "personId": "p-emmanuel-macron",
+    "personName": "Emmanuel Macron",
+    "startsAt": "2026-05-29T01:00:11.000Z",
+    "status": "VERIFIED_PAST",
+    "eventType": "PUBLIC_APPEARANCE",
+    "title": "Programme du week-end culturel",
+    "summary": "Programme du week-end culturel | Sommet pour l’action sur l’Intelligence Artificielle Accéder au contenu principal Accéder à la recherche menu Retour à l’accueil Élysée Français Anglais Retour sur Elysee.fr Fr Français Anglais Rechercher 8 &amp; 9 FÉVRIER 202…",
+    "significance": "Public record linking Emmanuel Macron to Paris. This is useful when it confirms a meeting, summit, speech, visit, or delegation record.",
+    "decisions": "Follow the official source and subsequent communiques for decisions, signings, or market-relevant policy detail.",
+    "location": {
+      "label": "Paris public-source location",
+      "city": "Paris",
+      "countryCode": "FR",
+      "countryName": "France",
+      "lat": 48.8566,
+      "lng": 2.3522,
+      "precision": "city"
+    },
+    "publicInterestScore": 98,
+    "counterpartIds": [],
+    "topics": [
+      "AI"
+    ],
+    "verificationLevel": "Verified",
+    "confidence": 0.86,
+    "confidenceLabel": "official or host-public source",
+    "publicationGate": "publishable",
+    "sourcePack": [
+      {
+        "label": "Elysee",
+        "url": "https://www.elysee.fr/sommet-pour-l-action-sur-l-ia/programme-du-week-end-culturel",
+        "type": "official_or_host",
+        "checkedAt": "2026-06-05T19:09:12.676Z",
+        "reliability": "primary_or_host"
+      }
+    ],
+    "crawler": {
+      "detectedAt": "2026-06-05T19:09:12.676Z",
+      "sourceKind": "official",
+      "domain": "elysee.fr",
+      "rule": "24-month public-source crawler"
+    }
+  },
+  {
+    "id": "crawl-p-emmanuel-macron-paris-2026-05-29-programme-de-la-semaine",
+    "personId": "p-emmanuel-macron",
+    "personName": "Emmanuel Macron",
+    "startsAt": "2026-05-29T01:00:11.000Z",
+    "status": "VERIFIED_PAST",
+    "eventType": "PUBLIC_APPEARANCE",
+    "title": "Programme de la semaine",
+    "summary": "Programme de la semaine | Sommet pour l’action sur l’Intelligence Artificielle Accéder au contenu principal Accéder à la recherche menu Retour à l’accueil Élysée Français Anglais Retour sur Elysee.fr Fr Français Anglais Rechercher Programme de la semaine Les …",
+    "significance": "Public record linking Emmanuel Macron to Paris. This is useful when it confirms a meeting, summit, speech, visit, or delegation record.",
+    "decisions": "Follow the official source and subsequent communiques for decisions, signings, or market-relevant policy detail.",
+    "location": {
+      "label": "Paris public-source location",
+      "city": "Paris",
+      "countryCode": "FR",
+      "countryName": "France",
+      "lat": 48.8566,
+      "lng": 2.3522,
+      "precision": "city"
+    },
+    "publicInterestScore": 98,
+    "counterpartIds": [],
+    "topics": [
+      "AI"
+    ],
+    "verificationLevel": "Verified",
+    "confidence": 0.86,
+    "confidenceLabel": "official or host-public source",
+    "publicationGate": "publishable",
+    "sourcePack": [
+      {
+        "label": "Elysee",
+        "url": "https://www.elysee.fr/sommet-pour-l-action-sur-l-ia/programme-de-la-semaine-pour-laction-sur-lintelligence-artificielle",
+        "type": "official_or_host",
+        "checkedAt": "2026-06-05T19:09:12.676Z",
+        "reliability": "primary_or_host"
+      }
+    ],
+    "crawler": {
+      "detectedAt": "2026-06-05T19:09:12.676Z",
+      "sourceKind": "official",
+      "domain": "elysee.fr",
+      "rule": "24-month public-source crawler"
+    }
+  },
+  {
+    "id": "crawl-p-emmanuel-macron-paris-2026-05-29-foire-aux-questions",
+    "personId": "p-emmanuel-macron",
+    "personName": "Emmanuel Macron",
+    "startsAt": "2026-05-29T01:00:11.000Z",
+    "status": "VERIFIED_PAST",
+    "eventType": "SUMMIT",
+    "title": "Foire aux questions",
+    "summary": "Foire aux questions | Sommet pour l’action sur l’Intelligence Artificielle Accéder au contenu principal Accéder à la recherche menu Retour à l’accueil Élysée Français Anglais Retour sur Elysee.fr Fr Français Anglais Rechercher Foire aux questions Programme du…",
+    "significance": "Public record linking Emmanuel Macron to Paris. This is useful when it confirms a meeting, summit, speech, visit, or delegation record.",
+    "decisions": "Follow the official source and subsequent communiques for decisions, signings, or market-relevant policy detail.",
+    "location": {
+      "label": "Paris public-source location",
+      "city": "Paris",
+      "countryCode": "FR",
+      "countryName": "France",
+      "lat": 48.8566,
+      "lng": 2.3522,
+      "precision": "city"
+    },
+    "publicInterestScore": 98,
+    "counterpartIds": [],
+    "topics": [
+      "AI",
+      "summit"
+    ],
+    "verificationLevel": "Verified",
+    "confidence": 0.86,
+    "confidenceLabel": "official or host-public source",
+    "publicationGate": "publishable",
+    "sourcePack": [
+      {
+        "label": "Elysee",
+        "url": "https://www.elysee.fr/sommet-pour-l-action-sur-l-ia/faq",
+        "type": "official_or_host",
+        "checkedAt": "2026-06-05T19:09:12.676Z",
+        "reliability": "primary_or_host"
+      }
+    ],
+    "crawler": {
+      "detectedAt": "2026-06-05T19:09:12.676Z",
+      "sourceKind": "official",
+      "domain": "elysee.fr",
+      "rule": "24-month public-source crawler"
+    }
+  },
+  {
+    "id": "crawl-p-emmanuel-macron-paris-2026-05-29-programmation-culturelle",
+    "personId": "p-emmanuel-macron",
+    "personName": "Emmanuel Macron",
+    "startsAt": "2026-05-29T01:00:11.000Z",
+    "status": "VERIFIED_PAST",
+    "eventType": "PUBLIC_APPEARANCE",
+    "title": "Programmation Culturelle",
+    "summary": "Programmation Culturelle | Sommet pour l’action sur l’Intelligence Artificielle Accéder au contenu principal Accéder à la recherche menu Retour à l’accueil Élysée Français Anglais Retour sur Elysee.fr Fr Français Anglais Rechercher Programmation Culturelle Ce…",
+    "significance": "Public record linking Emmanuel Macron to Paris. This is useful when it confirms a meeting, summit, speech, visit, or delegation record.",
+    "decisions": "Follow the official source and subsequent communiques for decisions, signings, or market-relevant policy detail.",
+    "location": {
+      "label": "Paris public-source location",
+      "city": "Paris",
+      "countryCode": "FR",
+      "countryName": "France",
+      "lat": 48.8566,
+      "lng": 2.3522,
+      "precision": "city"
+    },
+    "publicInterestScore": 98,
+    "counterpartIds": [],
+    "topics": [
+      "AI"
+    ],
+    "verificationLevel": "Verified",
+    "confidence": 0.86,
+    "confidenceLabel": "official or host-public source",
+    "publicationGate": "publishable",
+    "sourcePack": [
+      {
+        "label": "Elysee",
+        "url": "https://www.elysee.fr/sommet-pour-l-action-sur-l-ia/organiser-un-evenement-culturel",
+        "type": "official_or_host",
+        "checkedAt": "2026-06-05T19:09:12.676Z",
+        "reliability": "primary_or_host"
+      }
+    ],
+    "crawler": {
+      "detectedAt": "2026-06-05T19:09:12.676Z",
+      "sourceKind": "official",
+      "domain": "elysee.fr",
+      "rule": "24-month public-source crawler"
+    }
+  },
+  {
+    "id": "crawl-p-mark-rutte-geneva-2026-05-28-nato-secretary-general-meets-the-prime-m",
+    "personId": "p-mark-rutte",
+    "personName": "Mark Rutte",
+    "startsAt": "2026-05-28T08:56:20.418Z",
+    "status": "VERIFIED_PAST",
+    "eventType": "SUMMIT",
+    "title": "NATO Secretary General meets the Prime Minister of Hungary",
+    "summary": "NATO Secretary General meets the Prime Minister of Hungary | NATO Media advisory SEARCH CLOSE Search Language Selection: English English Français Menu Close Back About us Organization Founding treaty NATO member countries Structure NATO Military Committee por…",
+    "significance": "Public record linking Mark Rutte to Geneva. This is useful when it confirms a meeting, summit, speech, visit, or delegation record.",
+    "decisions": "Follow the official source and subsequent communiques for decisions, signings, or market-relevant policy detail.",
+    "location": {
+      "label": "Geneva public-source location",
+      "city": "Geneva",
+      "countryCode": "CH",
+      "countryName": "Switzerland",
+      "lat": 46.2044,
+      "lng": 6.1432,
+      "precision": "city"
+    },
+    "publicInterestScore": 95,
+    "counterpartIds": [],
+    "topics": [
+      "peace",
+      "defense",
+      "energy",
+      "AI",
+      "climate",
+      "security"
+    ],
+    "verificationLevel": "Verified",
+    "confidence": 0.86,
+    "confidenceLabel": "official or host-public source",
+    "publicationGate": "publishable",
+    "sourcePack": [
+      {
+        "label": "NATO",
+        "url": "https://www.nato.int/en/news-and-events/events/media-advisories/2026/05/27/nato-secretary-general-meets-the-prime-minister-of-hungary",
+        "type": "official_or_host",
+        "checkedAt": "2026-06-05T19:09:12.676Z",
+        "reliability": "primary_or_host"
+      }
+    ],
+    "crawler": {
+      "detectedAt": "2026-06-05T19:09:12.676Z",
+      "sourceKind": "official",
+      "domain": "nato.int",
+      "rule": "24-month public-source crawler"
+    }
+  },
+  {
+    "id": "crawl-p-mark-rutte-geneva-2026-05-27-nato-secretary-general-meets-the-prime-m",
+    "personId": "p-mark-rutte",
+    "personName": "Mark Rutte",
+    "startsAt": "2026-05-27T14:39:47.593Z",
+    "status": "VERIFIED_PAST",
+    "eventType": "SUMMIT",
+    "title": "NATO Secretary General meets the Prime Minister of Bulgaria",
+    "summary": "NATO Secretary General meets the Prime Minister of Bulgaria | NATO Media advisory SEARCH CLOSE Search Language Selection: English English Français Menu Close Back About us Organization Founding treaty NATO member countries Structure NATO Military Committee po…",
+    "significance": "Public record linking Mark Rutte to Geneva. This is useful when it confirms a meeting, summit, speech, visit, or delegation record.",
+    "decisions": "Follow the official source and subsequent communiques for decisions, signings, or market-relevant policy detail.",
+    "location": {
+      "label": "Geneva public-source location",
+      "city": "Geneva",
+      "countryCode": "CH",
+      "countryName": "Switzerland",
+      "lat": 46.2044,
+      "lng": 6.1432,
+      "precision": "city"
+    },
+    "publicInterestScore": 95,
+    "counterpartIds": [],
+    "topics": [
+      "peace",
+      "defense",
+      "energy",
+      "AI",
+      "climate",
+      "security"
+    ],
+    "verificationLevel": "Verified",
+    "confidence": 0.86,
+    "confidenceLabel": "official or host-public source",
+    "publicationGate": "publishable",
+    "sourcePack": [
+      {
+        "label": "NATO",
+        "url": "https://www.nato.int/en/news-and-events/events/media-advisories/2026/05/26/nato-secretary-general-meets-the-prime-minister-of-bulgaria",
+        "type": "official_or_host",
+        "checkedAt": "2026-06-05T19:09:12.676Z",
+        "reliability": "primary_or_host"
+      }
+    ],
+    "crawler": {
+      "detectedAt": "2026-06-05T19:09:12.676Z",
+      "sourceKind": "official",
+      "domain": "nato.int",
+      "rule": "24-month public-source crawler"
+    }
+  },
+  {
+    "id": "crawl-p-mark-rutte-geneva-2026-05-27-meeting-of-nato-ministers-of-foreign-aff",
+    "personId": "p-mark-rutte",
+    "personName": "Mark Rutte",
+    "startsAt": "2026-05-27T06:32:21.401Z",
+    "status": "VERIFIED_PAST",
+    "eventType": "SUMMIT",
+    "title": "Meeting of NATO Ministers of Foreign Affairs",
+    "summary": "Meeting of NATO Ministers of Foreign Affairs, 21-May-2026 | NATO Event SEARCH CLOSE Search Language Selection: English English Français Menu Close Back About us Organization Founding treaty NATO member countries Structure NATO Military Committee portal Milita…",
+    "significance": "Public record linking Mark Rutte to Geneva. This is useful when it confirms a meeting, summit, speech, visit, or delegation record.",
+    "decisions": "Follow the official source and subsequent communiques for decisions, signings, or market-relevant policy detail.",
+    "location": {
+      "label": "Geneva public-source location",
+      "city": "Geneva",
+      "countryCode": "CH",
+      "countryName": "Switzerland",
+      "lat": 46.2044,
+      "lng": 6.1432,
+      "precision": "city"
+    },
+    "publicInterestScore": 95,
+    "counterpartIds": [],
+    "topics": [
+      "peace",
+      "defense",
+      "energy",
+      "AI",
+      "climate",
+      "security"
+    ],
+    "verificationLevel": "Verified",
+    "confidence": 0.86,
+    "confidenceLabel": "official or host-public source",
+    "publicationGate": "publishable",
+    "sourcePack": [
+      {
+        "label": "NATO",
+        "url": "https://www.nato.int/en/news-and-events/events/event-programmes/2026/05/meeting-of-nato-ministers-of-foreign-affairs",
+        "type": "official_or_host",
+        "checkedAt": "2026-06-05T19:09:12.676Z",
+        "reliability": "primary_or_host"
+      }
+    ],
+    "crawler": {
+      "detectedAt": "2026-06-05T19:09:12.676Z",
+      "sourceKind": "official",
+      "domain": "nato.int",
+      "rule": "24-month public-source crawler"
+    }
+  },
+  {
+    "id": "crawl-p-mark-rutte-geneva-2026-05-26-meeting-of-nato-ministers-of-defence",
+    "personId": "p-mark-rutte",
+    "personName": "Mark Rutte",
+    "startsAt": "2026-05-26T16:03:12.101Z",
+    "status": "VERIFIED_PAST",
+    "eventType": "SUMMIT",
+    "title": "Meeting of NATO Ministers of Defence",
+    "summary": "Meeting of NATO Ministers of Defence | NATO Media advisory SEARCH CLOSE Search Language Selection: English English Français Menu Close Back About us Organization Founding treaty NATO member countries Structure NATO Military Committee portal Military Committee…",
+    "significance": "Public record linking Mark Rutte to Geneva. This is useful when it confirms a meeting, summit, speech, visit, or delegation record.",
+    "decisions": "Follow the official source and subsequent communiques for decisions, signings, or market-relevant policy detail.",
+    "location": {
+      "label": "Geneva public-source location",
+      "city": "Geneva",
+      "countryCode": "CH",
+      "countryName": "Switzerland",
+      "lat": 46.2044,
+      "lng": 6.1432,
+      "precision": "city"
+    },
+    "publicInterestScore": 95,
+    "counterpartIds": [],
+    "topics": [
+      "peace",
+      "defense",
+      "energy",
+      "AI",
+      "climate",
+      "security"
+    ],
+    "verificationLevel": "Verified",
+    "confidence": 0.86,
+    "confidenceLabel": "official or host-public source",
+    "publicationGate": "publishable",
+    "sourcePack": [
+      {
+        "label": "NATO",
+        "url": "https://www.nato.int/en/news-and-events/events/media-advisories/2026/05/26/meeting-of-nato-ministers-of-defence-brussels-18-june-2026",
+        "type": "official_or_host",
+        "checkedAt": "2026-06-05T19:09:12.676Z",
+        "reliability": "primary_or_host"
+      }
+    ],
+    "crawler": {
+      "detectedAt": "2026-06-05T19:09:12.676Z",
+      "sourceKind": "official",
+      "domain": "nato.int",
+      "rule": "24-month public-source crawler"
+    }
+  },
+  {
+    "id": "crawl-p-mark-rutte-geneva-2026-05-26-nato-secretary-general-meets-the-ministe",
+    "personId": "p-mark-rutte",
+    "personName": "Mark Rutte",
+    "startsAt": "2026-05-26T09:52:15.198Z",
+    "status": "VERIFIED_PAST",
+    "eventType": "SUMMIT",
+    "title": "NATO Secretary General meets the Minister of Foreign Affairs of Estonia",
+    "summary": "NATO Secretary General meets the Minister of Foreign Affairs of Estonia | NATO Media advisory SEARCH CLOSE Search Language Selection: English English Français Menu Close Back About us Organization Founding treaty NATO member countries Structure NATO Military …",
+    "significance": "Public record linking Mark Rutte to Geneva. This is useful when it confirms a meeting, summit, speech, visit, or delegation record.",
+    "decisions": "Follow the official source and subsequent communiques for decisions, signings, or market-relevant policy detail.",
+    "location": {
+      "label": "Geneva public-source location",
+      "city": "Geneva",
+      "countryCode": "CH",
+      "countryName": "Switzerland",
+      "lat": 46.2044,
+      "lng": 6.1432,
+      "precision": "city"
+    },
+    "publicInterestScore": 95,
+    "counterpartIds": [],
+    "topics": [
+      "peace",
+      "defense",
+      "energy",
+      "AI",
+      "climate",
+      "security"
+    ],
+    "verificationLevel": "Verified",
+    "confidence": 0.86,
+    "confidenceLabel": "official or host-public source",
+    "publicationGate": "publishable",
+    "sourcePack": [
+      {
+        "label": "NATO",
+        "url": "https://www.nato.int/en/news-and-events/events/media-advisories/2026/05/22/nato-secretary-general-meets-the-minister-of-foreign-affairs-of-estonia",
+        "type": "official_or_host",
+        "checkedAt": "2026-06-05T19:09:12.676Z",
+        "reliability": "primary_or_host"
+      }
+    ],
+    "crawler": {
+      "detectedAt": "2026-06-05T19:09:12.676Z",
+      "sourceKind": "official",
+      "domain": "nato.int",
+      "rule": "24-month public-source crawler"
+    }
+  },
+  {
+    "id": "crawl-p-mark-rutte-geneva-2026-05-19-military-committee-in-chiefs-of-defence-",
+    "personId": "p-mark-rutte",
+    "personName": "Mark Rutte",
+    "startsAt": "2026-05-19T17:47:37.508Z",
+    "status": "VERIFIED_PAST",
+    "eventType": "SUMMIT",
+    "title": "Military Committee in Chiefs of Defence Session",
+    "summary": "Military Committee in Chiefs of Defence Session, 19-May-2026 | NATO Event SEARCH CLOSE Search Language Selection: English English Menu Close Back About us Organization Founding treaty NATO member countries Structure NATO Military Committee portal Military Com…",
+    "significance": "Public record linking Mark Rutte to Geneva. This is useful when it confirms a meeting, summit, speech, visit, or delegation record.",
+    "decisions": "Follow the official source and subsequent communiques for decisions, signings, or market-relevant policy detail.",
+    "location": {
+      "label": "Geneva public-source location",
+      "city": "Geneva",
+      "countryCode": "CH",
+      "countryName": "Switzerland",
+      "lat": 46.2044,
+      "lng": 6.1432,
+      "precision": "city"
+    },
+    "publicInterestScore": 95,
+    "counterpartIds": [],
+    "topics": [
+      "peace",
+      "defense",
+      "energy",
+      "AI",
+      "climate",
+      "security"
+    ],
+    "verificationLevel": "Verified",
+    "confidence": 0.86,
+    "confidenceLabel": "official or host-public source",
+    "publicationGate": "publishable",
+    "sourcePack": [
+      {
+        "label": "NATO",
+        "url": "https://www.nato.int/en/news-and-events/events/event-programmes/2026/05/military-committee-in-chiefs-of-defence-session",
+        "type": "official_or_host",
+        "checkedAt": "2026-06-05T19:09:12.676Z",
+        "reliability": "primary_or_host"
+      }
+    ],
+    "crawler": {
+      "detectedAt": "2026-06-05T19:09:12.676Z",
+      "sourceKind": "official",
+      "domain": "nato.int",
+      "rule": "24-month public-source crawler"
+    }
+  },
+  {
+    "id": "crawl-p-mark-rutte-geneva-2026-05-19-nato-secretary-general-meets-the-ministe",
+    "personId": "p-mark-rutte",
+    "personName": "Mark Rutte",
+    "startsAt": "2026-05-19T12:27:04.218Z",
+    "status": "VERIFIED_PAST",
+    "eventType": "SUMMIT",
+    "title": "NATO Secretary General meets the Minister of Foreign Affairs, European Affairs and Development Cooperation of Belgium",
+    "summary": "NATO Secretary General meets the Minister of Foreign Affairs, European Affairs and Development Cooperation of Belgium | NATO Media advisory SEARCH CLOSE Search Language Selection: English English Français Menu Close Back About us Organization Founding treaty …",
+    "significance": "Public record linking Mark Rutte to Geneva. This is useful when it confirms a meeting, summit, speech, visit, or delegation record.",
+    "decisions": "Follow the official source and subsequent communiques for decisions, signings, or market-relevant policy detail.",
+    "location": {
+      "label": "Geneva public-source location",
+      "city": "Geneva",
+      "countryCode": "CH",
+      "countryName": "Switzerland",
+      "lat": 46.2044,
+      "lng": 6.1432,
+      "precision": "city"
+    },
+    "publicInterestScore": 95,
+    "counterpartIds": [],
+    "topics": [
+      "peace",
+      "defense",
+      "energy",
+      "AI",
+      "climate",
+      "security"
+    ],
+    "verificationLevel": "Verified",
+    "confidence": 0.86,
+    "confidenceLabel": "official or host-public source",
+    "publicationGate": "publishable",
+    "sourcePack": [
+      {
+        "label": "NATO",
+        "url": "https://www.nato.int/en/news-and-events/events/media-advisories/2026/05/19/nato-secretary-general-meets-the-minister-of-foreign-affairs-european-affairs-and-development-cooperation-of-belgium",
+        "type": "official_or_host",
+        "checkedAt": "2026-06-05T19:09:12.676Z",
+        "reliability": "primary_or_host"
+      }
+    ],
+    "crawler": {
+      "detectedAt": "2026-06-05T19:09:12.676Z",
+      "sourceKind": "official",
+      "domain": "nato.int",
+      "rule": "24-month public-source crawler"
+    }
+  },
+  {
+    "id": "crawl-p-mark-rutte-geneva-2026-05-18-nato-secretary-general-to-visit-sweden",
+    "personId": "p-mark-rutte",
+    "personName": "Mark Rutte",
+    "startsAt": "2026-05-18T12:15:45.454Z",
+    "status": "VERIFIED_PAST",
+    "eventType": "SUMMIT",
+    "title": "NATO Secretary General to visit Sweden",
+    "summary": "NATO Secretary General to visit Sweden | NATO Media advisory SEARCH CLOSE Search Language Selection: English English Français Menu Close Back About us Organization Founding treaty NATO member countries Structure NATO Military Committee portal Military Committ…",
+    "significance": "Public record linking Mark Rutte to Geneva. This is useful when it confirms a meeting, summit, speech, visit, or delegation record.",
+    "decisions": "Follow the official source and subsequent communiques for decisions, signings, or market-relevant policy detail.",
+    "location": {
+      "label": "Geneva public-source location",
+      "city": "Geneva",
+      "countryCode": "CH",
+      "countryName": "Switzerland",
+      "lat": 46.2044,
+      "lng": 6.1432,
+      "precision": "city"
+    },
+    "publicInterestScore": 95,
+    "counterpartIds": [],
+    "topics": [
+      "peace",
+      "defense",
+      "energy",
+      "AI",
+      "climate",
+      "security"
+    ],
+    "verificationLevel": "Verified",
+    "confidence": 0.86,
+    "confidenceLabel": "official or host-public source",
+    "publicationGate": "publishable",
+    "sourcePack": [
+      {
+        "label": "NATO",
+        "url": "https://www.nato.int/en/news-and-events/events/media-advisories/2026/05/18/nato-secretary-general-to-visit-sweden",
+        "type": "official_or_host",
+        "checkedAt": "2026-06-05T19:09:12.676Z",
+        "reliability": "primary_or_host"
+      }
+    ],
+    "crawler": {
+      "detectedAt": "2026-06-05T19:09:12.676Z",
+      "sourceKind": "official",
+      "domain": "nato.int",
+      "rule": "24-month public-source crawler"
+    }
+  },
+  {
+    "id": "crawl-p-xi-jinping-washington-2026-05-17-fact-sheet-president-donald-j-trump-secu",
+    "personId": "p-xi-jinping",
+    "personName": "Xi Jinping",
+    "startsAt": "2026-05-17T19:09:06.000Z",
+    "status": "VERIFIED_PAST",
+    "eventType": "SUMMIT",
+    "title": "Fact Sheet: President Donald J. Trump Secures Historic Deals with China, Delivering for American Workers, Farmers, and Industry",
+    "summary": "Fact Sheet: President Donald J.",
+    "significance": "Public record linking Xi Jinping to Washington. This is useful when it confirms a meeting, summit, speech, visit, or delegation record.",
+    "decisions": "Follow the official source and subsequent communiques for decisions, signings, or market-relevant policy detail.",
+    "location": {
+      "label": "Washington public-source location",
+      "city": "Washington",
+      "countryCode": "US",
+      "countryName": "United States",
+      "lat": 38.9072,
+      "lng": -77.0369,
+      "precision": "city"
+    },
+    "publicInterestScore": 101,
+    "counterpartIds": [],
+    "topics": [
+      "peace",
+      "trade",
+      "energy",
+      "AI",
+      "technology",
+      "security"
+    ],
+    "verificationLevel": "Verified",
+    "confidence": 0.86,
+    "confidenceLabel": "official or host-public source",
+    "publicationGate": "publishable",
+    "sourcePack": [
+      {
+        "label": "White House",
+        "url": "https://www.whitehouse.gov/fact-sheets/2026/05/fact-sheet-president-donald-j-trump-secures-historic-deals-with-china-delivering-for-american-workers-farmers-and-industry/",
+        "type": "official_or_host",
+        "checkedAt": "2026-06-05T19:09:12.676Z",
+        "reliability": "primary_or_host"
+      }
+    ],
+    "crawler": {
+      "detectedAt": "2026-06-05T19:09:12.676Z",
+      "sourceKind": "official",
+      "domain": "whitehouse.gov",
+      "rule": "24-month public-source crawler"
+    }
+  }
+]
