@@ -1,0 +1,45 @@
+name: Nightly public-source refresh
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 2 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: parleymap-nightly-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Verify required files
+        run: |
+          test -f nightly-refresh.mjs
+          test -f data/demo.json
+          test -f data/source-registry.json
+
+      - name: Run crawler
+        run: node nightly-refresh.mjs --publish
+
+      - name: Show changed files
+        run: git status --short
+
+      - name: Commit crawler output only
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Nightly public-source refresh"
+          file_pattern: "data/demo.json data/crawler/*.json"
