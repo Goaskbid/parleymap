@@ -33,6 +33,9 @@ jobs:
       - name: Repair current live dataset
         run: node scripts/repair-live-dataset.mjs
 
+      - name: Apply roster hygiene before crawler
+        run: node scripts/roster-hygiene.mjs
+        
       - name: Validate repaired live embedded dataset
         run: node scripts/validate-demo-data.mjs
 
@@ -108,6 +111,9 @@ jobs:
       - name: Repair live dataset after publish
         run: node scripts/repair-live-dataset.mjs
 
+      - name: Apply roster hygiene after publish
+        run: node scripts/roster-hygiene.mjs
+        
       - name: Validate final index.html
         run: node scripts/validate-demo-data.mjs
 
