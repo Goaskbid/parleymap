@@ -3,43 +3,8 @@ import fs from "node:fs";
 const INDEX_PATH = "index.html";
 const REVIEW_PATH = "data/diagnostics/roster-review.json";
 const PATCH_PATH = "data/diagnostics/roster-patch-candidates.json";
-const OPEN_RE = /<script\s+id=["']demo-data["']\s+type=["']application\/json["']\s*>/i;
-const CLOSE_RE = /<\/script>/i;
-
-const COUNTRIES = [
-  ["US", "United States", "Q30"],
-  ["MX", "Mexico", "Q96"],
-  ["ID", "Indonesia", "Q252"],
-  ["FR", "France", "Q142"],
-  ["DE", "Germany", "Q183"],
-  ["GB", "United Kingdom", "Q145"],
-  ["CN", "China", "Q148"],
-  ["RU", "Russia", "Q159"],
-  ["UA", "Ukraine", "Q212"],
-  ["IN", "India", "Q668"],
-  ["SA", "Saudi Arabia", "Q851"],
-  ["AE", "United Arab Emirates", "Q878"],
-  ["QA", "Qatar", "Q846"],
-  ["IR", "Iran", "Q794"],
-  ["TR", "Turkey", "Q43"],
-  ["CA", "Canada", "Q16"],
-  ["BR", "Brazil", "Q155"],
-  ["JP", "Japan", "Q17"],
-  ["IT", "Italy", "Q38"],
-  ["ES", "Spain", "Q29"],
-  ["AU", "Australia", "Q408"],
-  ["ZA", "South Africa", "Q258"]
-];
-
-function readData() {
-  const html = fs.readFileSync(INDEX_PATH, "utf8");
-  const open = html.match(OPEN_RE);
-  if (!open || open.index === undefined) throw new Error("demo-data opening tag not found");
-  const start = open.index + open[0].length;
-  const close = html.slice(start).match(CLOSE_RE);
-  if (!close || close.index === undefined) throw new Error("demo-data closing tag not found");
-  return JSON.parse(html.slice(start, start + close.index).trim());
-}
+const OPEN_TAG = '<script id="demo-data" type="application/json">';
+const CLOSE_TAG = "</" + "script>";
 
 function norm(value) {
   return String(value || "")
@@ -50,180 +15,85 @@ function norm(value) {
     .trim();
 }
 
+function readEmbedded() {
+  const html = fs.readFileSync(INDEX_PATH, "utf8");
+  const start = html.indexOf(OPEN_TAG);
+  if (start === -1) throw new Error("demo-data opening tag not found");
+  const jsonStart = start + OPEN_TAG.length;
+  const jsonEnd = html.indexOf(CLOSE_TAG, jsonStart);
+  if (jsonEnd === -1) throw new Error("demo-data closing tag not found");
+  return JSON.parse(html.slice(jsonStart, jsonEnd).trim());
+}
+
 function rows(data) {
-  const all = [
-    ...(Array.isArray(data.people) ? data.people : []),
-    ...(Array.isArray(data.roster) ? data.roster : []),
-    ...(Array.isArray(data.topRoster) ? data.topRoster : []),
-    ...(Array.isArray(data.expansionRoster) ? data.expansionRoster : [])
-  ];
-  const out = [];
+  const all = [];
+  for (const key of ["people", "roster", "topRoster", "expansionRoster"]) {
+    if (Array.isArray(data[key])) all.push(...data[key].map((row) => ({ ...row, sourceCollection: key })));
+  }
   const seen = new Set();
-  for (const row of all) {
-    const key = row.id || row.slug || row.wikidataId || row.name || row.canonicalName;
-    if (!key || seen.has(key)) continue;
+  return all.filter((row) => {
+    const key = row.wikidataId || row.id || row.slug || row.name || row.canonicalName;
+    if (!key || seen.has(key)) return false;
     seen.add(key);
-    out.push(row);
+    return true;
+  });
+}
+
+function issueForRow(row) {
+  const issues = [];
+  const text = norm([row.name, row.canonicalName, row.slug, row.roleTitle, row.organization, row.countryName, row.countryFocusCode, row.countryFocus].join(" "));
+  const hasAnchor = Boolean(row.homeBases?.[0]?.lat || row.mapAnchor?.lat || row.lat || row.mapLat || row.anchorLat);
+  if (!hasAnchor) issues.push("missing_explicit_anchor");
+  if (!row.officialUrl || /wikipedia\.org/i.test(row.officialUrl)) issues.push("officialUrl_missing_or_wikipedia_only");
+  if (text.includes("former") && /president|prime minister|head of state|head of government/i.test(row.roleTitle || "")) issues.push("possibly_stale_current_leader_role");
+  if (row.flagAudit?.code && row.countryFocusCode && String(row.flagAudit.code).toUpperCase() !== String(row.countryFocusCode).toUpperCase()) {
+    if (!row.flagAudit.status || !/institution/i.test(row.flagAudit.status)) issues.push("flag_code_country_focus_mismatch");
   }
-  return out;
-}
-
-async function fetchEntity(qid) {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 8000);
-  try {
-    const response = await fetch(`https://www.wikidata.org/wiki/Special:EntityData/${qid}.json`, {
-      signal: controller.signal,
-      headers: { "user-agent": "ParleyMap monthly roster review" }
-    });
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    const json = await response.json();
-    return json.entities?.[qid] || null;
-  } finally {
-    clearTimeout(timer);
-  }
-}
-
-function label(entity) {
-  return entity?.labels?.en?.value || entity?.labels?.mul?.value || "";
-}
-
-function claimTargetIds(entity, property) {
-  return (entity?.claims?.[property] || [])
-    .map((claim) => claim?.mainsnak?.datavalue?.value?.id)
-    .filter(Boolean);
-}
-
-async function qidLabel(qid, cache) {
-  if (cache.has(qid)) return cache.get(qid);
-  try {
-    const entity = await fetchEntity(qid);
-    const value = label(entity) || qid;
-    cache.set(qid, value);
-    return value;
-  } catch {
-    cache.set(qid, qid);
-    return qid;
-  }
-}
-
-function countryCode(row) {
-  const code = String(row.countryFocusCode || row.countryFocus || row.countryCode || "").toUpperCase();
-  return code === "UK" ? "GB" : code;
-}
-
-function rowText(row) {
-  return norm([row.id, row.slug, row.name, row.canonicalName, row.roleTitle, row.organization, row.country, row.countryName, row.wikidataId].join(" "));
-}
-
-function matchHolder(allRows, code, holderName) {
-  const holder = norm(holderName);
-  if (!holder) return null;
-  const tokens = holder.split(" ").filter((x) => x.length >= 4);
-  return allRows.find((row) => {
-    if (countryCode(row) !== code) return false;
-    const text = rowText(row);
-    if (text.includes(holder)) return true;
-    return tokens.length >= 2 && tokens.every((token) => text.includes(token));
-  }) || null;
-}
-
-function isLeaderRole(row) {
-  return /president|prime minister|head of state|head of government|chancellor|king|queen|monarch|emir|crown prince|pope/i.test(row.roleTitle || "");
+  return issues;
 }
 
 fs.mkdirSync("data/diagnostics", { recursive: true });
-
-const data = readData();
-const allRows = rows(data);
-const cache = new Map();
+const data = readEmbedded();
+const rosterRows = rows(data);
+const warnings = [];
+for (const row of rosterRows) {
+  const issues = issueForRow(row);
+  if (!issues.length) continue;
+  warnings.push({
+    id: row.id || null,
+    slug: row.slug || null,
+    name: row.canonicalName || row.name || null,
+    wikidataId: row.wikidataId || null,
+    roleTitle: row.roleTitle || null,
+    countryFocusCode: row.countryFocusCode || row.countryFocus || null,
+    sourceCollection: row.sourceCollection,
+    issues
+  });
+}
 
 const review = {
   generatedAt: new Date().toISOString(),
-  status: "monthly_roster_review_complete",
+  status: "roster_review_diagnostics_complete",
   counts: {
     people: data.people?.length ?? null,
     roster: data.roster?.length ?? null,
+    topRoster: data.topRoster?.length ?? null,
     expansionRoster: data.expansionRoster?.length ?? null
   },
-  checkedCountries: [],
-  additionCandidates: [],
-  possibleStaleRosterEntries: [],
-  hygieneWarnings: []
+  warningCount: warnings.length,
+  warnings,
+  note: "Diagnostics only. This file does not add or remove people from index.html. Review patch candidates before publishing roster membership changes."
 };
 
-for (const row of allRows) {
-  if (!row.officialUrl || /wikipedia\.org/i.test(row.officialUrl)) {
-    review.hygieneWarnings.push({
-      id: row.id || null,
-      name: row.canonicalName || row.name || null,
-      issue: "officialUrl missing or points to Wikipedia"
-    });
-  }
-}
-
-for (const [code, name, qid] of COUNTRIES) {
-  try {
-    const entity = await fetchEntity(qid);
-    const holderIds = [...new Set([...claimTargetIds(entity, "P35"), ...claimTargetIds(entity, "P6")])];
-    const holderNames = [];
-    for (const holderId of holderIds) holderNames.push(await qidLabel(holderId, cache));
-
-    review.checkedCountries.push({ countryCode: code, countryName: name, wikidataId: qid, currentHolderNames: holderNames, status: "checked" });
-
-    for (const holderName of holderNames) {
-      const match = matchHolder(allRows, code, holderName);
-      if (!match) {
-        review.additionCandidates.push({
-          countryCode: code,
-          countryName: name,
-          candidateName: holderName,
-          source: `Wikidata ${qid} P35/P6`,
-          action: "review_add_or_promote_current_office_holder"
-        });
-      }
-    }
-
-    const leaders = allRows.filter((row) => countryCode(row) === code && isLeaderRole(row));
-    for (const row of leaders) {
-      if (!holderNames.length) continue;
-      const text = rowText(row);
-      const current = holderNames.some((holderName) => {
-        const h = norm(holderName);
-        const parts = h.split(" ").filter((x) => x.length >= 4);
-        return text.includes(h) || (parts.length >= 2 && parts.every((part) => text.includes(part)));
-      });
-      if (!current) {
-        review.possibleStaleRosterEntries.push({
-          id: row.id || null,
-          name: row.canonicalName || row.name || null,
-          roleTitle: row.roleTitle || null,
-          countryCode: code,
-          countryName: name,
-          currentHolderNames: holderNames,
-          action: "review_role_change_or_remove_from_current_leader_slot"
-        });
-      }
-    }
-  } catch (error) {
-    review.checkedCountries.push({ countryCode: code, countryName: name, wikidataId: qid, status: "fetch_failed", error: String(error.message || error) });
-  }
-}
-
-const patch = {
+const patchCandidates = {
   generatedAt: review.generatedAt,
   status: "manual_review_required",
-  additions: review.additionCandidates,
-  possibleRemovalsOrRoleChanges: review.possibleStaleRosterEntries,
-  note: "Diagnostics only. Do not auto-publish roster membership changes without review."
+  possibleRoleOrProfileFixes: warnings,
+  additions: [],
+  removals: [],
+  note: "Automatic people add/remove is intentionally blocked. Use this file as a manual review queue."
 };
 
 fs.writeFileSync(REVIEW_PATH, JSON.stringify(review, null, 2) + "\n");
-fs.writeFileSync(PATCH_PATH, JSON.stringify(patch, null, 2) + "\n");
-console.log(JSON.stringify({
-  status: review.status,
-  checkedCountries: review.checkedCountries.length,
-  additionCandidates: review.additionCandidates.length,
-  possibleStaleRosterEntries: review.possibleStaleRosterEntries.length,
-  hygieneWarnings: review.hygieneWarnings.length
-}, null, 2));
+fs.writeFileSync(PATCH_PATH, JSON.stringify(patchCandidates, null, 2) + "\n");
+console.log(JSON.stringify({ status: review.status, warnings: warnings.length }, null, 2));

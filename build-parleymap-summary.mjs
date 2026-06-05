@@ -1,0 +1,46 @@
+import fs from "node:fs";
+
+const out = "data/diagnostics/LATEST_RUN_SUMMARY.md";
+function readJson(path) { try { return fs.existsSync(path) ? JSON.parse(fs.readFileSync(path, "utf8")) : null; } catch { return null; } }
+const anchor = readJson("data/diagnostics/anchor-guard-report.json");
+const roster = readJson("data/diagnostics/roster-review.json");
+const publish = readJson("data/diagnostics/publish-report.json");
+const crawl = readJson("data/crawler/crawl-report.json");
+const lines = [];
+lines.push("# ParleyMap latest run");
+lines.push("");
+lines.push(`Generated: ${new Date().toISOString()}`);
+lines.push(`Workflow: ${process.env.GITHUB_WORKFLOW || "local"}`);
+lines.push(`Run number: ${process.env.GITHUB_RUN_NUMBER || "local"}`);
+lines.push("");
+lines.push("## Anchor guard");
+lines.push("");
+lines.push(`Status: ${anchor?.status || "n/a"}`);
+lines.push(`Runtime guard installed: ${anchor?.runtimeGuardInstalled ?? "n/a"}`);
+lines.push("");
+if (anchor?.patchesByTarget) Object.entries(anchor.patchesByTarget).forEach(([k,v]) => lines.push(`- ${k}: ${v}`));
+lines.push("");
+lines.push("## Counts");
+lines.push("");
+lines.push("| Item | Before | After |");
+lines.push("|---|---:|---:|");
+for (const key of ["people", "roster", "expansionRoster", "appearances", "categories"]) lines.push(`| ${key} | ${anchor?.before?.[key] ?? publish?.before?.[key] ?? "n/a"} | ${anchor?.after?.[key] ?? publish?.after?.[key] ?? "n/a"} |`);
+lines.push("");
+lines.push("## Crawler publish");
+lines.push("");
+lines.push(`Publish status: ${publish?.status || "n/a"}`);
+lines.push(`Added appearances: ${publish?.added ?? "n/a"}`);
+lines.push(`Updated appearances: ${publish?.updated ?? "n/a"}`);
+lines.push(`Approved: ${publish?.approved ?? "n/a"}`);
+lines.push(`Rejected: ${publish?.rejected ?? "n/a"}`);
+lines.push("");
+lines.push("## Roster review");
+lines.push("");
+lines.push(`Status: ${roster?.status || "n/a"}`);
+lines.push(`Addition candidates: ${roster?.additionCandidates?.length ?? "n/a"}`);
+lines.push(`Possible stale entries: ${roster?.possibleStaleRosterEntries?.length ?? "n/a"}`);
+lines.push("");
+if (crawl) { lines.push("## Crawler report"); lines.push(""); lines.push("```json"); lines.push(JSON.stringify(crawl, null, 2).slice(0, 3000)); lines.push("```"); }
+fs.mkdirSync("data/diagnostics", { recursive: true });
+fs.writeFileSync(out, lines.join("\n") + "\n");
+console.log(lines.join("\n"));

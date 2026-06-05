@@ -1,21 +1,15 @@
-name: ParleyMap monthly roster review
+name: ParleyMap anchor guard now
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "31 4 1 * *"
 
 permissions:
   contents: write
 
-concurrency:
-  group: parleymap-monthly-roster-review
-  cancel-in-progress: false
-
 jobs:
-  roster-review:
+  anchor-guard:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 12
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -27,19 +21,10 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Validate current embedded dataset
-        run: node scripts/validate-parleymap-embedded.mjs
-
-      - name: Audit anchors before roster review
+      - name: Apply anchor guard
         run: node scripts/apply-anchor-guard.mjs
 
-      - name: Run monthly roster diagnostics
-        run: node scripts/roster-review.mjs
-
-      - name: Audit anchors after roster review
-        run: node scripts/apply-anchor-guard.mjs
-
-      - name: Validate final embedded dataset
+      - name: Validate embedded dataset
         run: node scripts/validate-parleymap-embedded.mjs
 
       - name: Build run summary
@@ -52,20 +37,22 @@ jobs:
         if: always()
         run: git diff --name-only || true
 
-      - name: Upload roster review artifact
+      - name: Upload fixed files artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: parleymap-roster-review-files
+          name: parleymap-fixed-files
           path: |
             index.html
             data/demo.json
             data/diagnostics/*.json
             data/diagnostics/*.md
+            .github/workflows/*.yml
+            scripts/*.mjs
           if-no-files-found: ignore
 
-      - name: Commit roster review diagnostics
+      - name: Commit anchor guard fix
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Review ParleyMap roster and anchor hygiene"
-          file_pattern: "index.html data/demo.json data/diagnostics/*.json data/diagnostics/*.md"
+          commit_message: "Fix ParleyMap anchor guard"
+          file_pattern: "index.html data/demo.json data/diagnostics/*.json data/diagnostics/*.md .github/workflows/*.yml scripts/*.mjs"

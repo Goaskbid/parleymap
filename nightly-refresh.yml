@@ -13,7 +13,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  refresh-and-publish:
+  refresh:
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -27,69 +27,96 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Validate current live embedded dataset
-        run: node scripts/validate-demo-data.mjs
+      - name: Validate current embedded dataset
+        run: node scripts/validate-parleymap-embedded.mjs
 
-      - name: Force correct institutional anchors before refresh
-        run: node scripts/fix-anchors-now.mjs
+      - name: Audit anchors before crawler import
+        run: node scripts/apply-anchor-guard.mjs
 
-      - name: Run bounded crawler
+      - name: Sync crawler input from index.html
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const html = fs.readFileSync('index.html', 'utf8');
+          const match = html.match(/<script\b[^>]*id=["']demo-data["'][^>]*>([\s\S]*?)<\/script>/i);
+          if (!match) throw new Error('demo-data block not found');
+          const data = JSON.parse(match[1].trim());
+          fs.mkdirSync('data', { recursive: true });
+          fs.writeFileSync('data/demo.json', JSON.stringify(data, null, 2) + '\n');
+          console.log(JSON.stringify({ people: data.people.length, roster: data.roster.length, expansionRoster: data.expansionRoster.length, appearances: data.appearances.length }, null, 2));
+          NODE
+
+      - name: Clear old crawler outputs
+        run: |
+          mkdir -p data/crawler
+          rm -f data/crawler/candidate-appearances.json
+          rm -f data/crawler/publishable-appearances.json
+          rm -f data/crawler/quality-approved-appearances.json
+          rm -f data/crawler/rejected-appearances.json
+          rm -f data/crawler/crawl-report.json
+
+      - name: Run bounded crawler if available
+        id: crawler
         continue-on-error: true
         run: |
           if [ -f nightly-refresh.mjs ]; then
-            timeout 12m node nightly-refresh.mjs --max-roster 60 --max-per-person 2 --max-pages-per-source 8 --lookback-days 21 || echo "crawler failed or timed out"
+            timeout 12m node nightly-refresh.mjs --max-roster 60 --max-per-person 2 --max-pages-per-source 8 --lookback-days 21
           else
-            echo "nightly-refresh.mjs not found"
+            echo "nightly-refresh.mjs not found; skipping crawler"
           fi
         env:
           PARLEYMAP_FETCH_TIMEOUT_MS: "3000"
 
-      - name: Guard and publish crawler output when available
+      - name: Ensure crawler output files exist
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          fs.mkdirSync('data/crawler', { recursive: true });
+          if (!fs.existsSync('data/crawler/candidate-appearances.json')) fs.writeFileSync('data/crawler/candidate-appearances.json', '[]\n');
+          if (!fs.existsSync('data/crawler/publishable-appearances.json')) fs.writeFileSync('data/crawler/publishable-appearances.json', '[]\n');
+          if (!fs.existsSync('data/crawler/crawl-report.json')) fs.writeFileSync('data/crawler/crawl-report.json', JSON.stringify({ generatedAt: new Date().toISOString(), status: 'crawler_skipped_or_no_output', candidates: 0, publishable: 0 }, null, 2) + '\n');
+          NODE
+
+      - name: Guard and publish crawler output if publisher exists
         continue-on-error: true
         run: |
           if [ -f scripts/guarded-publish-from-crawler.mjs ]; then
-            node scripts/guarded-publish-from-crawler.mjs || echo "guarded publish produced no website change"
+            node scripts/guarded-publish-from-crawler.mjs
           else
-            echo "guarded publisher not found"
+            mkdir -p data/diagnostics
+            echo '{"status":"publisher_not_present_index_not_changed"}' > data/diagnostics/publish-report.json
           fi
 
-      - name: Strict audit crawler output when available
-        continue-on-error: true
-        run: |
-          if [ -f scripts/strict-crawler-audit.mjs ]; then
-            node scripts/strict-crawler-audit.mjs || echo "strict crawler audit did not complete"
-          else
-            echo "strict crawler audit not found"
-          fi
+      - name: Audit anchors after crawler import
+        run: node scripts/apply-anchor-guard.mjs
 
-      - name: Force correct institutional anchors after refresh
-        run: node scripts/fix-anchors-now.mjs
+      - name: Validate final embedded dataset
+        run: node scripts/validate-parleymap-embedded.mjs
 
-      - name: Validate final index.html
-        run: node scripts/validate-demo-data.mjs
-
-      - name: Add report to job summary
+      - name: Build run summary
         if: always()
         run: |
-          if [ -f data/diagnostics/LATEST_RUN_SUMMARY.md ]; then
-            cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
-          fi
+          node scripts/build-parleymap-summary.mjs
+          cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Show files changed before commit
-        run: git diff --name-only
+      - name: Show changed files
+        if: always()
+        run: git diff --name-only || true
 
-      - name: Upload downloadable run files
+      - name: Upload run files artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: parleymap-run-files
           path: |
+            index.html
+            data/demo.json
+            data/crawler/*.json
             data/diagnostics/*.json
             data/diagnostics/*.md
-            data/crawler/*.json
           if-no-files-found: ignore
 
-      - name: Commit refreshed website data
+      - name: Commit refreshed data
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Refresh ParleyMap guarded data"
