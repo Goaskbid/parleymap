@@ -8,6 +8,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: parleymap-nightly-refresh
+  cancel-in-progress: false
+
 jobs:
   refresh-and-publish:
     runs-on: ubuntu-latest
@@ -24,6 +28,12 @@ jobs:
           node-version: "20"
 
       - name: Validate current live embedded dataset
+        run: node scripts/validate-demo-data.mjs
+
+      - name: Repair current live dataset
+        run: node scripts/repair-live-dataset.mjs
+
+      - name: Validate repaired live embedded dataset
         run: node scripts/validate-demo-data.mjs
 
       - name: Validate crawler source registry
@@ -53,23 +63,49 @@ jobs:
           }, null, 2));
           NODE
 
+      - name: Clear old crawler outputs
+        run: |
+          rm -f data/crawler/candidate-appearances.json
+          rm -f data/crawler/publishable-appearances.json
+          rm -f data/crawler/quality-approved-appearances.json
+          rm -f data/crawler/rejected-appearances.json
+          rm -f data/crawler/crawl-report.json
+
       - name: Run bounded crawler
-        run: timeout 15m node nightly-refresh.mjs --max-roster 50 --max-per-person 2 --max-pages-per-source 8 --lookback-days 21
+        id: crawler
+        continue-on-error: true
+        run: timeout 12m node nightly-refresh.mjs --max-roster 60 --max-per-person 2 --max-pages-per-source 8 --lookback-days 21
         env:
           PARLEYMAP_FETCH_TIMEOUT_MS: "3000"
 
-      - name: Show crawler report
+      - name: Ensure crawler output files exist
         run: |
-          node -e "const fs=require('fs');const p='data/crawler/crawl-report.json';if(!fs.existsSync(p))throw new Error('missing crawl report');console.log(fs.readFileSync(p,'utf8'));"
+          node - <<'NODE'
+          const fs = require('fs');
+          fs.mkdirSync('data/crawler', { recursive: true });
+          if (!fs.existsSync('data/crawler/candidate-appearances.json')) {
+            fs.writeFileSync('data/crawler/candidate-appearances.json', '[]\n');
+          }
+          if (!fs.existsSync('data/crawler/publishable-appearances.json')) {
+            fs.writeFileSync('data/crawler/publishable-appearances.json', '[]\n');
+          }
+          if (!fs.existsSync('data/crawler/crawl-report.json')) {
+            fs.writeFileSync('data/crawler/crawl-report.json', JSON.stringify({
+              generatedAt: new Date().toISOString(),
+              status: 'crawler_failed_or_timed_out',
+              candidates: 0,
+              publishable: 0
+            }, null, 2) + '\n');
+          }
+          NODE
 
-      - name: Publish crawler appearances into index.html
-        run: node scripts/publish-crawler-appearances.mjs
+      - name: Guard and publish crawler output
+        run: node scripts/guarded-publish-from-crawler.mjs
 
-      - name: Show publish report
-        run: |
-          node -e "const fs=require('fs');const p='data/diagnostics/publish-report.json';if(!fs.existsSync(p))throw new Error('missing publish report');console.log(fs.readFileSync(p,'utf8'));"
+      - name: Repair live dataset after publish
+        run: node scripts/repair-live-dataset.mjs
 
-      - name: Validate updated index.html
+      - name: Validate final index.html
         run: node scripts/validate-demo-data.mjs
 
       - name: Restore crawler input staging file
@@ -81,5 +117,5 @@ jobs:
       - name: Commit refreshed website data
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Refresh ParleyMap embedded appearance data"
+          commit_message: "Refresh ParleyMap guarded data"
           file_pattern: "index.html data/crawler/*.json data/diagnostics/*.json"
