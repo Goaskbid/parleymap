@@ -13,12 +13,12 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  roster-review:
+  monthly-roster-review:
     runs-on: ubuntu-latest
     timeout-minutes: 25
 
     steps:
-      - name: Checkout repository
+      - name: Checkout repository with history
         uses: actions/checkout@v4
         with:
           ref: main
@@ -29,37 +29,29 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Validate current embedded dataset
-        run: node scripts/validate-demo-data.mjs
+      - name: Rescue and audit before roster review
+        run: |
+          node scripts/parleymap-final-rescue.mjs
+          node scripts/parleymap-final-audit.mjs
 
-      - name: Repair anchors and faces before roster review
-        run: node scripts/parleymap-repair-anchors-faces.mjs
+      - name: Run guarded current-holder review and apply small safe changes
+        run: node scripts/parleymap-current-holder-review.mjs --apply
 
-      - name: Audit anchors before roster review
-        run: node scripts/parleymap-audit-rescue.mjs
-
-      - name: Run current-holder roster review with strict safe apply gate
-        run: node scripts/parleymap-roster-current-holder-review.mjs --apply-safe
-
-      - name: Repair anchors and faces after roster review
-        run: node scripts/parleymap-repair-anchors-faces.mjs
-
-      - name: Audit final dataset before commit
-        run: node scripts/parleymap-audit-rescue.mjs
+      - name: Rescue and audit after roster review
+        run: |
+          node scripts/parleymap-final-rescue.mjs
+          node scripts/parleymap-final-audit.mjs
 
       - name: Validate final embedded dataset
         run: node scripts/validate-demo-data.mjs
 
-      - name: Build final run summary
+      - name: Build readable summary
         if: always()
         run: |
-          node scripts/parleymap-build-final-summary.mjs || true
-          cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY" || true
+          node scripts/parleymap-build-summary.mjs
+          cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Show changed files
-        run: git diff --name-only
-
-      - name: Upload monthly roster files artifact
+      - name: Upload monthly roster files
         uses: actions/upload-artifact@v4
         with:
           name: parleymap-monthly-roster-files
@@ -69,8 +61,8 @@ jobs:
             data/diagnostics/*.json
             data/diagnostics/*.md
 
-      - name: Commit roster review result
+      - name: Commit monthly roster changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Monthly ParleyMap roster review with audited anchors"
+          commit_message: "Review ParleyMap monthly roster"
           file_pattern: "index.html data/demo.json data/diagnostics/*.json data/diagnostics/*.md"
