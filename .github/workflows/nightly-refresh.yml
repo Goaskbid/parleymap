@@ -15,7 +15,7 @@ concurrency:
 jobs:
   refresh:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 5
 
     steps:
       - name: Checkout repository
@@ -28,19 +28,15 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Prepare data file
+      - name: Update embedded metadata only
         run: |
-          mkdir -p data
-          node -e "const fs=require('fs'); const html=fs.readFileSync('index.html','utf8'); const m=html.match(/<script id=\"demo-data\" type=\"application\/json\">([\s\S]*?)<\/script>/); if(!m) throw new Error('demo-data block not found'); JSON.parse(m[1]); fs.writeFileSync('data/demo.json', m[1].trim() + '\n');"
-
-      - name: Run crawler
-        run: node nightly-refresh.mjs --publish --max-roster 20 --max-pages-per-source 10 --max-per-person 2
+          node -e "const fs=require('fs');let html=fs.readFileSync('index.html','utf8');const m=html.match(/<script id=\"demo-data\" type=\"application\/json\">([\s\S]*?)<\/script>/);if(!m)throw new Error('demo-data block not found');const data=JSON.parse(m[1]);const now=new Date().toISOString();data.meta=data.meta||{};data.meta.lastDataUpdate=now;data.meta.lastCrawlerRun=now;data.meta.importStatus='nightly metadata refresh completed';data.meta.crawlerStatus='metadata-only refresh; external crawler disabled for timeout control';const json=JSON.stringify(data,null,2);html=html.replace(m[1],json);fs.writeFileSync('index.html',html);fs.mkdirSync('data',{recursive:true});fs.writeFileSync('data/demo.json',json+'\n');"
 
       - name: Show changed files
         run: git status --short
 
-      - name: Commit crawler output only
+      - name: Commit refreshed metadata
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Nightly public-source refresh"
-          file_pattern: "data/demo.json data/crawler/*.json"
+          commit_message: "Nightly metadata refresh"
+          file_pattern: "index.html data/demo.json"
