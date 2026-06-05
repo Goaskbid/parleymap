@@ -1,0 +1,125 @@
+{
+  "generatedAt": "2026-06-05T19:43:14.280Z",
+  "before": {
+    "people": 94,
+    "roster": 200,
+    "expansionRoster": 114,
+    "appearances": 509,
+    "categories": 11
+  },
+  "after": {
+    "people": 94,
+    "roster": 200,
+    "expansionRoster": 114,
+    "appearances": 509,
+    "categories": 11
+  },
+  "removedCrawlerAppearances": [],
+  "homeBaseFixes": [
+    {
+      "collection": "people",
+      "id": "p-narendra-modi",
+      "name": "Narendra Modi",
+      "city": "New Delhi",
+      "countryCode": "IN",
+      "reason": "named_fix"
+    },
+    {
+      "collection": "people",
+      "id": "p-recep-erdogan",
+      "name": "Recep Tayyip Erdoğan",
+      "city": "Ankara",
+      "countryCode": "TR",
+      "reason": "named_fix"
+    },
+    {
+      "collection": "people",
+      "id": "p-mohammed-bin-salman",
+      "name": "Mohammed bin Salman",
+      "city": "Riyadh",
+      "countryCode": "SA",
+      "reason": "named_fix"
+    },
+    {
+      "collection": "roster",
+      "id": "r-005-narendra-modi",
+      "name": "Narendra Modi",
+      "city": "New Delhi",
+      "countryCode": "IN",
+      "reason": "named_fix"
+    },
+    {
+      "collection": "roster",
+      "id": "r-013-recep-tayyip-erdogan",
+      "name": "Recep Tayyip Erdoğan",
+      "city": "Ankara",
+      "countryCode": "TR",
+      "reason": "named_fix"
+    },
+    {
+      "collection": "roster",
+      "id": "r-016-mohammed-bin-salman",
+      "name": "Mohammed bin Salman",
+      "city": "Riyadh",
+      "countryCode": "SA",
+      "reason": "named_fix"
+    },
+    {
+      "collection": "roster",
+      "id": "r-017-mohamed-bin-zayed-al-nahyan",
+      "name": "Mohamed bin Zayed Al Nahyan",
+      "city": "Abu Dhabi",
+      "countryCode": "AE",
+      "reason": "named_fix"
+    },
+    {
+      "collection": "roster",
+      "id": "r-019-ali-khamenei",
+      "name": "Ali Khamenei",
+      "city": "Tehran",
+      "countryCode": "IR",
+      "reason": "named_fix"
+    },
+    {
+      "collection": "roster",
+      "id": "r-020-masoud-pezeshkian",
+      "name": "Masoud Pezeshkian",
+      "city": "Tehran",
+      "countryCode": "IR",
+      "reason": "named_fix"
+    },
+    {
+      "collection": "roster",
+      "id": "r-047-tamim-bin-hamad-al-thani",
+      "name": "Tamim bin Hamad Al Thani",
+      "city": "Doha",
+      "countryCode": "QA",
+      "reason": "named_fix"
+    },
+    {
+      "collection": "roster",
+      "id": "r-101-sheikh-mansour-bin-zayed-al-nahyan",
+      "name": "Sheikh Mansour bin Zayed Al Nahyan",
+      "city": "Abu Dhabi",
+      "countryCode": "AE",
+      "reason": "named_fix"
+    },
+    {
+      "collection": "roster",
+      "id": "r-192-sheikh-tahnoun-bin-zayed-al-nahyan",
+      "name": "Sheikh Tahnoun bin Zayed Al Nahyan",
+      "city": "Abu Dhabi",
+      "countryCode": "AE",
+      "reason": "named_fix"
+    },
+    {
+      "collection": "expansionRoster",
+      "id": "x-226-abdullah-bin-zayed-al-nahyan",
+      "name": "Abdullah bin Zayed Al Nahyan",
+      "city": "Abu Dhabi",
+      "countryCode": "AE",
+      "reason": "named_fix"
+    }
+  ],
+  "status": "live_dataset_repaired"
+}

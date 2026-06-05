@@ -1,13 +1,13 @@
 [
   {
-    "id": "crawl-p-emmanuel-macron-paris-2026-05-29-programme-du-week-end-culturel",
+    "id": "crawl-p-emmanuel-macron-paris-2026-05-29-intervention-de-m-jacques-chirac-preside",
     "personId": "p-emmanuel-macron",
     "personName": "Emmanuel Macron",
-    "startsAt": "2026-05-29T01:00:11.000Z",
+    "startsAt": "2026-05-29T01:00:09.000Z",
     "status": "VERIFIED_PAST",
     "eventType": "PUBLIC_APPEARANCE",
-    "title": "Programme du week-end culturel",
-    "summary": "Programme du week-end culturel | Sommet pour l’action sur l’Intelligence Artificielle Accéder au contenu principal Accéder à la recherche menu Retour à l’accueil Élysée Français Anglais Retour sur Elysee.fr Fr Français Anglais Rechercher 8 &amp; 9 FÉVRIER 202…",
+    "title": "Intervention de M. Jacques Chirac, Président de la Républiqu",
+    "summary": "Intervention de M.",
     "significance": "Public record linking Emmanuel Macron to Paris. This is useful when it confirms a meeting, summit, speech, visit, or delegation record.",
     "decisions": "Follow the official source and subsequent communiques for decisions, signings, or market-relevant policy detail.",
     "location": {
@@ -31,28 +31,122 @@
     "sourcePack": [
       {
         "label": "Elysee",
-        "url": "https://www.elysee.fr/sommet-pour-l-action-sur-l-ia/programme-du-week-end-culturel",
+        "url": "https://www.elysee.fr/jacques-chirac/2003/06/21/intervention-de-m-jacques-chirac-president-de-la-republique-sur-laction-de-lunion-europeenne-en-faveur-de-la-paix-et-de-la-reconciliation-dans-les-balkans-thessalonique-le-21-juin-2003",
         "type": "official_or_host",
-        "checkedAt": "2026-06-05T19:09:12.676Z",
+        "checkedAt": "2026-06-05T19:36:48.080Z",
         "reliability": "primary_or_host"
       }
     ],
     "crawler": {
-      "detectedAt": "2026-06-05T19:09:12.676Z",
+      "detectedAt": "2026-06-05T19:36:48.080Z",
       "sourceKind": "official",
       "domain": "elysee.fr",
       "rule": "24-month public-source crawler"
     }
   },
   {
-    "id": "crawl-p-emmanuel-macron-paris-2026-05-29-programme-de-la-semaine",
-    "personId": "p-emmanuel-macron",
-    "personName": "Emmanuel Macron",
-    "startsAt": "2026-05-29T01:00:11.000Z",
+    "id": "crawl-p-donald-trump-washington-2026-05-29-fete-nationale-du-14-juillet-2017-commun",
+    "personId": "p-donald-trump",
+    "personName": "Donald Trump",
+    "startsAt": "2026-05-29T01:00:09.000Z",
     "status": "VERIFIED_PAST",
     "eventType": "PUBLIC_APPEARANCE",
-    "title": "Programme de la semaine",
-    "summary": "Programme de la semaine | Sommet pour l’action sur l’Intelligence Artificielle Accéder au contenu principal Accéder à la recherche menu Retour à l’accueil Élysée Français Anglais Retour sur Elysee.fr Fr Français Anglais Rechercher Programme de la semaine Les …",
+    "title": "Fête Nationale du 14 juillet 2017 – Communiqué de presse",
+    "summary": "Fête Nationale du 14 juillet 2017 – Communiqué de presse | É Accéder au contenu principal Accéder à la recherche menu Retour à l’accueil Élysée Actualités Actualités Toute l&#039;actualité Derniers articles Sommet UE-Balkans au Monténégro.",
+    "significance": "Public record linking Donald Trump to Washington. This is useful when it confirms a meeting, summit, speech, visit, or delegation record.",
+    "decisions": "Follow the official source and subsequent communiques for decisions, signings, or market-relevant policy detail.",
+    "location": {
+      "label": "Washington public-source location",
+      "city": "Washington",
+      "countryCode": "US",
+      "countryName": "United States",
+      "lat": 38.9072,
+      "lng": -77.0369,
+      "precision": "city"
+    },
+    "publicInterestScore": 102,
+    "counterpartIds": [
+      "p-emmanuel-macron"
+    ],
+    "topics": [
+      "AI"
+    ],
+    "verificationLevel": "Verified",
+    "confidence": 0.86,
+    "confidenceLabel": "official or host-public source",
+    "publicationGate": "publishable",
+    "sourcePack": [
+      {
+        "label": "Elysee",
+        "url": "https://www.elysee.fr/emmanuel-macron/2017/06/28/fete-nationale-du-14-juillet-2017-communique-de-presse",
+        "type": "official_or_host",
+        "checkedAt": "2026-06-05T19:36:48.080Z",
+        "reliability": "primary_or_host"
+      }
+    ],
+    "crawler": {
+      "detectedAt": "2026-06-05T19:36:48.080Z",
+      "sourceKind": "official",
+      "domain": "elysee.fr",
+      "rule": "24-month public-source crawler"
+    }
+  },
+  {
+    "id": "crawl-p-emmanuel-macron-paris-2026-05-29-fete-nationale-du-14-juillet-2017-commun",
+    "personId": "p-emmanuel-macron",
+    "personName": "Emmanuel Macron",
+    "startsAt": "2026-05-29T01:00:09.000Z",
+    "status": "VERIFIED_PAST",
+    "eventType": "PUBLIC_APPEARANCE",
+    "title": "Fête Nationale du 14 juillet 2017 – Communiqué de presse",
+    "summary": "Fête Nationale du 14 juillet 2017 – Communiqué de presse | É Accéder au contenu principal Accéder à la recherche menu Retour à l’accueil Élysée Actualités Actualités Toute l&#039;actualité Derniers articles Sommet UE-Balkans au Monténégro.",
+    "significance": "Public record linking Emmanuel Macron to Paris. This is useful when it confirms a meeting, summit, speech, visit, or delegation record.",
+    "decisions": "Follow the official source and subsequent communiques for decisions, signings, or market-relevant policy detail.",
+    "location": {
+      "label": "Paris public-source location",
+      "city": "Paris",
+      "countryCode": "FR",
+      "countryName": "France",
+      "lat": 48.8566,
+      "lng": 2.3522,
+      "precision": "city"
+    },
+    "publicInterestScore": 98,
+    "counterpartIds": [
+      "p-donald-trump"
+    ],
+    "topics": [
+      "AI"
+    ],
+    "verificationLevel": "Verified",
+    "confidence": 0.86,
+    "confidenceLabel": "official or host-public source",
+    "publicationGate": "publishable",
+    "sourcePack": [
+      {
+        "label": "Elysee",
+        "url": "https://www.elysee.fr/emmanuel-macron/2017/06/28/fete-nationale-du-14-juillet-2017-communique-de-presse",
+        "type": "official_or_host",
+        "checkedAt": "2026-06-05T19:36:48.080Z",
+        "reliability": "primary_or_host"
+      }
+    ],
+    "crawler": {
+      "detectedAt": "2026-06-05T19:36:48.080Z",
+      "sourceKind": "official",
+      "domain": "elysee.fr",
+      "rule": "24-month public-source crawler"
+    }
+  },
+  {
+    "id": "crawl-p-emmanuel-macron-paris-2026-05-29-allocution-de-m-jacques-chirac-president",
+    "personId": "p-emmanuel-macron",
+    "personName": "Emmanuel Macron",
+    "startsAt": "2026-05-29T01:00:09.000Z",
+    "status": "VERIFIED_PAST",
+    "eventType": "BILATERAL",
+    "title": "Allocution de M. Jacques Chirac, Président de la République,",
+    "summary": "Allocution de M.",
     "significance": "Public record linking Emmanuel Macron to Paris. This is useful when it confirms a meeting, summit, speech, visit, or delegation record.",
     "decisions": "Follow the official source and subsequent communiques for decisions, signings, or market-relevant policy detail.",
     "location": {
@@ -76,28 +170,118 @@
     "sourcePack": [
       {
         "label": "Elysee",
-        "url": "https://www.elysee.fr/sommet-pour-l-action-sur-l-ia/programme-de-la-semaine-pour-laction-sur-lintelligence-artificielle",
+        "url": "https://www.elysee.fr/jacques-chirac/1998/02/11/allocution-de-m-jacques-chirac-president-de-la-republique-sur-la-prochaine-presidence-autrichienne-de-lunion-europeenne-les-relations-franco-autrichiennes-et-limportance-de-lenseignement-francais-en-autriche-vienne-le-11-fevrier-1998",
         "type": "official_or_host",
-        "checkedAt": "2026-06-05T19:09:12.676Z",
+        "checkedAt": "2026-06-05T19:36:48.080Z",
         "reliability": "primary_or_host"
       }
     ],
     "crawler": {
-      "detectedAt": "2026-06-05T19:09:12.676Z",
+      "detectedAt": "2026-06-05T19:36:48.080Z",
       "sourceKind": "official",
       "domain": "elysee.fr",
       "rule": "24-month public-source crawler"
     }
   },
   {
-    "id": "crawl-p-emmanuel-macron-paris-2026-05-29-foire-aux-questions",
+    "id": "crawl-p-emmanuel-macron-paris-2026-05-29-conference-de-presse-conjointe-de-mm-jac",
     "personId": "p-emmanuel-macron",
     "personName": "Emmanuel Macron",
-    "startsAt": "2026-05-29T01:00:11.000Z",
+    "startsAt": "2026-05-29T01:00:09.000Z",
     "status": "VERIFIED_PAST",
-    "eventType": "SUMMIT",
-    "title": "Foire aux questions",
-    "summary": "Foire aux questions | Sommet pour l’action sur l’Intelligence Artificielle Accéder au contenu principal Accéder à la recherche menu Retour à l’accueil Élysée Français Anglais Retour sur Elysee.fr Fr Français Anglais Rechercher Foire aux questions Programme du…",
+    "eventType": "CONFERENCE",
+    "title": "Conférence de presse conjointe de MM. Jacques Chirac, Présid",
+    "summary": "Conférence de presse conjointe de MM.",
+    "significance": "Public record linking Emmanuel Macron to Paris. This is useful when it confirms a meeting, summit, speech, visit, or delegation record.",
+    "decisions": "Follow the official source and subsequent communiques for decisions, signings, or market-relevant policy detail.",
+    "location": {
+      "label": "Paris public-source location",
+      "city": "Paris",
+      "countryCode": "FR",
+      "countryName": "France",
+      "lat": 48.8566,
+      "lng": 2.3522,
+      "precision": "city"
+    },
+    "publicInterestScore": 98,
+    "counterpartIds": [],
+    "topics": [
+      "AI"
+    ],
+    "verificationLevel": "Verified",
+    "confidence": 0.86,
+    "confidenceLabel": "official or host-public source",
+    "publicationGate": "publishable",
+    "sourcePack": [
+      {
+        "label": "Elysee",
+        "url": "https://www.elysee.fr/jacques-chirac/1998/02/12/conference-de-presse-conjointe-de-mm-jacques-chirac-president-de-la-republique-et-viktor-klima-chancelier-dautriche-sur-les-relations-franco-autrichiennes-lelargissement-de-lunion-europeenne-la-future-presidence-autrichienne-la-reforme-des-inst",
+        "type": "official_or_host",
+        "checkedAt": "2026-06-05T19:36:48.080Z",
+        "reliability": "primary_or_host"
+      }
+    ],
+    "crawler": {
+      "detectedAt": "2026-06-05T19:36:48.080Z",
+      "sourceKind": "official",
+      "domain": "elysee.fr",
+      "rule": "24-month public-source crawler"
+    }
+  },
+  {
+    "id": "crawl-p-emmanuel-macron-paris-2026-05-29-conference-de-presse-conjointe-de-m-jacq",
+    "personId": "p-emmanuel-macron",
+    "personName": "Emmanuel Macron",
+    "startsAt": "2026-05-29T01:00:09.000Z",
+    "status": "VERIFIED_PAST",
+    "eventType": "CONFERENCE",
+    "title": "Conférence de presse conjointe de M. Jacques Chirac, Préside",
+    "summary": "Conférence de presse conjointe de M.",
+    "significance": "Public record linking Emmanuel Macron to Paris. This is useful when it confirms a meeting, summit, speech, visit, or delegation record.",
+    "decisions": "Follow the official source and subsequent communiques for decisions, signings, or market-relevant policy detail.",
+    "location": {
+      "label": "Paris public-source location",
+      "city": "Paris",
+      "countryCode": "FR",
+      "countryName": "France",
+      "lat": 48.8566,
+      "lng": 2.3522,
+      "precision": "city"
+    },
+    "publicInterestScore": 98,
+    "counterpartIds": [],
+    "topics": [
+      "AI"
+    ],
+    "verificationLevel": "Verified",
+    "confidence": 0.86,
+    "confidenceLabel": "official or host-public source",
+    "publicationGate": "publishable",
+    "sourcePack": [
+      {
+        "label": "Elysee",
+        "url": "https://www.elysee.fr/jacques-chirac/1998/02/12/conference-de-presse-conjointe-de-m-jacques-chirac-president-de-la-republique-et-de-m-thomas-klestil-president-de-la-republique-dautriche-sur-la-reforme-des-institutions-communautaires-et-lelargissement-de-lunion-europeenne-lelargissement-de-l",
+        "type": "official_or_host",
+        "checkedAt": "2026-06-05T19:36:48.080Z",
+        "reliability": "primary_or_host"
+      }
+    ],
+    "crawler": {
+      "detectedAt": "2026-06-05T19:36:48.080Z",
+      "sourceKind": "official",
+      "domain": "elysee.fr",
+      "rule": "24-month public-source crawler"
+    }
+  },
+  {
+    "id": "crawl-p-emmanuel-macron-paris-2026-05-29-discours-de-m-jacques-chirac-president-d",
+    "personId": "p-emmanuel-macron",
+    "personName": "Emmanuel Macron",
+    "startsAt": "2026-05-29T01:00:09.000Z",
+    "status": "VERIFIED_PAST",
+    "eventType": "PUBLIC_VISIT",
+    "title": "Discours de M. Jacques Chirac, Président de la République, s",
+    "summary": "Discours de M.",
     "significance": "Public record linking Emmanuel Macron to Paris. This is useful when it confirms a meeting, summit, speech, visit, or delegation record.",
     "decisions": "Follow the official source and subsequent communiques for decisions, signings, or market-relevant policy detail.",
     "location": {
@@ -113,7 +297,7 @@
     "counterpartIds": [],
     "topics": [
       "AI",
-      "summit"
+      "finance"
     ],
     "verificationLevel": "Verified",
     "confidence": 0.86,
@@ -122,28 +306,28 @@
     "sourcePack": [
       {
         "label": "Elysee",
-        "url": "https://www.elysee.fr/sommet-pour-l-action-sur-l-ia/faq",
+        "url": "https://www.elysee.fr/jacques-chirac/1998/02/12/discours-de-m-jacques-chirac-president-de-la-republique-sur-les-relations-franco-autrichiennes-la-reforme-des-institutions-communautaires-prealable-a-lelargissement-la-prochaine-presidence-autrichienne-de-lunion-europeenne-et-la-perspective-du-pas",
         "type": "official_or_host",
-        "checkedAt": "2026-06-05T19:09:12.676Z",
+        "checkedAt": "2026-06-05T19:36:48.080Z",
         "reliability": "primary_or_host"
       }
     ],
     "crawler": {
-      "detectedAt": "2026-06-05T19:09:12.676Z",
+      "detectedAt": "2026-06-05T19:36:48.080Z",
       "sourceKind": "official",
       "domain": "elysee.fr",
       "rule": "24-month public-source crawler"
     }
   },
   {
-    "id": "crawl-p-emmanuel-macron-paris-2026-05-29-programmation-culturelle",
+    "id": "crawl-p-emmanuel-macron-paris-2026-05-29-message-de-m-jacques-chirac-president-de",
     "personId": "p-emmanuel-macron",
     "personName": "Emmanuel Macron",
-    "startsAt": "2026-05-29T01:00:11.000Z",
+    "startsAt": "2026-05-29T01:00:09.000Z",
     "status": "VERIFIED_PAST",
     "eventType": "PUBLIC_APPEARANCE",
-    "title": "Programmation Culturelle",
-    "summary": "Programmation Culturelle | Sommet pour l’action sur l’Intelligence Artificielle Accéder au contenu principal Accéder à la recherche menu Retour à l’accueil Élysée Français Anglais Retour sur Elysee.fr Fr Français Anglais Rechercher Programmation Culturelle Ce…",
+    "title": "Message de M. Jacques Chirac, Président de la République, su",
+    "summary": "Message de M.",
     "significance": "Public record linking Emmanuel Macron to Paris. This is useful when it confirms a meeting, summit, speech, visit, or delegation record.",
     "decisions": "Follow the official source and subsequent communiques for decisions, signings, or market-relevant policy detail.",
     "location": {
@@ -158,7 +342,8 @@
     "publicInterestScore": 98,
     "counterpartIds": [],
     "topics": [
-      "AI"
+      "AI",
+      "finance"
     ],
     "verificationLevel": "Verified",
     "confidence": 0.86,
@@ -167,14 +352,14 @@
     "sourcePack": [
       {
         "label": "Elysee",
-        "url": "https://www.elysee.fr/sommet-pour-l-action-sur-l-ia/organiser-un-evenement-culturel",
+        "url": "https://www.elysee.fr/jacques-chirac/1998/02/12/message-de-m-jacques-chirac-president-de-la-republique-sur-laide-aux-handicapes-dans-leur-vie-quotidienne-leur-integration-dans-la-societe-et-le-role-de-lassociation-des-paralyses-de-france-paris-le-12-fevrier-1998",
         "type": "official_or_host",
-        "checkedAt": "2026-06-05T19:09:12.676Z",
+        "checkedAt": "2026-06-05T19:36:48.080Z",
         "reliability": "primary_or_host"
       }
     ],
     "crawler": {
-      "detectedAt": "2026-06-05T19:09:12.676Z",
+      "detectedAt": "2026-06-05T19:36:48.080Z",
       "sourceKind": "official",
       "domain": "elysee.fr",
       "rule": "24-month public-source crawler"
@@ -219,12 +404,12 @@
         "label": "NATO",
         "url": "https://www.nato.int/en/news-and-events/events/media-advisories/2026/05/27/nato-secretary-general-meets-the-prime-minister-of-hungary",
         "type": "official_or_host",
-        "checkedAt": "2026-06-05T19:09:12.676Z",
+        "checkedAt": "2026-06-05T19:36:48.080Z",
         "reliability": "primary_or_host"
       }
     ],
     "crawler": {
-      "detectedAt": "2026-06-05T19:09:12.676Z",
+      "detectedAt": "2026-06-05T19:36:48.080Z",
       "sourceKind": "official",
       "domain": "nato.int",
       "rule": "24-month public-source crawler"
@@ -269,12 +454,12 @@
         "label": "NATO",
         "url": "https://www.nato.int/en/news-and-events/events/media-advisories/2026/05/26/nato-secretary-general-meets-the-prime-minister-of-bulgaria",
         "type": "official_or_host",
-        "checkedAt": "2026-06-05T19:09:12.676Z",
+        "checkedAt": "2026-06-05T19:36:48.080Z",
         "reliability": "primary_or_host"
       }
     ],
     "crawler": {
-      "detectedAt": "2026-06-05T19:09:12.676Z",
+      "detectedAt": "2026-06-05T19:36:48.080Z",
       "sourceKind": "official",
       "domain": "nato.int",
       "rule": "24-month public-source crawler"
@@ -319,12 +504,12 @@
         "label": "NATO",
         "url": "https://www.nato.int/en/news-and-events/events/event-programmes/2026/05/meeting-of-nato-ministers-of-foreign-affairs",
         "type": "official_or_host",
-        "checkedAt": "2026-06-05T19:09:12.676Z",
+        "checkedAt": "2026-06-05T19:36:48.080Z",
         "reliability": "primary_or_host"
       }
     ],
     "crawler": {
-      "detectedAt": "2026-06-05T19:09:12.676Z",
+      "detectedAt": "2026-06-05T19:36:48.080Z",
       "sourceKind": "official",
       "domain": "nato.int",
       "rule": "24-month public-source crawler"
@@ -369,12 +554,12 @@
         "label": "NATO",
         "url": "https://www.nato.int/en/news-and-events/events/media-advisories/2026/05/26/meeting-of-nato-ministers-of-defence-brussels-18-june-2026",
         "type": "official_or_host",
-        "checkedAt": "2026-06-05T19:09:12.676Z",
+        "checkedAt": "2026-06-05T19:36:48.080Z",
         "reliability": "primary_or_host"
       }
     ],
     "crawler": {
-      "detectedAt": "2026-06-05T19:09:12.676Z",
+      "detectedAt": "2026-06-05T19:36:48.080Z",
       "sourceKind": "official",
       "domain": "nato.int",
       "rule": "24-month public-source crawler"
@@ -419,12 +604,12 @@
         "label": "NATO",
         "url": "https://www.nato.int/en/news-and-events/events/media-advisories/2026/05/22/nato-secretary-general-meets-the-minister-of-foreign-affairs-of-estonia",
         "type": "official_or_host",
-        "checkedAt": "2026-06-05T19:09:12.676Z",
+        "checkedAt": "2026-06-05T19:36:48.080Z",
         "reliability": "primary_or_host"
       }
     ],
     "crawler": {
-      "detectedAt": "2026-06-05T19:09:12.676Z",
+      "detectedAt": "2026-06-05T19:36:48.080Z",
       "sourceKind": "official",
       "domain": "nato.int",
       "rule": "24-month public-source crawler"
@@ -469,12 +654,12 @@
         "label": "NATO",
         "url": "https://www.nato.int/en/news-and-events/events/event-programmes/2026/05/military-committee-in-chiefs-of-defence-session",
         "type": "official_or_host",
-        "checkedAt": "2026-06-05T19:09:12.676Z",
+        "checkedAt": "2026-06-05T19:36:48.080Z",
         "reliability": "primary_or_host"
       }
     ],
     "crawler": {
-      "detectedAt": "2026-06-05T19:09:12.676Z",
+      "detectedAt": "2026-06-05T19:36:48.080Z",
       "sourceKind": "official",
       "domain": "nato.int",
       "rule": "24-month public-source crawler"
@@ -519,12 +704,12 @@
         "label": "NATO",
         "url": "https://www.nato.int/en/news-and-events/events/media-advisories/2026/05/19/nato-secretary-general-meets-the-minister-of-foreign-affairs-european-affairs-and-development-cooperation-of-belgium",
         "type": "official_or_host",
-        "checkedAt": "2026-06-05T19:09:12.676Z",
+        "checkedAt": "2026-06-05T19:36:48.080Z",
         "reliability": "primary_or_host"
       }
     ],
     "crawler": {
-      "detectedAt": "2026-06-05T19:09:12.676Z",
+      "detectedAt": "2026-06-05T19:36:48.080Z",
       "sourceKind": "official",
       "domain": "nato.int",
       "rule": "24-month public-source crawler"
@@ -569,12 +754,12 @@
         "label": "NATO",
         "url": "https://www.nato.int/en/news-and-events/events/media-advisories/2026/05/18/nato-secretary-general-to-visit-sweden",
         "type": "official_or_host",
-        "checkedAt": "2026-06-05T19:09:12.676Z",
+        "checkedAt": "2026-06-05T19:36:48.080Z",
         "reliability": "primary_or_host"
       }
     ],
     "crawler": {
-      "detectedAt": "2026-06-05T19:09:12.676Z",
+      "detectedAt": "2026-06-05T19:36:48.080Z",
       "sourceKind": "official",
       "domain": "nato.int",
       "rule": "24-month public-source crawler"
@@ -619,12 +804,12 @@
         "label": "White House",
         "url": "https://www.whitehouse.gov/fact-sheets/2026/05/fact-sheet-president-donald-j-trump-secures-historic-deals-with-china-delivering-for-american-workers-farmers-and-industry/",
         "type": "official_or_host",
-        "checkedAt": "2026-06-05T19:09:12.676Z",
+        "checkedAt": "2026-06-05T19:36:48.080Z",
         "reliability": "primary_or_host"
       }
     ],
     "crawler": {
-      "detectedAt": "2026-06-05T19:09:12.676Z",
+      "detectedAt": "2026-06-05T19:36:48.080Z",
       "sourceKind": "official",
       "domain": "whitehouse.gov",
       "rule": "24-month public-source crawler"
