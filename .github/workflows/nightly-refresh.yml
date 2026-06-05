@@ -34,7 +34,7 @@ jobs:
           node -e "const fs=require('fs'); const html=fs.readFileSync('index.html','utf8'); const m=html.match(/<script id=\"demo-data\" type=\"application\/json\">([\s\S]*?)<\/script>/); if(!m) throw new Error('demo-data block not found'); JSON.parse(m[1]); fs.writeFileSync('data/demo.json', m[1].trim() + '\n');"
 
       - name: Run crawler
-        run: node nightly-refresh.mjs --publish
+        run: node nightly-refresh.mjs --publish --max-roster 20 --max-pages-per-source 10 --max-per-person 2
 
       - name: Show changed files
         run: git status --short
