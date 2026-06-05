@@ -1,0 +1,55 @@
+name: ParleyMap monthly roster review
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "31 4 1 * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: parleymap-monthly-roster-review
+  cancel-in-progress: false
+
+jobs:
+  roster-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Validate current live embedded dataset
+        run: node scripts/validate-demo-data.mjs
+
+      - name: Apply roster hygiene
+        run: node scripts/roster-hygiene.mjs
+
+      - name: Validate after roster hygiene
+        run: node scripts/validate-demo-data.mjs
+
+      - name: Run roster review diagnostics when available
+        run: |
+          if [ -f scripts/roster-review.mjs ]; then
+            node scripts/roster-review.mjs
+          else
+            echo "scripts/roster-review.mjs not present yet. Hygiene completed."
+          fi
+
+      - name: Show roster hygiene report
+        run: |
+          node -e "const fs=require('fs');const p='data/diagnostics/roster-hygiene-report.json';if(!fs.existsSync(p))throw new Error('missing roster hygiene report');const r=JSON.parse(fs.readFileSync(p,'utf8'));console.log(JSON.stringify({status:r.status,fixes:r.fixes.length,unresolved:r.unresolved.length},null,2));"
+
+      - name: Commit roster hygiene and diagnostics
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Review and repair ParleyMap roster hygiene"
+          file_pattern: "index.html data/diagnostics/roster-hygiene-report.json data/diagnostics/roster-review.json data/diagnostics/roster-patch-candidates.json"
