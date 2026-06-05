@@ -1,0 +1,252 @@
+{
+  "generatedAt": "2026-06-05T22:06:44.243Z",
+  "status": "hard_anchor_fix_applied",
+  "before": {
+    "people": 94,
+    "roster": 200,
+    "expansionRoster": 114,
+    "appearances": 508,
+    "categories": 11
+  },
+  "after": {
+    "people": 94,
+    "roster": 200,
+    "expansionRoster": 114,
+    "appearances": 508,
+    "categories": 11
+  },
+  "targetIds": {
+    "claudia_sheinbaum": [
+      "r-028-claudia-sheinbaum",
+      "claudia-sheinbaum",
+      "Q515229"
+    ],
+    "pope_leo_xiv": [
+      "r-085-pope-leo-xiv",
+      "pope-leo-xiv",
+      "Q134707349"
+    ],
+    "prabowo_subianto": [
+      "r-021-prabowo-subianto",
+      "prabowo-subianto",
+      "Q57669"
+    ],
+    "mohammed_bin_salman": [
+      "p-mohammed-bin-salman",
+      "mohammed-bin-salman",
+      "r-016-mohammed-bin-salman",
+      "Q923427"
+    ]
+  },
+  "fixes": [
+    {
+      "target": "mohammed_bin_salman",
+      "path": "data.people[78]",
+      "before": {
+        "countryFocus": "SA",
+        "countryFocusCode": "SA",
+        "countryName": "Saudi Arabia",
+        "lat": 24.7136,
+        "lng": 46.6753
+      },
+      "after": {
+        "countryFocusCode": "SA",
+        "countryName": "Saudi Arabia",
+        "lat": 24.7136,
+        "lng": 46.6753,
+        "lon": 46.6753,
+        "city": "Riyadh"
+      }
+    },
+    {
+      "target": "mohammed_bin_salman",
+      "path": "data.appearances[398]",
+      "before": {
+        "countryFocus": null,
+        "countryFocusCode": null,
+        "countryName": null,
+        "lat": null,
+        "lng": null
+      },
+      "after": {
+        "countryFocusCode": "SA",
+        "countryName": "Saudi Arabia",
+        "lat": 24.7136,
+        "lng": 46.6753,
+        "lon": 46.6753,
+        "city": "Riyadh"
+      }
+    },
+    {
+      "target": "mohammed_bin_salman",
+      "path": "data.appearances[415]",
+      "before": {
+        "countryFocus": null,
+        "countryFocusCode": null,
+        "countryName": null,
+        "lat": null,
+        "lng": null
+      },
+      "after": {
+        "countryFocusCode": "SA",
+        "countryName": "Saudi Arabia",
+        "lat": 24.7136,
+        "lng": 46.6753,
+        "lon": 46.6753,
+        "city": "Riyadh"
+      }
+    },
+    {
+      "target": "mohammed_bin_salman",
+      "path": "data.roster[15]",
+      "before": {
+        "countryFocus": "SA",
+        "countryFocusCode": "SA",
+        "countryName": "Saudi Arabia",
+        "lat": 24.7136,
+        "lng": 46.6753
+      },
+      "after": {
+        "countryFocusCode": "SA",
+        "countryName": "Saudi Arabia",
+        "lat": 24.7136,
+        "lng": 46.6753,
+        "lon": 46.6753,
+        "city": "Riyadh"
+      }
+    },
+    {
+      "target": "prabowo_subianto",
+      "path": "data.roster[20]",
+      "before": {
+        "countryFocus": "ID",
+        "countryFocusCode": "ID",
+        "countryName": "Indonesia",
+        "lat": -6.2088,
+        "lng": 106.8456
+      },
+      "after": {
+        "countryFocusCode": "ID",
+        "countryName": "Indonesia",
+        "lat": -6.2088,
+        "lng": 106.8456,
+        "lon": 106.8456,
+        "city": "Jakarta"
+      }
+    },
+    {
+      "target": "claudia_sheinbaum",
+      "path": "data.roster[27]",
+      "before": {
+        "countryFocus": "MX",
+        "countryFocusCode": "MX",
+        "countryName": "Mexico",
+        "lat": 19.4326,
+        "lng": -99.1332
+      },
+      "after": {
+        "countryFocusCode": "MX",
+        "countryName": "Mexico",
+        "lat": 19.4326,
+        "lng": -99.1332,
+        "lon": -99.1332,
+        "city": "Mexico City"
+      }
+    },
+    {
+      "target": "pope_leo_xiv",
+      "path": "data.roster[84]",
+      "before": {
+        "countryFocus": "VA",
+        "countryFocusCode": "VA",
+        "countryName": "Vatican City",
+        "lat": 41.9029,
+        "lng": 12.4534
+      },
+      "after": {
+        "countryFocusCode": "VA",
+        "countryName": "Vatican City",
+        "lat": 41.9029,
+        "lng": 12.4534,
+        "lon": 12.4534,
+        "city": "Vatican City"
+      }
+    },
+    {
+      "target": "mohammed_bin_salman",
+      "path": "data.topRoster[15]",
+      "before": {
+        "countryFocus": "SA",
+        "countryFocusCode": "SA",
+        "countryName": "Saudi Arabia",
+        "lat": 24.7136,
+        "lng": 46.6753
+      },
+      "after": {
+        "countryFocusCode": "SA",
+        "countryName": "Saudi Arabia",
+        "lat": 24.7136,
+        "lng": 46.6753,
+        "lon": 46.6753,
+        "city": "Riyadh"
+      }
+    },
+    {
+      "target": "prabowo_subianto",
+      "path": "data.topRoster[20]",
+      "before": {
+        "countryFocus": "ID",
+        "countryFocusCode": "ID",
+        "countryName": "Indonesia",
+        "lat": -6.2088,
+        "lng": 106.8456
+      },
+      "after": {
+        "countryFocusCode": "ID",
+        "countryName": "Indonesia",
+        "lat": -6.2088,
+        "lng": 106.8456,
+        "lon": 106.8456,
+        "city": "Jakarta"
+      }
+    },
+    {
+      "target": "claudia_sheinbaum",
+      "path": "data.topRoster[27]",
+      "before": {
+        "countryFocus": "MX",
+        "countryFocusCode": "MX",
+        "countryName": "Mexico",
+        "lat": 19.4326,
+        "lng": -99.1332
+      },
+      "after": {
+        "countryFocusCode": "MX",
+        "countryName": "Mexico",
+        "lat": 19.4326,
+        "lng": -99.1332,
+        "lon": -99.1332,
+        "city": "Mexico City"
+      }
+    },
+    {
+      "target": "pope_leo_xiv",
+      "path": "data.topRoster[84]",
+      "before": {
+        "countryFocus": "VA",
+        "countryFocusCode": "VA",
+        "countryName": "Vatican City",
+        "lat": 41.9029,
+        "lng": 12.4534
+      },
+      "after": {
+        "countryFocusCode": "VA",
+        "countryName": "Vatican City",
+        "lat": 41.9029,
+        "lng": 12.4534,
+        "lon": 12.4534,
+        "city": "Vatican City"
+      }
+    }
+  ]
+}
