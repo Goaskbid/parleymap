@@ -1,0 +1,391 @@
+name: ParleyMap emergency anchor fix
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Force known institutional anchors
+        run: |
+          node - <<'NODE'
+          const fs = require("fs");
+
+          const INDEX_PATH = "index.html";
+          const REPORT_PATH = "data/diagnostics/emergency-anchor-fix-report.json";
+          const OPEN = '<script id="demo-data" type="application/json">';
+          const CLOSE = "</" + "script>";
+
+          const targets = [
+            {
+              key: "claudia_sheinbaum",
+              must: ["claudia", "sheinbaum"],
+              anchor: {
+                label: "Mexico City institutional base",
+                city: "Mexico City",
+                countryCode: "MX",
+                countryName: "Mexico",
+                lat: 19.4326,
+                lng: -99.1332,
+                region: "North America"
+              }
+            },
+            {
+              key: "pope_leo_xiv",
+              any: ["pope leo xiv", "leo xiv", "robert prevost", "prevost", "pope"],
+              anchor: {
+                label: "Vatican City institutional base",
+                city: "Vatican City",
+                countryCode: "VA",
+                countryName: "Vatican City",
+                lat: 41.9029,
+                lng: 12.4534,
+                region: "Europe"
+              }
+            },
+            {
+              key: "prabowo_subianto",
+              must: ["prabowo", "subianto"],
+              anchor: {
+                label: "Jakarta institutional base",
+                city: "Jakarta",
+                countryCode: "ID",
+                countryName: "Indonesia",
+                lat: -6.2088,
+                lng: 106.8456,
+                region: "Asia"
+              }
+            },
+            {
+              key: "mohammed_bin_salman",
+              must: ["salman"],
+              any: ["mohammed", "mohammad", "muhammad", "mbs"],
+              anchor: {
+                label: "Riyadh institutional base",
+                city: "Riyadh",
+                countryCode: "SA",
+                countryName: "Saudi Arabia",
+                lat: 24.7136,
+                lng: 46.6753,
+                region: "Middle East"
+              }
+            }
+          ];
+
+          function norm(value) {
+            return String(value || "")
+              .toLowerCase()
+              .normalize("NFKD")
+              .replace(/[\u0300-\u036f]/g, "")
+              .replace(/[^a-z0-9]+/g, " ")
+              .trim();
+          }
+
+          function readData() {
+            const html = fs.readFileSync(INDEX_PATH, "utf8");
+            const start = html.indexOf(OPEN);
+            if (start === -1) throw new Error("demo-data opening tag not found");
+            const jsonStart = start + OPEN.length;
+            const jsonEnd = html.indexOf(CLOSE, jsonStart);
+            if (jsonEnd === -1) throw new Error("demo-data closing tag not found");
+            const data = JSON.parse(html.slice(jsonStart, jsonEnd).trim());
+            return { html, jsonStart, jsonEnd, data };
+          }
+
+          function writeData(payload, data) {
+            const next =
+              payload.html.slice(0, payload.jsonStart) +
+              "\n" +
+              JSON.stringify(data, null, 2) +
+              "\n" +
+              payload.html.slice(payload.jsonEnd);
+
+            fs.writeFileSync(INDEX_PATH, next);
+            fs.mkdirSync("data", { recursive: true });
+            fs.writeFileSync("data/demo.json", JSON.stringify(data, null, 2) + "\n");
+          }
+
+          function profileBlob(item) {
+            return norm([
+              item.id,
+              item.slug,
+              item.name,
+              item.canonicalName,
+              item.roleTitle,
+              item.organization,
+              item.category,
+              item.country,
+              item.countryName,
+              item.countryFocus,
+              item.countryFocusCode,
+              item.profileLine,
+              Array.isArray(item.profileLines) ? item.profileLines.join(" ") : ""
+            ].join(" "));
+          }
+
+          function matches(item, target) {
+            const text = profileBlob(item);
+            const mustOk = !target.must || target.must.every((part) => text.includes(norm(part)));
+            const anyOk = !target.any || target.any.some((part) => text.includes(norm(part)));
+            return mustOk && anyOk;
+          }
+
+          function snapshot(item) {
+            return {
+              id: item.id || null,
+              slug: item.slug || null,
+              name: item.canonicalName || item.name || null,
+              countryFocus: item.countryFocus || null,
+              countryFocusCode: item.countryFocusCode || null,
+              countryCode: item.countryCode || null,
+              countryName: item.countryName || item.country || null,
+              lat: item.lat ?? item.latitude ?? item.mapLat ?? item.homeLat ?? null,
+              lng: item.lng ?? item.longitude ?? item.mapLng ?? item.homeLng ?? null,
+              flagAudit: item.flagAudit || null,
+              homeBases: Array.isArray(item.homeBases) ? item.homeBases : null,
+              mapAnchor: item.mapAnchor || null
+            };
+          }
+
+          function anchorObject(anchor) {
+            return {
+              label: anchor.label,
+              city: anchor.city,
+              countryCode: anchor.countryCode,
+              countryName: anchor.countryName,
+              lat: anchor.lat,
+              lng: anchor.lng,
+              precision: "city",
+              type: "institutional_base",
+              privacy: "city-level public institutional base only"
+            };
+          }
+
+          function applyAnchor(item, target) {
+            const a = target.anchor;
+            const anchor = anchorObject(a);
+
+            item.countryFocus = a.countryCode;
+            item.countryFocusCode = a.countryCode;
+            item.countryCode = a.countryCode;
+            item.countryName = a.countryName;
+            item.country = a.countryName;
+            item.homeRegion = a.region;
+            item.region = item.region || a.region;
+            item.locationStatus = "institutional_base_city_level";
+
+            item.homeBases = [anchor];
+            item.homeBase = anchor;
+            item.mapAnchor = anchor;
+            item.anchorLocation = anchor;
+            item.baseLocation = anchor;
+            item.institutionalBase = anchor;
+            item.location = anchor;
+
+            item.lat = a.lat;
+            item.lng = a.lng;
+            item.latitude = a.lat;
+            item.longitude = a.lng;
+            item.homeLat = a.lat;
+            item.homeLng = a.lng;
+            item.mapLat = a.lat;
+            item.mapLng = a.lng;
+            item.anchorLat = a.lat;
+            item.anchorLng = a.lng;
+
+            item.coordinates = {
+              lat: a.lat,
+              lng: a.lng
+            };
+
+            item.geo = {
+              lat: a.lat,
+              lng: a.lng,
+              city: a.city,
+              countryCode: a.countryCode,
+              countryName: a.countryName
+            };
+
+            item.flagAudit = {
+              ...(item.flagAudit || {}),
+              code: a.countryCode,
+              countryCode: a.countryCode,
+              countryName: a.countryName,
+              label: a.countryName,
+              status: "country flag"
+            };
+
+            item.flagCode = a.countryCode;
+            item.countryFlagCode = a.countryCode;
+          }
+
+          function walkObject(value, path, callback) {
+            if (!value || typeof value !== "object") return;
+
+            if (Array.isArray(value)) {
+              value.forEach((child, index) => walkObject(child, `${path}[${index}]`, callback));
+              return;
+            }
+
+            callback(value, path);
+
+            for (const [key, child] of Object.entries(value)) {
+              if (child && typeof child === "object") {
+                walkObject(child, `${path}.${key}`, callback);
+              }
+            }
+          }
+
+          function validateCounts(before, after) {
+            for (const key of ["people", "roster", "expansionRoster", "appearances", "categories"]) {
+              if (!Array.isArray(after[key])) throw new Error(`${key} must remain an array`);
+              if (before[key] !== after[key].length) {
+                throw new Error(`${key} count changed from ${before[key]} to ${after[key].length}`);
+              }
+            }
+          }
+
+          fs.mkdirSync("data/diagnostics", { recursive: true });
+
+          const payload = readData();
+          const data = payload.data;
+
+          const beforeCounts = {
+            people: data.people.length,
+            roster: data.roster.length,
+            expansionRoster: data.expansionRoster.length,
+            appearances: data.appearances.length,
+            categories: data.categories.length
+          };
+
+          const collections = [
+            "people",
+            "roster",
+            "topRoster",
+            "expansionRoster",
+            "priorityExpansion",
+            "watchlistExamples"
+          ];
+
+          const fixes = [];
+
+          for (const collection of collections) {
+            const rows = data[collection];
+
+            if (!rows) continue;
+
+            walkObject(rows, collection, (item, path) => {
+              if (!item || typeof item !== "object" || Array.isArray(item)) return;
+
+              const hasProfileShape =
+                item.id ||
+                item.slug ||
+                item.name ||
+                item.canonicalName ||
+                item.roleTitle ||
+                item.profileLine;
+
+              if (!hasProfileShape) return;
+
+              for (const target of targets) {
+                if (!matches(item, target)) continue;
+
+                const before = snapshot(item);
+                applyAnchor(item, target);
+                const after = snapshot(item);
+
+                fixes.push({
+                  target: target.key,
+                  path,
+                  before,
+                  after
+                });
+
+                break;
+              }
+            });
+          }
+
+          data.meta = {
+            ...(data.meta || {}),
+            lastDataUpdate: new Date().toISOString(),
+            lastEmergencyAnchorFix: new Date().toISOString(),
+            emergencyAnchorFixStatus: `applied ${fixes.length} forced anchor patches`
+          };
+
+          const afterCounts = {
+            people: data.people.length,
+            roster: data.roster.length,
+            expansionRoster: data.expansionRoster.length,
+            appearances: data.appearances.length,
+            categories: data.categories.length
+          };
+
+          validateCounts(beforeCounts, data);
+
+          if (!fixes.some((f) => f.target === "claudia_sheinbaum")) {
+            throw new Error("No Claudia Sheinbaum record was patched");
+          }
+
+          if (!fixes.some((f) => f.target === "pope_leo_xiv")) {
+            throw new Error("No Pope Leo XIV record was patched");
+          }
+
+          if (!fixes.some((f) => f.target === "prabowo_subianto")) {
+            throw new Error("No Prabowo Subianto record was patched");
+          }
+
+          writeData(payload, data);
+
+          const report = {
+            generatedAt: new Date().toISOString(),
+            status: "emergency_anchor_fix_applied",
+            before: beforeCounts,
+            after: afterCounts,
+            fixes
+          };
+
+          fs.writeFileSync(REPORT_PATH, JSON.stringify(report, null, 2) + "\n");
+          fs.writeFileSync("data/diagnostics/LATEST_RUN_SUMMARY.md", [
+            "# ParleyMap emergency anchor fix",
+            "",
+            `Generated: ${report.generatedAt}`,
+            "",
+            "## Result",
+            "",
+            `Status: ${report.status}`,
+            `Fixes applied: ${fixes.length}`,
+            "",
+            "## Targets patched",
+            "",
+            ...targets.map((target) => {
+              const count = fixes.filter((fix) => fix.target === target.key).length;
+              return `- ${target.key}: ${count}`;
+            })
+          ].join("\n") + "\n");
+
+          console.log(JSON.stringify(report, null, 2));
+          NODE
+
+      - name: Validate embedded dataset
+        run: node scripts/validate-demo-data.mjs
+
+      - name: Show changed files
+        run: git diff --name-only
+
+      - name: Commit emergency anchor fix
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Fix emergency ParleyMap map anchors"
+          file_pattern: "index.html data/demo.json data/diagnostics/emergency-anchor-fix-report.json data/diagnostics/LATEST_RUN_SUMMARY.md"
