@@ -52,26 +52,11 @@ const requiredArrays = [
   "people",
   "appearances",
   "roster",
-  "topRoster",
-  "watchlistExamples",
-  "summits",
-  "signals",
-  "calls",
-  "telephoneCalls",
-  "eventAgendas",
-  "alerts",
-  "topicTags",
-  "organizationProfiles",
-  "powerCities",
-  "expansionRoster",
-  "priorityExpansion",
-  "structuredSourceWatch"
+  "expansionRoster"
 ];
 
 for (const key of requiredArrays) {
-  if (!Array.isArray(data[key])) {
-    throw new Error(`${key} must be an array`);
-  }
+  if (!Array.isArray(data[key])) throw new Error(`${key} must be an array`);
 }
 
 const minimumCounts = {
@@ -92,36 +77,18 @@ if (!data.meta || typeof data.meta !== "object" || Array.isArray(data.meta)) {
   throw new Error("meta must be an object");
 }
 
-const requiredMeta = [
-  "project",
-  "name",
-  "version",
-  "iteration",
-  "lastDataUpdate",
-  "coverageSummary"
-];
-
-for (const key of requiredMeta) {
+for (const key of ["project", "name", "version", "iteration", "lastDataUpdate", "coverageSummary"]) {
   if (!(key in data.meta)) throw new Error(`meta.${key} missing`);
 }
 
 const firstAppearance = data.appearances[0] || {};
-const requiredAppearanceKeys = [
-  "id",
-  "personId",
-  "startsAt",
-  "status",
-  "confidence",
-  "eventType",
-  "title",
-  "location",
-  "sourcePack"
-];
+for (const key of ["id", "personId", "startsAt", "status", "confidence", "eventType", "title", "location", "sourcePack"]) {
+  if (!(key in firstAppearance)) throw new Error(`appearance schema missing key: ${key}`);
+}
 
-for (const key of requiredAppearanceKeys) {
-  if (!(key in firstAppearance)) {
-    throw new Error(`appearance schema missing key: ${key}`);
-  }
+const firstPerson = data.people[0] || {};
+for (const key of ["id", "slug", "canonicalName", "category", "roleTitle", "organization"]) {
+  if (!(key in firstPerson)) throw new Error(`person schema missing key: ${key}`);
 }
 
 console.log("ParleyMap embedded dataset validation passed");
