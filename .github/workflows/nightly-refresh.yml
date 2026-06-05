@@ -15,7 +15,7 @@ concurrency:
 jobs:
   refresh:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 18
 
     steps:
       - name: Checkout repository
@@ -28,15 +28,23 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Update embedded metadata only
+      - name: Seed data from working index
         run: |
-          node -e "const fs=require('fs');let html=fs.readFileSync('index.html','utf8');const m=html.match(/<script id=\"demo-data\" type=\"application\/json\">([\s\S]*?)<\/script>/);if(!m)throw new Error('demo-data block not found');const data=JSON.parse(m[1]);const now=new Date().toISOString();data.meta=data.meta||{};data.meta.lastDataUpdate=now;data.meta.lastCrawlerRun=now;data.meta.importStatus='nightly metadata refresh completed';data.meta.crawlerStatus='metadata-only refresh; external crawler disabled for timeout control';const json=JSON.stringify(data,null,2);html=html.replace(m[1],json);fs.writeFileSync('index.html',html);fs.mkdirSync('data',{recursive:true});fs.writeFileSync('data/demo.json',json+'\n');"
+          mkdir -p data
+          node -e "const fs=require('fs');const html=fs.readFileSync('index.html','utf8');const m=html.match(/<script id=\"demo-data\" type=\"application\/json\">([\s\S]*?)<\/script>/);if(!m)throw new Error('demo-data block not found');JSON.parse(m[1]);fs.writeFileSync('data/demo.json',m[1].trim()+'\n');"
+
+      - name: Run real bounded crawler
+        run: node nightly-refresh.mjs --publish --lookback-days 14 --max-roster 20 --max-pages-per-source 10 --max-per-person 2
+
+      - name: Inject refreshed data into index
+        run: |
+          node -e "const fs=require('fs');let html=fs.readFileSync('index.html','utf8');const json=fs.readFileSync('data/demo.json','utf8').trim();JSON.parse(json);html=html.replace(/(<script id=\"demo-data\" type=\"application\/json\">)[\s\S]*?(<\/script>)/,'$1'+json+'$2');fs.writeFileSync('index.html',html);"
 
       - name: Show changed files
         run: git status --short
 
-      - name: Commit refreshed metadata
+      - name: Commit real refresh output
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Nightly metadata refresh"
-          file_pattern: "index.html data/demo.json"
+          commit_message: "Nightly real public-source refresh"
+          file_pattern: "index.html data/demo.json data/crawler/*.json"
