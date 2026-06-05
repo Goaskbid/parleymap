@@ -1,17 +1,17 @@
 {
-  "generatedAt": "2026-06-05T19:43:14.280Z",
+  "generatedAt": "2026-06-05T20:04:23.059Z",
   "before": {
     "people": 94,
     "roster": 200,
     "expansionRoster": 114,
-    "appearances": 509,
+    "appearances": 508,
     "categories": 11
   },
   "after": {
     "people": 94,
     "roster": 200,
     "expansionRoster": 114,
-    "appearances": 509,
+    "appearances": 508,
     "categories": 11
   },
   "removedCrawlerAppearances": [],

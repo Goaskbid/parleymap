@@ -191,5 +191,18 @@
       "generic_or_non_event_page",
       "location_not_clearly_evidenced"
     ]
+  },
+  {
+    "id": "crawl-p-emmanuel-macron-paris-2026-05-29-message-de-m-jacques-chirac-president-de",
+    "personId": "p-emmanuel-macron",
+    "personName": "Emmanuel Macron",
+    "title": "Message de M. Jacques Chirac, Président de la République, su",
+    "city": "Paris",
+    "sourceUrl": "https://www.elysee.fr/jacques-chirac/1998/02/12/message-de-m-jacques-chirac-president-de-la-republique-sur-laide-aux-handicapes-dans-leur-vie-quotidienne-leur-integration-dans-la-societe-et-le-role-de-lassociation-des-paralyses-de-france-paris-le-12-fevrier-1998",
+    "reasons": [
+      "person_not_in_title_or_summary",
+      "source_person_conflicts_with_candidate_person",
+      "source_date_conflicts_with_candidate_date"
+    ]
   }
 ]
