@@ -1,0 +1,322 @@
+name: ParleyMap final runtime anchor guard
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Patch embedded data and install runtime marker guard
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+
+          const INDEX = 'index.html';
+          const REPORT = 'data/diagnostics/final-runtime-anchor-guard-report.json';
+          const OPEN_RE = /<script id="demo-data" type="application\/json">([\s\S]*?)<\/script>/;
+          const GUARD_RE = /\n?<script id="parleymap-runtime-anchor-guard">[\s\S]*?<\/script>\n?/g;
+
+          const targets = [
+            {
+              key: 'claudia_sheinbaum',
+              names: ['claudia sheinbaum', 'sheinbaum'],
+              ids: ['r-028-claudia-sheinbaum', 'claudia-sheinbaum', 'Q515229'],
+              anchor: { city: 'Mexico City', countryCode: 'MX', countryName: 'Mexico', lat: 19.4326, lng: -99.1332, region: 'North America' }
+            },
+            {
+              key: 'pope_leo_xiv',
+              names: ['pope leo xiv', 'leo xiv', 'robert prevost', 'prevost', 'pope'],
+              ids: ['r-085-pope-leo-xiv', 'pope-leo-xiv', 'Q134707349'],
+              anchor: { city: 'Vatican City', countryCode: 'VA', countryName: 'Vatican City', lat: 41.9029, lng: 12.4534, region: 'Europe' }
+            },
+            {
+              key: 'prabowo_subianto',
+              names: ['prabowo subianto', 'subianto', 'prabowo'],
+              ids: ['r-021-prabowo-subianto', 'prabowo-subianto', 'Q57669'],
+              anchor: { city: 'Jakarta', countryCode: 'ID', countryName: 'Indonesia', lat: -6.2088, lng: 106.8456, region: 'Asia' }
+            },
+            {
+              key: 'mohammed_bin_salman',
+              names: ['mohammed bin salman', 'mohammad bin salman', 'muhammad bin salman', 'mbs', 'salman'],
+              ids: ['p-mohammed-bin-salman', 'r-016-mohammed-bin-salman', 'mohammed-bin-salman', 'Q923427'],
+              anchor: { city: 'Riyadh', countryCode: 'SA', countryName: 'Saudi Arabia', lat: 24.7136, lng: 46.6753, region: 'Middle East' }
+            }
+          ];
+
+          function norm(value) {
+            return String(value || '')
+              .toLowerCase()
+              .normalize('NFKD')
+              .replace(/[\u0300-\u036f]/g, '')
+              .replace(/[^a-z0-9]+/g, ' ')
+              .trim();
+          }
+
+          function blob(item) {
+            return norm([
+              item.id,
+              item.slug,
+              item.wikidataId,
+              item.personId,
+              item.name,
+              item.canonicalName,
+              item.personName,
+              item.title,
+              item.roleTitle,
+              item.organization,
+              item.profileLine,
+              Array.isArray(item.profileLines) ? item.profileLines.join(' ') : ''
+            ].join(' '));
+          }
+
+          function matchTarget(item) {
+            if (!item || typeof item !== 'object' || Array.isArray(item)) return null;
+            const text = blob(item);
+            const ids = [item.id, item.slug, item.wikidataId, item.personId].map(String);
+            return targets.find((target) => {
+              if (target.ids.some((id) => ids.includes(id))) return true;
+              return target.names.some((name) => text.includes(norm(name)));
+            }) || null;
+          }
+
+          function anchorShape(target) {
+            const a = target.anchor;
+            return {
+              label: `${a.city} institutional base`,
+              city: a.city,
+              countryCode: a.countryCode,
+              countryName: a.countryName,
+              lat: a.lat,
+              lng: a.lng,
+              lon: a.lng,
+              latitude: a.lat,
+              longitude: a.lng,
+              coordinates: [a.lat, a.lng],
+              coordinateObject: { lat: a.lat, lng: a.lng, lon: a.lng, latitude: a.lat, longitude: a.lng },
+              center: [a.lat, a.lng],
+              point: { lat: a.lat, lng: a.lng },
+              latLng: [a.lat, a.lng],
+              geoJsonCoordinates: [a.lng, a.lat],
+              precision: 'city',
+              type: 'institutional_base',
+              privacy: 'city-level public institutional base only'
+            };
+          }
+
+          function applyTarget(item, target) {
+            const a = target.anchor;
+            const anchor = anchorShape(target);
+
+            item.countryFocus = a.countryCode;
+            item.countryFocusCode = a.countryCode;
+            item.countryCode = a.countryCode;
+            item.countryName = a.countryName;
+            item.country = a.countryName;
+            item.city = a.city;
+            item.homeRegion = a.region;
+            item.region = item.region || a.region;
+            item.locationStatus = 'institutional_base_city_level';
+
+            item.lat = a.lat;
+            item.lng = a.lng;
+            item.lon = a.lng;
+            item.long = a.lng;
+            item.latitude = a.lat;
+            item.longitude = a.lng;
+            item.homeLat = a.lat;
+            item.homeLng = a.lng;
+            item.homeLon = a.lng;
+            item.homeLongitude = a.lng;
+            item.mapLat = a.lat;
+            item.mapLng = a.lng;
+            item.mapLon = a.lng;
+            item.mapLongitude = a.lng;
+            item.anchorLat = a.lat;
+            item.anchorLng = a.lng;
+            item.anchorLon = a.lng;
+            item.anchorLongitude = a.lng;
+            item.baseLat = a.lat;
+            item.baseLng = a.lng;
+            item.baseLon = a.lng;
+            item.baseLongitude = a.lng;
+
+            item.coordinates = [a.lat, a.lng];
+            item.coordinateObject = { lat: a.lat, lng: a.lng, lon: a.lng, latitude: a.lat, longitude: a.lng };
+            item.center = [a.lat, a.lng];
+            item.point = { lat: a.lat, lng: a.lng };
+            item.position = { lat: a.lat, lng: a.lng };
+            item.latLng = [a.lat, a.lng];
+            item.leafletLatLng = [a.lat, a.lng];
+            item.geoJsonCoordinates = [a.lng, a.lat];
+
+            item.homeBases = [anchor];
+            item.homeBase = anchor;
+            item.mapAnchor = anchor;
+            item.anchorLocation = anchor;
+            item.baseLocation = anchor;
+            item.institutionalBase = anchor;
+            item.publicLocation = anchor;
+            item.mapLocation = anchor;
+            item.location = anchor;
+            item.geo = {
+              lat: a.lat,
+              lng: a.lng,
+              lon: a.lng,
+              latitude: a.lat,
+              longitude: a.lng,
+              city: a.city,
+              countryCode: a.countryCode,
+              countryName: a.countryName,
+              coordinates: [a.lat, a.lng],
+              geoJsonCoordinates: [a.lng, a.lat]
+            };
+
+            item.flagAudit = {
+              ...(item.flagAudit || {}),
+              code: a.countryCode,
+              countryCode: a.countryCode,
+              countryName: a.countryName,
+              label: a.countryName,
+              status: 'country flag'
+            };
+            item.flagCode = a.countryCode;
+            item.countryFlagCode = a.countryCode;
+          }
+
+          function walk(value, path, fixes) {
+            if (!value || typeof value !== 'object') return;
+            if (Array.isArray(value)) {
+              value.forEach((child, index) => walk(child, `${path}[${index}]`, fixes));
+              return;
+            }
+
+            const target = matchTarget(value);
+            if (target) {
+              applyTarget(value, target);
+              fixes.push({ target: target.key, path });
+            }
+
+            for (const [key, child] of Object.entries(value)) {
+              if (child && typeof child === 'object') walk(child, `${path}.${key}`, fixes);
+            }
+          }
+
+          function makeRuntimeGuard() {
+            const runtimeTargets = targets.map((t) => ({ key: t.key, names: t.names, ids: t.ids, anchor: t.anchor }));
+            return `<script id="parleymap-runtime-anchor-guard">\n(() => {\n  const targets = ${JSON.stringify(runtimeTargets)};\n  const norm = (value) => String(value || '').toLowerCase().normalize('NFKD').replace(/[\\u0300-\\u036f]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();\n  const textOf = (value) => {\n    if (!value) return '';\n    if (typeof value === 'string') return value;\n    if (value.textContent) return value.textContent;\n    if (value.innerText) return value.innerText;\n    if (typeof value === 'object') {\n      try { return JSON.stringify(value); } catch { return ''; }\n    }\n    return String(value);\n  };\n  const matchText = (text) => {\n    const n = norm(text);\n    return targets.find((target) => target.names.some((name) => n.includes(norm(name))) || target.ids.some((id) => n.includes(norm(id))));\n  };\n  const anchorArray = (target) => [target.anchor.lat, target.anchor.lng];\n  const patchObject = (item, target) => {\n    if (!item || typeof item !== 'object') return;\n    const a = target.anchor;\n    const anchor = { label: a.city + ' institutional base', city: a.city, countryCode: a.countryCode, countryName: a.countryName, lat: a.lat, lng: a.lng, lon: a.lng, latitude: a.lat, longitude: a.lng, coordinates: [a.lat, a.lng], coordinateObject: { lat: a.lat, lng: a.lng, lon: a.lng }, center: [a.lat, a.lng], latLng: [a.lat, a.lng], geoJsonCoordinates: [a.lng, a.lat], precision: 'city', type: 'institutional_base' };\n    Object.assign(item, { countryFocus: a.countryCode, countryFocusCode: a.countryCode, countryCode: a.countryCode, countryName: a.countryName, country: a.countryName, city: a.city, lat: a.lat, lng: a.lng, lon: a.lng, long: a.lng, latitude: a.lat, longitude: a.lng, homeLat: a.lat, homeLng: a.lng, mapLat: a.lat, mapLng: a.lng, anchorLat: a.lat, anchorLng: a.lng, coordinates: [a.lat, a.lng], coordinateObject: { lat: a.lat, lng: a.lng, lon: a.lng }, center: [a.lat, a.lng], point: { lat: a.lat, lng: a.lng }, position: { lat: a.lat, lng: a.lng }, latLng: [a.lat, a.lng], leafletLatLng: [a.lat, a.lng], geoJsonCoordinates: [a.lng, a.lat], homeBases: [anchor], homeBase: anchor, mapAnchor: anchor, anchorLocation: anchor, baseLocation: anchor, institutionalBase: anchor, publicLocation: anchor, mapLocation: anchor, location: anchor, flagCode: a.countryCode, countryFlagCode: a.countryCode });\n  };\n  const blob = (item) => norm([item && item.id, item && item.slug, item && item.wikidataId, item && item.personId, item && item.name, item && item.canonicalName, item && item.personName, item && item.title, item && item.roleTitle, item && item.organization].join(' '));\n  const matchObject = (item) => {\n    if (!item || typeof item !== 'object' || Array.isArray(item)) return null;\n    const ids = [item.id, item.slug, item.wikidataId, item.personId].map(String);\n    const b = blob(item);\n    return targets.find((target) => target.ids.some((id) => ids.includes(id) || b.includes(norm(id))) || target.names.some((name) => b.includes(norm(name)))) || null;\n  };\n  const walk = (value) => {\n    if (!value || typeof value !== 'object') return;\n    if (Array.isArray(value)) return value.forEach(walk);\n    const target = matchObject(value);\n    if (target) patchObject(value, target);\n    Object.keys(value).forEach((key) => { if (value[key] && typeof value[key] === 'object') walk(value[key]); });\n  };\n  const el = document.getElementById('demo-data');\n  if (el) {\n    try {\n      const data = JSON.parse(el.textContent);\n      walk(data);\n      el.textContent = JSON.stringify(data);\n      window.__PARLEYMAP_ANCHOR_GUARD_DATA_PATCHED__ = true;\n    } catch (error) {\n      console.warn('ParleyMap anchor guard data patch failed', error);\n    }\n  }\n  const patchLeaflet = (L) => {\n    if (!L || L.__parleymapAnchorGuardPatched) return;\n    L.__parleymapAnchorGuardPatched = true;\n    const originalMarker = L.marker;\n    if (typeof originalMarker === 'function') {\n      L.marker = function(latlng, options) {\n        const html = [options && options.title, options && options.alt, options && options.personName, options && options.personId, options && options.icon && options.icon.options && options.icon.options.html].join(' ');\n        const target = matchText(html);\n        if (target) latlng = anchorArray(target);\n        return originalMarker.call(this, latlng, options);\n      };\n    }\n    if (L.Marker && L.Marker.prototype) {\n      ['bindTooltip', 'bindPopup'].forEach((method) => {\n        const original = L.Marker.prototype[method];\n        if (typeof original !== 'function') return;\n        L.Marker.prototype[method] = function(content, ...rest) {\n          const target = matchText(textOf(content));\n          if (target && typeof this.setLatLng === 'function') this.setLatLng(anchorArray(target));\n          return original.call(this, content, ...rest);\n        };\n      });\n    }\n  };\n  if (window.L) patchLeaflet(window.L);\n  else {\n    let internalL;\n    try {\n      Object.defineProperty(window, 'L', { configurable: true, get() { return internalL; }, set(value) { internalL = value; patchLeaflet(value); } });\n    } catch {\n      const timer = setInterval(() => { if (window.L) { clearInterval(timer); patchLeaflet(window.L); } }, 10);\n      setTimeout(() => clearInterval(timer), 10000);\n    }\n  }\n})();\n</script>`;
+          }
+
+          fs.mkdirSync('data/diagnostics', { recursive: true });
+
+          let html = fs.readFileSync(INDEX, 'utf8');
+          const match = html.match(OPEN_RE);
+          if (!match) throw new Error('demo-data block not found');
+
+          const data = JSON.parse(match[1]);
+          const before = {
+            people: data.people?.length ?? null,
+            roster: data.roster?.length ?? null,
+            expansionRoster: data.expansionRoster?.length ?? null,
+            appearances: data.appearances?.length ?? null,
+            categories: data.categories?.length ?? null
+          };
+
+          const fixes = [];
+          walk(data, 'data', fixes);
+
+          if (!fixes.some((f) => f.target === 'claudia_sheinbaum')) throw new Error('No Claudia Sheinbaum object patched');
+          if (!fixes.some((f) => f.target === 'pope_leo_xiv')) throw new Error('No Pope Leo XIV object patched');
+          if (!fixes.some((f) => f.target === 'prabowo_subianto')) throw new Error('No Prabowo Subianto object patched');
+
+          data.meta = {
+            ...(data.meta || {}),
+            lastDataUpdate: new Date().toISOString(),
+            lastRuntimeAnchorGuard: new Date().toISOString(),
+            runtimeAnchorGuardStatus: 'embedded data patched and runtime Leaflet marker guard installed'
+          };
+
+          const after = {
+            people: data.people?.length ?? null,
+            roster: data.roster?.length ?? null,
+            expansionRoster: data.expansionRoster?.length ?? null,
+            appearances: data.appearances?.length ?? null,
+            categories: data.categories?.length ?? null
+          };
+
+          for (const key of Object.keys(before)) {
+            if (before[key] !== after[key]) throw new Error(`${key} count changed unexpectedly`);
+          }
+
+          const newDataBlock = `<script id="demo-data" type="application/json">${JSON.stringify(data, null, 2)}</script>`;
+          const guard = makeRuntimeGuard();
+
+          html = html.replace(GUARD_RE, '\n');
+          html = html.replace(OPEN_RE, newDataBlock + '\n' + guard);
+
+          fs.writeFileSync(INDEX, html);
+          fs.writeFileSync('data/demo.json', JSON.stringify(data, null, 2) + '\n');
+
+          const report = {
+            generatedAt: new Date().toISOString(),
+            status: 'final_runtime_anchor_guard_installed',
+            before,
+            after,
+            patchesByTarget: Object.fromEntries(targets.map((target) => [target.key, fixes.filter((fix) => fix.target === target.key).length])),
+            runtimeGuardInstalled: html.includes('parleymap-runtime-anchor-guard'),
+            note: 'This patches embedded data and monkey-patches Leaflet marker creation/bindTooltip for named bad anchors.'
+          };
+
+          fs.writeFileSync(REPORT, JSON.stringify(report, null, 2) + '\n');
+          fs.writeFileSync('data/diagnostics/LATEST_RUN_SUMMARY.md', [
+            '# ParleyMap final runtime anchor guard',
+            '',
+            `Generated: ${report.generatedAt}`,
+            `Status: ${report.status}`,
+            '',
+            '## Patches by target',
+            '',
+            ...Object.entries(report.patchesByTarget).map(([key, value]) => `- ${key}: ${value}`),
+            '',
+            '## Expected visible anchors',
+            '',
+            '- claudia_sheinbaum: Mexico City',
+            '- pope_leo_xiv: Vatican City',
+            '- prabowo_subianto: Jakarta',
+            '- mohammed_bin_salman: Riyadh'
+          ].join('\n') + '\n');
+
+          console.log(JSON.stringify(report, null, 2));
+          NODE
+
+      - name: Validate embedded dataset
+        run: node scripts/validate-demo-data.mjs
+
+      - name: Show changed files
+        run: git diff --name-only
+
+      - name: Upload fixed files artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: parleymap-fixed-runtime-anchor-files
+          path: |
+            index.html
+            data/demo.json
+            data/diagnostics/final-runtime-anchor-guard-report.json
+            data/diagnostics/LATEST_RUN_SUMMARY.md
+
+      - name: Commit final runtime anchor guard
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Install final ParleyMap runtime anchor guard"
+          file_pattern: "index.html data/demo.json data/diagnostics/final-runtime-anchor-guard-report.json data/diagnostics/LATEST_RUN_SUMMARY.md"
