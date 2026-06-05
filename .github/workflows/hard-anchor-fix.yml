@@ -1,0 +1,385 @@
+name: ParleyMap hard anchor fix
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Hard patch anchor coordinates and aliases
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+
+          const INDEX = 'index.html';
+          const REPORT = 'data/diagnostics/hard-anchor-fix-report.json';
+          const SUMMARY = 'data/diagnostics/LATEST_RUN_SUMMARY.md';
+          const OPEN = '<script id="demo-data" type="application/json">';
+          const CLOSE = '</' + 'script>';
+
+          const TARGETS = [
+            {
+              key: 'claudia_sheinbaum',
+              terms: ['claudia', 'sheinbaum'],
+              aliases: ['claudia sheinbaum', 'sheinbaum'],
+              anchor: {
+                city: 'Mexico City',
+                countryCode: 'MX',
+                countryName: 'Mexico',
+                lat: 19.4326,
+                lon: -99.1332,
+                region: 'North America'
+              }
+            },
+            {
+              key: 'pope_leo_xiv',
+              termsAny: ['pope leo xiv', 'leo xiv', 'robert prevost', 'prevost', 'pope'],
+              aliases: ['pope leo xiv', 'leo xiv', 'robert prevost', 'prevost', 'pope'],
+              anchor: {
+                city: 'Vatican City',
+                countryCode: 'VA',
+                countryName: 'Vatican City',
+                lat: 41.9029,
+                lon: 12.4534,
+                region: 'Europe'
+              }
+            },
+            {
+              key: 'prabowo_subianto',
+              terms: ['prabowo', 'subianto'],
+              aliases: ['prabowo subianto', 'subianto', 'prabowo'],
+              anchor: {
+                city: 'Jakarta',
+                countryCode: 'ID',
+                countryName: 'Indonesia',
+                lat: -6.2088,
+                lon: 106.8456,
+                region: 'Asia'
+              }
+            },
+            {
+              key: 'mohammed_bin_salman',
+              terms: ['salman'],
+              termsAny: ['mohammed', 'mohammad', 'muhammad', 'mbs'],
+              aliases: ['mohammed bin salman', 'mohammad bin salman', 'muhammad bin salman', 'mbs'],
+              anchor: {
+                city: 'Riyadh',
+                countryCode: 'SA',
+                countryName: 'Saudi Arabia',
+                lat: 24.7136,
+                lon: 46.6753,
+                region: 'Middle East'
+              }
+            }
+          ];
+
+          function norm(value) {
+            return String(value || '')
+              .toLowerCase()
+              .normalize('NFKD')
+              .replace(/[\u0300-\u036f]/g, '')
+              .replace(/[^a-z0-9]+/g, ' ')
+              .trim();
+          }
+
+          function readEmbedded() {
+            const html = fs.readFileSync(INDEX, 'utf8');
+            const start = html.indexOf(OPEN);
+            if (start < 0) throw new Error('demo-data opening tag not found');
+            const jsonStart = start + OPEN.length;
+            const jsonEnd = html.indexOf(CLOSE, jsonStart);
+            if (jsonEnd < 0) throw new Error('demo-data closing tag not found');
+            const data = JSON.parse(html.slice(jsonStart, jsonEnd).trim());
+            return { html, jsonStart, jsonEnd, data };
+          }
+
+          function writeEmbedded(payload, data) {
+            const next = payload.html.slice(0, payload.jsonStart) + '\n' + JSON.stringify(data, null, 2) + '\n' + payload.html.slice(payload.jsonEnd);
+            fs.writeFileSync(INDEX, next);
+            fs.mkdirSync('data', { recursive: true });
+            fs.writeFileSync('data/demo.json', JSON.stringify(data, null, 2) + '\n');
+          }
+
+          function walk(value, path, cb) {
+            if (!value || typeof value !== 'object') return;
+            cb(value, path);
+            if (Array.isArray(value)) {
+              value.forEach((child, i) => walk(child, `${path}[${i}]`, cb));
+              return;
+            }
+            for (const [key, child] of Object.entries(value)) {
+              if (child && typeof child === 'object') walk(child, `${path}.${key}`, cb);
+            }
+          }
+
+          function objectText(obj) {
+            const parts = [];
+            for (const key of ['id','slug','name','canonicalName','personName','personId','roleTitle','organization','country','countryName','countryFocus','countryFocusCode','title','summary','profileLine']) {
+              if (obj[key] !== undefined && obj[key] !== null) parts.push(String(obj[key]));
+            }
+            if (Array.isArray(obj.profileLines)) parts.push(obj.profileLines.join(' '));
+            if (Array.isArray(obj.counterpartIds)) parts.push(obj.counterpartIds.join(' '));
+            return norm(parts.join(' '));
+          }
+
+          function matchesTarget(obj, target, targetIds) {
+            const text = objectText(obj);
+            const termsOk = !target.terms || target.terms.every(term => text.includes(norm(term)));
+            const anyOk = !target.termsAny || target.termsAny.some(term => text.includes(norm(term)));
+            const aliasOk = target.aliases.some(alias => text.includes(norm(alias)));
+            const idOk = [...targetIds].some(id => id && text.includes(norm(id)));
+            return (termsOk && anyOk) || aliasOk || idOk;
+          }
+
+          function anchorObject(target) {
+            const a = target.anchor;
+            return {
+              label: `${a.city} institutional base`,
+              city: a.city,
+              countryCode: a.countryCode,
+              countryName: a.countryName,
+              lat: a.lat,
+              lng: a.lon,
+              lon: a.lon,
+              long: a.lon,
+              latitude: a.lat,
+              longitude: a.lon,
+              precision: 'city',
+              type: 'institutional_base',
+              privacy: 'city-level public institutional base only'
+            };
+          }
+
+          function patchCoordinateAliases(obj, target) {
+            const a = target.anchor;
+            const anchor = anchorObject(target);
+
+            obj.countryFocus = a.countryCode;
+            obj.countryFocusCode = a.countryCode;
+            obj.countryCode = a.countryCode;
+            obj.flagCode = a.countryCode;
+            obj.countryFlagCode = a.countryCode;
+            obj.countryName = a.countryName;
+            obj.country = a.countryName;
+            obj.homeRegion = a.region;
+            obj.region = obj.region || a.region;
+            obj.locationStatus = 'institutional_base_city_level';
+
+            obj.homeBases = [anchor];
+            obj.homeBase = anchor;
+            obj.mapAnchor = anchor;
+            obj.anchorLocation = anchor;
+            obj.baseLocation = anchor;
+            obj.institutionalBase = anchor;
+            obj.publicLocation = anchor;
+            obj.location = anchor;
+
+            obj.lat = a.lat;
+            obj.lng = a.lon;
+            obj.lon = a.lon;
+            obj.long = a.lon;
+            obj.latitude = a.lat;
+            obj.longitude = a.lon;
+            obj.homeLat = a.lat;
+            obj.homeLng = a.lon;
+            obj.homeLon = a.lon;
+            obj.homeLongitude = a.lon;
+            obj.mapLat = a.lat;
+            obj.mapLng = a.lon;
+            obj.mapLon = a.lon;
+            obj.mapLongitude = a.lon;
+            obj.anchorLat = a.lat;
+            obj.anchorLng = a.lon;
+            obj.anchorLon = a.lon;
+            obj.anchorLongitude = a.lon;
+            obj.baseLat = a.lat;
+            obj.baseLng = a.lon;
+            obj.baseLon = a.lon;
+            obj.baseLongitude = a.lon;
+
+            obj.coordinates = {
+              lat: a.lat,
+              lng: a.lon,
+              lon: a.lon,
+              latitude: a.lat,
+              longitude: a.lon
+            };
+            obj.geo = {
+              lat: a.lat,
+              lng: a.lon,
+              lon: a.lon,
+              latitude: a.lat,
+              longitude: a.lon,
+              city: a.city,
+              countryCode: a.countryCode,
+              countryName: a.countryName
+            };
+            obj.position = {
+              lat: a.lat,
+              lng: a.lon,
+              lon: a.lon,
+              latitude: a.lat,
+              longitude: a.lon
+            };
+            obj.leafletLatLng = [a.lat, a.lon];
+            obj.geoJsonCoordinates = [a.lon, a.lat];
+
+            obj.flagAudit = {
+              ...(obj.flagAudit || {}),
+              code: a.countryCode,
+              countryCode: a.countryCode,
+              countryName: a.countryName,
+              label: a.countryName,
+              status: 'country flag'
+            };
+          }
+
+          function patchNestedLocationObjects(obj, target) {
+            const keys = ['location','homeBase','mapAnchor','anchorLocation','baseLocation','institutionalBase','publicLocation','geo','position','coordinates'];
+            for (const key of keys) {
+              if (obj[key] && typeof obj[key] === 'object' && !Array.isArray(obj[key])) {
+                patchCoordinateAliases(obj[key], target);
+              }
+            }
+            if (Array.isArray(obj.homeBases)) {
+              obj.homeBases = obj.homeBases.map(() => anchorObject(target));
+            }
+          }
+
+          function counts(data) {
+            const out = {};
+            for (const key of ['people','roster','expansionRoster','appearances','categories']) {
+              out[key] = Array.isArray(data[key]) ? data[key].length : null;
+            }
+            return out;
+          }
+
+          function assertCounts(before, after) {
+            for (const key of Object.keys(before)) {
+              if (before[key] !== after[key]) throw new Error(`${key} count changed from ${before[key]} to ${after[key]}`);
+            }
+          }
+
+          fs.mkdirSync('data/diagnostics', { recursive: true });
+
+          const payload = readEmbedded();
+          const data = payload.data;
+          const before = counts(data);
+
+          const targetIds = Object.fromEntries(TARGETS.map(t => [t.key, new Set()]));
+
+          for (const collection of ['people','roster','topRoster','expansionRoster','priorityExpansion','watchlistExamples']) {
+            const rows = data[collection];
+            if (!rows) continue;
+            walk(rows, collection, (obj) => {
+              if (!obj || typeof obj !== 'object' || Array.isArray(obj)) return;
+              for (const target of TARGETS) {
+                const text = objectText(obj);
+                const termsOk = !target.terms || target.terms.every(term => text.includes(norm(term)));
+                const anyOk = !target.termsAny || target.termsAny.some(term => text.includes(norm(term)));
+                const aliasOk = target.aliases.some(alias => text.includes(norm(alias)));
+                if ((termsOk && anyOk) || aliasOk) {
+                  for (const key of ['id','slug','personId','wikidataId']) if (obj[key]) targetIds[target.key].add(String(obj[key]));
+                }
+              }
+            });
+          }
+
+          const fixes = [];
+          walk(data, 'data', (obj, path) => {
+            if (!obj || typeof obj !== 'object' || Array.isArray(obj)) return;
+            for (const target of TARGETS) {
+              if (!matchesTarget(obj, target, targetIds[target.key])) continue;
+              const beforeObj = {
+                countryFocus: obj.countryFocus || null,
+                countryFocusCode: obj.countryFocusCode || null,
+                countryName: obj.countryName || null,
+                lat: obj.lat ?? obj.latitude ?? obj.mapLat ?? obj.homeLat ?? null,
+                lng: obj.lng ?? obj.lon ?? obj.longitude ?? obj.mapLng ?? obj.homeLng ?? null
+              };
+              patchCoordinateAliases(obj, target);
+              patchNestedLocationObjects(obj, target);
+              fixes.push({
+                target: target.key,
+                path,
+                before: beforeObj,
+                after: {
+                  countryFocusCode: obj.countryFocusCode,
+                  countryName: obj.countryName,
+                  lat: obj.lat,
+                  lng: obj.lng,
+                  lon: obj.lon,
+                  city: target.anchor.city
+                }
+              });
+              break;
+            }
+          });
+
+          data.meta = {
+            ...(data.meta || {}),
+            lastDataUpdate: new Date().toISOString(),
+            lastHardAnchorFix: new Date().toISOString(),
+            hardAnchorFixStatus: `applied ${fixes.length} recursive coordinate alias patches`
+          };
+
+          const after = counts(data);
+          assertCounts(before, after);
+
+          for (const target of ['claudia_sheinbaum','pope_leo_xiv','prabowo_subianto']) {
+            if (!fixes.some(f => f.target === target)) throw new Error(`Target not patched: ${target}`);
+          }
+
+          writeEmbedded(payload, data);
+
+          const report = {
+            generatedAt: new Date().toISOString(),
+            status: 'hard_anchor_fix_applied',
+            before,
+            after,
+            targetIds: Object.fromEntries(Object.entries(targetIds).map(([key, value]) => [key, [...value]])),
+            fixes
+          };
+
+          fs.writeFileSync(REPORT, JSON.stringify(report, null, 2) + '\n');
+          fs.writeFileSync(SUMMARY, [
+            '# ParleyMap hard anchor fix',
+            '',
+            `Generated: ${report.generatedAt}`,
+            `Status: ${report.status}`,
+            '',
+            '## Target patch counts',
+            '',
+            ...TARGETS.map(target => `- ${target.key}: ${fixes.filter(f => f.target === target.key).length}`)
+          ].join('\n') + '\n');
+
+          console.log(JSON.stringify({
+            status: report.status,
+            before,
+            after,
+            patchCounts: Object.fromEntries(TARGETS.map(target => [target.key, fixes.filter(f => f.target === target.key).length]))
+          }, null, 2));
+          NODE
+
+      - name: Validate embedded dataset
+        run: node scripts/validate-demo-data.mjs
+
+      - name: Show changed files
+        run: git diff --name-only
+
+      - name: Commit hard anchor fix
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Hard fix ParleyMap anchor coordinates"
+          file_pattern: "index.html data/demo.json data/diagnostics/hard-anchor-fix-report.json data/diagnostics/LATEST_RUN_SUMMARY.md"
