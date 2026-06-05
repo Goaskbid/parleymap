@@ -2,6 +2,8 @@ name: ParleyMap nightly refresh
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "19 3 * * *"
 
 permissions:
   contents: write
@@ -24,14 +26,57 @@ jobs:
       - name: Validate current live embedded dataset
         run: node scripts/validate-demo-data.mjs
 
-      - name: Run crawler
-        run: node nightly-refresh.mjs
+      - name: Validate crawler source registry
+        run: |
+          node -e "const fs=require('fs');const r=JSON.parse(fs.readFileSync('data/source-registry.json','utf8'));if(!Array.isArray(r.officialDomains)||r.officialDomains.length<10)throw new Error('source registry officialDomains missing or too small');if(!Array.isArray(r.sitemaps)||r.sitemaps.length<3)throw new Error('source registry sitemaps missing or too small');console.log('source registry ok');"
+
+      - name: Sync crawler input from current index.html
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const html = fs.readFileSync('index.html', 'utf8');
+          const open = '<script id="demo-data" type="application/json">';
+          const close = '</' + 'script>';
+          const start = html.indexOf(open);
+          if (start === -1) throw new Error('demo-data opening tag not found');
+          const jsonStart = start + open.length;
+          const end = html.indexOf(close, jsonStart);
+          if (end === -1) throw new Error('demo-data closing tag not found');
+          const data = JSON.parse(html.slice(jsonStart, end).trim());
+          fs.mkdirSync('data', { recursive: true });
+          fs.writeFileSync('data/demo.json', JSON.stringify(data, null, 2) + '\n');
+          console.log(JSON.stringify({
+            people: data.people?.length ?? null,
+            roster: data.roster?.length ?? null,
+            expansionRoster: data.expansionRoster?.length ?? null,
+            appearances: data.appearances?.length ?? null
+          }, null, 2));
+          NODE
+
+      - name: Run bounded crawler
+        run: timeout 15m node nightly-refresh.mjs --max-roster 50 --max-per-person 2 --max-pages-per-source 8 --lookback-days 21
+        env:
+          PARLEYMAP_FETCH_TIMEOUT_MS: "3000"
+
+      - name: Show crawler report
+        run: |
+          node -e "const fs=require('fs');const p='data/crawler/crawl-report.json';if(!fs.existsSync(p))throw new Error('missing crawl report');console.log(fs.readFileSync(p,'utf8'));"
 
       - name: Publish crawler appearances into index.html
         run: node scripts/publish-crawler-appearances.mjs
 
+      - name: Show publish report
+        run: |
+          node -e "const fs=require('fs');const p='data/diagnostics/publish-report.json';if(!fs.existsSync(p))throw new Error('missing publish report');console.log(fs.readFileSync(p,'utf8'));"
+
       - name: Validate updated index.html
         run: node scripts/validate-demo-data.mjs
+
+      - name: Restore crawler input staging file
+        run: git checkout -- data/demo.json || true
+
+      - name: Show files changed before commit
+        run: git diff --name-only
 
       - name: Commit refreshed website data
         uses: stefanzweifel/git-auto-commit-action@v5
