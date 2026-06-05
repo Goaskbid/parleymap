@@ -1,0 +1,119 @@
+{
+  "officialDomains": [
+    "whitehouse.gov",
+    "state.gov",
+    "gov.uk",
+    "consilium.europa.eu",
+    "ec.europa.eu",
+    "commission.europa.eu",
+    "nato.int",
+    "un.org",
+    "who.int",
+    "worldbank.org",
+    "imf.org",
+    "elysee.fr",
+    "bundesregierung.de",
+    "bundeskanzler.de",
+    "pmindia.gov.in",
+    "mea.gov.in",
+    "president.gov.ua",
+    "kremlin.ru",
+    "mofa.go.jp",
+    "mofa.gov.sa",
+    "mofa.gov.ae",
+    "mofa.gov.qa",
+    "mfa.gov.tr",
+    "pm.gc.ca",
+    "g7.canada.ca"
+  ],
+  "sitemaps": [
+    {
+      "label": "White House",
+      "url": "https://www.whitehouse.gov/sitemap.xml",
+      "type": "official"
+    },
+    {
+      "label": "U.S. Department of State",
+      "url": "https://www.state.gov/sitemap.xml",
+      "type": "official"
+    },
+    {
+      "label": "UK Government",
+      "url": "https://www.gov.uk/sitemap.xml",
+      "type": "official"
+    },
+    {
+      "label": "European Council",
+      "url": "https://www.consilium.europa.eu/en/sitemap.xml",
+      "type": "official"
+    },
+    {
+      "label": "European Commission",
+      "url": "https://commission.europa.eu/sitemap.xml",
+      "type": "official"
+    },
+    {
+      "label": "NATO",
+      "url": "https://www.nato.int/sitemap.xml",
+      "type": "official"
+    },
+    {
+      "label": "United Nations",
+      "url": "https://www.un.org/sitemap.xml",
+      "type": "official"
+    },
+    {
+      "label": "Elysee",
+      "url": "https://www.elysee.fr/sitemap.xml",
+      "type": "official"
+    },
+    {
+      "label": "Prime Minister of India",
+      "url": "https://www.pmindia.gov.in/en/sitemap.xml",
+      "type": "official"
+    }
+  ],
+  "eventKeywords": [
+    "meeting",
+    "meet",
+    "met",
+    "visit",
+    "summit",
+    "speech",
+    "address",
+    "forum",
+    "bilateral",
+    "delegation",
+    "minister",
+    "president",
+    "prime-minister",
+    "press",
+    "statement",
+    "readout",
+    "remarks",
+    "ceremony",
+    "conference",
+    "opening",
+    "attends",
+    "travel",
+    "trip",
+    "briefing",
+    "press-release",
+    "news",
+    "speeches",
+    "statements",
+    "meetings"
+  ],
+  "blockedLocationTerms": [
+    "home address",
+    "private residence",
+    "hotel room",
+    "hospital",
+    "flight tracker",
+    "aircraft tracking",
+    "leaked itinerary",
+    "private dinner",
+    "vacation home",
+    "family residence"
+  ]
+}
