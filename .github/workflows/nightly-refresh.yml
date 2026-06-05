@@ -1,21 +1,15 @@
-name: Nightly public-source refresh
+name: ParleyMap data diagnostics
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "0 2 * * *"
 
 permissions:
   contents: write
 
-concurrency:
-  group: parleymap-nightly-refresh
-  cancel-in-progress: false
-
 jobs:
-  refresh:
+  diagnose:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 5
 
     steps:
       - name: Checkout repository
@@ -28,29 +22,13 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Extract full app dataset from index
+      - name: Inspect embedded app dataset
         run: |
-          mkdir -p data
-          node -e "const fs=require('fs');const html=fs.readFileSync('index.html','utf8');const m=html.match(/<script id=\"demo-data\" type=\"application\/json\">([\s\S]*?)<\/script>/);if(!m)throw new Error('demo-data block not found');const data=JSON.parse(m[1]);const people=(data.people||data.roster||data.expansionRoster||[]);const apps=(data.appearances||data.records||[]);console.log('keys',Object.keys(data));console.log('peopleLike',people.length,'appearancesLike',apps.length);if(!Array.isArray(people)||people.length<20)throw new Error('no usable people roster');if(!Array.isArray(apps)||apps.length<20)throw new Error('no usable appearances/records');fs.writeFileSync('data/demo.json',JSON.stringify(data,null,2)+'\n');"
+          mkdir -p data/diagnostics
+          node -e "const fs=require('fs');const html=fs.readFileSync('index.html','utf8');const m=html.match(/<script id=\"demo-data\" type=\"application\/json\">([\s\S]*?)<\/script>/);if(!m)throw new Error('demo-data block not found');const data=JSON.parse(m[1]);const count=v=>Array.isArray(v)?v.length:null;const report={generatedAt:new Date().toISOString(),topLevelKeys:Object.keys(data),counts:{people:count(data.people),roster:count(data.roster),expansionRoster:count(data.expansionRoster),appearances:count(data.appearances),records:count(data.records),events:count(data.events),meetings:count(data.meetings),agendas:count(data.agendas),themes:count(data.themes),categories:count(data.categories)},meta:data.meta||{},sampleKeys:{firstPeople:data.people?.[0]?Object.keys(data.people[0]):null,firstRoster:data.roster?.[0]?Object.keys(data.roster[0]):null,firstAppearance:data.appearances?.[0]?Object.keys(data.appearances[0]):null,firstRecord:data.records?.[0]?Object.keys(data.records[0]):null}};fs.writeFileSync('data/diagnostics/index-data-schema.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report,null,2));"
 
-      - name: Run bounded real crawler
-        run: node nightly-refresh.mjs --publish --lookback-days 14 --max-roster 20 --max-pages-per-source 10 --max-per-person 2
-        env:
-          PARLEYMAP_FETCH_TIMEOUT_MS: "8000"
-
-      - name: Validate refreshed full dataset
-        run: |
-          node -e "const fs=require('fs');const data=JSON.parse(fs.readFileSync('data/demo.json','utf8'));const people=(data.people||data.roster||data.expansionRoster||[]);const apps=(data.appearances||data.records||[]);console.log('validated peopleLike',people.length,'appearancesLike',apps.length);if(!Array.isArray(people)||people.length<20)throw new Error('refuse bad people roster');if(!Array.isArray(apps)||apps.length<20)throw new Error('refuse bad appearances/records');fs.writeFileSync('data/demo.json',JSON.stringify(data,null,2)+'\n');"
-
-      - name: Inject validated dataset into index
-        run: |
-          node -e "const fs=require('fs');let html=fs.readFileSync('index.html','utf8');const json=fs.readFileSync('data/demo.json','utf8').trim();JSON.parse(json);html=html.replace(/(<script id=\"demo-data\" type=\"application\/json\">)[\s\S]*?(<\/script>)/,'$1'+json+'$2');fs.writeFileSync('index.html',html);"
-
-      - name: Show changed files
-        run: git status --short
-
-      - name: Commit validated refresh
+      - name: Commit diagnostics only
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Nightly validated public-source refresh"
-          file_pattern: "index.html data/demo.json data/crawler/*.json"
+          commit_message: "Diagnose ParleyMap embedded data schema"
+          file_pattern: "data/diagnostics/index-data-schema.json"
