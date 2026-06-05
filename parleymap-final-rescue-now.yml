@@ -1,0 +1,73 @@
+ParleyMap audited final fix package
+
+This package is designed to stop the broken loop and make one audited repair.
+
+What it includes
+
+.github/workflows/parleymap-final-rescue-now.yml
+  Manual rescue workflow. Run this first.
+  It restores index.html and data/demo.json from before the unsafe roster auto update if people count is above 115, repairs anchors and faces, installs a runtime Leaflet marker guard, audits everything, validates the embedded dataset, uploads artifacts, and commits only after all checks pass.
+
+.github/workflows/nightly-refresh.yml
+  Valid daily workflow. Runs at 03:19 UTC. Repairs anchors and faces before and after crawler import, audits before commit, and uploads artifacts.
+
+.github/workflows/monthly-roster-review.yml
+  Valid monthly workflow. Runs at 04:31 UTC on day 1 of each month. Runs current-holder review through a strict safety gate, repairs anchors and faces, audits, validates, uploads artifacts, and commits only after checks pass.
+
+.github/workflows/roster-auto-update-now.yml
+  Manual current-holder update. Same safety gate as monthly. It refuses to write if too many replacements or a polluted people count is detected.
+
+scripts/parleymap-repair-anchors-faces.mjs
+  Repairs anchors and face images. Installs runtime Leaflet marker guard. Syncs data/demo.json from index.html.
+
+scripts/parleymap-audit-rescue.mjs
+  Fails the workflow if core targets still have wrong anchors, missing faces, polluted people count, or missing runtime guard.
+
+scripts/parleymap-roster-current-holder-review.mjs
+  Uses current-holder checks only. Filters historical Wikidata claims by end-time and preferred rank. Strictly caps automatic replacements.
+
+scripts/parleymap-build-final-summary.mjs
+  Writes data/diagnostics/LATEST_RUN_SUMMARY.md.
+
+How to use
+
+1. Upload .github and scripts from this package to the repository root.
+2. Commit directly to main.
+3. Run only this workflow first:
+   ParleyMap final audited rescue now
+4. Wait for pages-build-deployment.
+5. Hard refresh parleymap.com with Ctrl+F5.
+6. Check:
+   data/diagnostics/final-rescue-audit-report.json
+   data/diagnostics/anchor-face-repair-report.json
+   data/diagnostics/LATEST_RUN_SUMMARY.md
+
+Expected anchor outcomes
+
+Claudia Sheinbaum -> Mexico City, Mexico
+Pope Leo XIV -> Vatican City
+Prabowo Subianto -> Jakarta, Indonesia
+Rafael Grossi -> Vienna, IAEA
+Mohammed bin Salman -> Riyadh, Saudi Arabia
+Antonio Guterres -> New York, UN
+Mark Rutte -> Brussels, NATO
+Ursula von der Leyen -> Brussels
+Kaja Kallas -> Brussels
+Kristalina Georgieva -> Washington, IMF
+Ajay Banga -> Washington, World Bank
+Tedros Ghebreyesus -> Geneva, WHO
+
+How to see changes after each run
+
+Open the workflow run, then check the Summary tab.
+Open data/diagnostics/LATEST_RUN_SUMMARY.md.
+Open data/diagnostics/final-rescue-audit-report.json.
+Open data/diagnostics/anchor-face-repair-report.json.
+Open data/diagnostics/roster-current-holder-review.json after roster runs.
+
+How to download fixed files
+
+Open the workflow run, scroll to Artifacts, and download the artifact ZIP.
+The rescue workflow artifact is named parleymap-final-repaired-files.
+The nightly workflow artifact is named parleymap-nightly-run-files.
+The monthly roster workflow artifact is named parleymap-monthly-roster-files.

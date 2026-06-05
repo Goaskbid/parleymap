@@ -1,4 +1,4 @@
-name: ParleyMap roster auto update now
+name: ParleyMap final audited rescue now
 
 on:
   workflow_dispatch:
@@ -6,73 +6,80 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: parleymap-final-audited-rescue
+  cancel-in-progress: false
+
 jobs:
-  roster-auto-update:
+  rescue:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 20
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           ref: main
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20"
 
-      - name: Validate current embedded dataset
-        run: node scripts/validate-demo-data.mjs
-
-      - name: Install anchor guard before roster update if present
+      - name: Restore data before unsafe roster auto update if needed
         run: |
-          if [ -f scripts/install-anchor-guard.mjs ]; then
-            node scripts/install-anchor-guard.mjs
+          PEOPLE_COUNT=$(node - <<'NODE'
+          const fs = require('fs');
+          const html = fs.readFileSync('index.html', 'utf8');
+          const open = '<script id="demo-data" type="application/json">';
+          const close = '</' + 'script>';
+          const s = html.indexOf(open);
+          const e = html.indexOf(close, s + open.length);
+          const data = JSON.parse(html.slice(s + open.length, e).trim());
+          console.log(Array.isArray(data.people) ? data.people.length : 9999);
+          NODE
+          )
+          echo "people before rescue: ${PEOPLE_COUNT}"
+          BAD_COMMIT=$(git log --grep="Auto update ParleyMap roster office holders" --format=%H -n 1 || true)
+          if [ -n "${BAD_COMMIT}" ] && [ "${PEOPLE_COUNT}" -gt 115 ]; then
+            echo "Restoring index.html and data/demo.json from before unsafe roster auto update: ${BAD_COMMIT}"
+            git checkout "${BAD_COMMIT}^" -- index.html || true
+            git checkout "${BAD_COMMIT}^" -- data/demo.json || true
           else
-            echo "No anchor guard script present. Continuing."
+            echo "No unsafe roster rollback needed."
           fi
 
-      - name: Auto-update current office holders
-        run: node scripts/roster-auto-updater.mjs
-        env:
-          PARLEYMAP_ROSTER_APPLY: "1"
+      - name: Repair anchors, faces, and runtime marker guard
+        run: node scripts/parleymap-repair-anchors-faces.mjs
 
-      - name: Install anchor guard after roster update if present
-        run: |
-          if [ -f scripts/install-anchor-guard.mjs ]; then
-            node scripts/install-anchor-guard.mjs
-          else
-            echo "No anchor guard script present. Continuing."
-          fi
+      - name: Audit repaired dataset before commit
+        run: node scripts/parleymap-audit-rescue.mjs
 
-      - name: Validate updated embedded dataset
+      - name: Validate embedded dataset
         run: node scripts/validate-demo-data.mjs
 
-      - name: Show run summary
+      - name: Build final run summary
         if: always()
         run: |
-          cat data/diagnostics/LATEST_RUN_SUMMARY.md || true
-          echo ""
-          echo "Changed files:"
-          git diff --name-only || true
+          node scripts/parleymap-build-final-summary.mjs || true
+          cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY" || true
 
-      - name: Upload roster auto-update files
-        if: always()
+      - name: Show changed files
+        run: git diff --name-only
+
+      - name: Upload repaired files artifact
         uses: actions/upload-artifact@v4
         with:
-          name: parleymap-roster-auto-update-files
+          name: parleymap-final-repaired-files
           path: |
             index.html
             data/demo.json
-            data/diagnostics/roster-auto-update-report.json
-            data/diagnostics/roster-patch-candidates.json
-            data/diagnostics/anchor-guard-report.json
-            data/diagnostics/LATEST_RUN_SUMMARY.md
-          if-no-files-found: warn
+            data/diagnostics/*.json
+            data/diagnostics/*.md
 
-      - name: Commit roster auto update
+      - name: Commit repaired website data
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Auto-update ParleyMap current office holders"
-          file_pattern: "index.html data/demo.json data/diagnostics/roster-auto-update-report.json data/diagnostics/roster-patch-candidates.json data/diagnostics/anchor-guard-report.json data/diagnostics/LATEST_RUN_SUMMARY.md"
+          commit_message: "Final audited repair of ParleyMap anchors and faces"
+          file_pattern: "index.html data/demo.json data/diagnostics/*.json data/diagnostics/*.md"

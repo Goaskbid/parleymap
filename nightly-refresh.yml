@@ -13,40 +13,49 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  refresh:
+  refresh-and-publish:
     runs-on: ubuntu-latest
     timeout-minutes: 25
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           ref: main
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20"
 
-      - name: Validate current live embedded dataset
+      - name: Validate current embedded dataset
         run: node scripts/validate-demo-data.mjs
 
-      - name: Stabilize anchors before crawler
-        run: node scripts/stabilize-parleymap.mjs
+      - name: Repair anchors and faces before refresh
+        run: node scripts/parleymap-repair-anchors-faces.mjs
 
-      - name: Sync crawler input from current index.html
+      - name: Audit anchors before refresh import
+        run: node scripts/parleymap-audit-rescue.mjs
+
+      - name: Sync crawler input from index.html
         run: |
           node - <<'NODE'
           const fs = require('fs');
           const html = fs.readFileSync('index.html', 'utf8');
-          const m = html.match(/<script\s+id=["']demo-data["']\s+type=["']application\/json["']>([\s\S]*?)<\/script>/);
-          if (!m) throw new Error('demo-data block not found');
-          const data = JSON.parse(m[1]);
+          const open = '<script id="demo-data" type="application/json">';
+          const close = '</' + 'script>';
+          const start = html.indexOf(open);
+          if (start === -1) throw new Error('demo-data opening tag not found');
+          const end = html.indexOf(close, start + open.length);
+          if (end === -1) throw new Error('demo-data closing tag not found');
+          const data = JSON.parse(html.slice(start + open.length, end).trim());
           fs.mkdirSync('data', { recursive: true });
           fs.writeFileSync('data/demo.json', JSON.stringify(data, null, 2) + '\n');
-          console.log(JSON.stringify({ people: data.people?.length, roster: data.roster?.length, expansionRoster: data.expansionRoster?.length, appearances: data.appearances?.length }, null, 2));
+          console.log(JSON.stringify({ people: data.people?.length, roster: data.roster?.length, appearances: data.appearances?.length }, null, 2));
           NODE
 
-      - name: Clear old crawler outputs
+      - name: Clear stale crawler outputs
         run: |
           mkdir -p data/crawler
           rm -f data/crawler/candidate-appearances.json
@@ -55,14 +64,14 @@ jobs:
           rm -f data/crawler/rejected-appearances.json
           rm -f data/crawler/crawl-report.json
 
-      - name: Run bounded crawler if present
+      - name: Run bounded crawler if available
         id: crawler
         continue-on-error: true
         run: |
           if [ -f nightly-refresh.mjs ]; then
             timeout 12m node nightly-refresh.mjs --max-roster 60 --max-per-person 2 --max-pages-per-source 8 --lookback-days 21
           else
-            echo "nightly-refresh.mjs not found; crawler skipped."
+            echo "nightly-refresh.mjs not found, crawler skipped."
           fi
         env:
           PARLEYMAP_FETCH_TIMEOUT_MS: "3000"
@@ -72,12 +81,10 @@ jobs:
           node - <<'NODE'
           const fs = require('fs');
           fs.mkdirSync('data/crawler', { recursive: true });
-          for (const file of ['candidate-appearances.json', 'publishable-appearances.json', 'quality-approved-appearances.json', 'rejected-appearances.json']) {
-            const path = `data/crawler/${file}`;
-            if (!fs.existsSync(path)) fs.writeFileSync(path, '[]\n');
-          }
+          if (!fs.existsSync('data/crawler/candidate-appearances.json')) fs.writeFileSync('data/crawler/candidate-appearances.json', '[]\n');
+          if (!fs.existsSync('data/crawler/publishable-appearances.json')) fs.writeFileSync('data/crawler/publishable-appearances.json', '[]\n');
           if (!fs.existsSync('data/crawler/crawl-report.json')) {
-            fs.writeFileSync('data/crawler/crawl-report.json', JSON.stringify({ generatedAt: new Date().toISOString(), status: 'crawler_skipped_or_no_output' }, null, 2) + '\n');
+            fs.writeFileSync('data/crawler/crawl-report.json', JSON.stringify({ generatedAt: new Date().toISOString(), status: 'crawler_skipped_or_failed', candidates: 0, publishable: 0 }, null, 2) + '\n');
           }
           NODE
 
@@ -86,39 +93,28 @@ jobs:
           if [ -f scripts/guarded-publish-from-crawler.mjs ]; then
             node scripts/guarded-publish-from-crawler.mjs
           else
-            echo "guarded publisher not found; publish step skipped."
+            echo "guarded-publish-from-crawler.mjs not found, publish skipped."
           fi
 
-      - name: Stabilize anchors after crawler
-        run: node scripts/stabilize-parleymap.mjs
+      - name: Repair anchors and faces after refresh
+        run: node scripts/parleymap-repair-anchors-faces.mjs
+
+      - name: Audit final dataset before commit
+        run: node scripts/parleymap-audit-rescue.mjs
 
       - name: Validate final embedded dataset
         run: node scripts/validate-demo-data.mjs
 
-      - name: Build run summary
+      - name: Build final run summary
         if: always()
         run: |
-          mkdir -p data/diagnostics
-          {
-            echo "# ParleyMap nightly refresh"
-            echo ""
-            echo "Run: ${GITHUB_RUN_NUMBER}"
-            echo "Generated: $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
-            echo ""
-            if [ -f data/diagnostics/LATEST_RUN_SUMMARY.md ]; then cat data/diagnostics/LATEST_RUN_SUMMARY.md; fi
-            echo ""
-            echo "## Changed files before commit"
-            git diff --name-only || true
-            echo ""
-            echo "## Crawler report"
-            if [ -f data/crawler/crawl-report.json ]; then cat data/crawler/crawl-report.json; else echo "No crawler report."; fi
-            echo ""
-            echo "## Publish report"
-            if [ -f data/diagnostics/publish-report.json ]; then cat data/diagnostics/publish-report.json; else echo "No publish report."; fi
-          } > data/diagnostics/LATEST_RUN_SUMMARY.md
-          cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
+          node scripts/parleymap-build-final-summary.mjs || true
+          cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY" || true
 
-      - name: Upload run files
+      - name: Show changed files
+        run: git diff --name-only
+
+      - name: Upload nightly files artifact
         uses: actions/upload-artifact@v4
         with:
           name: parleymap-nightly-run-files
@@ -132,5 +128,5 @@ jobs:
       - name: Commit refreshed website data
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Refresh ParleyMap guarded data"
+          commit_message: "Refresh ParleyMap safely with audited anchors"
           file_pattern: "index.html data/demo.json data/crawler/*.json data/diagnostics/*.json data/diagnostics/*.md"

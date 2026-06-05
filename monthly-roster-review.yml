@@ -22,6 +22,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: main
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -31,53 +32,34 @@ jobs:
       - name: Validate current embedded dataset
         run: node scripts/validate-demo-data.mjs
 
-      - name: Install anchor guard before roster update if present
-        run: |
-          if [ -f scripts/install-anchor-guard.mjs ]; then
-            node scripts/install-anchor-guard.mjs
-          else
-            echo "No anchor guard script present. Continuing."
-          fi
+      - name: Repair anchors and faces before roster review
+        run: node scripts/parleymap-repair-anchors-faces.mjs
 
-      - name: Auto-update current office holders
-        run: node scripts/roster-auto-updater.mjs
-        env:
-          PARLEYMAP_ROSTER_APPLY: "1"
+      - name: Audit anchors before roster review
+        run: node scripts/parleymap-audit-rescue.mjs
 
-      - name: Install anchor guard after roster update if present
-        run: |
-          if [ -f scripts/install-anchor-guard.mjs ]; then
-            node scripts/install-anchor-guard.mjs
-          else
-            echo "No anchor guard script present. Continuing."
-          fi
+      - name: Run current-holder roster review with strict safe apply gate
+        run: node scripts/parleymap-roster-current-holder-review.mjs --apply-safe
+
+      - name: Repair anchors and faces after roster review
+        run: node scripts/parleymap-repair-anchors-faces.mjs
+
+      - name: Audit final dataset before commit
+        run: node scripts/parleymap-audit-rescue.mjs
 
       - name: Validate final embedded dataset
         run: node scripts/validate-demo-data.mjs
 
-      - name: Build monthly summary
+      - name: Build final run summary
         if: always()
         run: |
-          mkdir -p data/diagnostics
-          {
-            echo "# ParleyMap monthly roster review"
-            echo ""
-            echo "Run: ${GITHUB_RUN_NUMBER}"
-            echo "Generated: $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
-            echo ""
-            echo "## Roster auto update"
-            if [ -f data/diagnostics/roster-auto-update-report.json ]; then cat data/diagnostics/roster-auto-update-report.json; else echo "No roster auto-update report."; fi
-            echo ""
-            echo "## Anchor guard"
-            if [ -f data/diagnostics/anchor-guard-report.json ]; then cat data/diagnostics/anchor-guard-report.json; else echo "No anchor guard report."; fi
-            echo ""
-            echo "## Changed files"
-            git diff --name-only || true
-          } > data/diagnostics/LATEST_RUN_SUMMARY.md
-          cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
+          node scripts/parleymap-build-final-summary.mjs || true
+          cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY" || true
 
-      - name: Upload roster review files
-        if: always()
+      - name: Show changed files
+        run: git diff --name-only
+
+      - name: Upload monthly roster files artifact
         uses: actions/upload-artifact@v4
         with:
           name: parleymap-monthly-roster-files
@@ -86,10 +68,9 @@ jobs:
             data/demo.json
             data/diagnostics/*.json
             data/diagnostics/*.md
-          if-no-files-found: warn
 
-      - name: Commit monthly roster update
+      - name: Commit roster review result
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Monthly ParleyMap roster update"
+          commit_message: "Monthly ParleyMap roster review with audited anchors"
           file_pattern: "index.html data/demo.json data/diagnostics/*.json data/diagnostics/*.md"
