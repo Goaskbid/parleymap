@@ -7,9 +7,9 @@ permissions:
   contents: write
 
 jobs:
-  refresh-candidates-only:
+  refresh-and-publish:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -24,20 +24,17 @@ jobs:
       - name: Validate current live embedded dataset
         run: node scripts/validate-demo-data.mjs
 
-      - name: Run crawler candidate refresh only
+      - name: Run crawler
         run: node nightly-refresh.mjs
-        env:
-          PARLEYMAP_SAFE_MODE: "1"
 
-      - name: Block index.html changes
-        run: |
-          if git diff --name-only | grep -Fx "index.html"; then
-            echo "ERROR: index.html changed during candidate refresh."
-            git checkout -- index.html
-          fi
+      - name: Publish crawler appearances into index.html
+        run: node scripts/publish-crawler-appearances.mjs
 
-      - name: Commit candidate outputs only
+      - name: Validate updated index.html
+        run: node scripts/validate-demo-data.mjs
+
+      - name: Commit refreshed website data
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Refresh ParleyMap candidate data"
-          file_pattern: "data/crawler/*.json data/diagnostics/*.json"
+          commit_message: "Refresh ParleyMap embedded appearance data"
+          file_pattern: "index.html data/crawler/*.json data/diagnostics/*.json"
