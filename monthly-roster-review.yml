@@ -1,0 +1,55 @@
+name: ParleyMap fix anchors now
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fix-anchors:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Force correct institutional anchors
+        run: node scripts/fix-anchors-now.mjs
+
+      - name: Validate embedded dataset
+        run: node scripts/validate-demo-data.mjs
+
+      - name: Add report to job summary
+        if: always()
+        run: |
+          if [ -f data/diagnostics/LATEST_RUN_SUMMARY.md ]; then
+            cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Show changed files
+        run: git diff --name-only
+
+      - name: Upload downloadable run files
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: parleymap-run-files
+          path: |
+            data/diagnostics/*.json
+            data/diagnostics/*.md
+            data/crawler/*.json
+          if-no-files-found: ignore
+
+      - name: Commit anchor fix
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Fix ParleyMap institutional map anchors"
+          file_pattern: "index.html data/demo.json data/diagnostics/*.json data/diagnostics/*.md"
