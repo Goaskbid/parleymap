@@ -1,32 +1,33 @@
-{
-  "name": "parleymap-static",
-  "version": "5.1.0",
-  "private": true,
-  "description": "Static ParleyMap influence cockpit v5.1 with expanded global roster and structured source-watch capture for profile-only names.",
-  "scripts": {
-    "build": "node scripts/build-standalone.mjs",
-    "validate:data": "node scripts/validate-data.mjs",
-    "crawl:dry-run": "node scripts/evergreen-crawl.mjs --dry-run",
-    "crawl:nightly": "node scripts/evergreen-crawl.mjs --write --update-site --promote-official",
-    "crawl:overnight": "npm run crawl:nightly",
-    "crawl:24m": "node scripts/crawl-24-months.mjs",
-    "crawl:24m:dry-run": "node scripts/crawl-24-months.mjs --dry-run",
-    "refresh:dry-run": "node scripts/nightly-refresh.mjs --dry-run",
-    "refresh:nightly": "node scripts/crawl-24-months.mjs --publish --max-roster 340 --max-per-person 160 && node scripts/review-top200.mjs --apply && node scripts/nightly-refresh.mjs --live && npm run build",
-    "refresh:backfill": "node scripts/crawl-24-months.mjs --publish --max-roster 340 --max-per-person 240",
-    "nightly": "npm run refresh:nightly",
-    "roster:review": "node scripts/review-top200.mjs --apply && node scripts/evergreen-roster-review.mjs --write",
-    "portraits:dry-run": "node scripts/cache-portraits.mjs --dry-run",
-    "portraits:update": "node scripts/cache-portraits.mjs --live",
-    "crawler:plan": "node scripts/evergreen-refresh.mjs --dry-run --offline --backfill --months=24 --max-people=340",
-    "check:js": "node --check src/app.js && node --check scripts/build-standalone.mjs && node --check scripts/validate-data.mjs && node --check scripts/evergreen-crawl.mjs && node --check scripts/evergreen-roster-review.mjs && node --check scripts/nightly-refresh.mjs && node --check scripts/cache-portraits.mjs && node --check scripts/crawl-24-months.mjs && node --check scripts/review-top200.mjs && node --check scripts/evergreen-refresh.mjs && node --check scripts/roster-review.mjs && node --check connectors/wikimedia-portraits.mjs && node --check connectors/gdelt-doc.mjs && node --check connectors/official-source-registry.mjs && node --check scripts/foreign-minister-travel-index.mjs && node --check scripts/heavy-hitter-capture-plan.mjs && node --check scripts/influence-intelligence-plan.mjs && node --check scripts/alert-theme-graph-planner.mjs && node --check scripts/priority-entity-expansion-plan.mjs",
-    "check": "npm run check:js && npm run validate:data && npm run crawl:24m:dry-run && npm run portraits:dry-run && npm run crawler:plan && npm run build && npm run crawl:heavy-hitters && npm run crawl:alerts && npm run crawl:influence-intel && npm run crawl:intelligence-plan && npm run crawl:priority-expansion",
-    "crawl:evergreen": "node scripts/crawl-24-months.mjs --publish --max-roster 340 --max-per-person 160 && node scripts/review-top200.mjs --apply && npm run build",
-    "crawl:foreign-ministers": "node scripts/foreign-minister-travel-index.mjs",
-    "crawl:heavy-hitters": "node scripts/heavy-hitter-capture-plan.mjs",
-    "crawl:alerts": "node scripts/alert-theme-graph-planner.mjs",
-    "crawl:influence-intel": "node scripts/influence-intelligence-plan.mjs",
-    "crawl:intelligence-plan": "node scripts/influence-intelligence-plan.mjs",
-    "crawl:priority-expansion": "node scripts/priority-entity-expansion-plan.mjs"
-  }
-}
+# ParlayMap
+
+ParlayMap helps users understand relationships between political leaders, corporate executives, organizations, meetings, and influence networks.
+
+The platform visualizes how people, institutions, and themes connect across geography and time.
+
+## Features
+
+- Influence mapping
+- Executive network analysis
+- Political relationship mapping
+- Organization intelligence
+- Meeting analysis
+- Trend identification
+- Graph visualization
+- AI-powered discovery
+
+## Who Uses ParlayMap
+
+- Journalists
+- Researchers
+- Investors
+- Analysts
+- Students
+- Policy professionals
+
+## Website
+
+https://www.parlaymap.com
+
+## Keywords
+
+Network analysis, influence networks, executive networks, political networks, geopolitics, relationship intelligence, graph analytics, organizational mapping, public research.
