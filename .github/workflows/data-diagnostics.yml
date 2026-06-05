@@ -1,0 +1,33 @@
+name: ParleyMap data diagnostics
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Inspect embedded app dataset
+        run: |
+          mkdir -p data/diagnostics
+          node -e "const fs=require('fs');const html=fs.readFileSync('index.html','utf8');const m=html.match(/<script id=\"demo-data\" type=\"application\/json\">([\s\S]*?)<\/script>/);if(!m)throw new Error('demo-data block not found');const data=JSON.parse(m[1]);const count=v=>Array.isArray(v)?v.length:null;const report={generatedAt:new Date().toISOString(),topLevelKeys:Object.keys(data),counts:{people:count(data.people),roster:count(data.roster),expansionRoster:count(data.expansionRoster),appearances:count(data.appearances),records:count(data.records),events:count(data.events),meetings:count(data.meetings),agendas:count(data.agendas),themes:count(data.themes),categories:count(data.categories)},meta:data.meta||{},sampleKeys:{firstPeople:data.people?.[0]?Object.keys(data.people[0]):null,firstRoster:data.roster?.[0]?Object.keys(data.roster[0]):null,firstExpansionRoster:data.expansionRoster?.[0]?Object.keys(data.expansionRoster[0]):null,firstAppearance:data.appearances?.[0]?Object.keys(data.appearances[0]):null,firstRecord:data.records?.[0]?Object.keys(data.records[0]):null,firstEvent:data.events?.[0]?Object.keys(data.events[0]):null}};fs.writeFileSync('data/diagnostics/index-data-schema.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report,null,2));"
+
+      - name: Commit diagnostics only
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Diagnose ParleyMap embedded data schema"
+          file_pattern: "data/diagnostics/index-data-schema.json"
