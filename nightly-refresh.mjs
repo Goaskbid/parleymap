@@ -11,7 +11,8 @@ const maxPerPerson = Number(argValue("--max-per-person") || process.env.PARLEYMA
 const maxPagesPerSource = Number(argValue("--max-pages-per-source") || process.env.PARLEYMAP_MAX_PAGES_PER_SOURCE || 80);
 const maxRoster = Number(argValue("--max-roster") || process.env.PARLEYMAP_MAX_ROSTER || 200);
 const now = new Date();
-const since = new Date(now.getTime() - 730 * 24 * 60 * 60 * 1000);
+const lookbackDays = Number(argValue("--lookback-days") || process.env.PARLEYMAP_LOOKBACK_DAYS || 14);
+const since = new Date(now.getTime() - lookbackDays * 24 * 60 * 60 * 1000);
 const futureUntil = new Date(now.getTime() + 120 * 24 * 60 * 60 * 1000);
 const recentSince = new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000);
 
@@ -288,7 +289,7 @@ function toAppearance(item) {
 }
 async function fetchText(url, failures) {
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 15000);
+  const timeout = setTimeout(() => controller.abort(), Number(process.env.PARLEYMAP_FETCH_TIMEOUT_MS || 8000));
   try {
     const res = await fetch(url, { signal: controller.signal, headers: { "user-agent": "ParleyMapPublicSourceCrawler/2.5 (+https://parleymap.example; public-source records only)" } });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
