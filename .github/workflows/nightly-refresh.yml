@@ -35,6 +35,9 @@ jobs:
 
       - name: Apply roster hygiene before crawler
         run: node scripts/roster-hygiene.mjs
+
+      - name: Apply map anchor hygiene
+        run: node scripts/map-anchor-hygiene.mjs
         
       - name: Validate repaired live embedded dataset
         run: node scripts/validate-demo-data.mjs
@@ -114,6 +117,9 @@ jobs:
       - name: Apply roster hygiene after publish
         run: node scripts/roster-hygiene.mjs
         
+      - name: Apply map anchor hygiene
+        run: node scripts/map-anchor-hygiene.mjs
+        
       - name: Validate final index.html
         run: node scripts/validate-demo-data.mjs
 
@@ -125,6 +131,13 @@ jobs:
 
       - name: Commit refreshed website data
         uses: stefanzweifel/git-auto-commit-action@v5
+
+      - name: Build quick run summary
+        if: always()
+        run: |
+          node scripts/build-quick-summary.mjs
+          cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
+          
         with:
           commit_message: "Refresh ParleyMap guarded data"
-          file_pattern: "index.html data/crawler/*.json data/diagnostics/*.json"
+          file_pattern: "index.html data/crawler/*.json data/diagnostics/*.json data/diagnostics/*.md"
