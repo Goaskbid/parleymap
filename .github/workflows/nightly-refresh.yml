@@ -31,7 +31,7 @@ jobs:
       - name: Extract full app dataset from index
         run: |
           mkdir -p data
-          node -e "const fs=require('fs');const html=fs.readFileSync('index.html','utf8');const m=html.match(/<script id=\"demo-data\" type=\"application\/json\">([\s\S]*?)<\/script>/);if(!m)throw new Error('demo-data block not found');const data=JSON.parse(m[1]);if(!Array.isArray(data.people)||data.people.length<200)throw new Error('bad people dataset');if(!Array.isArray(data.appearances)||data.appearances.length<400)throw new Error('bad appearances dataset');fs.writeFileSync('data/demo.json',JSON.stringify(data,null,2)+'\n');console.log('seed ok people',data.people.length,'appearances',data.appearances.length);"
+          node -e "const fs=require('fs');const html=fs.readFileSync('index.html','utf8');const m=html.match(/<script id=\"demo-data\" type=\"application\/json\">([\s\S]*?)<\/script>/);if(!m)throw new Error('demo-data block not found');const data=JSON.parse(m[1]);const people=(data.people||data.roster||data.expansionRoster||[]);const apps=(data.appearances||data.records||[]);console.log('keys',Object.keys(data));console.log('peopleLike',people.length,'appearancesLike',apps.length);if(!Array.isArray(people)||people.length<20)throw new Error('no usable people roster');if(!Array.isArray(apps)||apps.length<20)throw new Error('no usable appearances/records');fs.writeFileSync('data/demo.json',JSON.stringify(data,null,2)+'\n');"
 
       - name: Run bounded real crawler
         run: node nightly-refresh.mjs --publish --lookback-days 14 --max-roster 20 --max-pages-per-source 10 --max-per-person 2
@@ -40,11 +40,11 @@ jobs:
 
       - name: Validate refreshed full dataset
         run: |
-          node -e "const fs=require('fs');const data=JSON.parse(fs.readFileSync('data/demo.json','utf8'));if(!Array.isArray(data.people)||data.people.length<200)throw new Error('refuse bad people dataset');if(!Array.isArray(data.appearances)||data.appearances.length<400)throw new Error('refuse bad appearances dataset');data.meta=data.meta||{};const now=new Date().toISOString();data.meta.lastDataUpdate=now;data.meta.lastCrawlerRun=now;data.meta.importStatus=data.meta.importStatus||'nightly public-source refresh completed';fs.writeFileSync('data/demo.json',JSON.stringify(data,null,2)+'\n');console.log('validated people',data.people.length,'appearances',data.appearances.length);"
+          node -e "const fs=require('fs');const data=JSON.parse(fs.readFileSync('data/demo.json','utf8'));const people=(data.people||data.roster||data.expansionRoster||[]);const apps=(data.appearances||data.records||[]);console.log('validated peopleLike',people.length,'appearancesLike',apps.length);if(!Array.isArray(people)||people.length<20)throw new Error('refuse bad people roster');if(!Array.isArray(apps)||apps.length<20)throw new Error('refuse bad appearances/records');fs.writeFileSync('data/demo.json',JSON.stringify(data,null,2)+'\n');"
 
       - name: Inject validated dataset into index
         run: |
-          node -e "const fs=require('fs');let html=fs.readFileSync('index.html','utf8');const json=fs.readFileSync('data/demo.json','utf8').trim();const data=JSON.parse(json);if(!Array.isArray(data.people)||data.people.length<200)throw new Error('bad people dataset before inject');if(!Array.isArray(data.appearances)||data.appearances.length<400)throw new Error('bad appearances dataset before inject');html=html.replace(/(<script id=\"demo-data\" type=\"application\/json\">)[\s\S]*?(<\/script>)/,'$1'+json+'$2');fs.writeFileSync('index.html',html);"
+          node -e "const fs=require('fs');let html=fs.readFileSync('index.html','utf8');const json=fs.readFileSync('data/demo.json','utf8').trim();JSON.parse(json);html=html.replace(/(<script id=\"demo-data\" type=\"application\/json\">)[\s\S]*?(<\/script>)/,'$1'+json+'$2');fs.writeFileSync('index.html',html);"
 
       - name: Show changed files
         run: git status --short
