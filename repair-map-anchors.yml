@@ -1,39 +1,19 @@
-name: ParleyMap repair map anchors
+ParleyMap emergency map anchor repair
 
-on:
-  workflow_dispatch:
+Files included:
+- scripts/force-map-anchor-trio.mjs
+- .github/workflows/repair-map-anchors.yml
 
-permissions:
-  contents: write
+Install:
+1. Unzip this package.
+2. Upload the .github and scripts folders to the repository root.
+3. Commit to main.
+4. In GitHub Actions, run "ParleyMap repair map anchors" manually.
+5. After success, hard refresh parleymap.com with Ctrl+F5.
 
-jobs:
-  repair-map-anchors:
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          ref: main
+This workflow only fixes institutional map anchors for:
+- Claudia Sheinbaum -> Mexico City, Mexico
+- Pope Leo XIV -> Vatican City
+- Prabowo Subianto -> Jakarta, Indonesia
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-
-      - name: Force repair three bad map anchors
-        run: node scripts/force-map-anchor-trio.mjs
-
-      - name: Validate updated embedded dataset
-        run: node scripts/validate-demo-data.mjs
-
-      - name: Show repair report
-        run: |
-          cat data/diagnostics/force-map-anchor-repair-report.json
-          cat data/diagnostics/force-map-anchor-repair-report.json >> "$GITHUB_STEP_SUMMARY"
-
-      - name: Commit repaired map anchors
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "Fix ParleyMap institutional map anchors"
-          file_pattern: "index.html data/diagnostics/force-map-anchor-repair-report.json"
+It validates the existing embedded dataset and preserves people, roster, expansionRoster, appearances and categories counts.
