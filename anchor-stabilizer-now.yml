@@ -1,0 +1,61 @@
+name: ParleyMap anchor stabilizer now
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: parleymap-anchor-stabilizer-now
+  cancel-in-progress: false
+
+jobs:
+  stabilize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Validate before stabilizer
+        run: node scripts/validate-demo-data.mjs
+
+      - name: Run anchor stabilizer
+        run: node scripts/stabilize-parleymap.mjs
+
+      - name: Validate after stabilizer
+        run: node scripts/validate-demo-data.mjs
+
+      - name: Add summary
+        if: always()
+        run: |
+          if [ -f data/diagnostics/LATEST_RUN_SUMMARY.md ]; then
+            cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Show changed files
+        run: git diff --name-only
+
+      - name: Upload fixed files
+        uses: actions/upload-artifact@v4
+        with:
+          name: parleymap-anchor-stabilized-files
+          path: |
+            index.html
+            data/demo.json
+            data/diagnostics/*.json
+            data/diagnostics/*.md
+
+      - name: Commit anchor stabilizer output
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Stabilize ParleyMap map anchors"
+          file_pattern: "index.html data/demo.json data/diagnostics/*.json data/diagnostics/*.md"

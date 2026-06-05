@@ -1,0 +1,78 @@
+name: ParleyMap roster auto update now
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  roster-auto-update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Validate current embedded dataset
+        run: node scripts/validate-demo-data.mjs
+
+      - name: Install anchor guard before roster update if present
+        run: |
+          if [ -f scripts/install-anchor-guard.mjs ]; then
+            node scripts/install-anchor-guard.mjs
+          else
+            echo "No anchor guard script present. Continuing."
+          fi
+
+      - name: Auto-update current office holders
+        run: node scripts/roster-auto-updater.mjs
+        env:
+          PARLEYMAP_ROSTER_APPLY: "1"
+
+      - name: Install anchor guard after roster update if present
+        run: |
+          if [ -f scripts/install-anchor-guard.mjs ]; then
+            node scripts/install-anchor-guard.mjs
+          else
+            echo "No anchor guard script present. Continuing."
+          fi
+
+      - name: Validate updated embedded dataset
+        run: node scripts/validate-demo-data.mjs
+
+      - name: Show run summary
+        if: always()
+        run: |
+          cat data/diagnostics/LATEST_RUN_SUMMARY.md || true
+          echo ""
+          echo "Changed files:"
+          git diff --name-only || true
+
+      - name: Upload roster auto-update files
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: parleymap-roster-auto-update-files
+          path: |
+            index.html
+            data/demo.json
+            data/diagnostics/roster-auto-update-report.json
+            data/diagnostics/roster-patch-candidates.json
+            data/diagnostics/anchor-guard-report.json
+            data/diagnostics/LATEST_RUN_SUMMARY.md
+          if-no-files-found: warn
+
+      - name: Commit roster auto update
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Auto-update ParleyMap current office holders"
+          file_pattern: "index.html data/demo.json data/diagnostics/roster-auto-update-report.json data/diagnostics/roster-patch-candidates.json data/diagnostics/anchor-guard-report.json data/diagnostics/LATEST_RUN_SUMMARY.md"

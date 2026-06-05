@@ -1,0 +1,74 @@
+name: ParleyMap people changer now
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: parleymap-people-changer-now
+  cancel-in-progress: false
+
+jobs:
+  people-changer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Validate current live embedded dataset
+        run: node scripts/validate-demo-data.mjs
+
+      - name: Stabilize anchors before people changer
+        run: node scripts/stabilize-parleymap.mjs
+
+      - name: Apply people changer
+        run: node scripts/people-changer.mjs --apply
+
+      - name: Stabilize anchors after people changer
+        run: node scripts/stabilize-parleymap.mjs
+
+      - name: Validate after people changer
+        run: node scripts/validate-demo-data.mjs
+
+      - name: Add run summary
+        if: always()
+        run: |
+          if [ -f data/diagnostics/LATEST_RUN_SUMMARY.md ]; then
+            cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+          if [ -f data/diagnostics/people-changer-report.json ]; then
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo "## People changer report" >> "$GITHUB_STEP_SUMMARY"
+            echo '```json' >> "$GITHUB_STEP_SUMMARY"
+            cat data/diagnostics/people-changer-report.json >> "$GITHUB_STEP_SUMMARY"
+            echo '```' >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Show changed files
+        run: git diff --name-only
+
+      - name: Upload people changer files
+        uses: actions/upload-artifact@v4
+        with:
+          name: parleymap-people-changer-files
+          path: |
+            index.html
+            data/demo.json
+            data/diagnostics/*.json
+            data/diagnostics/*.md
+
+      - name: Commit people changer output
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Run ParleyMap people changer"
+          file_pattern: "index.html data/demo.json data/diagnostics/*.json data/diagnostics/*.md"

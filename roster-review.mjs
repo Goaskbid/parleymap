@@ -3,8 +3,7 @@ import fs from "node:fs";
 const INDEX_PATH = "index.html";
 const REVIEW_PATH = "data/diagnostics/roster-review.json";
 const PATCH_PATH = "data/diagnostics/roster-patch-candidates.json";
-const OPEN_TAG = '<script id="demo-data" type="application/json">';
-const CLOSE_TAG = "</" + "script>";
+const OPEN_RE = /<script\s+id=["']demo-data["']\s+type=["']application\/json["']>([\s\S]*?)<\/script>/;
 
 function norm(value) {
   return String(value || "")
@@ -15,85 +14,121 @@ function norm(value) {
     .trim();
 }
 
-function readEmbedded() {
+function readData() {
   const html = fs.readFileSync(INDEX_PATH, "utf8");
-  const start = html.indexOf(OPEN_TAG);
-  if (start === -1) throw new Error("demo-data opening tag not found");
-  const jsonStart = start + OPEN_TAG.length;
-  const jsonEnd = html.indexOf(CLOSE_TAG, jsonStart);
-  if (jsonEnd === -1) throw new Error("demo-data closing tag not found");
-  return JSON.parse(html.slice(jsonStart, jsonEnd).trim());
+  const match = html.match(OPEN_RE);
+  if (!match) throw new Error("demo-data block not found");
+  return JSON.parse(match[1]);
 }
 
-function rows(data) {
-  const all = [];
-  for (const key of ["people", "roster", "topRoster", "expansionRoster"]) {
-    if (Array.isArray(data[key])) all.push(...data[key].map((row) => ({ ...row, sourceCollection: key })));
-  }
+function uniqueRows(data) {
+  const rows = [
+    ...(Array.isArray(data.people) ? data.people : []),
+    ...(Array.isArray(data.roster) ? data.roster : []),
+    ...(Array.isArray(data.topRoster) ? data.topRoster : []),
+    ...(Array.isArray(data.expansionRoster) ? data.expansionRoster : [])
+  ];
   const seen = new Set();
-  return all.filter((row) => {
-    const key = row.wikidataId || row.id || row.slug || row.name || row.canonicalName;
-    if (!key || seen.has(key)) return false;
+  const out = [];
+  for (const row of rows) {
+    const key = row.id || row.slug || row.wikidataId || row.canonicalName || row.name;
+    if (!key || seen.has(key)) continue;
     seen.add(key);
-    return true;
-  });
-}
-
-function issueForRow(row) {
-  const issues = [];
-  const text = norm([row.name, row.canonicalName, row.slug, row.roleTitle, row.organization, row.countryName, row.countryFocusCode, row.countryFocus].join(" "));
-  const hasAnchor = Boolean(row.homeBases?.[0]?.lat || row.mapAnchor?.lat || row.lat || row.mapLat || row.anchorLat);
-  if (!hasAnchor) issues.push("missing_explicit_anchor");
-  if (!row.officialUrl || /wikipedia\.org/i.test(row.officialUrl)) issues.push("officialUrl_missing_or_wikipedia_only");
-  if (text.includes("former") && /president|prime minister|head of state|head of government/i.test(row.roleTitle || "")) issues.push("possibly_stale_current_leader_role");
-  if (row.flagAudit?.code && row.countryFocusCode && String(row.flagAudit.code).toUpperCase() !== String(row.countryFocusCode).toUpperCase()) {
-    if (!row.flagAudit.status || !/institution/i.test(row.flagAudit.status)) issues.push("flag_code_country_focus_mismatch");
+    out.push(row);
   }
-  return issues;
+  return out;
 }
 
-fs.mkdirSync("data/diagnostics", { recursive: true });
-const data = readEmbedded();
-const rosterRows = rows(data);
-const warnings = [];
-for (const row of rosterRows) {
-  const issues = issueForRow(row);
-  if (!issues.length) continue;
-  warnings.push({
-    id: row.id || null,
-    slug: row.slug || null,
-    name: row.canonicalName || row.name || null,
-    wikidataId: row.wikidataId || null,
-    roleTitle: row.roleTitle || null,
-    countryFocusCode: row.countryFocusCode || row.countryFocus || null,
-    sourceCollection: row.sourceCollection,
-    issues
-  });
+function hasBadBase(row) {
+  const base = Array.isArray(row.homeBases) ? row.homeBases[0] : row.homeBase || row.mapAnchor;
+  const lat = Number(base?.lat ?? row.lat ?? row.latitude ?? row.homeLat ?? row.mapLat);
+  const lng = Number(base?.lng ?? base?.lon ?? row.lng ?? row.lon ?? row.longitude ?? row.homeLng ?? row.mapLng);
+  if (!Number.isFinite(lat) || !Number.isFinite(lng)) return true;
+  if (Math.abs(lat) < 1 && Math.abs(lng) < 1) return true;
+  return false;
 }
+
+function profileText(row) {
+  return norm([
+    row.id,
+    row.slug,
+    row.wikidataId,
+    row.canonicalName,
+    row.name,
+    row.roleTitle,
+    row.organization,
+    row.countryName,
+    row.countryFocus,
+    row.countryFocusCode,
+    row.officialUrl
+  ].join(" "));
+}
+
+const data = readData();
+const rows = uniqueRows(data);
+const now = new Date().toISOString();
 
 const review = {
-  generatedAt: new Date().toISOString(),
+  generatedAt: now,
   status: "roster_review_diagnostics_complete",
   counts: {
     people: data.people?.length ?? null,
     roster: data.roster?.length ?? null,
     topRoster: data.topRoster?.length ?? null,
-    expansionRoster: data.expansionRoster?.length ?? null
+    expansionRoster: data.expansionRoster?.length ?? null,
+    appearances: data.appearances?.length ?? null
   },
-  warningCount: warnings.length,
-  warnings,
-  note: "Diagnostics only. This file does not add or remove people from index.html. Review patch candidates before publishing roster membership changes."
+  hygieneWarnings: [],
+  possibleRoleReview: [],
+  additionCandidates: [],
+  note: "Diagnostics only. This file does not auto-add or auto-remove people."
 };
 
-const patchCandidates = {
-  generatedAt: review.generatedAt,
+for (const row of rows) {
+  const text = profileText(row);
+  const name = row.canonicalName || row.name || row.slug || row.id || "Unknown";
+  if (hasBadBase(row)) {
+    review.hygieneWarnings.push({ id: row.id || null, name, issue: "bad_or_missing_anchor_coordinates" });
+  }
+  if (/former/.test(text) && /president|prime minister|chancellor|secretary general|pope/.test(text)) {
+    review.possibleRoleReview.push({ id: row.id || null, name, roleTitle: row.roleTitle || null, issue: "former_role_on_roster_review" });
+  }
+  if (!row.officialUrl || /wikipedia\.org/i.test(row.officialUrl)) {
+    review.hygieneWarnings.push({ id: row.id || null, name, issue: "officialUrl_missing_or_wikipedia" });
+  }
+}
+
+const knownReviewTargets = [
+  { countryCode: "US", countryName: "United States", issue: "monthly_check_current_president_and_major_candidates" },
+  { countryCode: "MX", countryName: "Mexico", issue: "monthly_check_current_president" },
+  { countryCode: "ID", countryName: "Indonesia", issue: "monthly_check_current_president" },
+  { countryCode: "VA", countryName: "Vatican City", issue: "monthly_check_current_pope" },
+  { countryCode: "FR", countryName: "France", issue: "monthly_check_current_president" },
+  { countryCode: "DE", countryName: "Germany", issue: "monthly_check_current_chancellor" },
+  { countryCode: "GB", countryName: "United Kingdom", issue: "monthly_check_current_prime_minister_and_monarch" }
+];
+
+review.additionCandidates = knownReviewTargets.map((item) => ({
+  ...item,
+  action: "manual_source_review_required"
+}));
+
+const patch = {
+  generatedAt: now,
   status: "manual_review_required",
-  possibleRoleOrProfileFixes: warnings,
-  additions: [],
-  removals: [],
-  note: "Automatic people add/remove is intentionally blocked. Use this file as a manual review queue."
+  additions: review.additionCandidates,
+  possibleRemovalsOrRoleChanges: review.possibleRoleReview,
+  hygieneWarnings: review.hygieneWarnings,
+  note: "Do not auto-publish this patch. Use it as a monthly review checklist."
 };
 
+fs.mkdirSync("data/diagnostics", { recursive: true });
 fs.writeFileSync(REVIEW_PATH, JSON.stringify(review, null, 2) + "\n");
-fs.writeFileSync(PATCH_PATH, JSON.stringify(patchCandidates, null, 2) + "\n");
-console.log(JSON.stringify({ status: review.status, warnings: warnings.length }, null, 2));
+fs.writeFileSync(PATCH_PATH, JSON.stringify(patch, null, 2) + "\n");
+
+console.log(JSON.stringify({
+  status: review.status,
+  hygieneWarnings: review.hygieneWarnings.length,
+  possibleRoleReview: review.possibleRoleReview.length,
+  additionCandidates: review.additionCandidates.length
+}, null, 2));

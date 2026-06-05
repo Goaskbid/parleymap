@@ -16,6 +16,7 @@ jobs:
   roster-review:
     runs-on: ubuntu-latest
     timeout-minutes: 25
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -28,44 +29,67 @@ jobs:
           node-version: "20"
 
       - name: Validate current embedded dataset
-        run: node scripts/validate-parleymap-embedded.mjs
+        run: node scripts/validate-demo-data.mjs
 
-      - name: Audit anchors before roster review
-        run: node scripts/apply-anchor-guard.mjs
+      - name: Install anchor guard before roster update if present
+        run: |
+          if [ -f scripts/install-anchor-guard.mjs ]; then
+            node scripts/install-anchor-guard.mjs
+          else
+            echo "No anchor guard script present. Continuing."
+          fi
 
-      - name: Run monthly roster diagnostics
-        run: node scripts/roster-review.mjs
+      - name: Auto-update current office holders
+        run: node scripts/roster-auto-updater.mjs
+        env:
+          PARLEYMAP_ROSTER_APPLY: "1"
 
-      - name: Audit anchors after roster review
-        run: node scripts/apply-anchor-guard.mjs
+      - name: Install anchor guard after roster update if present
+        run: |
+          if [ -f scripts/install-anchor-guard.mjs ]; then
+            node scripts/install-anchor-guard.mjs
+          else
+            echo "No anchor guard script present. Continuing."
+          fi
 
       - name: Validate final embedded dataset
-        run: node scripts/validate-parleymap-embedded.mjs
+        run: node scripts/validate-demo-data.mjs
 
-      - name: Build run summary
+      - name: Build monthly summary
         if: always()
         run: |
-          node scripts/build-parleymap-summary.mjs
+          mkdir -p data/diagnostics
+          {
+            echo "# ParleyMap monthly roster review"
+            echo ""
+            echo "Run: ${GITHUB_RUN_NUMBER}"
+            echo "Generated: $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+            echo ""
+            echo "## Roster auto update"
+            if [ -f data/diagnostics/roster-auto-update-report.json ]; then cat data/diagnostics/roster-auto-update-report.json; else echo "No roster auto-update report."; fi
+            echo ""
+            echo "## Anchor guard"
+            if [ -f data/diagnostics/anchor-guard-report.json ]; then cat data/diagnostics/anchor-guard-report.json; else echo "No anchor guard report."; fi
+            echo ""
+            echo "## Changed files"
+            git diff --name-only || true
+          } > data/diagnostics/LATEST_RUN_SUMMARY.md
           cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Show changed files
-        if: always()
-        run: git diff --name-only || true
-
-      - name: Upload roster review artifact
+      - name: Upload roster review files
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: parleymap-roster-review-files
+          name: parleymap-monthly-roster-files
           path: |
             index.html
             data/demo.json
             data/diagnostics/*.json
             data/diagnostics/*.md
-          if-no-files-found: ignore
+          if-no-files-found: warn
 
-      - name: Commit roster review diagnostics
+      - name: Commit monthly roster update
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Review ParleyMap roster and anchor hygiene"
+          commit_message: "Monthly ParleyMap roster update"
           file_pattern: "index.html data/demo.json data/diagnostics/*.json data/diagnostics/*.md"
