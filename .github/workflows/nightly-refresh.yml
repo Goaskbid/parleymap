@@ -28,25 +28,29 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Extract crawler seed from index
+      - name: Extract full app dataset from index
         run: |
           mkdir -p data
-          node -e "const fs=require('fs');const html=fs.readFileSync('index.html','utf8');const m=html.match(/<script id=\"demo-data\" type=\"application\/json\">([\s\S]*?)<\/script>/);if(!m)throw new Error('demo-data block not found');const data=JSON.parse(m[1]);console.log('people',Array.isArray(data.people)?data.people.length:'missing');console.log('appearances',Array.isArray(data.appearances)?data.appearances.length:'missing');console.log('roster',Array.isArray(data.roster)?data.roster.length:'missing');console.log('expansionRoster',Array.isArray(data.expansionRoster)?data.expansionRoster.length:'missing');if(!Array.isArray(data.people))throw new Error('people array missing');if(!Array.isArray(data.appearances))throw new Error('appearances array missing');fs.writeFileSync('data/demo.json',JSON.stringify(data,null,2)+'\n');"
+          node -e "const fs=require('fs');const html=fs.readFileSync('index.html','utf8');const m=html.match(/<script id=\"demo-data\" type=\"application\/json\">([\s\S]*?)<\/script>/);if(!m)throw new Error('demo-data block not found');const data=JSON.parse(m[1]);if(!Array.isArray(data.people)||data.people.length<200)throw new Error('bad people dataset');if(!Array.isArray(data.appearances)||data.appearances.length<400)throw new Error('bad appearances dataset');fs.writeFileSync('data/demo.json',JSON.stringify(data,null,2)+'\n');console.log('seed ok people',data.people.length,'appearances',data.appearances.length);"
 
-      - name: Run bounded crawler report only
-        run: node nightly-refresh.mjs --dry-run --lookback-days 14 --max-roster 20 --max-pages-per-source 10 --max-per-person 2
+      - name: Run bounded real crawler
+        run: node nightly-refresh.mjs --publish --lookback-days 14 --max-roster 20 --max-pages-per-source 10 --max-per-person 2
         env:
           PARLEYMAP_FETCH_TIMEOUT_MS: "8000"
 
-      - name: Validate crawler reports
+      - name: Validate refreshed full dataset
         run: |
-          node -e "const fs=require('fs');for(const f of ['data/crawler/crawl-report.json','data/crawler/candidate-appearances.json','data/crawler/publishable-appearances.json']){if(!fs.existsSync(f))throw new Error('missing '+f);JSON.parse(fs.readFileSync(f,'utf8'));console.log('ok',f);}"
+          node -e "const fs=require('fs');const data=JSON.parse(fs.readFileSync('data/demo.json','utf8'));if(!Array.isArray(data.people)||data.people.length<200)throw new Error('refuse bad people dataset');if(!Array.isArray(data.appearances)||data.appearances.length<400)throw new Error('refuse bad appearances dataset');data.meta=data.meta||{};const now=new Date().toISOString();data.meta.lastDataUpdate=now;data.meta.lastCrawlerRun=now;data.meta.importStatus=data.meta.importStatus||'nightly public-source refresh completed';fs.writeFileSync('data/demo.json',JSON.stringify(data,null,2)+'\n');console.log('validated people',data.people.length,'appearances',data.appearances.length);"
+
+      - name: Inject validated dataset into index
+        run: |
+          node -e "const fs=require('fs');let html=fs.readFileSync('index.html','utf8');const json=fs.readFileSync('data/demo.json','utf8').trim();const data=JSON.parse(json);if(!Array.isArray(data.people)||data.people.length<200)throw new Error('bad people dataset before inject');if(!Array.isArray(data.appearances)||data.appearances.length<400)throw new Error('bad appearances dataset before inject');html=html.replace(/(<script id=\"demo-data\" type=\"application\/json\">)[\s\S]*?(<\/script>)/,'$1'+json+'$2');fs.writeFileSync('index.html',html);"
 
       - name: Show changed files
         run: git status --short
 
-      - name: Commit crawler reports only
+      - name: Commit validated refresh
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Nightly crawler reports"
-          file_pattern: "data/crawler/*.json"
+          commit_message: "Nightly validated public-source refresh"
+          file_pattern: "index.html data/demo.json data/crawler/*.json"
