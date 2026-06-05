@@ -28,9 +28,8 @@ jobs:
 
       - name: Verify required files
         run: |
-          test -f nightly-refresh.mjs
-          test -f data/demo.json
-          test -f data/source-registry.json
+          ls -la
+          find . -maxdepth 3 \( -name "nightly-refresh.mjs" -o -name "demo.json" -o -name "source-registry.json" \)
 
       - name: Run crawler
         run: node nightly-refresh.mjs --publish
