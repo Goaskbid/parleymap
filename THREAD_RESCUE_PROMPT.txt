@@ -1,37 +1,37 @@
-ParleyMap rescue context for a new assistant thread
+ParleyMap final safe package audit
 
-Repo: github.com/Goaskbid/parleymap
-Live site: parleymap.com
+Build date: 2026-06-06
 
-Critical facts:
-- The live dataset is embedded inside index.html in <script id="demo-data" type="application/json">.
-- Never overwrite the whole index.html from a partial JSON file.
-- Current repo history contained a bad roster auto-update that expanded people from 94 to 137 and introduced historical active leaders such as Vincent Auriol.
-- Current live screens showed fake dated cards such as City of London finance diplomacy watch, IAEA nuclear diplomacy watch, think-tank watch, and royal diary watch.
-- AdSense setup likely already had real ca-pub and data-ad-slot values in a previous index.html. Do not invent or replace those values.
+Checks performed before release:
+- Node syntax check passed for scripts/parleymap-final-safe-repair.mjs.
+- Node syntax check passed for scripts/parleymap-safe-roster-review.mjs.
+- Workflow YAML parse passed for data-validate.yml, nightly-refresh.yml, monthly-roster-review.yml, and roster-auto-update-now.yml.
+- All workflow files are multiline YAML, not collapsed one-line files.
+- Mock polluted repository dry run passed.
+- Mock current index.html was thin: "parleymap.com".
+- Mock script restored a full safe index.html from git history.
+- Mock people count restored from polluted 137 source to safe 94.
+- Mock roster count stayed 200.
+- Mock expansionRoster count stayed 114.
+- Mock appearances stayed above the safety floor after removing fake watch rows.
+- Mock categories stayed 11.
+- Mock fake rows removed:
+  - City of London finance diplomacy watch
+  - IAEA nuclear diplomacy watch
+  - Think-tank leadership events watch
+  - Royal diaries and state-visit watch
+- Mock anchor audit passed for:
+  - Claudia Sheinbaum -> Mexico City
+  - Pope Leo XIV -> Vatican City
+  - Prabowo Subianto -> Jakarta
+  - Rafael Grossi -> Vienna
+- Mock runtime Leaflet marker guard was inserted.
+- Mock AdSense publisher client was preserved.
+- Mock two data-ad-slot values were preserved.
+- Mock ads.txt was generated from the preserved publisher ID.
 
-This package is meant to fix both:
-1. Data integrity.
-2. AdSense preservation and ads.txt.
-
-Key scripts:
-- scripts/parleymap-integrity-rescue.mjs
-  Restores last safe index.html from git history if current index is thin/polluted, removes fake event/watch rows, fixes critical anchors/faces, demotes historical active holders, installs runtime Leaflet guard.
-- scripts/parleymap-adsense-preserve-audit.mjs
-  Preserves existing AdSense IDs, restores them from git history if needed, creates ads.txt, fails if it cannot find real IDs.
-- scripts/parleymap-final-hard-audit.mjs
-  Fails the workflow before commit if people count is unsafe, fake watch rows remain, critical anchors are missing, or AdSense is inconsistent.
-- scripts/parleymap-current-holder-safe-review.mjs
-  Writes current-holder review diagnostics only. Does not auto-mutate roster.
-
-Workflow to run first:
-- ParleyMap data validation
-
-Expected reports:
-- data/diagnostics/integrity-rescue-report.json
-- data/diagnostics/adsense-preserve-audit-report.json
-- data/diagnostics/final-hard-audit-report.json
-- data/diagnostics/LATEST_RUN_SUMMARY.md
-
-Expected hard audit status:
-- audit_passed
+Important safety behavior:
+- The script never invents AdSense IDs.
+- The script never overwrites found data-ad-slot IDs.
+- If it cannot find AdSense IDs in current files or git history, it reports that and does not insert dummy ad code.
+- The script fails before commit if the hard data audit fails.

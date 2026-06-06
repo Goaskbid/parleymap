@@ -6,8 +6,12 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: parleymap-roster-auto-update-now
+  cancel-in-progress: false
+
 jobs:
-  safe-review-only:
+  guarded-review-only:
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -22,27 +26,37 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Stabilize data
-        run: node scripts/parleymap-integrity-rescue.mjs
+      - name: Repair current data before review
+        run: node scripts/parleymap-final-safe-repair.mjs
 
-      - name: Safe current-holder review only
-        run: node scripts/parleymap-current-holder-safe-review.mjs
+      - name: Run safe roster review without mass replacement
+        run: node scripts/parleymap-safe-roster-review.mjs
 
-      - name: Final hard audit
-        run: node scripts/parleymap-final-hard-audit.mjs
+      - name: Final audit after review
+        run: node scripts/parleymap-final-safe-repair.mjs
+
+      - name: Show summary
+        if: always()
+        run: |
+          if [ -f data/diagnostics/LATEST_RUN_SUMMARY.md ]; then
+            cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
+            cat data/diagnostics/LATEST_RUN_SUMMARY.md
+          fi
 
       - name: Upload roster review files
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: parleymap-roster-review-files
+          name: parleymap-roster-review-safe-files
           path: |
             index.html
+            ads.txt
             data/demo.json
             data/diagnostics/*.json
             data/diagnostics/*.md
 
-      - name: Commit safe roster review files
+      - name: Commit safe roster review
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Run ParleyMap safe roster review"
-          file_pattern: "index.html data/demo.json data/diagnostics/*.json data/diagnostics/*.md"
+          file_pattern: "index.html ads.txt data/demo.json data/diagnostics/*.json data/diagnostics/*.md"

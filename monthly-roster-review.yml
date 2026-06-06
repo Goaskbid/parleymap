@@ -13,7 +13,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  review:
+  monthly-roster-review:
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -28,22 +28,28 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Stabilize data before roster review
-        run: node scripts/parleymap-integrity-rescue.mjs
+      - name: Repair data integrity first
+        run: node scripts/parleymap-final-safe-repair.mjs
 
-      - name: Safe current-holder roster review
-        run: node scripts/parleymap-current-holder-safe-review.mjs
-
-      - name: Preserve and audit existing AdSense setup
-        run: node scripts/parleymap-adsense-preserve-audit.mjs
+      - name: Run safe roster current-holder review
+        run: node scripts/parleymap-safe-roster-review.mjs
 
       - name: Final hard audit
-        run: node scripts/parleymap-final-hard-audit.mjs
+        run: node scripts/parleymap-final-safe-repair.mjs
 
-      - name: Upload monthly files
+      - name: Show summary
+        if: always()
+        run: |
+          if [ -f data/diagnostics/LATEST_RUN_SUMMARY.md ]; then
+            cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
+            cat data/diagnostics/LATEST_RUN_SUMMARY.md
+          fi
+
+      - name: Upload monthly roster files
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: parleymap-monthly-roster-files
+          name: parleymap-monthly-roster-review-files
           path: |
             index.html
             ads.txt
@@ -54,5 +60,5 @@ jobs:
       - name: Commit monthly roster review
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Run ParleyMap safe monthly roster review"
+          commit_message: "Run ParleyMap guarded monthly roster review"
           file_pattern: "index.html ads.txt data/demo.json data/diagnostics/*.json data/diagnostics/*.md"

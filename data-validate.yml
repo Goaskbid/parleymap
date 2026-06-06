@@ -6,10 +6,14 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: parleymap-final-safe-repair
+  cancel-in-progress: false
+
 jobs:
-  validate:
+  repair-and-audit:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - name: Checkout repository with history
         uses: actions/checkout@v4
@@ -22,22 +26,30 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Rescue data integrity
-        run: node scripts/parleymap-integrity-rescue.mjs
+      - name: Repair data integrity and preserve AdSense
+        run: node scripts/parleymap-final-safe-repair.mjs
 
-      - name: Preserve and audit existing AdSense setup
-        run: node scripts/parleymap-adsense-preserve-audit.mjs
+      - name: Validate embedded dataset when validator exists
+        run: |
+          if [ -f scripts/validate-demo-data.mjs ]; then
+            node scripts/validate-demo-data.mjs
+          else
+            echo "scripts/validate-demo-data.mjs not present; final hard audit already passed."
+          fi
 
-      - name: Final hard audit
-        run: node scripts/parleymap-final-hard-audit.mjs
-
-      - name: Show changed files
-        run: git diff --name-only
+      - name: Show summary
+        if: always()
+        run: |
+          if [ -f data/diagnostics/LATEST_RUN_SUMMARY.md ]; then
+            cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
+            cat data/diagnostics/LATEST_RUN_SUMMARY.md
+          fi
 
       - name: Upload repaired files
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: parleymap-integrity-adsense-files
+          name: parleymap-final-safe-repair-files
           path: |
             index.html
             ads.txt
@@ -48,5 +60,5 @@ jobs:
       - name: Commit repaired site data
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Repair ParleyMap data integrity and preserve AdSense"
+          commit_message: "Repair ParleyMap data integrity and AdSense"
           file_pattern: "index.html ads.txt data/demo.json data/diagnostics/*.json data/diagnostics/*.md"
