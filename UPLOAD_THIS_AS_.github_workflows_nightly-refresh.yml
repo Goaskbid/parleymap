@@ -13,9 +13,9 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  nightly:
+  safe-nightly:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 20
     steps:
       - name: Checkout repository with history
         uses: actions/checkout@v4
@@ -28,42 +28,31 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Preflight repair and audit
-        run: node scripts/parleymap-final-safe-repair.mjs
+      - name: Repair and audit before refresh
+        run: node scripts/parleymap-final-safe-repair.cjs
 
-      - name: Run existing crawler if present
-        continue-on-error: true
-        run: |
-          if [ -f nightly-refresh.mjs ]; then
-            timeout 12m node nightly-refresh.mjs --max-roster 60 --max-per-person 2 --max-pages-per-source 8 --lookback-days 21
-          else
-            mkdir -p data/crawler
-            echo '[]' > data/crawler/candidate-appearances.json
-            echo '[]' > data/crawler/publishable-appearances.json
-            echo '{"status":"no crawler script present","publishable":0}' > data/crawler/crawl-report.json
-          fi
-        env:
-          PARLEYMAP_FETCH_TIMEOUT_MS: "3000"
+      - name: Run safe nightly report, no synthetic events
+        run: node scripts/parleymap-safe-nightly-report.cjs
 
-      - name: Final repair and audit after crawler
-        run: node scripts/parleymap-final-safe-repair.mjs
+      - name: Repair and audit after refresh
+        run: node scripts/parleymap-final-safe-repair.cjs
 
       - name: Validate embedded dataset when validator exists
         run: |
           if [ -f scripts/validate-demo-data.mjs ]; then
             node scripts/validate-demo-data.mjs
+          else
+            echo "validate-demo-data.mjs missing; final safe repair already ran shape audit"
           fi
 
-      - name: Show summary
+      - name: Write workflow summary
         if: always()
         run: |
           if [ -f data/diagnostics/LATEST_RUN_SUMMARY.md ]; then
             cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
-            cat data/diagnostics/LATEST_RUN_SUMMARY.md
           fi
 
       - name: Upload nightly files
-        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: parleymap-nightly-safe-files
@@ -75,8 +64,8 @@ jobs:
             data/diagnostics/*.json
             data/diagnostics/*.md
 
-      - name: Commit nightly repaired data
+      - name: Commit nightly safe repair
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Run ParleyMap guarded nightly refresh"
+          commit_message: "Run ParleyMap safe nightly refresh"
           file_pattern: "index.html ads.txt data/demo.json data/crawler/*.json data/diagnostics/*.json data/diagnostics/*.md"

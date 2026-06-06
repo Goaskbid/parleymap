@@ -13,7 +13,7 @@ concurrency:
 jobs:
   guarded-review-only:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 20
     steps:
       - name: Checkout repository with history
         uses: actions/checkout@v4
@@ -26,28 +26,23 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Repair current data before review
-        run: node scripts/parleymap-final-safe-repair.mjs
+      - name: Repair and audit data before roster diagnostics
+        run: node scripts/parleymap-final-safe-repair.cjs
 
-      - name: Run safe roster review without mass replacement
-        run: node scripts/parleymap-safe-roster-review.mjs
+      - name: Run safe roster review, no mass replacement
+        run: node scripts/parleymap-safe-roster-review.cjs
 
-      - name: Final audit after review
-        run: node scripts/parleymap-final-safe-repair.mjs
-
-      - name: Show summary
+      - name: Write workflow summary
         if: always()
         run: |
           if [ -f data/diagnostics/LATEST_RUN_SUMMARY.md ]; then
             cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
-            cat data/diagnostics/LATEST_RUN_SUMMARY.md
           fi
 
       - name: Upload roster review files
-        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: parleymap-roster-review-safe-files
+          name: parleymap-roster-review-files
           path: |
             index.html
             ads.txt
@@ -55,8 +50,8 @@ jobs:
             data/diagnostics/*.json
             data/diagnostics/*.md
 
-      - name: Commit safe roster review
+      - name: Commit roster diagnostics and repairs
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Run ParleyMap safe roster review"
+          commit_message: "Run guarded ParleyMap roster review"
           file_pattern: "index.html ads.txt data/demo.json data/diagnostics/*.json data/diagnostics/*.md"

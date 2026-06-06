@@ -1,17 +1,26 @@
 {
-  "note": "Reference anchors used by scripts/parleymap-integrity-rescue.mjs. The script contains the executable copy so the workflow cannot fail if this file is accidentally edited.",
-  "criticalAnchors": [
-    { "key": "claudia_sheinbaum", "city": "Mexico City", "countryCode": "MX", "lat": 19.4326, "lng": -99.1332 },
-    { "key": "pope_leo_xiv", "city": "Vatican City", "countryCode": "VA", "lat": 41.9029, "lng": 12.4534 },
-    { "key": "prabowo_subianto", "city": "Jakarta", "countryCode": "ID", "lat": -6.2088, "lng": 106.8456 },
-    { "key": "rafael_grossi", "city": "Vienna", "countryCode": "AT", "lat": 48.2345, "lng": 16.4166 }
+  "anchors": [
+    {"key":"claudia_sheinbaum","matchAll":["claudia","sheinbaum"],"city":"Mexico City","countryCode":"MX","countryName":"Mexico","lat":19.4326,"lng":-99.1332,"region":"North America","imageUrl":"https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Claudia_Sheinbaum_%28cropped%2C_centered%29.jpg/330px-Claudia_Sheinbaum_%28cropped%2C_centered%29.jpg"},
+    {"key":"pope_leo_xiv","matchAny":["pope leo xiv","leo xiv","robert francis prevost","robert prevost","prevost","pope"],"roleAny":["pope","pontiff","bishop of rome"],"city":"Vatican City","countryCode":"VA","countryName":"Vatican City","lat":41.9029,"lng":12.4534,"region":"Europe","imageUrl":"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Pope_Leo_XIV_portrait_2025.jpg/330px-Pope_Leo_XIV_portrait_2025.jpg"},
+    {"key":"prabowo_subianto","matchAll":["prabowo","subianto"],"city":"Jakarta","countryCode":"ID","countryName":"Indonesia","lat":-6.2088,"lng":106.8456,"region":"Asia","imageUrl":"https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Prabowo_Subianto_2024_official_portrait.jpg/330px-Prabowo_Subianto_2024_official_portrait.jpg"},
+    {"key":"rafael_grossi","matchAny":["rafael grossi","rafael mariano grossi","grossi"],"roleAny":["iaea","international atomic energy agency","nuclear"],"city":"Vienna","countryCode":"AT","countryName":"Austria","lat":48.2082,"lng":16.3738,"region":"Europe","organization":"International Atomic Energy Agency","imageUrl":"https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Rafael_Mariano_Grossi_2022.jpg/330px-Rafael_Mariano_Grossi_2022.jpg"},
+    {"key":"emmanuel_macron","matchAll":["emmanuel","macron"],"city":"Paris","countryCode":"FR","countryName":"France","lat":48.8566,"lng":2.3522,"region":"Europe"},
+    {"key":"king_charles_iii","matchAny":["king charles iii","charles iii"],"roleAny":["king","monarch","royalty"],"city":"London","countryCode":"GB","countryName":"United Kingdom","lat":51.5074,"lng":-0.1278,"region":"Europe"},
+    {"key":"mohammed_bin_salman","matchAll":["salman"],"matchAny":["mohammed","mohammad","muhammad","mbs"],"city":"Riyadh","countryCode":"SA","countryName":"Saudi Arabia","lat":24.7136,"lng":46.6753,"region":"Middle East"},
+    {"key":"antonio_guterres","matchAll":["antonio","guterres"],"city":"New York","countryCode":"US","countryName":"United States","lat":40.7499,"lng":-73.968,"region":"North America","organization":"United Nations"},
+    {"key":"mark_rutte","matchAll":["mark","rutte"],"city":"Brussels","countryCode":"BE","countryName":"Belgium","lat":50.8798,"lng":4.4219,"region":"Europe","organization":"NATO"},
+    {"key":"ursula_von_der_leyen","matchAll":["ursula","leyen"],"city":"Brussels","countryCode":"BE","countryName":"Belgium","lat":50.8503,"lng":4.3517,"region":"Europe"},
+    {"key":"kaja_kallas","matchAll":["kaja","kallas"],"city":"Brussels","countryCode":"BE","countryName":"Belgium","lat":50.8503,"lng":4.3517,"region":"Europe"},
+    {"key":"kristalina_georgieva","matchAll":["kristalina","georgieva"],"city":"Washington","countryCode":"US","countryName":"United States","lat":38.8995,"lng":-77.0436,"region":"North America","organization":"International Monetary Fund"},
+    {"key":"ajay_banga","matchAll":["ajay","banga"],"city":"Washington","countryCode":"US","countryName":"United States","lat":38.8993,"lng":-77.0427,"region":"North America","organization":"World Bank"},
+    {"key":"tedros_ghebreyesus","matchAny":["tedros ghebreyesus","tedros adhanom"],"city":"Geneva","countryCode":"CH","countryName":"Switzerland","lat":46.2327,"lng":6.1341,"region":"Europe","organization":"World Health Organization"}
   ],
-  "blockedEventPatterns": [
-    "City of London finance diplomacy watch",
-    "IAEA nuclear diplomacy watch",
-    "Think-tank leadership events watch",
-    "Royal diaries and state-visit watch",
-    "generic watch cards",
-    "homepage/profile/FAQ/fact sheet/programme rows"
+  "fakeEventTitlePatterns": [
+    "city of london finance diplomacy watch",
+    "iaea nuclear diplomacy watch",
+    "think-tank leadership events watch",
+    "royal diaries and state-visit watch",
+    "group of thirty member and event watch",
+    "bilderberg decade participant watch"
   ]
 }

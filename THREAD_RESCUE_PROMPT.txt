@@ -1,37 +1,8 @@
-ParleyMap final safe package audit
+ParleyMap rescue state:
+The repo had a one-line crawler-visible index.html, missing ads.txt, malformed or empty workflow YAML, duplicate Rafael Grossi visible rows, bad anchors for Pope Leo XIV, Claudia Sheinbaum, Prabowo Subianto and Rafael Grossi, fake dated watch cards, and a previous unsafe roster updater that created historical leader pollution.
 
-Build date: 2026-06-06
+The final package to use is parleymap_magic_final. Upload its contents to the repo root and run the existing workflow named ParleyMap data validation.
 
-Checks performed before release:
-- Node syntax check passed for scripts/parleymap-final-safe-repair.mjs.
-- Node syntax check passed for scripts/parleymap-safe-roster-review.mjs.
-- Workflow YAML parse passed for data-validate.yml, nightly-refresh.yml, monthly-roster-review.yml, and roster-auto-update-now.yml.
-- All workflow files are multiline YAML, not collapsed one-line files.
-- Mock polluted repository dry run passed.
-- Mock current index.html was thin: "parleymap.com".
-- Mock script restored a full safe index.html from git history.
-- Mock people count restored from polluted 137 source to safe 94.
-- Mock roster count stayed 200.
-- Mock expansionRoster count stayed 114.
-- Mock appearances stayed above the safety floor after removing fake watch rows.
-- Mock categories stayed 11.
-- Mock fake rows removed:
-  - City of London finance diplomacy watch
-  - IAEA nuclear diplomacy watch
-  - Think-tank leadership events watch
-  - Royal diaries and state-visit watch
-- Mock anchor audit passed for:
-  - Claudia Sheinbaum -> Mexico City
-  - Pope Leo XIV -> Vatican City
-  - Prabowo Subianto -> Jakarta
-  - Rafael Grossi -> Vienna
-- Mock runtime Leaflet marker guard was inserted.
-- Mock AdSense publisher client was preserved.
-- Mock two data-ad-slot values were preserved.
-- Mock ads.txt was generated from the preserved publisher ID.
+The package preserves existing AdSense IDs from current files or git history and refuses to invent IDs. It writes ads.txt only if a real publisher ID is found.
 
-Important safety behavior:
-- The script never invents AdSense IDs.
-- The script never overwrites found data-ad-slot IDs.
-- If it cannot find AdSense IDs in current files or git history, it reports that and does not insert dummy ad code.
-- The script fails before commit if the hard data audit fails.
+The final package replaces nightly and monthly workflows with safe versions. Nightly runs repair/audit and a no-synthetic-events report. Monthly runs review-only roster diagnostics.

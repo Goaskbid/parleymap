@@ -11,7 +11,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  repair-and-audit:
+  repair-validate-and-commit:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -26,27 +26,28 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Repair data integrity and preserve AdSense
-        run: node scripts/parleymap-final-safe-repair.mjs
+      - name: Run final safe repair and audit
+        run: node scripts/parleymap-final-safe-repair.cjs
 
       - name: Validate embedded dataset when validator exists
         run: |
           if [ -f scripts/validate-demo-data.mjs ]; then
             node scripts/validate-demo-data.mjs
           else
-            echo "scripts/validate-demo-data.mjs not present; final hard audit already passed."
+            echo "validate-demo-data.mjs missing; final safe repair already ran shape audit"
           fi
 
-      - name: Show summary
+      - name: Write workflow summary
         if: always()
         run: |
           if [ -f data/diagnostics/LATEST_RUN_SUMMARY.md ]; then
             cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
-            cat data/diagnostics/LATEST_RUN_SUMMARY.md
           fi
 
+      - name: Show changed files
+        run: git diff --name-only
+
       - name: Upload repaired files
-        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: parleymap-final-safe-repair-files
@@ -57,8 +58,8 @@ jobs:
             data/diagnostics/*.json
             data/diagnostics/*.md
 
-      - name: Commit repaired site data
+      - name: Commit final safe repair
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Repair ParleyMap data integrity and AdSense"
+          commit_message: "Repair ParleyMap data integrity and AdSense surface"
           file_pattern: "index.html ads.txt data/demo.json data/diagnostics/*.json data/diagnostics/*.md"
