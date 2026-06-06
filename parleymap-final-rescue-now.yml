@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - name: Checkout repository with history
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
           ref: main
@@ -26,40 +26,40 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Run final rescue and hard audit
-        run: node scripts/parleymap-safe-rescue.mjs
+      - name: Run final rescue
+        run: node scripts/parleymap-final-rescue.mjs
+
+      - name: Run final audit
+        run: node scripts/parleymap-final-audit.mjs
 
       - name: Validate embedded dataset
         run: |
           if [ -f scripts/validate-demo-data.mjs ]; then
             node scripts/validate-demo-data.mjs
           else
-            echo "No existing validator found. Final rescue already validated core schema."
+            echo "No legacy validator found; final audit already passed."
           fi
 
-      - name: Build readable summary
+      - name: Build summary
         if: always()
         run: |
-          node scripts/parleymap-build-summary.mjs
-          cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
+          node scripts/parleymap-build-summary.mjs || true
+          cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY" || true
 
-      - name: Show changed files
-        run: git diff --name-only
-
-      - name: Upload fixed files
+      - name: Upload final rescue files
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: parleymap-final-rescue-files
           path: |
             index.html
             data/demo.json
-            data/parleymap-anchor-registry.json
-            data/diagnostics/final-rescue-report.json
-            data/diagnostics/final-audit-report.json
-            data/diagnostics/LATEST_RUN_SUMMARY.md
+            data/curated-anchors.json
+            data/diagnostics/*.json
+            data/diagnostics/*.md
 
       - name: Commit final rescue
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Apply ParleyMap final rescue"
-          file_pattern: "index.html data/demo.json data/parleymap-anchor-registry.json data/diagnostics/final-rescue-report.json data/diagnostics/final-audit-report.json data/diagnostics/LATEST_RUN_SUMMARY.md"
+          file_pattern: "index.html data/demo.json data/curated-anchors.json data/diagnostics/*.json data/diagnostics/*.md"

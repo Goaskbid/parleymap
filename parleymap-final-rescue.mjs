@@ -1,149 +1,40 @@
-import fs from 'node:fs';
-import { execSync } from 'node:child_process';
+import fs from "node:fs";
+import { execFileSync } from "node:child_process";
 
-const INDEX_PATH = 'index.html';
-const DEMO_PATH = 'data/demo.json';
-const REPORT_PATH = 'data/diagnostics/final-rescue-report.json';
-const SUMMARY_PATH = 'data/diagnostics/LATEST_RUN_SUMMARY.md';
-
-const OPEN_TAG = '<script id="demo-data" type="application/json">';
-const CLOSE_TAG = '</' + 'script>';
-const GUARD_START = '<!-- PARLEYMAP_ANCHOR_RUNTIME_GUARD_START -->';
-const GUARD_END = '<!-- PARLEYMAP_ANCHOR_RUNTIME_GUARD_END -->';
-
-const TARGETS = [
-  {
-    key: 'claudia_sheinbaum',
-    displayName: 'Claudia Sheinbaum',
-    must: ['claudia', 'sheinbaum'],
-    idHints: ['claudia-sheinbaum', 'sheinbaum'],
-    anchor: { city: 'Mexico City', countryCode: 'MX', countryName: 'Mexico', lat: 19.4326, lng: -99.1332, region: 'North America', organization: 'Mexico' },
-    imageFallback: 'https://commons.wikimedia.org/wiki/Special:FilePath/Claudia%20Sheinbaum%20%28cropped%2C%20centered%29.jpg'
-  },
-  {
-    key: 'pope_leo_xiv',
-    displayName: 'Pope Leo XIV',
-    any: ['pope leo xiv', 'leo xiv', 'robert prevost', 'robert francis prevost'],
-    roleAny: ['pope', 'pontiff', 'bishop of rome'],
-    idHints: ['pope', 'leo-xiv', 'leo_xiv', 'prevost'],
-    anchor: { city: 'Vatican City', countryCode: 'VA', countryName: 'Vatican City', lat: 41.9029, lng: 12.4534, region: 'Europe', organization: 'Holy See' },
-    imageFallback: 'https://commons.wikimedia.org/wiki/Special:FilePath/Pope%20Leo%20XIV%202025.jpg'
-  },
-  {
-    key: 'prabowo_subianto',
-    displayName: 'Prabowo Subianto',
-    must: ['prabowo', 'subianto'],
-    idHints: ['prabowo', 'subianto'],
-    anchor: { city: 'Jakarta', countryCode: 'ID', countryName: 'Indonesia', lat: -6.2088, lng: 106.8456, region: 'Asia', organization: 'Indonesia' },
-    imageFallback: 'https://commons.wikimedia.org/wiki/Special:FilePath/Prabowo%20Subianto%20official%20portrait.jpg'
-  },
-  {
-    key: 'rafael_grossi',
-    displayName: 'Rafael Grossi',
-    must: ['rafael', 'grossi'],
-    idHints: ['grossi', 'rafael-grossi'],
-    anchor: { city: 'Vienna', countryCode: 'AT', countryName: 'Austria', lat: 48.2345, lng: 16.4166, region: 'Europe', organization: 'IAEA' },
-    imageFallback: 'https://commons.wikimedia.org/wiki/Special:FilePath/Rafael%20Grossi%202023.jpg'
-  },
-  {
-    key: 'mohammed_bin_salman',
-    displayName: 'Mohammed bin Salman',
-    must: ['salman'],
-    any: ['mohammed', 'mohammad', 'muhammad', 'mbs'],
-    idHints: ['mohammed-bin-salman', 'mohammad-bin-salman', 'salman', 'mbs'],
-    anchor: { city: 'Riyadh', countryCode: 'SA', countryName: 'Saudi Arabia', lat: 24.7136, lng: 46.6753, region: 'Middle East', organization: 'Saudi Arabia' },
-    imageFallback: 'https://commons.wikimedia.org/wiki/Special:FilePath/Mohammed%20bin%20Salman%20Al%20Saud%20-%202023.jpg'
-  },
-  {
-    key: 'antonio_guterres',
-    displayName: 'Antonio Guterres',
-    must: ['antonio'],
-    any: ['guterres', 'gutierres'],
-    idHints: ['guterres'],
-    anchor: { city: 'New York', countryCode: 'US', countryName: 'United States', lat: 40.7499, lng: -73.9680, region: 'North America', organization: 'United Nations' },
-    imageFallback: 'https://commons.wikimedia.org/wiki/Special:FilePath/Ant%C3%B3nio%20Guterres%20UN%20Secretary-General.jpg'
-  },
-  {
-    key: 'mark_rutte',
-    displayName: 'Mark Rutte',
-    must: ['mark', 'rutte'],
-    idHints: ['mark-rutte', 'rutte'],
-    anchor: { city: 'Brussels', countryCode: 'BE', countryName: 'Belgium', lat: 50.8798, lng: 4.4219, region: 'Europe', organization: 'NATO' },
-    imageFallback: 'https://commons.wikimedia.org/wiki/Special:FilePath/Mark%20Rutte%202024.jpg'
-  },
-  {
-    key: 'ursula_von_der_leyen',
-    displayName: 'Ursula von der Leyen',
-    must: ['ursula'],
-    any: ['leyen', 'von der leyen'],
-    idHints: ['von-der-leyen', 'ursula'],
-    anchor: { city: 'Brussels', countryCode: 'BE', countryName: 'Belgium', lat: 50.8503, lng: 4.3517, region: 'Europe', organization: 'European Commission' },
-    imageFallback: 'https://commons.wikimedia.org/wiki/Special:FilePath/Ursula%20von%20der%20Leyen%202024.jpg'
-  },
-  {
-    key: 'kaja_kallas',
-    displayName: 'Kaja Kallas',
-    must: ['kaja', 'kallas'],
-    idHints: ['kaja-kallas', 'kallas'],
-    anchor: { city: 'Brussels', countryCode: 'BE', countryName: 'Belgium', lat: 50.8503, lng: 4.3517, region: 'Europe', organization: 'European Union' },
-    imageFallback: 'https://commons.wikimedia.org/wiki/Special:FilePath/Kaja%20Kallas%202024.jpg'
-  },
-  {
-    key: 'kristalina_georgieva',
-    displayName: 'Kristalina Georgieva',
-    must: ['kristalina', 'georgieva'],
-    idHints: ['georgieva', 'kristalina'],
-    anchor: { city: 'Washington', countryCode: 'US', countryName: 'United States', lat: 38.8995, lng: -77.0436, region: 'North America', organization: 'IMF' },
-    imageFallback: 'https://commons.wikimedia.org/wiki/Special:FilePath/Kristalina%20Georgieva%202023.jpg'
-  },
-  {
-    key: 'ajay_banga',
-    displayName: 'Ajay Banga',
-    must: ['ajay', 'banga'],
-    idHints: ['ajay-banga', 'banga'],
-    anchor: { city: 'Washington', countryCode: 'US', countryName: 'United States', lat: 38.8993, lng: -77.0427, region: 'North America', organization: 'World Bank' },
-    imageFallback: 'https://commons.wikimedia.org/wiki/Special:FilePath/Ajay%20Banga.jpg'
-  },
-  {
-    key: 'tedros_ghebreyesus',
-    displayName: 'Tedros Ghebreyesus',
-    must: ['tedros'],
-    any: ['ghebreyesus', 'adhanom'],
-    idHints: ['tedros'],
-    anchor: { city: 'Geneva', countryCode: 'CH', countryName: 'Switzerland', lat: 46.2327, lng: 6.1341, region: 'Europe', organization: 'WHO' },
-    imageFallback: 'https://commons.wikimedia.org/wiki/Special:FilePath/Tedros%20Adhanom%20Ghebreyesus%202023.jpg'
-  }
-];
+const INDEX_PATH = "index.html";
+const DEMO_PATH = "data/demo.json";
+const ANCHORS_PATH = "data/curated-anchors.json";
+const REPORT_PATH = "data/diagnostics/final-rescue-report.json";
+const SUMMARY_PATH = "data/diagnostics/LATEST_RUN_SUMMARY.md";
+const OPEN = '<script id="demo-data" type="application/json">';
+const CLOSE = "</" + "script>";
+const GUARD_ID = "parleymap-final-anchor-guard";
 
 function norm(value) {
-  return String(value || '')
+  return String(value || "")
     .toLowerCase()
-    .normalize('NFKD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/[^a-z0-9]+/g, ' ')
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, " ")
     .trim();
 }
 
-function slug(value) {
-  return norm(value).replace(/ /g, '-').replace(/^-+|-+$/g, '').slice(0, 90);
+function readConfig() {
+  return JSON.parse(fs.readFileSync(ANCHORS_PATH, "utf8"));
 }
 
-function readEmbeddedFromHtml(html, label = 'index.html') {
-  const start = html.indexOf(OPEN_TAG);
-  if (start === -1) throw new Error(`${label}: demo-data opening tag not found`);
-  const jsonStart = start + OPEN_TAG.length;
-  const jsonEnd = html.indexOf(CLOSE_TAG, jsonStart);
-  if (jsonEnd === -1) throw new Error(`${label}: demo-data closing tag not found`);
-  const jsonText = html.slice(jsonStart, jsonEnd).trim();
-  const data = JSON.parse(jsonText);
+function extractEmbedded(html) {
+  const start = html.indexOf(OPEN);
+  if (start === -1) throw new Error("demo-data opening tag not found");
+  const jsonStart = start + OPEN.length;
+  const jsonEnd = html.indexOf(CLOSE, jsonStart);
+  if (jsonEnd === -1) throw new Error("demo-data closing tag not found");
+  const data = JSON.parse(html.slice(jsonStart, jsonEnd).trim());
   return { html, jsonStart, jsonEnd, data };
 }
 
-function writeEmbedded(payload, data) {
-  const nextHtml = payload.html.slice(0, payload.jsonStart) + '\n' + JSON.stringify(data, null, 2) + '\n' + payload.html.slice(payload.jsonEnd);
-  fs.writeFileSync(INDEX_PATH, nextHtml);
-  fs.mkdirSync('data', { recursive: true });
-  fs.writeFileSync(DEMO_PATH, JSON.stringify(data, null, 2) + '\n');
+function readIndex() {
+  return extractEmbedded(fs.readFileSync(INDEX_PATH, "utf8"));
 }
 
 function counts(data) {
@@ -157,398 +48,433 @@ function counts(data) {
   };
 }
 
-function validateCore(data, label) {
-  for (const key of ['meta', 'people', 'roster', 'expansionRoster', 'appearances', 'categories']) {
-    if (!(key in data)) throw new Error(`${label}: missing ${key}`);
-  }
-  for (const key of ['people', 'roster', 'expansionRoster', 'appearances', 'categories']) {
+function validateMinimumShape(data, label = "data") {
+  for (const key of ["people", "roster", "expansionRoster", "appearances", "categories"]) {
     if (!Array.isArray(data[key])) throw new Error(`${label}: ${key} must be an array`);
   }
-  if (data.people.length < 90 || data.people.length > 115) throw new Error(`${label}: people count outside safe range: ${data.people.length}`);
-  if (data.roster.length < 190 || data.roster.length > 205) throw new Error(`${label}: roster count outside safe range: ${data.roster.length}`);
-  if (data.expansionRoster.length < 100 || data.expansionRoster.length > 130) throw new Error(`${label}: expansionRoster count outside safe range: ${data.expansionRoster.length}`);
-  if (data.appearances.length < 500) throw new Error(`${label}: appearances count too low: ${data.appearances.length}`);
-  if (data.categories.length < 10) throw new Error(`${label}: categories count too low: ${data.categories.length}`);
+  if (data.people.length < 90) throw new Error(`${label}: people count too low`);
+  if (data.roster.length < 190) throw new Error(`${label}: roster count too low`);
+  if (data.expansionRoster.length < 100) throw new Error(`${label}: expansionRoster count too low`);
+  if (data.appearances.length < 500) throw new Error(`${label}: appearances count too low`);
+  if (data.categories.length < 10) throw new Error(`${label}: categories count too low`);
 }
 
-function pollutedReason(data) {
-  const c = counts(data);
-  if (c.people !== null && c.people > 115) return `people_count_${c.people}`;
-  const text = JSON.stringify(data).slice(0, 5000000);
-  if (/miguel-de-la-madrid|lazaro-cardenas|pascual-ortiz-rubio|gustavo-diaz-ordaz/i.test(text)) return 'historical_mexico_president_pollution';
-  return '';
+function textOfRow(row) {
+  return norm([
+    row?.id,
+    row?.slug,
+    row?.name,
+    row?.canonicalName,
+    row?.roleTitle,
+    row?.organization,
+    row?.category,
+    row?.country,
+    row?.countryName,
+    row?.countryFocus,
+    row?.countryFocusCode,
+    row?.profileLine,
+    Array.isArray(row?.profileLines) ? row.profileLines.join(" ") : "",
+    row?.title,
+    row?.summary
+  ].join(" "));
 }
 
-function candidateIsGood(data) {
+function isActiveHistoricalPollution(data, config) {
+  const badNames = config.historicalActiveBlocklist || [];
+  const activeCollections = ["roster", "topRoster", "expansionRoster", "priorityExpansion"];
+  for (const collection of activeCollections) {
+    const rows = Array.isArray(data[collection]) ? data[collection] : [];
+    for (const row of rows) {
+      const text = textOfRow(row);
+      const role = norm(row?.roleTitle || "");
+      const inactive = /former|deceased|historical|archival/.test(role + " " + norm(row?.trackingStatus));
+      if (inactive) continue;
+      if (badNames.some((name) => text.includes(norm(name)))) return true;
+    }
+  }
+  return false;
+}
+
+function isSafeHistoricalCandidate(data, config) {
   try {
-    validateCore(data, 'candidate');
+    validateMinimumShape(data, "candidate");
   } catch {
     return false;
   }
-  return !pollutedReason(data);
+  const c = counts(data);
+  if (c.people > 115) return false;
+  if (c.roster !== 200) return false;
+  if (c.expansionRoster < 100 || c.expansionRoster > 130) return false;
+  if (isActiveHistoricalPollution(data, config)) return false;
+  return true;
 }
 
-function findLastGoodHtml(currentPayload) {
-  if (candidateIsGood(currentPayload.data)) {
-    return { source: 'current_index', html: currentPayload.html, data: currentPayload.data, commit: 'HEAD' };
-  }
+function restoreSafeIndexIfNeeded(current, config) {
+  const before = counts(current.data);
+  const polluted = before.people > 115 || isActiveHistoricalPollution(current.data, config);
+  if (!polluted) return { payload: current, restored: false, restoredFrom: null, before };
 
   let commits = [];
   try {
-    commits = execSync('git rev-list --max-count=120 HEAD -- index.html', { encoding: 'utf8' })
-      .split('\n')
+    commits = execFileSync("git", ["log", "--format=%H", "--", INDEX_PATH], { encoding: "utf8" })
+      .split("\n")
       .map((line) => line.trim())
       .filter(Boolean);
   } catch (error) {
-    throw new Error(`Unable to inspect git history for index.html: ${error.message}`);
+    throw new Error(`failed to inspect git history: ${error.message}`);
   }
 
-  for (const commit of commits) {
-    let html = '';
+  for (const sha of commits) {
+    let html;
     try {
-      html = execSync(`git show ${commit}:index.html`, { encoding: 'utf8', maxBuffer: 80 * 1024 * 1024 });
+      html = execFileSync("git", ["show", `${sha}:${INDEX_PATH}`], { encoding: "utf8", maxBuffer: 80 * 1024 * 1024 });
     } catch {
       continue;
     }
+    let candidate;
     try {
-      const payload = readEmbeddedFromHtml(html, commit);
-      if (candidateIsGood(payload.data)) {
-        return { source: 'git_history', html, data: payload.data, commit };
-      }
+      candidate = extractEmbedded(html);
     } catch {
       continue;
     }
+    if (!isSafeHistoricalCandidate(candidate.data, config)) continue;
+    fs.writeFileSync(INDEX_PATH, html);
+    return { payload: extractEmbedded(html), restored: true, restoredFrom: sha, before };
   }
 
-  throw new Error('No safe historical index.html found. Refusing to repair from polluted data.');
+  throw new Error("dataset is polluted and no safe index.html was found in git history");
 }
 
-function profileText(obj) {
-  return norm([
-    obj?.id,
-    obj?.slug,
-    obj?.name,
-    obj?.canonicalName,
-    obj?.personName,
-    obj?.roleTitle,
-    obj?.organization,
-    obj?.category,
-    obj?.country,
-    obj?.countryName,
-    obj?.countryFocus,
-    obj?.countryFocusCode,
-    obj?.profileLine,
-    Array.isArray(obj?.profileLines) ? obj.profileLines.join(' ') : ''
-  ].join(' '));
+function targetMatches(row, target) {
+  const text = textOfRow(row);
+  const allOk = !target.matchAll || target.matchAll.every((term) => text.includes(norm(term)));
+  const anyOk = !target.matchAny || target.matchAny.some((term) => text.includes(norm(term)));
+  const roleOk = !target.roleAny || target.roleAny.some((term) => text.includes(norm(term)));
+  return allOk && anyOk && roleOk;
 }
 
-function targetMatchesObject(obj, target, idMap) {
-  if (!obj || typeof obj !== 'object' || Array.isArray(obj)) return false;
-  const text = profileText(obj);
-  const id = String(obj.id || obj.slug || obj.personId || '').toLowerCase();
-  const personId = String(obj.personId || '').toLowerCase();
-  const idHit = [...(idMap.get(target.key) || [])].some((candidateId) => {
-    const clean = String(candidateId || '').toLowerCase();
-    return clean && (id === clean || personId === clean || id.includes(clean));
-  });
-  const hintHit = (target.idHints || []).some((hint) => id.includes(String(hint).toLowerCase()) || personId.includes(String(hint).toLowerCase()));
-  const mustOk = !target.must || target.must.every((part) => text.includes(norm(part)));
-  const anyOk = !target.any || target.any.some((part) => text.includes(norm(part)));
-  const roleOk = !target.roleAny || target.roleAny.some((part) => text.includes(norm(part)));
-  return idHit || hintHit || (mustOk && anyOk && roleOk);
-}
-
-function makeAnchor(target) {
+function anchorObject(target) {
   const a = target.anchor;
   return {
-    label: `${a.city} institutional base`,
+    label: a.label,
     city: a.city,
     countryCode: a.countryCode,
     countryName: a.countryName,
     lat: a.lat,
     lng: a.lng,
-    lon: a.lng,
-    latitude: a.lat,
-    longitude: a.lng,
-    precision: 'city',
-    type: 'institutional_base',
-    privacy: 'city-level public institutional base only',
-    source: 'curated ParleyMap anchor registry'
+    precision: "city",
+    type: "institutional_base",
+    privacy: "city-level public institutional base only"
   };
 }
 
-function hasBadOrMissingImage(obj) {
-  const value = String(obj.imageUrl || obj.image || obj.portraitUrl || obj.avatarUrl || '').trim();
-  return !value || /placeholder|needs-review|undefined|null/i.test(value);
+function snapshot(row) {
+  return {
+    id: row?.id || null,
+    slug: row?.slug || null,
+    name: row?.canonicalName || row?.name || null,
+    title: row?.title || null,
+    personId: row?.personId || null,
+    countryFocus: row?.countryFocus || null,
+    countryFocusCode: row?.countryFocusCode || null,
+    countryCode: row?.countryCode || null,
+    countryName: row?.countryName || row?.country || null,
+    lat: row?.lat ?? row?.latitude ?? row?.mapLat ?? row?.homeLat ?? row?.location?.lat ?? null,
+    lng: row?.lng ?? row?.lon ?? row?.longitude ?? row?.mapLng ?? row?.homeLng ?? row?.location?.lng ?? row?.location?.lon ?? null,
+    imageUrl: row?.imageUrl || null,
+    homeBases: Array.isArray(row?.homeBases) ? row.homeBases : null,
+    location: row?.location || null
+  };
 }
 
-function patchObject(obj, target, options = {}) {
-  const anchor = makeAnchor(target);
+function applyAnchorToRow(row, target, options = {}) {
   const a = target.anchor;
-  const before = snapshot(obj);
+  const anchor = anchorObject(target);
 
-  obj.countryFocus = a.countryCode;
-  obj.countryFocusCode = a.countryCode;
-  obj.countryCode = a.countryCode;
-  obj.countryName = a.countryName;
-  obj.country = a.countryName;
-  obj.homeRegion = a.region;
-  obj.region = obj.region || a.region;
-  obj.organization = obj.organization || a.organization || a.countryName;
-  obj.locationStatus = 'institutional_base_city_level';
+  row.countryFocus = options.orgCode || target.orgIcon || a.countryCode;
+  row.countryFocusCode = options.orgCode || target.orgIcon || a.countryCode;
+  row.countryCode = a.countryCode;
+  row.countryName = a.countryName;
+  row.country = a.countryName;
+  row.homeRegion = a.region;
+  row.region = row.region || a.region;
+  row.locationStatus = "institutional_base_city_level";
 
-  obj.homeBases = [anchor];
-  obj.homeBase = anchor;
-  obj.mapAnchor = anchor;
-  obj.anchorLocation = anchor;
-  obj.baseLocation = anchor;
-  obj.institutionalBase = anchor;
-  obj.publicLocation = anchor;
-  obj.location = anchor;
-  obj.venuePublic = true;
-  obj.securityPrecision = obj.securityPrecision || 'city-level public/institutional location only';
+  row.homeBases = [anchor];
+  row.homeBase = anchor;
+  row.mapAnchor = anchor;
+  row.anchorLocation = anchor;
+  row.baseLocation = anchor;
+  row.institutionalBase = anchor;
+  row.publicLocation = anchor;
 
-  obj.lat = a.lat;
-  obj.lng = a.lng;
-  obj.lon = a.lng;
-  obj.long = a.lng;
-  obj.latitude = a.lat;
-  obj.longitude = a.lng;
-  obj.homeLat = a.lat;
-  obj.homeLng = a.lng;
-  obj.homeLon = a.lng;
-  obj.homeLongitude = a.lng;
-  obj.mapLat = a.lat;
-  obj.mapLng = a.lng;
-  obj.mapLon = a.lng;
-  obj.mapLongitude = a.lng;
-  obj.anchorLat = a.lat;
-  obj.anchorLng = a.lng;
-  obj.anchorLon = a.lng;
-  obj.anchorLongitude = a.lng;
-  obj.baseLat = a.lat;
-  obj.baseLng = a.lng;
-  obj.baseLon = a.lng;
-  obj.baseLongitude = a.lng;
+  row.lat = a.lat;
+  row.lng = a.lng;
+  row.lon = a.lng;
+  row.long = a.lng;
+  row.latitude = a.lat;
+  row.longitude = a.lng;
+  row.homeLat = a.lat;
+  row.homeLng = a.lng;
+  row.homeLon = a.lng;
+  row.homeLongitude = a.lng;
+  row.mapLat = a.lat;
+  row.mapLng = a.lng;
+  row.mapLon = a.lng;
+  row.mapLongitude = a.lng;
+  row.anchorLat = a.lat;
+  row.anchorLng = a.lng;
+  row.anchorLon = a.lng;
+  row.anchorLongitude = a.lng;
+  row.baseLat = a.lat;
+  row.baseLng = a.lng;
+  row.baseLon = a.lng;
+  row.baseLongitude = a.lng;
 
-  obj.coordinates = { lat: a.lat, lng: a.lng, lon: a.lng };
-  obj.position = { lat: a.lat, lng: a.lng, lon: a.lng };
-  obj.geo = { lat: a.lat, lng: a.lng, lon: a.lng, city: a.city, countryCode: a.countryCode, countryName: a.countryName };
-  obj.leafletLatLng = [a.lat, a.lng];
-  obj.geoJsonCoordinates = [a.lng, a.lat];
+  row.coordinates = { lat: a.lat, lng: a.lng, lon: a.lng };
+  row.geo = { lat: a.lat, lng: a.lng, lon: a.lng, city: a.city, countryCode: a.countryCode, countryName: a.countryName };
+  row.position = { lat: a.lat, lng: a.lng };
+  row.leafletLatLng = [a.lat, a.lng];
+  row.geoJsonCoordinates = [a.lng, a.lat];
 
-  obj.flagAudit = {
-    ...(obj.flagAudit || {}),
-    code: a.countryCode,
+  row.flagAudit = {
+    ...(row.flagAudit || {}),
+    code: target.orgIcon || a.countryCode,
     countryCode: a.countryCode,
     countryName: a.countryName,
-    label: a.countryName,
-    status: 'country flag'
+    label: target.orgIcon || a.countryName,
+    status: target.orgIcon ? "institutional icon with city anchor" : "country flag"
   };
-  obj.flagCode = a.countryCode;
-  obj.countryFlagCode = a.countryCode;
 
-  if (target.imageFallback && hasBadOrMissingImage(obj)) {
-    obj.imageUrl = target.imageFallback;
-    obj.portraitUrl = obj.portraitUrl || target.imageFallback;
-    obj.avatarUrl = obj.avatarUrl || target.imageFallback;
-    obj.imageProvider = 'Wikimedia Commons fallback';
-    obj.visualAuditStatus = 'curated_fallback_image';
-    obj.visualStatus = 'curated_fallback_image';
+  row.flagCode = target.orgIcon || a.countryCode;
+  row.countryFlagCode = target.orgIcon || a.countryCode;
+  if (target.orgIcon) row.orgIcon = target.orgIcon;
+
+  if (target.imageUrl && (!row.imageUrl || /placeholder|transparent|blank|missing|data:image/i.test(String(row.imageUrl)))) {
+    row.imageUrl = target.imageUrl;
+    row.imageProvider = "curated public image fallback";
+    row.visualAuditStatus = "curated fallback image";
+    row.visualStatus = "curated fallback image";
+    row.imageAudit = { ...(row.imageAudit || {}), status: "curated fallback image", source: target.imageUrl };
   }
-
-  obj.anchorAudit = {
-    status: 'curated_anchor_applied',
-    target: target.key,
-    city: a.city,
-    countryCode: a.countryCode,
-    generatedAt: new Date().toISOString()
-  };
-  obj.lastAnchorRepair = new Date().toISOString();
-
-  return { before, after: snapshot(obj) };
 }
 
-function snapshot(obj) {
-  return {
-    id: obj.id || null,
-    slug: obj.slug || null,
-    personId: obj.personId || null,
-    name: obj.canonicalName || obj.name || obj.personName || null,
-    title: obj.title || null,
-    countryFocusCode: obj.countryFocusCode || null,
-    countryName: obj.countryName || obj.country || null,
-    lat: obj.lat ?? obj.latitude ?? obj.mapLat ?? obj.homeLat ?? obj.location?.lat ?? null,
-    lng: obj.lng ?? obj.lon ?? obj.longitude ?? obj.mapLng ?? obj.homeLng ?? obj.location?.lng ?? obj.location?.lon ?? null,
-    imageUrl: obj.imageUrl || obj.portraitUrl || obj.avatarUrl || null
-  };
+function applyAnchorToAppearance(row, target) {
+  const a = target.anchor;
+  const anchor = anchorObject(target);
+  row.location = anchor;
+  row.venuePublic = true;
+  row.securityPrecision = "city-level public institutional or public-source appearance only; no private stops, hotels, residences, leaked routes or live proximity";
+  row.lat = a.lat;
+  row.lng = a.lng;
+  row.lon = a.lng;
+  row.latitude = a.lat;
+  row.longitude = a.lng;
+  row.mapLat = a.lat;
+  row.mapLng = a.lng;
+  row.coordinates = { lat: a.lat, lng: a.lng, lon: a.lng };
+  row.geo = { lat: a.lat, lng: a.lng, lon: a.lng, city: a.city, countryCode: a.countryCode, countryName: a.countryName };
 }
 
-function walk(value, path, callback, seen = new Set()) {
-  if (!value || typeof value !== 'object') return;
-  if (seen.has(value)) return;
-  seen.add(value);
+function walk(value, path, callback) {
+  if (!value || typeof value !== "object") return;
   if (Array.isArray(value)) {
-    value.forEach((child, index) => walk(child, `${path}[${index}]`, callback, seen));
+    value.forEach((child, index) => walk(child, `${path}[${index}]`, callback));
     return;
   }
   callback(value, path);
   for (const [key, child] of Object.entries(value)) {
-    if (child && typeof child === 'object') walk(child, `${path}.${key}`, callback, seen);
+    if (child && typeof child === "object") walk(child, `${path}.${key}`, callback);
   }
 }
 
-function collectTargetIds(data) {
-  const idMap = new Map(TARGETS.map((target) => [target.key, new Set()]));
-  const likelyCollections = ['people', 'roster', 'topRoster', 'expansionRoster', 'priorityExpansion', 'watchlistExamples'];
-  for (const collection of likelyCollections) {
+function collectTargetIds(data, targets) {
+  const ids = new Map(targets.map((target) => [target.key, new Set()]));
+  const collections = ["people", "roster", "topRoster", "expansionRoster", "priorityExpansion", "watchlistExamples"];
+  for (const collection of collections) {
     const rows = data[collection];
     if (!rows) continue;
-    walk(rows, collection, (obj) => {
-      for (const target of TARGETS) {
-        const text = profileText(obj);
-        const mustOk = !target.must || target.must.every((part) => text.includes(norm(part)));
-        const anyOk = !target.any || target.any.some((part) => text.includes(norm(part)));
-        const roleOk = !target.roleAny || target.roleAny.some((part) => text.includes(norm(part)));
-        const hintOk = (target.idHints || []).some((hint) => String(obj.id || obj.slug || '').toLowerCase().includes(String(hint).toLowerCase()));
-        if (hintOk || (mustOk && anyOk && roleOk)) {
-          for (const key of ['id', 'slug', 'personId', 'wikidataId']) {
-            if (obj[key]) idMap.get(target.key).add(String(obj[key]));
-          }
-        }
+    walk(rows, collection, (row) => {
+      if (!row || typeof row !== "object") return;
+      for (const target of targets) {
+        if (targetMatches(row, target) && row.id) ids.get(target.key).add(String(row.id));
       }
     });
   }
-  return idMap;
+  return ids;
 }
 
-function applyRepairs(data) {
-  const idMap = collectTargetIds(data);
-  const patches = [];
-  walk(data, 'data', (obj, path) => {
-    const profileish = obj.id || obj.slug || obj.personId || obj.name || obj.canonicalName || obj.personName || obj.roleTitle || obj.title;
-    if (!profileish) return;
-    for (const target of TARGETS) {
-      if (!targetMatchesObject(obj, target, idMap)) continue;
-      const patch = patchObject(obj, target);
-      patches.push({ target: target.key, path, ...patch });
+function repairAnchorsAndFaces(data, config) {
+  const targets = config.targets || [];
+  const targetIds = collectTargetIds(data, targets);
+  const fixes = [];
+  const collections = ["people", "roster", "topRoster", "expansionRoster", "priorityExpansion", "watchlistExamples", "organizationProfiles"];
+
+  for (const collection of collections) {
+    const rows = data[collection];
+    if (!rows) continue;
+    walk(rows, collection, (row, path) => {
+      if (!row || typeof row !== "object") return;
+      for (const target of targets) {
+        if (!targetMatches(row, target)) continue;
+        const before = snapshot(row);
+        applyAnchorToRow(row, target);
+        fixes.push({ target: target.key, type: "profile_or_roster", path, before, after: snapshot(row) });
+        break;
+      }
+    });
+  }
+
+  const appearanceFixes = [];
+  const appearanceRows = Array.isArray(data.appearances) ? data.appearances : [];
+  for (let i = 0; i < appearanceRows.length; i++) {
+    const row = appearanceRows[i];
+    if (!row || typeof row !== "object") continue;
+    for (const target of targets) {
+      const ids = targetIds.get(target.key) || new Set();
+      const idHit = row.personId && ids.has(String(row.personId));
+      const textHit = targetMatches(row, target);
+      if (!target.forceAppearanceAnchor || (!idHit && !textHit)) continue;
+      const before = snapshot(row);
+      applyAnchorToAppearance(row, target);
+      appearanceFixes.push({ target: target.key, type: "appearance", path: `appearances[${i}]`, before, after: snapshot(row) });
       break;
     }
-  });
-  return { patches, idMap: Object.fromEntries([...idMap.entries()].map(([k, v]) => [k, [...v]])) };
+  }
+
+  return { fixes, appearanceFixes, targetIds: Object.fromEntries([...targetIds.entries()].map(([key, set]) => [key, [...set]])) };
 }
 
-function runtimeGuardScript() {
-  const registry = Object.fromEntries(TARGETS.map((target) => [target.key, {
-    name: target.displayName,
-    aliases: [...(target.must || []), ...(target.any || []), ...(target.idHints || []), target.displayName].filter(Boolean),
-    lat: target.anchor.lat,
-    lng: target.anchor.lng,
-    city: target.anchor.city,
-    countryCode: target.anchor.countryCode,
-    countryName: target.anchor.countryName
-  }]));
-  return `${GUARD_START}\n<script>\n(function(){\n  var REGISTRY = ${JSON.stringify(registry)};\n  function norm(v){return String(v||'').toLowerCase().normalize('NFKD').replace(/[\\u0300-\\u036f]/g,'').replace(/[^a-z0-9]+/g,' ').trim();}\n  function textOf(v){\n    try {\n      if (!v) return '';\n      if (typeof v === 'string') return v;\n      if (v instanceof Element) return v.textContent || v.innerText || '';\n      if (Array.isArray(v)) return v.map(textOf).join(' ');\n      if (typeof v === 'object') return JSON.stringify(v).slice(0,3000);\n      return String(v);\n    } catch(e){ return ''; }\n  }\n  function targetForText(v){\n    var t = norm(textOf(v));\n    if (!t) return null;\n    var keys = Object.keys(REGISTRY);\n    for (var i=0;i<keys.length;i++){\n      var r = REGISTRY[keys[i]];\n      var aliases = r.aliases || [];\n      for (var j=0;j<aliases.length;j++){\n        var a = norm(aliases[j]);\n        if (a && t.indexOf(a) !== -1) return r;\n      }\n    }\n    return null;\n  }\n  function latlng(r){ return [Number(r.lat), Number(r.lng)]; }\n  function forceLayer(layer, target){\n    try {\n      if (!layer || !target || !Number.isFinite(Number(target.lat)) || !Number.isFinite(Number(target.lng))) return;\n      layer.__parleymapForcedAnchor = target;\n      if (typeof layer.setLatLng === 'function') layer.setLatLng(latlng(target));\n      if (layer.options) {\n        layer.options.lat = target.lat; layer.options.lng = target.lng; layer.options.lon = target.lng;\n      }\n    } catch(e) {}\n  }\n  function patchLeaflet(L){\n    if (!L || L.__parleymapAnchorGuardPatched) return;\n    L.__parleymapAnchorGuardPatched = true;\n    window.__parleymapLeafletMaps = window.__parleymapLeafletMaps || [];\n    var oldMap = L.map;\n    if (typeof oldMap === 'function') {\n      L.map = function(){ var m = oldMap.apply(this, arguments); try { window.__parleymapLeafletMaps.push(m); } catch(e){} return m; };\n    }\n    ['marker','circleMarker'].forEach(function(name){\n      var old = L[name];\n      if (typeof old !== 'function') return;\n      L[name] = function(latlngArg, opts){\n        var target = targetForText(opts) || targetForText(latlngArg);\n        if (target) latlngArg = latlng(target);\n        var layer = old.call(this, latlngArg, opts);\n        if (target) forceLayer(layer, target);\n        return layer;\n      };\n    });\n    function patchProto(proto){\n      if (!proto || proto.__parleymapAnchorGuardProtoPatched) return;\n      proto.__parleymapAnchorGuardProtoPatched = true;\n      ['bindTooltip','bindPopup'].forEach(function(method){\n        var old = proto[method];\n        if (typeof old !== 'function') return;\n        proto[method] = function(content, options){\n          var result = old.apply(this, arguments);\n          var target = targetForText(content) || targetForText(options) || targetForText(this.options);\n          if (target) forceLayer(this, target);\n          return result;\n        };\n      });\n      var oldOnAdd = proto.onAdd;\n      if (typeof oldOnAdd === 'function') {\n        proto.onAdd = function(map){\n          var result = oldOnAdd.apply(this, arguments);\n          var self = this;\n          setTimeout(function(){\n            var target = targetForText(self.options) || targetForText(self._tooltip && self._tooltip._content) || targetForText(self._popup && self._popup._content) || targetForText(self._icon);\n            if (target) forceLayer(self, target);\n          }, 0);\n          return result;\n        };\n      }\n    }\n    patchProto(L.Marker && L.Marker.prototype);\n    patchProto(L.CircleMarker && L.CircleMarker.prototype);\n  }\n  function install(){ try { if (window.L) patchLeaflet(window.L); } catch(e){} }\n  try {\n    var currentL = window.L;\n    Object.defineProperty(window, 'L', { configurable: true, get: function(){ return currentL; }, set: function(v){ currentL = v; setTimeout(function(){ patchLeaflet(v); },0); } });\n    if (currentL) setTimeout(function(){ patchLeaflet(currentL); },0);\n  } catch(e) { install(); }\n  document.addEventListener('DOMContentLoaded', install);\n  window.addEventListener('load', install);\n  var tries = 0;\n  var timer = setInterval(function(){ install(); if (++tries > 80) clearInterval(timer); }, 250);\n  window.__PARLEYMAP_ANCHOR_RUNTIME_GUARD = { installed: true, registry: REGISTRY, installedAt: new Date().toISOString() };\n})();\n</script>\n${GUARD_END}`;
+function purgeBadHistoricalActiveRows(data, config) {
+  const badNames = (config.historicalActiveBlocklist || []).map(norm);
+  const collections = ["roster", "topRoster", "expansionRoster", "priorityExpansion", "watchlistExamples"];
+  const removals = [];
+  for (const collection of collections) {
+    const rows = Array.isArray(data[collection]) ? data[collection] : null;
+    if (!rows) continue;
+    for (let i = 0; i < rows.length; i++) {
+      const row = rows[i];
+      if (!row || typeof row !== "object") continue;
+      const text = textOfRow(row);
+      const bad = badNames.find((name) => text.includes(name));
+      if (!bad) continue;
+      row.trackingStatus = "historical_profile_removed_from_active_slot";
+      row.currentOfficeStatus = "historical_not_current";
+      row.roleTitle = /^former/i.test(row.roleTitle || "") ? row.roleTitle : `Former ${row.roleTitle || "office holder"}`;
+      row.excludeFromOpeningMap = true;
+      row.hiddenFromOpeningAnchors = true;
+      row.mapVisibility = "hidden_historical_profile";
+      removals.push({ collection, index: i, name: row.canonicalName || row.name || null, reason: bad });
+    }
+  }
+  return removals;
 }
 
-function removeOldGuards(html) {
-  return html
-    .replace(new RegExp(`${GUARD_START}[\\s\\S]*?${GUARD_END}`, 'g'), '')
-    .replace(/<!-- PARLEYMAP_FINAL_ANCHOR_GUARD_START -->[\s\S]*?<!-- PARLEYMAP_FINAL_ANCHOR_GUARD_END -->/g, '')
-    .replace(/<!-- PARLEYMAP_RUNTIME_ANCHOR_GUARD_START -->[\s\S]*?<!-- PARLEYMAP_RUNTIME_ANCHOR_GUARD_END -->/g, '');
+function buildRuntimeGuard(config) {
+  const publicTargets = (config.targets || []).map((target) => ({
+    key: target.key,
+    matchAll: target.matchAll || null,
+    matchAny: target.matchAny || null,
+    roleAny: target.roleAny || null,
+    anchor: target.anchor,
+    imageUrl: target.imageUrl || null,
+    orgIcon: target.orgIcon || null,
+    forceAppearanceAnchor: Boolean(target.forceAppearanceAnchor)
+  }));
+
+  return `<script id="${GUARD_ID}">\n(() => {\n  const TARGETS = ${JSON.stringify(publicTargets)};\n  const OPENING_DEDUP = Object.create(null);\n  function norm(value) {\n    return String(value || '').toLowerCase().normalize('NFKD').replace(/[\\u0300-\\u036f]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();\n  }\n  function textOf(value) {\n    if (value == null) return '';\n    if (typeof value === 'string') return value;\n    if (typeof value === 'number') return String(value);\n    if (Array.isArray(value)) return value.map(textOf).join(' ');\n    if (typeof value === 'object') {\n      const bits = [];\n      for (const key of ['id','slug','name','canonicalName','personName','title','summary','roleTitle','organization','countryName','countryFocus','countryFocusCode']) {\n        if (value[key]) bits.push(value[key]);\n      }\n      if (value.options) bits.push(textOf(value.options));\n      if (value._tooltip) bits.push(textOf(value._tooltip._content));\n      if (value._popup) bits.push(textOf(value._popup._content));\n      return bits.join(' ');\n    }\n    return '';\n  }\n  function matchesTarget(value, target) {\n    const text = norm(textOf(value));\n    const allOk = !target.matchAll || target.matchAll.every((term) => text.includes(norm(term)));\n    const anyOk = !target.matchAny || target.matchAny.some((term) => text.includes(norm(term)));\n    const roleOk = !target.roleAny || target.roleAny.some((term) => text.includes(norm(term)));\n    return allOk && anyOk && roleOk;\n  }\n  function findTarget(value) {\n    return TARGETS.find((target) => matchesTarget(value, target)) || null;\n  }\n  function patchObject(row, target) {\n    if (!row || typeof row !== 'object') return;\n    const a = target.anchor;\n    const anchor = { label: a.label, city: a.city, countryCode: a.countryCode, countryName: a.countryName, lat: a.lat, lng: a.lng, precision: 'city', type: 'institutional_base', privacy: 'city-level public institutional base only' };\n    row.countryFocus = target.orgIcon || a.countryCode;\n    row.countryFocusCode = target.orgIcon || a.countryCode;\n    row.countryCode = a.countryCode;\n    row.countryName = a.countryName;\n    row.country = a.countryName;\n    row.homeRegion = a.region;\n    row.locationStatus = 'institutional_base_city_level';\n    row.homeBases = [anchor];\n    row.homeBase = anchor;\n    row.mapAnchor = anchor;\n    row.anchorLocation = anchor;\n    row.baseLocation = anchor;\n    row.institutionalBase = anchor;\n    row.lat = a.lat; row.lng = a.lng; row.lon = a.lng; row.latitude = a.lat; row.longitude = a.lng;\n    row.homeLat = a.lat; row.homeLng = a.lng; row.mapLat = a.lat; row.mapLng = a.lng; row.anchorLat = a.lat; row.anchorLng = a.lng;\n    row.coordinates = { lat: a.lat, lng: a.lng, lon: a.lng };\n    row.geo = { lat: a.lat, lng: a.lng, lon: a.lng, city: a.city, countryCode: a.countryCode, countryName: a.countryName };\n    row.position = { lat: a.lat, lng: a.lng };\n    row.leafletLatLng = [a.lat, a.lng];\n    row.geoJsonCoordinates = [a.lng, a.lat];\n    if (target.imageUrl && (!row.imageUrl || /placeholder|blank|missing|transparent|data:image/i.test(String(row.imageUrl)))) {\n      row.imageUrl = target.imageUrl;\n      row.imageProvider = 'curated public image fallback';\n    }\n    row.flagAudit = Object.assign({}, row.flagAudit || {}, { code: target.orgIcon || a.countryCode, countryCode: a.countryCode, countryName: a.countryName, label: target.orgIcon || a.countryName, status: target.orgIcon ? 'institutional icon with city anchor' : 'country flag' });\n    row.flagCode = target.orgIcon || a.countryCode;\n    row.countryFlagCode = target.orgIcon || a.countryCode;\n    if (target.orgIcon) row.orgIcon = target.orgIcon;\n  }\n  function walk(value, callback) {\n    if (!value || typeof value !== 'object') return;\n    if (Array.isArray(value)) { value.forEach((item) => walk(item, callback)); return; }\n    callback(value);\n    Object.keys(value).forEach((key) => walk(value[key], callback));\n  }\n  function patchDemoData() {\n    const block = document.getElementById('demo-data');\n    if (!block || block.__pmFinalAnchorPatched) return;\n    try {\n      const data = JSON.parse(block.textContent || '{}');\n      walk(data, (row) => {\n        const target = findTarget(row);\n        if (!target) return;\n        patchObject(row, target);\n        if (target.forceAppearanceAnchor && row.personId && row.location) {\n          row.location = { label: target.anchor.label, city: target.anchor.city, countryCode: target.anchor.countryCode, countryName: target.anchor.countryName, lat: target.anchor.lat, lng: target.anchor.lng, precision: 'city', type: 'institutional_base', privacy: 'city-level public institutional base only' };\n        }\n      });\n      block.textContent = JSON.stringify(data);\n      block.__pmFinalAnchorPatched = true;\n      window.__PARLEYMAP_FINAL_ANCHOR_DATA_PATCHED__ = true;\n    } catch (error) {\n      console.warn('ParleyMap final anchor data patch failed', error);\n    }\n  }\n  function enforceMarker(marker, target) {\n    if (!marker || !target || !target.anchor) return marker;\n    const a = target.anchor;\n    try { if (typeof marker.setLatLng === 'function') marker.setLatLng([a.lat, a.lng]); } catch {}\n    marker.__parleyMapFinalTargetKey = target.key;\n    if (OPENING_DEDUP[target.key] && OPENING_DEDUP[target.key] !== marker) {\n      try { if (typeof marker.remove === 'function') marker.remove(); } catch {}\n      try { if (typeof marker.setOpacity === 'function') marker.setOpacity(0); } catch {}\n      marker.__parleyMapFinalDuplicateHidden = true;\n    } else {\n      OPENING_DEDUP[target.key] = marker;\n    }\n    return marker;\n  }\n  function installLeafletGuard() {\n    if (window.__PARLEYMAP_FINAL_LEAFLET_GUARD__) return;\n    if (!window.L || !window.L.Marker) { setTimeout(installLeafletGuard, 50); return; }\n    window.__PARLEYMAP_FINAL_LEAFLET_GUARD__ = true;\n    const originalMarker = window.L.marker;\n    if (typeof originalMarker === 'function') {\n      window.L.marker = function patchedMarker(latlng, options) {\n        const marker = originalMarker.call(this, latlng, options);\n        const target = findTarget(options);\n        if (target) enforceMarker(marker, target);\n        return marker;\n      };\n    }\n    const proto = window.L.Marker && window.L.Marker.prototype;\n    if (proto && !proto.__pmFinalAnchorGuardPatched) {\n      const oldTooltip = proto.bindTooltip;\n      if (typeof oldTooltip === 'function') {\n        proto.bindTooltip = function patchedTooltip(content, options) {\n          const result = oldTooltip.call(this, content, options);\n          const target = findTarget(content) || findTarget(options) || findTarget(this);\n          if (target) enforceMarker(this, target);\n          return result;\n        };\n      }\n      const oldPopup = proto.bindPopup;\n      if (typeof oldPopup === 'function') {\n        proto.bindPopup = function patchedPopup(content, options) {\n          const result = oldPopup.call(this, content, options);\n          const target = findTarget(content) || findTarget(options) || findTarget(this);\n          if (target) enforceMarker(this, target);\n          return result;\n        };\n      }\n      proto.__pmFinalAnchorGuardPatched = true;\n    }\n  }\n  patchDemoData();\n  installLeafletGuard();\n  document.addEventListener('DOMContentLoaded', () => { patchDemoData(); installLeafletGuard(); });\n  setTimeout(() => { patchDemoData(); installLeafletGuard(); }, 250);\n})();\n</script>`;
 }
 
-function installRuntimeGuard(html) {
-  const clean = removeOldGuards(html);
-  const payload = readEmbeddedFromHtml(clean, 'guard-install-html');
-  const insertAt = clean.indexOf(CLOSE_TAG, payload.jsonStart) + CLOSE_TAG.length;
-  return clean.slice(0, insertAt) + '\n' + runtimeGuardScript() + '\n' + clean.slice(insertAt);
+function installRuntimeGuard(html, config) {
+  const re = new RegExp(`\\n?<script id="${GUARD_ID}">[\\s\\S]*?<\\/script>\\n?`, "g");
+  let cleaned = html.replace(re, "\n");
+  const payload = extractEmbedded(cleaned);
+  const guard = buildRuntimeGuard(config);
+  return cleaned.slice(0, payload.jsonEnd + CLOSE.length) + "\n" + guard + cleaned.slice(payload.jsonEnd + CLOSE.length);
 }
 
-function targetPatchCounts(patches) {
-  const out = Object.fromEntries(TARGETS.map((target) => [target.key, 0]));
-  for (const patch of patches) out[patch.target] = (out[patch.target] || 0) + 1;
-  return out;
+function writeIndexWithData(payload, data, config) {
+  const json = JSON.stringify(data, null, 2);
+  const htmlWithData = payload.html.slice(0, payload.jsonStart) + "\n" + json + "\n" + payload.html.slice(payload.jsonEnd);
+  const finalHtml = installRuntimeGuard(htmlWithData, config);
+  fs.writeFileSync(INDEX_PATH, finalHtml);
+  fs.mkdirSync("data", { recursive: true });
+  fs.writeFileSync(DEMO_PATH, JSON.stringify(data, null, 2) + "\n");
 }
 
 function writeSummary(report) {
   const lines = [
-    '# ParleyMap final rescue',
-    '',
+    "# ParleyMap final rescue",
+    "",
     `Generated: ${report.generatedAt}`,
-    '',
-    '## Result',
-    '',
     `Status: ${report.status}`,
-    `Restored from: ${report.restore.source} ${report.restore.commit}`,
-    `Pollution before rescue: ${report.pollutionBefore || 'none'}`,
+    `Restored from git: ${report.restored ? "yes" : "no"}`,
+    report.restoredFrom ? `Restored commit: ${report.restoredFrom}` : "",
+    "",
+    "## Counts",
+    "",
+    "| Dataset | Before | After |",
+    "|---|---:|---:|",
+    `| people | ${report.before.people} | ${report.after.people} |`,
+    `| roster | ${report.before.roster} | ${report.after.roster} |`,
+    `| topRoster | ${report.before.topRoster} | ${report.after.topRoster} |`,
+    `| expansionRoster | ${report.before.expansionRoster} | ${report.after.expansionRoster} |`,
+    `| appearances | ${report.before.appearances} | ${report.after.appearances} |`,
+    "",
+    "## Repairs",
+    "",
+    `Profile/roster fixes: ${report.profileFixCount}`,
+    `Appearance fixes: ${report.appearanceFixCount}`,
+    `Historical active rows hidden: ${report.historicalRowsHidden}`,
     `Runtime guard installed: ${report.runtimeGuardInstalled}`,
-    '',
-    '## Counts',
-    '',
-    '| Dataset | Before | Restored base | Final |',
-    '|---|---:|---:|---:|'
-  ];
-  for (const key of ['people','roster','topRoster','expansionRoster','appearances','categories']) {
-    lines.push(`| ${key} | ${report.beforeCounts[key] ?? 'n/a'} | ${report.baseCounts[key] ?? 'n/a'} | ${report.finalCounts[key] ?? 'n/a'} |`);
-  }
-  lines.push('', '## Anchor patches', '');
-  for (const [key, value] of Object.entries(report.patchesByTarget)) lines.push(`- ${key}: ${value}`);
-  fs.writeFileSync(SUMMARY_PATH, lines.join('\n') + '\n');
+    "",
+    "## Target patch counts",
+    "",
+    ...Object.entries(report.patchesByTarget).map(([key, value]) => `- ${key}: ${value}`)
+  ].filter(Boolean);
+  fs.writeFileSync(SUMMARY_PATH, lines.join("\n") + "\n");
 }
 
-fs.mkdirSync('data/diagnostics', { recursive: true });
-
-const currentHtml = fs.readFileSync(INDEX_PATH, 'utf8');
-const currentPayload = readEmbeddedFromHtml(currentHtml, 'current index.html');
-const beforeCounts = counts(currentPayload.data);
-const pollutionBefore = pollutedReason(currentPayload.data);
-
-const base = findLastGoodHtml(currentPayload);
-let html = base.html;
-html = installRuntimeGuard(html);
-let payload = readEmbeddedFromHtml(html, 'post-guard index');
-const baseCounts = counts(payload.data);
-validateCore(payload.data, 'base after restore');
-
-const { patches, idMap } = applyRepairs(payload.data);
-
-payload.data.meta = {
-  ...(payload.data.meta || {}),
+fs.mkdirSync("data/diagnostics", { recursive: true });
+const config = readConfig();
+const current = readIndex();
+validateMinimumShape(current.data, "current");
+const restoredInfo = restoreSafeIndexIfNeeded(current, config);
+const payload = restoredInfo.payload;
+const data = payload.data;
+validateMinimumShape(data, "working");
+const repair = repairAnchorsAndFaces(data, config);
+const hidden = purgeBadHistoricalActiveRows(data, config);
+data.meta = {
+  ...(data.meta || {}),
   lastDataUpdate: new Date().toISOString(),
   lastFinalRescueRun: new Date().toISOString(),
-  finalRescueStatus: `restored=${base.source}; anchor patches=${patches.length}; runtime guard installed`
+  finalRescueStatus: "anchors, faces, runtime guard and polluted roster rescue applied"
 };
+validateMinimumShape(data, "repaired");
+writeIndexWithData(payload, data, config);
 
-writeEmbedded(payload, payload.data);
-
-// Re-read written HTML to make sure the guard and JSON survived together.
-const finalPayload = readEmbeddedFromHtml(fs.readFileSync(INDEX_PATH, 'utf8'), 'final index.html');
-validateCore(finalPayload.data, 'final index.html');
-const finalCounts = counts(finalPayload.data);
-
+const afterPayload = readIndex();
+const runtimeGuardInstalled = afterPayload.html.includes(`id="${GUARD_ID}"`);
+const patchesByTarget = {};
+for (const row of [...repair.fixes, ...repair.appearanceFixes]) patchesByTarget[row.target] = (patchesByTarget[row.target] || 0) + 1;
 const report = {
   generatedAt: new Date().toISOString(),
-  status: 'final_rescue_applied',
-  pollutionBefore,
-  beforeCounts,
-  baseCounts,
-  finalCounts,
-  restore: { source: base.source, commit: base.commit },
-  runtimeGuardInstalled: fs.readFileSync(INDEX_PATH, 'utf8').includes('PARLEYMAP_ANCHOR_RUNTIME_GUARD_START'),
-  targetIds: idMap,
-  patchCount: patches.length,
-  patchesByTarget: targetPatchCounts(patches),
-  samplePatches: patches.slice(0, 80)
+  status: "final_rescue_applied",
+  restored: restoredInfo.restored,
+  restoredFrom: restoredInfo.restoredFrom,
+  before: restoredInfo.before,
+  after: counts(afterPayload.data),
+  profileFixCount: repair.fixes.length,
+  appearanceFixCount: repair.appearanceFixes.length,
+  historicalRowsHidden: hidden.length,
+  runtimeGuardInstalled,
+  targetIds: repair.targetIds,
+  patchesByTarget,
+  historicalRows: hidden,
+  sampleFixes: [...repair.fixes, ...repair.appearanceFixes].slice(0, 50)
 };
-
-for (const required of ['claudia_sheinbaum', 'pope_leo_xiv', 'prabowo_subianto', 'rafael_grossi']) {
-  if ((report.patchesByTarget[required] || 0) < 1) {
-    throw new Error(`Required target not patched: ${required}`);
-  }
-}
-if (!report.runtimeGuardInstalled) throw new Error('Runtime guard was not installed');
-
-fs.writeFileSync(REPORT_PATH, JSON.stringify(report, null, 2) + '\n');
+if (!runtimeGuardInstalled) throw new Error("runtime guard was not installed");
+fs.writeFileSync(REPORT_PATH, JSON.stringify(report, null, 2) + "\n");
 writeSummary(report);
 console.log(JSON.stringify(report, null, 2));
