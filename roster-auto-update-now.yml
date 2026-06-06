@@ -6,14 +6,10 @@ on:
 permissions:
   contents: write
 
-concurrency:
-  group: parleymap-roster-auto-update-now
-  cancel-in-progress: false
-
 jobs:
-  guarded-review-only:
+  safe-review-only:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 15
     steps:
       - name: Checkout repository with history
         uses: actions/checkout@v4
@@ -26,32 +22,24 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Repair and audit data before roster diagnostics
-        run: node scripts/parleymap-final-safe-repair.cjs
+      - name: Repair integrity first
+        run: node scripts/parleymap-data-integrity-repair.cjs
 
-      - name: Run safe roster review, no mass replacement
+      - name: Produce safe roster diagnostics only
         run: node scripts/parleymap-safe-roster-review.cjs
 
-      - name: Write workflow summary
+      - name: Upload safe roster review files
         if: always()
-        run: |
-          if [ -f data/diagnostics/LATEST_RUN_SUMMARY.md ]; then
-            cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
-          fi
-
-      - name: Upload roster review files
         uses: actions/upload-artifact@v4
         with:
-          name: parleymap-roster-review-files
+          name: parleymap-safe-roster-review-files
           path: |
-            index.html
-            ads.txt
-            data/demo.json
-            data/diagnostics/*.json
-            data/diagnostics/*.md
+            data/diagnostics/roster-current-holder-review.json
+            data/diagnostics/roster-patch-candidates.json
+            data/diagnostics/LATEST_RUN_SUMMARY.md
 
-      - name: Commit roster diagnostics and repairs
+      - name: Commit safe roster diagnostics
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Run guarded ParleyMap roster review"
-          file_pattern: "index.html ads.txt data/demo.json data/diagnostics/*.json data/diagnostics/*.md"
+          commit_message: "Write safe ParleyMap roster review"
+          file_pattern: "index.html data/demo.json data/diagnostics/*.json data/diagnostics/*.md"

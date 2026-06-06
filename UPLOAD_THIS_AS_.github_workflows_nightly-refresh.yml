@@ -13,9 +13,9 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  safe-nightly:
+  nightly:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
     steps:
       - name: Checkout repository with history
         uses: actions/checkout@v4
@@ -28,44 +28,59 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Repair and audit before refresh
-        run: node scripts/parleymap-final-safe-repair.cjs
+      - name: Pre-repair data integrity
+        run: node scripts/parleymap-data-integrity-repair.cjs
 
-      - name: Run safe nightly report, no synthetic events
-        run: node scripts/parleymap-safe-nightly-report.cjs
-
-      - name: Repair and audit after refresh
-        run: node scripts/parleymap-final-safe-repair.cjs
-
-      - name: Validate embedded dataset when validator exists
+      - name: Run bounded crawler only if existing safe script is available
+        continue-on-error: true
         run: |
-          if [ -f scripts/validate-demo-data.mjs ]; then
-            node scripts/validate-demo-data.mjs
+          if [ -f nightly-refresh.mjs ]; then
+            timeout 10m node nightly-refresh.mjs --max-roster 40 --max-per-person 1 --max-pages-per-source 5 --lookback-days 14 || true
           else
-            echo "validate-demo-data.mjs missing; final safe repair already ran shape audit"
+            echo "nightly-refresh.mjs not present; skipping crawler."
           fi
+        env:
+          PARLEYMAP_FETCH_TIMEOUT_MS: "3000"
 
-      - name: Write workflow summary
+      - name: Post-repair data integrity and remove synthetic watch rows
+        run: node scripts/parleymap-data-integrity-repair.cjs
+
+      - name: Preserve AdSense and legal pages
+        run: node scripts/parleymap-adsense-legal-repair.cjs
+        env:
+          PARLEYMAP_REQUIRE_ADSENSE_READY: "false"
+
+      - name: Validate if existing validator is present
+        run: |
+          if [ -f scripts/validate-demo-data.mjs ]; then node scripts/validate-demo-data.mjs; fi
+
+      - name: Add run summary
         if: always()
         run: |
-          if [ -f data/diagnostics/LATEST_RUN_SUMMARY.md ]; then
-            cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
-          fi
+          if [ -f data/diagnostics/LATEST_RUN_SUMMARY.md ]; then cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"; fi
+          git diff --name-only >> "$GITHUB_STEP_SUMMARY" || true
 
       - name: Upload nightly files
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: parleymap-nightly-safe-files
+          name: parleymap-nightly-repair-files
           path: |
             index.html
             ads.txt
+            privacy.html
+            impressum.html
+            contact.html
+            about.html
+            methodology.html
+            data-sources.html
             data/demo.json
-            data/crawler/*.json
             data/diagnostics/*.json
             data/diagnostics/*.md
+            data/crawler/*.json
 
-      - name: Commit nightly safe repair
+      - name: Commit nightly repair
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Run ParleyMap safe nightly refresh"
-          file_pattern: "index.html ads.txt data/demo.json data/crawler/*.json data/diagnostics/*.json data/diagnostics/*.md"
+          commit_message: "Refresh ParleyMap safely"
+          file_pattern: "index.html ads.txt privacy.html impressum.html contact.html about.html methodology.html data-sources.html data/demo.json data/diagnostics/*.json data/diagnostics/*.md data/crawler/*.json"

@@ -13,7 +13,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  monthly-review:
+  monthly-roster-review:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -28,23 +28,28 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Repair and audit data before roster review
-        run: node scripts/parleymap-final-safe-repair.cjs
+      - name: Repair data integrity before review
+        run: node scripts/parleymap-data-integrity-repair.cjs
 
-      - name: Run safe roster review, diagnostics only
+      - name: Run safe roster review diagnostics
         run: node scripts/parleymap-safe-roster-review.cjs
 
-      - name: Write workflow summary
+      - name: Preserve AdSense and legal pages
+        run: node scripts/parleymap-adsense-legal-repair.cjs
+        env:
+          PARLEYMAP_REQUIRE_ADSENSE_READY: "false"
+
+      - name: Add run summary
         if: always()
         run: |
-          if [ -f data/diagnostics/LATEST_RUN_SUMMARY.md ]; then
-            cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
-          fi
+          if [ -f data/diagnostics/LATEST_RUN_SUMMARY.md ]; then cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"; fi
+          git diff --name-only >> "$GITHUB_STEP_SUMMARY" || true
 
-      - name: Upload monthly roster files
+      - name: Upload monthly files
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: parleymap-monthly-roster-review-files
+          name: parleymap-monthly-roster-files
           path: |
             index.html
             ads.txt
@@ -52,7 +57,7 @@ jobs:
             data/diagnostics/*.json
             data/diagnostics/*.md
 
-      - name: Commit monthly roster review
+      - name: Commit monthly review
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Review ParleyMap roster safely"

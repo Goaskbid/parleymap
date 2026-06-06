@@ -1,40 +1,36 @@
-ParleyMap magic final package audit
+Audit results for parleymap_final_surface_data_fix
 
-Build-time checks passed:
-- Node syntax check passed for scripts/parleymap-final-safe-repair.cjs
-- Node syntax check passed for scripts/parleymap-safe-roster-review.cjs
-- Node syntax check passed for scripts/parleymap-safe-nightly-report.cjs
-- Workflow YAML parse passed for data-validate.yml
-- Workflow YAML parse passed for nightly-refresh.yml
-- Workflow YAML parse passed for monthly-roster-review.yml
-- Workflow YAML parse passed for roster-auto-update-now.yml
-- All workflow files are multiline YAML, not collapsed one-line files
+Package build checks:
 
-Mock repository dry run passed:
-- Started with a thin one-line index.html
-- Restored a safe full index.html from git history
-- Started with polluted data/demo.json containing 137 people and Vincent Auriol
-- Restored people count to 94
-- Preserved roster count at 200
-- Preserved expansionRoster count at 114
-- Preserved appearances count at 508
-- Preserved categories count at 11
-- Removed fake IAEA nuclear diplomacy watch card
-- Removed fake City of London finance diplomacy watch card
-- Removed duplicate-prone Rafael Grossi topRoster row
-- Repaired Claudia Sheinbaum anchor to Mexico City
-- Repaired Pope Leo XIV anchor to Vatican City
-- Repaired Prabowo Subianto anchor to Jakarta
-- Repaired Rafael Grossi anchor to Vienna
-- Preserved AdSense client ca-pub-1234567890123456 in mock
-- Preserved two mock data-ad-slot values
-- Generated ads.txt from the preserved publisher ID
-- Inserted runtime Leaflet anchor guard
-- Final hard audit returned audit_passed
+PASS - Node syntax check passed for scripts/parleymap-data-integrity-repair.cjs
+PASS - Node syntax check passed for scripts/parleymap-adsense-legal-repair.cjs
+PASS - Node syntax check passed for scripts/parleymap-safe-roster-review.cjs
+PASS - Workflow YAML parse passed for data-validate.yml
+PASS - Workflow YAML parse passed for nightly-refresh.yml
+PASS - Workflow YAML parse passed for monthly-roster-review.yml
+PASS - Workflow YAML parse passed for roster-auto-update-now.yml
+PASS - All workflows are multiline YAML files.
 
-Important safety behavior:
-- The script never invents AdSense publisher IDs or ad slots.
-- If no real AdSense IDs can be found in current files or git history, it reports that condition and does not inject fake ad code.
-- The script refuses to write a thin or partial index.html.
-- It only accepts a historical index.html if the embedded demo-data passes schema and count gates.
-- Monthly roster review is review-only. It cannot mass-replace people.
+Mock repository dry run:
+
+PASS - Mock started with a broken thin index.html containing only parleymap.com.
+PASS - Mock git history contained a safe full ParleyMap index.html.
+PASS - Repair restored the full index.html from git history.
+PASS - people count stayed 94.
+PASS - roster count stayed 200.
+PASS - expansionRoster count stayed 114.
+PASS - categories count stayed 11.
+PASS - fake IAEA nuclear diplomacy watch row removed.
+PASS - fake City of London finance diplomacy watch row removed.
+PASS - Rafael Grossi anchor repaired to Vienna / AT.
+PASS - critical profile anchors repaired in mock data.
+PASS - runtime data/Leaflet guard inserted.
+PASS - mock AdSense client ca-pub-1234567890123456 preserved.
+PASS - mock header slot 1111111111 preserved.
+PASS - mock sidebar slot 2222222222 preserved.
+PASS - ads.txt generated from preserved publisher ID.
+PASS - clean privacy.html and impressum.html generated.
+
+Important safeguard:
+
+The package does not invent AdSense IDs. If it cannot recover one publisher ID and two slot IDs from current files or git history, it fails when require_adsense_ready is true instead of injecting dummy code.

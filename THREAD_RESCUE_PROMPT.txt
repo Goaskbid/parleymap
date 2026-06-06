@@ -1,8 +1,26 @@
-ParleyMap rescue state:
-The repo had a one-line crawler-visible index.html, missing ads.txt, malformed or empty workflow YAML, duplicate Rafael Grossi visible rows, bad anchors for Pope Leo XIV, Claudia Sheinbaum, Prabowo Subianto and Rafael Grossi, fake dated watch cards, and a previous unsafe roster updater that created historical leader pollution.
+ParleyMap rescue context
 
-The final package to use is parleymap_magic_final. Upload its contents to the repo root and run the existing workflow named ParleyMap data validation.
+The site suffered from two independent problems:
 
-The package preserves existing AdSense IDs from current files or git history and refuses to invent IDs. It writes ads.txt only if a real publisher ID is found.
+1. Data integrity / map integrity:
+   - index.html on main became crawler-visible as a one-line placeholder/file listing instead of the real app shell.
+   - data/demo.json still contained duplicate Rafael Grossi rows and fake dated watch cards.
+   - visible anchors for Sheinbaum, Pope Leo XIV, Prabowo Subianto and Rafael Grossi were wrong.
+   - previous roster auto-update polluted people from 94 to 137 through historical office-holder chains.
 
-The final package replaces nightly and monthly workflows with safe versions. Nightly runs repair/audit and a no-synthetic-events report. Monthly runs review-only roster diagnostics.
+2. AdSense/site-surface integrity:
+   - ads.txt was missing.
+   - crawler-visible HTML did not expose google-adsense-account, adsbygoogle, pagead2.googlesyndication.com or data-ad-slot values.
+   - privacy.html and impressum.html were not clean human/legal pages.
+
+This package replaces the existing ParleyMap data validation workflow so the visible Actions entry can be used. It restores a safe full index.html from git history, repairs embedded demo-data only, removes fake watch rows, repairs critical anchors/faces, preserves AdSense IDs from current files/history, creates ads.txt, cleans legal pages, and writes audits.
+
+First workflow to run after upload:
+
+Actions > ParleyMap data validation > Run workflow
+
+If AdSense IDs are not recoverable from history, rerun with workflow inputs:
+
+publisher_id
+header_slot_id
+sidebar_slot_id
