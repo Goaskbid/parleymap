@@ -1,2 +1,51 @@
-#!/usr/bin/env node
-import './parleymap-final-stabilize.mjs';
+ParleyMap final integrity + AdSense package audit
+
+Date: 2026-06-06
+
+Static checks passed:
+- node --check scripts/parleymap-integrity-rescue.mjs
+- node --check scripts/parleymap-adsense-preserve-audit.mjs
+- node --check scripts/parleymap-final-hard-audit.mjs
+- node --check scripts/parleymap-current-holder-safe-review.mjs
+- node --check nightly-refresh.mjs
+
+Workflow checks passed:
+- .github/workflows/data-validate.yml parsed as YAML.
+- .github/workflows/nightly-refresh.yml parsed as YAML.
+- .github/workflows/monthly-roster-review.yml parsed as YAML.
+- .github/workflows/roster-auto-update-now.yml parsed as YAML.
+- All workflow files are multiline files, not collapsed one-line workflows.
+
+Mock polluted repository dry run passed:
+- The mock repo contained a safe historical full index.html with AdSense code.
+- The mock current index.html was polluted to simulate the bad roster auto-update.
+- people was polluted from 94 to 137.
+- Vincent Auriol was inserted as an active France slot.
+- fake IAEA and City of London watch cards were inserted.
+- Sheinbaum, Pope, Prabowo, and Rafael Grossi were given wrong Australia-like anchors.
+
+Dry run result:
+- people restored to 94.
+- roster stayed 200.
+- expansionRoster stayed 114.
+- appearances cleaned to 508 and stayed above the safety floor.
+- categories stayed 11.
+- fake IAEA nuclear diplomacy watch was removed.
+- fake City of London finance diplomacy watch was removed.
+- Vincent Auriol active-slot pollution was removed by restoring the safe historical index.
+- Claudia Sheinbaum anchor audit passed.
+- Pope Leo XIV anchor audit passed.
+- Prabowo Subianto anchor audit passed.
+- Rafael Grossi anchor audit passed.
+- AdSense publisher client was preserved.
+- Two data-ad-slot values were preserved.
+- ads.txt was generated from the existing publisher ID.
+- Runtime Leaflet marker guard was inserted.
+- Final hard audit returned status: audit_passed.
+
+Design safeguards:
+- The package never invents AdSense IDs.
+- The package fails if it cannot find a real publisher and two real slots in current index.html or git history.
+- The package does not mass-replace people monthly.
+- The package writes current-holder roster review candidates only.
+- The package refuses to commit if the hard audit fails.

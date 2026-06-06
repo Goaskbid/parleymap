@@ -1,24 +1,37 @@
-Restart context for ParleyMap rescue:
+ParleyMap rescue context for a new assistant thread
 
-The previous thread attempted many GitHub Actions fixes for github.com/Goaskbid/parleymap and parleymap.com.
-Known state before the last audited package:
-- The live app embeds data in index.html inside <script id="demo-data" type="application/json">...</script>.
-- Bad roster updater polluted people from 94 to 137 and introduced historical current-holder rows such as Vincent Auriol as active.
-- Visible map showed wrong anchors: Claudia Sheinbaum in Asia, Pope in Australia, Prabowo wrong, Rafael Grossi duplicated and misplaced.
-- Generic event/watch cards such as City of London finance diplomacy and IAEA nuclear diplomacy watch appeared with dates; these are not real events and must be removed.
-- GitHub web upload often failed to install new hidden .github workflow files, so the last package is designed to work through the existing visible ParleyMap nightly refresh workflow by replacing scripts that it already calls.
+Repo: github.com/Goaskbid/parleymap
+Live site: parleymap.com
 
-Last package installed should be named parleymap_last_fix_audited.zip.
-Key files:
-- scripts/parleymap-final-stabilize.mjs
-- scripts/validate-demo-data.mjs imports the stabilizer
-- scripts/repair-live-dataset.mjs imports the stabilizer
-- scripts/roster-hygiene.mjs imports the stabilizer
-- scripts/strict-crawler-audit.mjs imports the stabilizer
-- nightly-refresh.mjs is a safe no-op real-event gate
-- scripts/guarded-publish-from-crawler.mjs filters fake/generic events
-- data/curated-anchors.json defines critical anchor/faces
+Critical facts:
+- The live dataset is embedded inside index.html in <script id="demo-data" type="application/json">.
+- Never overwrite the whole index.html from a partial JSON file.
+- Current repo history contained a bad roster auto-update that expanded people from 94 to 137 and introduced historical active leaders such as Vincent Auriol.
+- Current live screens showed fake dated cards such as City of London finance diplomacy watch, IAEA nuclear diplomacy watch, think-tank watch, and royal diary watch.
+- AdSense setup likely already had real ca-pub and data-ad-slot values in a previous index.html. Do not invent or replace those values.
 
-Run the existing Actions > ParleyMap nightly refresh workflow after upload.
-Do not ask the user to look for a new workflow name.
-Check data/diagnostics/final-audit-report.json. It must say audit_passed.
+This package is meant to fix both:
+1. Data integrity.
+2. AdSense preservation and ads.txt.
+
+Key scripts:
+- scripts/parleymap-integrity-rescue.mjs
+  Restores last safe index.html from git history if current index is thin/polluted, removes fake event/watch rows, fixes critical anchors/faces, demotes historical active holders, installs runtime Leaflet guard.
+- scripts/parleymap-adsense-preserve-audit.mjs
+  Preserves existing AdSense IDs, restores them from git history if needed, creates ads.txt, fails if it cannot find real IDs.
+- scripts/parleymap-final-hard-audit.mjs
+  Fails the workflow before commit if people count is unsafe, fake watch rows remain, critical anchors are missing, or AdSense is inconsistent.
+- scripts/parleymap-current-holder-safe-review.mjs
+  Writes current-holder review diagnostics only. Does not auto-mutate roster.
+
+Workflow to run first:
+- ParleyMap data validation
+
+Expected reports:
+- data/diagnostics/integrity-rescue-report.json
+- data/diagnostics/adsense-preserve-audit-report.json
+- data/diagnostics/final-hard-audit-report.json
+- data/diagnostics/LATEST_RUN_SUMMARY.md
+
+Expected hard audit status:
+- audit_passed

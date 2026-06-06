@@ -7,37 +7,31 @@ permissions:
   contents: write
 
 jobs:
-  roster-auto-update:
+  safe-review-only:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 25
     steps:
-      - name: Checkout repository
+      - name: Checkout repository with history
         uses: actions/checkout@v4
         with:
           ref: main
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20"
 
-      - name: Stabilize data before roster review
-        run: node scripts/parleymap-final-stabilize.mjs
+      - name: Stabilize data
+        run: node scripts/parleymap-integrity-rescue.mjs
 
       - name: Safe current-holder review only
-        run: node scripts/parleymap-current-holder-safe-update.mjs
+        run: node scripts/parleymap-current-holder-safe-review.mjs
 
-      - name: Stabilize data after roster review
-        run: node scripts/parleymap-final-stabilize.mjs
-
-      - name: Build summary
-        if: always()
-        run: |
-          node scripts/parleymap-build-summary.mjs || true
-          cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY" || true
+      - name: Final hard audit
+        run: node scripts/parleymap-final-hard-audit.mjs
 
       - name: Upload roster review files
-        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: parleymap-roster-review-files
@@ -47,8 +41,8 @@ jobs:
             data/diagnostics/*.json
             data/diagnostics/*.md
 
-      - name: Commit safe roster review
+      - name: Commit safe roster review files
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Review ParleyMap roster safely"
+          commit_message: "Run ParleyMap safe roster review"
           file_pattern: "index.html data/demo.json data/diagnostics/*.json data/diagnostics/*.md"
