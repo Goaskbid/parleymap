@@ -11,7 +11,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  roster-auto-update:
+  roster-update:
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -26,49 +26,43 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Rescue before roster auto update
-        run: |
-          node scripts/parleymap-final-rescue.mjs
-          node scripts/parleymap-final-audit.mjs
+      - name: Rescue before roster update
+        run: node scripts/parleymap-final-rescue-and-harden.mjs
 
-      - name: Run guarded current-holder roster update
-        run: node scripts/parleymap-roster-safe-review.mjs
-        env:
-          PARLEYMAP_APPLY_ROSTER: "1"
+      - name: Run guarded roster update
+        run: node scripts/parleymap-current-holder-safe-update.mjs --apply
 
-      - name: Rescue and audit after roster auto update
-        run: |
-          node scripts/parleymap-final-rescue.mjs
-          node scripts/parleymap-final-audit.mjs
+      - name: Rescue after roster update
+        run: node scripts/parleymap-final-rescue-and-harden.mjs
 
-      - name: Validate embedded dataset
+      - name: Validate embedded dataset when validator exists
         run: |
           if [ -f scripts/validate-demo-data.mjs ]; then
             node scripts/validate-demo-data.mjs
-          else
-            echo "No legacy validator found; final audit already passed."
           fi
 
-      - name: Build summary
+      - name: Show latest summary
         if: always()
         run: |
-          node scripts/parleymap-build-summary.mjs || true
-          cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY" || true
+          if [ -f data/diagnostics/LATEST_RUN_SUMMARY.md ]; then
+            cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
+            cat data/diagnostics/LATEST_RUN_SUMMARY.md
+          fi
 
-      - name: Upload roster auto update files
+      - name: Upload roster update files
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: parleymap-roster-auto-update-files
+          name: parleymap-roster-update-files
           path: |
             index.html
             data/demo.json
-            data/curated-anchors.json
             data/diagnostics/*.json
             data/diagnostics/*.md
+            .github/workflows/*.yml
 
-      - name: Commit roster auto update
+      - name: Commit guarded roster update
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Auto update ParleyMap roster safely"
-          file_pattern: "index.html data/demo.json data/curated-anchors.json data/diagnostics/*.json data/diagnostics/*.md"
+          commit_message: "Guarded ParleyMap roster update with rescue audit"
+          file_pattern: "index.html data/demo.json data/diagnostics/*.json data/diagnostics/*.md .github/workflows/*.yml scripts/*.mjs data/curated-anchors.json"

@@ -1,129 +1,200 @@
 {
-  "version": "2026-06-06-final-rescue",
   "targets": [
     {
       "key": "claudia_sheinbaum",
+      "displayName": "Claudia Sheinbaum",
       "matchAll": ["claudia", "sheinbaum"],
-      "anchor": {"label":"Mexico City institutional base","city":"Mexico City","countryCode":"MX","countryName":"Mexico","lat":19.4326,"lng":-99.1332,"region":"North America"},
-      "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Claudia%20Sheinbaum%20%28cropped%2C%20centered%29.jpg",
-      "forceAppearanceAnchor": true
+      "countryCode": "MX",
+      "countryName": "Mexico",
+      "city": "Mexico City",
+      "lat": 19.4326,
+      "lng": -99.1332,
+      "region": "North America",
+      "roleTitle": "President of Mexico",
+      "organization": "Mexico",
+      "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Claudia_Sheinbaum_(cropped,_centered).jpg"
     },
     {
       "key": "pope_leo_xiv",
+      "displayName": "Pope Leo XIV",
       "matchAny": ["pope leo xiv", "leo xiv", "robert prevost", "robert francis prevost", "prevost", "pope"],
       "roleAny": ["pope", "pontiff", "bishop of rome"],
-      "anchor": {"label":"Vatican City institutional base","city":"Vatican City","countryCode":"VA","countryName":"Vatican City","lat":41.9029,"lng":12.4534,"region":"Europe"},
-      "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Pope%20Leo%20XIV%20-%202025.jpg",
-      "forceAppearanceAnchor": true
+      "countryCode": "VA",
+      "countryName": "Vatican City",
+      "city": "Vatican City",
+      "lat": 41.9029,
+      "lng": 12.4534,
+      "region": "Europe",
+      "roleTitle": "Pope",
+      "organization": "Holy See",
+      "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Pope_Leo_XIV_2025.jpg"
     },
     {
       "key": "prabowo_subianto",
+      "displayName": "Prabowo Subianto",
       "matchAll": ["prabowo", "subianto"],
-      "anchor": {"label":"Jakarta institutional base","city":"Jakarta","countryCode":"ID","countryName":"Indonesia","lat":-6.2088,"lng":106.8456,"region":"Asia"},
-      "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Prabowo%20Subianto%20official%20portrait.jpg",
-      "forceAppearanceAnchor": true
+      "countryCode": "ID",
+      "countryName": "Indonesia",
+      "city": "Jakarta",
+      "lat": -6.2088,
+      "lng": 106.8456,
+      "region": "Asia",
+      "roleTitle": "President of Indonesia",
+      "organization": "Indonesia",
+      "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Prabowo_Subianto_2024_official_portrait.jpg"
     },
     {
       "key": "rafael_grossi",
+      "displayName": "Rafael Grossi",
       "matchAll": ["rafael", "grossi"],
-      "anchor": {"label":"Vienna IAEA institutional base","city":"Vienna","countryCode":"AT","countryName":"Austria","lat":48.2345,"lng":16.4166,"region":"Europe"},
-      "orgIcon": "IAEA",
-      "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Rafael%20Mariano%20Grossi%20%2852240343759%29%20%28cropped%29.jpg",
-      "forceAppearanceAnchor": true
+      "countryCode": "AT",
+      "countryName": "Austria",
+      "city": "Vienna",
+      "lat": 48.2345,
+      "lng": 16.4166,
+      "region": "Europe",
+      "roleTitle": "Director General of the IAEA",
+      "organization": "International Atomic Energy Agency",
+      "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Rafael_Mariano_Grossi_IAEA.jpg"
     },
     {
       "key": "mohammed_bin_salman",
+      "displayName": "Mohammed bin Salman",
       "matchAll": ["salman"],
       "matchAny": ["mohammed", "mohammad", "muhammad", "mbs"],
-      "anchor": {"label":"Riyadh institutional base","city":"Riyadh","countryCode":"SA","countryName":"Saudi Arabia","lat":24.7136,"lng":46.6753,"region":"Middle East"},
-      "forceAppearanceAnchor": true
+      "countryCode": "SA",
+      "countryName": "Saudi Arabia",
+      "city": "Riyadh",
+      "lat": 24.7136,
+      "lng": 46.6753,
+      "region": "Middle East",
+      "roleTitle": "Crown Prince and Prime Minister of Saudi Arabia",
+      "organization": "Saudi Arabia"
     },
     {
       "key": "antonio_guterres",
-      "matchAll": ["guterres"],
-      "anchor": {"label":"United Nations New York institutional base","city":"New York","countryCode":"US","countryName":"United States","lat":40.7499,"lng":-73.968,"region":"North America"},
-      "orgIcon": "UN"
+      "displayName": "António Guterres",
+      "matchAny": ["antonio guterres", "antónio guterres", "guterres"],
+      "countryCode": "US",
+      "countryName": "United States",
+      "city": "New York",
+      "lat": 40.7499,
+      "lng": -73.968,
+      "region": "North America",
+      "roleTitle": "Secretary-General of the United Nations",
+      "organization": "United Nations"
     },
     {
       "key": "mark_rutte",
+      "displayName": "Mark Rutte",
       "matchAll": ["mark", "rutte"],
-      "anchor": {"label":"NATO Brussels institutional base","city":"Brussels","countryCode":"BE","countryName":"Belgium","lat":50.8798,"lng":4.4219,"region":"Europe"},
-      "orgIcon": "NATO"
+      "countryCode": "BE",
+      "countryName": "Belgium",
+      "city": "Brussels",
+      "lat": 50.8798,
+      "lng": 4.4219,
+      "region": "Europe",
+      "roleTitle": "Secretary General of NATO",
+      "organization": "NATO"
     },
     {
       "key": "ursula_von_der_leyen",
+      "displayName": "Ursula von der Leyen",
       "matchAll": ["ursula", "leyen"],
-      "anchor": {"label":"European Commission Brussels institutional base","city":"Brussels","countryCode":"BE","countryName":"Belgium","lat":50.8503,"lng":4.3517,"region":"Europe"},
-      "orgIcon": "EU"
+      "countryCode": "BE",
+      "countryName": "Belgium",
+      "city": "Brussels",
+      "lat": 50.8503,
+      "lng": 4.3517,
+      "region": "Europe",
+      "roleTitle": "President of the European Commission",
+      "organization": "European Commission"
     },
     {
       "key": "kaja_kallas",
+      "displayName": "Kaja Kallas",
       "matchAll": ["kaja", "kallas"],
-      "anchor": {"label":"EU external action Brussels institutional base","city":"Brussels","countryCode":"BE","countryName":"Belgium","lat":50.8503,"lng":4.3517,"region":"Europe"},
-      "orgIcon": "EU"
+      "countryCode": "BE",
+      "countryName": "Belgium",
+      "city": "Brussels",
+      "lat": 50.8503,
+      "lng": 4.3517,
+      "region": "Europe",
+      "roleTitle": "EU High Representative",
+      "organization": "European Union"
     },
     {
       "key": "kristalina_georgieva",
+      "displayName": "Kristalina Georgieva",
       "matchAll": ["kristalina", "georgieva"],
-      "anchor": {"label":"IMF Washington institutional base","city":"Washington","countryCode":"US","countryName":"United States","lat":38.8995,"lng":-77.0436,"region":"North America"},
-      "orgIcon": "IMF"
+      "countryCode": "US",
+      "countryName": "United States",
+      "city": "Washington",
+      "lat": 38.8995,
+      "lng": -77.0436,
+      "region": "North America",
+      "roleTitle": "Managing Director of the IMF",
+      "organization": "International Monetary Fund"
     },
     {
       "key": "ajay_banga",
+      "displayName": "Ajay Banga",
       "matchAll": ["ajay", "banga"],
-      "anchor": {"label":"World Bank Washington institutional base","city":"Washington","countryCode":"US","countryName":"United States","lat":38.8993,"lng":-77.0427,"region":"North America"},
-      "orgIcon": "World Bank"
+      "countryCode": "US",
+      "countryName": "United States",
+      "city": "Washington",
+      "lat": 38.8993,
+      "lng": -77.0427,
+      "region": "North America",
+      "roleTitle": "President of the World Bank Group",
+      "organization": "World Bank Group"
     },
     {
       "key": "tedros_ghebreyesus",
-      "matchAll": ["tedros"],
-      "anchor": {"label":"WHO Geneva institutional base","city":"Geneva","countryCode":"CH","countryName":"Switzerland","lat":46.2327,"lng":6.1341,"region":"Europe"},
-      "orgIcon": "WHO"
+      "displayName": "Tedros Adhanom Ghebreyesus",
+      "matchAny": ["tedros", "ghebreyesus"],
+      "countryCode": "CH",
+      "countryName": "Switzerland",
+      "city": "Geneva",
+      "lat": 46.2327,
+      "lng": 6.1341,
+      "region": "Europe",
+      "roleTitle": "Director-General of the World Health Organization",
+      "organization": "World Health Organization"
     },
     {
       "key": "emmanuel_macron",
+      "displayName": "Emmanuel Macron",
       "matchAll": ["emmanuel", "macron"],
-      "anchor": {"label":"Paris institutional base","city":"Paris","countryCode":"FR","countryName":"France","lat":48.8566,"lng":2.3522,"region":"Europe"}
-    },
-    {
-      "key": "friedrich_merz",
-      "matchAll": ["friedrich", "merz"],
-      "anchor": {"label":"Berlin institutional base","city":"Berlin","countryCode":"DE","countryName":"Germany","lat":52.52,"lng":13.405,"region":"Europe"}
-    },
-    {
-      "key": "donald_trump",
-      "matchAll": ["donald", "trump"],
-      "anchor": {"label":"Washington institutional base","city":"Washington","countryCode":"US","countryName":"United States","lat":38.9072,"lng":-77.0369,"region":"North America"}
-    },
-    {
-      "key": "xi_jinping",
-      "matchAll": ["xi", "jinping"],
-      "anchor": {"label":"Beijing institutional base","city":"Beijing","countryCode":"CN","countryName":"China","lat":39.9042,"lng":116.4074,"region":"Asia"}
-    },
-    {
-      "key": "narendra_modi",
-      "matchAll": ["narendra", "modi"],
-      "anchor": {"label":"New Delhi institutional base","city":"New Delhi","countryCode":"IN","countryName":"India","lat":28.6139,"lng":77.209,"region":"South Asia"}
-    },
-    {
-      "key": "vladimir_putin",
-      "matchAll": ["vladimir", "putin"],
-      "anchor": {"label":"Moscow institutional base","city":"Moscow","countryCode":"RU","countryName":"Russia","lat":55.7558,"lng":37.6173,"region":"Europe"}
+      "countryCode": "FR",
+      "countryName": "France",
+      "city": "Paris",
+      "lat": 48.8566,
+      "lng": 2.3522,
+      "region": "Europe",
+      "roleTitle": "President of France",
+      "organization": "France"
     }
   ],
   "historicalActiveBlocklist": [
     "vincent auriol",
     "rene coty",
+    "rené coty",
     "charles de gaulle",
     "georges pompidou",
-    "valery giscard estaing",
+    "valery giscard d estaing",
+    "valéry giscard d estaing",
     "francois mitterrand",
+    "françois mitterrand",
     "jacques chirac",
     "nicolas sarkozy",
     "francois hollande",
+    "françois hollande",
     "enrique pena nieto",
+    "enrique peña nieto",
     "felipe calderon",
-    "vicente fox",
-    "ernesto zedillo"
+    "felipe calderón",
+    "andres manuel lopez obrador",
+    "andrés manuel lópez obrador"
   ]
 }
