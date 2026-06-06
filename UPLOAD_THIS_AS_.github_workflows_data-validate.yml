@@ -1,4 +1,4 @@
-name: ParleyMap final rescue now
+name: ParleyMap data validation
 
 on:
   workflow_dispatch:
@@ -11,7 +11,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  final-rescue:
+  final-stabilize:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -41,7 +41,7 @@ jobs:
       - name: Upload fixed files
         uses: actions/upload-artifact@v4
         with:
-          name: parleymap-final-rescue-files
+          name: parleymap-final-stabilized-files
           path: |
             index.html
             data/demo.json
@@ -49,8 +49,8 @@ jobs:
             data/diagnostics/final-audit-report.json
             data/diagnostics/LATEST_RUN_SUMMARY.md
 
-      - name: Commit final rescue
+      - name: Commit fixed website data
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Final rescue ParleyMap data"
+          commit_message: "Final stabilize ParleyMap data"
           file_pattern: "index.html data/demo.json data/diagnostics/*.json data/diagnostics/*.md"

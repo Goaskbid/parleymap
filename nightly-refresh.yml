@@ -28,59 +28,63 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Pre-refresh rescue and audit
-        run: node scripts/parleymap-final-rescue-and-harden.mjs
+      - name: Pre-refresh stabilize and audit
+        run: node scripts/parleymap-final-stabilize.mjs
+
+      - name: Validate before crawler
+        run: node scripts/validate-demo-data.mjs
 
       - name: Sync crawler input from current index.html
         run: |
           node - <<'NODE'
           const fs = require('fs');
           const html = fs.readFileSync('index.html', 'utf8');
-          const m = html.match(/<script\s+id=["']demo-data["']\s+type=["']application\/json["'][^>]*>([\s\S]*?)<\/script>/i);
-          if (!m) throw new Error('demo-data block not found');
+          const open = '<script id="demo-data" type="application/json">';
+          const close = '</' + 'script>';
+          const start = html.indexOf(open);
+          if (start === -1) throw new Error('demo-data opening tag not found');
+          const jsonStart = start + open.length;
+          const end = html.indexOf(close, jsonStart);
+          if (end === -1) throw new Error('demo-data closing tag not found');
+          const data = JSON.parse(html.slice(jsonStart, end).trim());
           fs.mkdirSync('data', { recursive: true });
-          fs.writeFileSync('data/demo.json', JSON.stringify(JSON.parse(m[1]), null, 2) + '\n');
+          fs.writeFileSync('data/demo.json', JSON.stringify(data, null, 2) + '\n');
+          console.log(JSON.stringify({ people: data.people?.length, roster: data.roster?.length, appearances: data.appearances?.length }, null, 2));
           NODE
 
-      - name: Run bounded crawler when available
+      - name: Run bounded crawler if present
         continue-on-error: true
         run: |
           if [ -f nightly-refresh.mjs ]; then
             timeout 12m node nightly-refresh.mjs --max-roster 60 --max-per-person 2 --max-pages-per-source 8 --lookback-days 21
           else
-            echo "No nightly-refresh.mjs found. Skipping crawler."
+            echo "nightly-refresh.mjs not present"
           fi
         env:
           PARLEYMAP_FETCH_TIMEOUT_MS: "3000"
 
-      - name: Guard-publish crawler output when available
+      - name: Publish crawler output if publisher exists
         continue-on-error: true
         run: |
           if [ -f scripts/guarded-publish-from-crawler.mjs ]; then
             node scripts/guarded-publish-from-crawler.mjs
           else
-            echo "No guarded crawler publisher found. Skipping publication."
+            echo "guarded publisher not present; crawler output left as diagnostics"
           fi
 
-      - name: Post-refresh rescue and audit
-        run: node scripts/parleymap-final-rescue-and-harden.mjs
+      - name: Post-refresh stabilize, remove non-real events, audit
+        run: node scripts/parleymap-final-stabilize.mjs
 
-      - name: Validate embedded dataset when validator exists
-        run: |
-          if [ -f scripts/validate-demo-data.mjs ]; then
-            node scripts/validate-demo-data.mjs
-          fi
+      - name: Validate final embedded dataset
+        run: node scripts/validate-demo-data.mjs
 
-      - name: Show latest summary
+      - name: Show summary
         if: always()
         run: |
-          if [ -f data/diagnostics/LATEST_RUN_SUMMARY.md ]; then
-            cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
-            cat data/diagnostics/LATEST_RUN_SUMMARY.md
-          fi
+          cat data/diagnostics/LATEST_RUN_SUMMARY.md || true
+          cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY" || true
 
       - name: Upload nightly files
-        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: parleymap-nightly-run-files
@@ -90,10 +94,9 @@ jobs:
             data/crawler/*.json
             data/diagnostics/*.json
             data/diagnostics/*.md
-            .github/workflows/*.yml
 
-      - name: Commit nightly refresh
+      - name: Commit nightly refreshed data
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Refresh ParleyMap nightly data with rescue audit"
-          file_pattern: "index.html data/demo.json data/crawler/*.json data/diagnostics/*.json data/diagnostics/*.md .github/workflows/*.yml scripts/*.mjs data/curated-anchors.json"
+          commit_message: "Refresh ParleyMap guarded data"
+          file_pattern: "index.html data/demo.json data/crawler/*.json data/diagnostics/*.json data/diagnostics/*.md"

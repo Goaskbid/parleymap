@@ -28,31 +28,25 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Rescue before roster review
-        run: node scripts/parleymap-final-rescue-and-harden.mjs
+      - name: Stabilize before roster review
+        run: node scripts/parleymap-final-stabilize.mjs
 
-      - name: Run guarded current-holder review
-        run: node scripts/parleymap-current-holder-safe-update.mjs --apply
+      - name: Safe current-holder roster review
+        run: node scripts/parleymap-current-holder-safe-update.mjs
 
-      - name: Rescue after roster review
-        run: node scripts/parleymap-final-rescue-and-harden.mjs
+      - name: Stabilize and audit after roster review
+        run: node scripts/parleymap-final-stabilize.mjs
 
-      - name: Validate embedded dataset when validator exists
-        run: |
-          if [ -f scripts/validate-demo-data.mjs ]; then
-            node scripts/validate-demo-data.mjs
-          fi
+      - name: Validate final embedded dataset
+        run: node scripts/validate-demo-data.mjs
 
-      - name: Show latest summary
+      - name: Show summary
         if: always()
         run: |
-          if [ -f data/diagnostics/LATEST_RUN_SUMMARY.md ]; then
-            cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
-            cat data/diagnostics/LATEST_RUN_SUMMARY.md
-          fi
+          cat data/diagnostics/LATEST_RUN_SUMMARY.md || true
+          cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY" || true
 
       - name: Upload monthly roster files
-        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: parleymap-monthly-roster-files
@@ -61,10 +55,9 @@ jobs:
             data/demo.json
             data/diagnostics/*.json
             data/diagnostics/*.md
-            .github/workflows/*.yml
 
       - name: Commit monthly roster review
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Review ParleyMap roster with rescue audit"
-          file_pattern: "index.html data/demo.json data/diagnostics/*.json data/diagnostics/*.md .github/workflows/*.yml scripts/*.mjs data/curated-anchors.json"
+          commit_message: "Review ParleyMap roster safely"
+          file_pattern: "index.html data/demo.json data/diagnostics/*.json data/diagnostics/*.md"
