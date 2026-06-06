@@ -15,41 +15,26 @@ concurrency:
 jobs:
   roster-review:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 20
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           ref: main
-          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20"
 
-      - name: Rescue before roster review
-        run: |
-          node scripts/parleymap-final-rescue.mjs
-          node scripts/parleymap-final-audit.mjs
+      - name: Stabilize anchors, people, faces, and real events
+        run: node scripts/parleymap-final-stabilize.mjs
 
-      - name: Run guarded current-holder roster update
-        run: node scripts/parleymap-roster-safe-review.mjs
-        env:
-          PARLEYMAP_APPLY_ROSTER: "1"
+      - name: Safe current-holder roster review
+        run: node scripts/parleymap-current-holder-safe-update.mjs
 
-      - name: Rescue and audit after roster review
-        run: |
-          node scripts/parleymap-final-rescue.mjs
-          node scripts/parleymap-final-audit.mjs
-
-      - name: Validate embedded dataset
-        run: |
-          if [ -f scripts/validate-demo-data.mjs ]; then
-            node scripts/validate-demo-data.mjs
-          else
-            echo "No legacy validator found; final audit already passed."
-          fi
+      - name: Final stabilize and audit
+        run: node scripts/parleymap-final-stabilize.mjs
 
       - name: Build summary
         if: always()
@@ -57,7 +42,7 @@ jobs:
           node scripts/parleymap-build-summary.mjs || true
           cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY" || true
 
-      - name: Upload monthly roster files
+      - name: Upload monthly files
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -65,12 +50,11 @@ jobs:
           path: |
             index.html
             data/demo.json
-            data/curated-anchors.json
             data/diagnostics/*.json
             data/diagnostics/*.md
 
-      - name: Commit monthly roster review
+      - name: Commit roster review diagnostics
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Review ParleyMap roster safely"
-          file_pattern: "index.html data/demo.json data/curated-anchors.json data/diagnostics/*.json data/diagnostics/*.md"
+          file_pattern: "index.html data/demo.json data/diagnostics/*.json data/diagnostics/*.md"

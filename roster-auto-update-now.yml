@@ -6,56 +6,49 @@ on:
 permissions:
   contents: write
 
-concurrency:
-  group: parleymap-monthly-roster-review
-  cancel-in-progress: false
-
 jobs:
   roster-auto-update:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 10
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           ref: main
-          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20"
 
-      - name: Stabilize before roster update
+      - name: Stabilize data before roster review
         run: node scripts/parleymap-final-stabilize.mjs
 
-      - name: Safe current-holder roster update
+      - name: Safe current-holder review only
         run: node scripts/parleymap-current-holder-safe-update.mjs
 
-      - name: Stabilize and audit after roster update
+      - name: Stabilize data after roster review
         run: node scripts/parleymap-final-stabilize.mjs
 
-      - name: Validate final embedded dataset
-        run: node scripts/validate-demo-data.mjs
-
-      - name: Show summary
+      - name: Build summary
         if: always()
         run: |
-          cat data/diagnostics/LATEST_RUN_SUMMARY.md || true
+          node scripts/parleymap-build-summary.mjs || true
           cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY" || true
 
-      - name: Upload roster update files
+      - name: Upload roster review files
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: parleymap-roster-auto-update-files
+          name: parleymap-roster-review-files
           path: |
             index.html
             data/demo.json
             data/diagnostics/*.json
             data/diagnostics/*.md
 
-      - name: Commit safe roster update
+      - name: Commit safe roster review
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Safely update ParleyMap roster office holders"
+          commit_message: "Review ParleyMap roster safely"
           file_pattern: "index.html data/demo.json data/diagnostics/*.json data/diagnostics/*.md"

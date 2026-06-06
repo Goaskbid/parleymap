@@ -1,0 +1,24 @@
+Restart context for ParleyMap rescue:
+
+The previous thread attempted many GitHub Actions fixes for github.com/Goaskbid/parleymap and parleymap.com.
+Known state before the last audited package:
+- The live app embeds data in index.html inside <script id="demo-data" type="application/json">...</script>.
+- Bad roster updater polluted people from 94 to 137 and introduced historical current-holder rows such as Vincent Auriol as active.
+- Visible map showed wrong anchors: Claudia Sheinbaum in Asia, Pope in Australia, Prabowo wrong, Rafael Grossi duplicated and misplaced.
+- Generic event/watch cards such as City of London finance diplomacy and IAEA nuclear diplomacy watch appeared with dates; these are not real events and must be removed.
+- GitHub web upload often failed to install new hidden .github workflow files, so the last package is designed to work through the existing visible ParleyMap nightly refresh workflow by replacing scripts that it already calls.
+
+Last package installed should be named parleymap_last_fix_audited.zip.
+Key files:
+- scripts/parleymap-final-stabilize.mjs
+- scripts/validate-demo-data.mjs imports the stabilizer
+- scripts/repair-live-dataset.mjs imports the stabilizer
+- scripts/roster-hygiene.mjs imports the stabilizer
+- scripts/strict-crawler-audit.mjs imports the stabilizer
+- nightly-refresh.mjs is a safe no-op real-event gate
+- scripts/guarded-publish-from-crawler.mjs filters fake/generic events
+- data/curated-anchors.json defines critical anchor/faces
+
+Run the existing Actions > ParleyMap nightly refresh workflow after upload.
+Do not ask the user to look for a new workflow name.
+Check data/diagnostics/final-audit-report.json. It must say audit_passed.

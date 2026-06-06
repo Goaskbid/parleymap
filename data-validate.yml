@@ -6,51 +6,43 @@ on:
 permissions:
   contents: write
 
-concurrency:
-  group: parleymap-final-stabilize
-  cancel-in-progress: false
-
 jobs:
-  final-stabilize:
+  validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 10
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           ref: main
-          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20"
 
-      - name: Final stabilize, clean real events, anchors, faces
+      - name: Stabilize and audit ParleyMap data
         run: node scripts/parleymap-final-stabilize.mjs
 
-      - name: Validate embedded dataset
-        run: node scripts/validate-demo-data.mjs
-
-      - name: Show summary
+      - name: Build summary
         if: always()
         run: |
-          cat data/diagnostics/LATEST_RUN_SUMMARY.md || true
+          node scripts/parleymap-build-summary.mjs || true
           cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY" || true
 
       - name: Upload fixed files
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: parleymap-final-stabilized-files
+          name: parleymap-fixed-files
           path: |
             index.html
             data/demo.json
-            data/diagnostics/final-stabilize-report.json
-            data/diagnostics/final-audit-report.json
-            data/diagnostics/LATEST_RUN_SUMMARY.md
+            data/diagnostics/*.json
+            data/diagnostics/*.md
 
-      - name: Commit fixed website data
+      - name: Commit stabilized data
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Final stabilize ParleyMap data"
+          commit_message: "Stabilize ParleyMap data and remove fake events"
           file_pattern: "index.html data/demo.json data/diagnostics/*.json data/diagnostics/*.md"

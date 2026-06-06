@@ -15,38 +15,35 @@ concurrency:
 jobs:
   roster-review:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 20
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           ref: main
-          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20"
 
-      - name: Stabilize before roster review
+      - name: Stabilize anchors, people, faces, and real events
         run: node scripts/parleymap-final-stabilize.mjs
 
       - name: Safe current-holder roster review
         run: node scripts/parleymap-current-holder-safe-update.mjs
 
-      - name: Stabilize and audit after roster review
+      - name: Final stabilize and audit
         run: node scripts/parleymap-final-stabilize.mjs
 
-      - name: Validate final embedded dataset
-        run: node scripts/validate-demo-data.mjs
-
-      - name: Show summary
+      - name: Build summary
         if: always()
         run: |
-          cat data/diagnostics/LATEST_RUN_SUMMARY.md || true
+          node scripts/parleymap-build-summary.mjs || true
           cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY" || true
 
-      - name: Upload monthly roster files
+      - name: Upload monthly files
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: parleymap-monthly-roster-files
@@ -56,7 +53,7 @@ jobs:
             data/diagnostics/*.json
             data/diagnostics/*.md
 
-      - name: Commit monthly roster review
+      - name: Commit roster review diagnostics
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Review ParleyMap roster safely"
