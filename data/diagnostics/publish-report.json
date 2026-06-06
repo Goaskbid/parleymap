@@ -1,18 +1,18 @@
 {
-  "generatedAt": "2026-06-05T21:06:54.533Z",
+  "generatedAt": "2026-06-06T06:44:36.165Z",
   "candidatePath": "data/crawler/publishable-appearances.json",
-  "candidateCount": 15,
+  "candidateCount": 10,
   "approved": 0,
-  "rejected": 15,
+  "rejected": 10,
   "before": {
-    "people": 94,
+    "people": 137,
     "roster": 200,
     "expansionRoster": 114,
     "appearances": 508,
     "categories": 11
   },
   "after": {
-    "people": 94,
+    "people": 137,
     "roster": 200,
     "expansionRoster": 114,
     "appearances": 508,
