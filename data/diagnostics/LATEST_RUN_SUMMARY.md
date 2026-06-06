@@ -1,7 +1,7 @@
 # ParleyMap nightly refresh
 
-Run: 27
-Generated: 2026-06-06T10:10:30Z
+Run: 28
+Generated: 2026-06-06T10:45:11Z
 
 ## Changed files before commit
 data/crawler/candidate-appearances.json
@@ -16,11 +16,11 @@ index.html
 
 ## Publish report
 {
-  "generatedAt": "2026-06-06T10:10:29.321Z",
+  "generatedAt": "2026-06-06T10:45:10.264Z",
   "candidatePath": "data/crawler/publishable-appearances.json",
-  "candidateCount": 15,
+  "candidateCount": 0,
   "approved": 0,
-  "rejected": 15,
+  "rejected": 0,
   "before": {
     "people": 94,
     "roster": 200,
@@ -40,7 +40,7 @@ index.html
 
 ## Repair report
 {
-  "generatedAt": "2026-06-06T10:10:29.802Z",
+  "generatedAt": "2026-06-06T10:45:10.576Z",
   "before": {
     "people": 94,
     "roster": 200,
@@ -167,7 +167,7 @@ index.html
 
 ## Roster hygiene report
 {
-  "generatedAt": "2026-06-06T10:10:30.035Z",
+  "generatedAt": "2026-06-06T10:45:10.743Z",
   "before": {
     "people": 94,
     "roster": 200,
@@ -1714,7 +1714,7 @@ index.html
 
 ## Strict crawler audit
 {
-  "generatedAt": "2026-06-06T10:10:29.605Z",
+  "generatedAt": "2026-06-06T10:45:10.441Z",
   "before": {
     "people": 94,
     "roster": 200,
@@ -1730,6 +1730,6 @@ index.html
     "categories": 11
   },
   "removedFromIndex": [],
-  "rejectedCrawlerRowsTotal": 15,
+  "rejectedCrawlerRowsTotal": 0,
   "status": "strict_crawler_audit_complete"
 }
