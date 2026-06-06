@@ -1,14 +1,14 @@
 {
-  "generatedAt": "2026-06-06T06:44:36.873Z",
+  "generatedAt": "2026-06-06T10:10:30.035Z",
   "before": {
-    "people": 137,
+    "people": 94,
     "roster": 200,
     "expansionRoster": 114,
     "appearances": 508,
     "categories": 11
   },
   "after": {
-    "people": 137,
+    "people": 94,
     "roster": 200,
     "expansionRoster": 114,
     "appearances": 508,
@@ -379,6 +379,16 @@
       "countryFocus": "IL",
       "countryFocusCode": "IL",
       "countryName": "Israel"
+    },
+    {
+      "collection": "roster",
+      "index": 20,
+      "id": "r-021-prabowo-subianto",
+      "name": "Prabowo Subianto",
+      "reason": "bad_or_missing_base_but_no_country_fallback",
+      "countryFocus": "ID",
+      "countryFocusCode": "ID",
+      "countryName": "Indonesia"
     },
     {
       "collection": "roster",
@@ -869,6 +879,16 @@
       "countryFocus": "IL",
       "countryFocusCode": "IL",
       "countryName": "Israel"
+    },
+    {
+      "collection": "topRoster",
+      "index": 20,
+      "id": "r-021-prabowo-subianto",
+      "name": "Prabowo Subianto",
+      "reason": "bad_or_missing_base_but_no_country_fallback",
+      "countryFocus": "ID",
+      "countryFocusCode": "ID",
+      "countryName": "Indonesia"
     },
     {
       "collection": "topRoster",

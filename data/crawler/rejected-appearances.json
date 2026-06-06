@@ -1,12 +1,73 @@
 [
   {
-    "id": "crawl-p-donald-trump-washington-2026-05-29-fete-nationale-du-14-juillet-2017-commun",
-    "personId": "p-donald-trump",
-    "personName": "Donald Trump",
-    "title": "Fête Nationale du 14 juillet 2017 – Communiqué de presse",
-    "city": "Washington",
-    "sourceUrl": "https://www.elysee.fr/emmanuel-macron/2017/06/28/fete-nationale-du-14-juillet-2017-communique-de-presse",
+    "id": "crawl-p-emmanuel-macron-paris-2026-05-29-programme-du-week-end-culturel",
+    "personId": "p-emmanuel-macron",
+    "personName": "Emmanuel Macron",
+    "title": "Programme du week-end culturel",
+    "city": "Paris",
+    "sourceUrl": "https://www.elysee.fr/sommet-pour-l-action-sur-l-ia/programme-du-week-end-culturel",
     "reasons": [
+      "generic_or_non_event_page",
+      "location_not_clearly_evidenced"
+    ]
+  },
+  {
+    "id": "crawl-p-ngozi-okonjo-iweala-london-2026-05-29-programme-du-sommet",
+    "personId": "p-ngozi-okonjo-iweala",
+    "personName": "Ngozi Okonjo-Iweala",
+    "title": "Programme du Sommet",
+    "city": "London",
+    "sourceUrl": "https://www.elysee.fr/sommet-pour-l-action-sur-l-ia/programme-sommet-pour-laction-sur-lintelligence-artificielle",
+    "reasons": [
+      "generic_or_non_event_page",
+      "location_not_clearly_evidenced"
+    ]
+  },
+  {
+    "id": "crawl-p-mathias-cormann-london-2026-05-29-programme-du-sommet",
+    "personId": "p-mathias-cormann",
+    "personName": "Mathias Cormann",
+    "title": "Programme du Sommet",
+    "city": "London",
+    "sourceUrl": "https://www.elysee.fr/sommet-pour-l-action-sur-l-ia/programme-sommet-pour-laction-sur-lintelligence-artificielle",
+    "reasons": [
+      "generic_or_non_event_page",
+      "location_not_clearly_evidenced"
+    ]
+  },
+  {
+    "id": "crawl-p-emmanuel-macron-paris-2026-05-29-programme-de-la-semaine",
+    "personId": "p-emmanuel-macron",
+    "personName": "Emmanuel Macron",
+    "title": "Programme de la semaine",
+    "city": "Paris",
+    "sourceUrl": "https://www.elysee.fr/sommet-pour-l-action-sur-l-ia/programme-de-la-semaine-pour-laction-sur-lintelligence-artificielle",
+    "reasons": [
+      "generic_or_non_event_page",
+      "location_not_clearly_evidenced"
+    ]
+  },
+  {
+    "id": "crawl-p-emmanuel-macron-paris-2026-05-29-foire-aux-questions",
+    "personId": "p-emmanuel-macron",
+    "personName": "Emmanuel Macron",
+    "title": "Foire aux questions",
+    "city": "Paris",
+    "sourceUrl": "https://www.elysee.fr/sommet-pour-l-action-sur-l-ia/faq",
+    "reasons": [
+      "generic_or_non_event_page",
+      "location_not_clearly_evidenced"
+    ]
+  },
+  {
+    "id": "crawl-p-emmanuel-macron-paris-2026-05-29-programmation-culturelle",
+    "personId": "p-emmanuel-macron",
+    "personName": "Emmanuel Macron",
+    "title": "Programmation Culturelle",
+    "city": "Paris",
+    "sourceUrl": "https://www.elysee.fr/sommet-pour-l-action-sur-l-ia/organiser-un-evenement-culturel",
+    "reasons": [
+      "generic_or_non_event_page",
       "location_not_clearly_evidenced"
     ]
   },

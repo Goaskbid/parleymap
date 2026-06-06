@@ -1,7 +1,7 @@
 # ParleyMap nightly refresh
 
-Run: 26
-Generated: 2026-06-06T06:44:37Z
+Run: 27
+Generated: 2026-06-06T10:10:30Z
 
 ## Changed files before commit
 data/crawler/candidate-appearances.json
@@ -16,20 +16,20 @@ index.html
 
 ## Publish report
 {
-  "generatedAt": "2026-06-06T06:44:36.165Z",
+  "generatedAt": "2026-06-06T10:10:29.321Z",
   "candidatePath": "data/crawler/publishable-appearances.json",
-  "candidateCount": 10,
+  "candidateCount": 15,
   "approved": 0,
-  "rejected": 10,
+  "rejected": 15,
   "before": {
-    "people": 137,
+    "people": 94,
     "roster": 200,
     "expansionRoster": 114,
     "appearances": 508,
     "categories": 11
   },
   "after": {
-    "people": 137,
+    "people": 94,
     "roster": 200,
     "expansionRoster": 114,
     "appearances": 508,
@@ -40,16 +40,16 @@ index.html
 
 ## Repair report
 {
-  "generatedAt": "2026-06-06T06:44:36.641Z",
+  "generatedAt": "2026-06-06T10:10:29.802Z",
   "before": {
-    "people": 137,
+    "people": 94,
     "roster": 200,
     "expansionRoster": 114,
     "appearances": 508,
     "categories": 11
   },
   "after": {
-    "people": 137,
+    "people": 94,
     "roster": 200,
     "expansionRoster": 114,
     "appearances": 508,
@@ -167,16 +167,16 @@ index.html
 
 ## Roster hygiene report
 {
-  "generatedAt": "2026-06-06T06:44:36.873Z",
+  "generatedAt": "2026-06-06T10:10:30.035Z",
   "before": {
-    "people": 137,
+    "people": 94,
     "roster": 200,
     "expansionRoster": 114,
     "appearances": 508,
     "categories": 11
   },
   "after": {
-    "people": 137,
+    "people": 94,
     "roster": 200,
     "expansionRoster": 114,
     "appearances": 508,
@@ -547,6 +547,16 @@ index.html
       "countryFocus": "IL",
       "countryFocusCode": "IL",
       "countryName": "Israel"
+    },
+    {
+      "collection": "roster",
+      "index": 20,
+      "id": "r-021-prabowo-subianto",
+      "name": "Prabowo Subianto",
+      "reason": "bad_or_missing_base_but_no_country_fallback",
+      "countryFocus": "ID",
+      "countryFocusCode": "ID",
+      "countryName": "Indonesia"
     },
     {
       "collection": "roster",
@@ -1037,6 +1047,16 @@ index.html
       "countryFocus": "IL",
       "countryFocusCode": "IL",
       "countryName": "Israel"
+    },
+    {
+      "collection": "topRoster",
+      "index": 20,
+      "id": "r-021-prabowo-subianto",
+      "name": "Prabowo Subianto",
+      "reason": "bad_or_missing_base_but_no_country_fallback",
+      "countryFocus": "ID",
+      "countryFocusCode": "ID",
+      "countryName": "Indonesia"
     },
     {
       "collection": "topRoster",
@@ -1694,22 +1714,22 @@ index.html
 
 ## Strict crawler audit
 {
-  "generatedAt": "2026-06-06T06:44:36.435Z",
+  "generatedAt": "2026-06-06T10:10:29.605Z",
   "before": {
-    "people": 137,
+    "people": 94,
     "roster": 200,
     "expansionRoster": 114,
     "appearances": 508,
     "categories": 11
   },
   "after": {
-    "people": 137,
+    "people": 94,
     "roster": 200,
     "expansionRoster": 114,
     "appearances": 508,
     "categories": 11
   },
   "removedFromIndex": [],
-  "rejectedCrawlerRowsTotal": 10,
+  "rejectedCrawlerRowsTotal": 15,
   "status": "strict_crawler_audit_complete"
 }
