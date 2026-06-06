@@ -9,9 +9,9 @@ permissions:
 jobs:
   safe-review-only:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 10
     steps:
-      - name: Checkout repository with history
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
           ref: main
@@ -22,24 +22,19 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Repair integrity first
-        run: node scripts/parleymap-data-integrity-repair.cjs
-
-      - name: Produce safe roster diagnostics only
+      - name: Refuse unsafe automatic roster replacement and write review files
         run: node scripts/parleymap-safe-roster-review.cjs
 
-      - name: Upload safe roster review files
-        if: always()
+      - name: Upload roster review files
         uses: actions/upload-artifact@v4
         with:
-          name: parleymap-safe-roster-review-files
+          name: parleymap-roster-review-files
           path: |
             data/diagnostics/roster-current-holder-review.json
             data/diagnostics/roster-patch-candidates.json
-            data/diagnostics/LATEST_RUN_SUMMARY.md
 
-      - name: Commit safe roster diagnostics
+      - name: Commit roster review files
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Write safe ParleyMap roster review"
-          file_pattern: "index.html data/demo.json data/diagnostics/*.json data/diagnostics/*.md"
+          commit_message: "Write safe ParleyMap roster review diagnostics"
+          file_pattern: "data/diagnostics/roster-current-holder-review.json data/diagnostics/roster-patch-candidates.json"

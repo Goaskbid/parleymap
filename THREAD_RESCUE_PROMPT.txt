@@ -1,26 +1,28 @@
-ParleyMap rescue context
+Context for continuing ParleyMap repair:
 
-The site suffered from two independent problems:
+Repo: github.com/Goaskbid/parleymap
+Live: parleymap.com
 
-1. Data integrity / map integrity:
-   - index.html on main became crawler-visible as a one-line placeholder/file listing instead of the real app shell.
-   - data/demo.json still contained duplicate Rafael Grossi rows and fake dated watch cards.
-   - visible anchors for Sheinbaum, Pope Leo XIV, Prabowo Subianto and Rafael Grossi were wrong.
-   - previous roster auto-update polluted people from 94 to 137 through historical office-holder chains.
+Critical facts:
+- The live app data is embedded in index.html in <script id="demo-data" type="application/json">.
+- Previous attempts repeatedly damaged index.html, created thin one-line index.html, polluted people from 94 to 137, created historical office-holder chains, left duplicate Rafael Grossi rows, wrong institutional anchors, fake dated watch cards, and missing AdSense crawler signals.
+- Do not write data/demo.json blindly into index.html.
+- Always restore a full safe index.html from git history if current index.html is thin.
+- Always validate counts before and after.
+- AdSense IDs must be preserved from existing files or git history, or supplied by workflow inputs. Never invent IDs.
 
-2. AdSense/site-surface integrity:
-   - ads.txt was missing.
-   - crawler-visible HTML did not expose google-adsense-account, adsbygoogle, pagead2.googlesyndication.com or data-ad-slot values.
-   - privacy.html and impressum.html were not clean human/legal pages.
+The current package is parleymap_true_final_fix.
+Run existing workflow: ParleyMap data validation.
+Expected reports:
+- data/diagnostics/true-final-fix-report.json
+- data/diagnostics/final-hard-audit-report.json
+- data/diagnostics/adsense-preserve-audit-report.json
 
-This package replaces the existing ParleyMap data validation workflow so the visible Actions entry can be used. It restores a safe full index.html from git history, repairs embedded demo-data only, removes fake watch rows, repairs critical anchors/faces, preserves AdSense IDs from current files/history, creates ads.txt, cleans legal pages, and writes audits.
-
-First workflow to run after upload:
-
-Actions > ParleyMap data validation > Run workflow
-
-If AdSense IDs are not recoverable from history, rerun with workflow inputs:
-
-publisher_id
-header_slot_id
-sidebar_slot_id
+Hard audit must pass:
+- Claudia Sheinbaum -> Mexico City / MX.
+- Pope Leo XIV -> Vatican City / VA.
+- Prabowo Subianto -> Jakarta / ID.
+- Rafael Grossi -> Vienna / AT.
+- No fake City of London / IAEA / think-tank / royal diary watch rows.
+- Runtime guard present.
+- If require_adsense_ready=true, ads.txt and AdSense meta/script/slots must exist.

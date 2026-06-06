@@ -1,36 +1,87 @@
-Audit results for parleymap_final_surface_data_fix
+name: ParleyMap data validation
 
-Package build checks:
+on:
+  workflow_dispatch:
+    inputs:
+      publisher_id:
+        description: "Optional AdSense publisher ID. Use ca-pub-... or pub-... only if auto-recovery fails."
+        required: false
+        type: string
+      header_slot_id:
+        description: "Optional AdSense header ad slot ID. Use only if auto-recovery fails."
+        required: false
+        type: string
+      sidebar_slot_id:
+        description: "Optional AdSense sidebar ad slot ID. Use only if auto-recovery fails."
+        required: false
+        type: string
+      require_adsense_ready:
+        description: "Fail if AdSense IDs and ads.txt cannot be made crawlable."
+        required: true
+        default: "true"
+        type: choice
+        options:
+          - "true"
+          - "false"
 
-PASS - Node syntax check passed for scripts/parleymap-data-integrity-repair.cjs
-PASS - Node syntax check passed for scripts/parleymap-adsense-legal-repair.cjs
-PASS - Node syntax check passed for scripts/parleymap-safe-roster-review.cjs
-PASS - Workflow YAML parse passed for data-validate.yml
-PASS - Workflow YAML parse passed for nightly-refresh.yml
-PASS - Workflow YAML parse passed for monthly-roster-review.yml
-PASS - Workflow YAML parse passed for roster-auto-update-now.yml
-PASS - All workflows are multiline YAML files.
+permissions:
+  contents: write
 
-Mock repository dry run:
+jobs:
+  repair-validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout repository with history
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
 
-PASS - Mock started with a broken thin index.html containing only parleymap.com.
-PASS - Mock git history contained a safe full ParleyMap index.html.
-PASS - Repair restored the full index.html from git history.
-PASS - people count stayed 94.
-PASS - roster count stayed 200.
-PASS - expansionRoster count stayed 114.
-PASS - categories count stayed 11.
-PASS - fake IAEA nuclear diplomacy watch row removed.
-PASS - fake City of London finance diplomacy watch row removed.
-PASS - Rafael Grossi anchor repaired to Vienna / AT.
-PASS - critical profile anchors repaired in mock data.
-PASS - runtime data/Leaflet guard inserted.
-PASS - mock AdSense client ca-pub-1234567890123456 preserved.
-PASS - mock header slot 1111111111 preserved.
-PASS - mock sidebar slot 2222222222 preserved.
-PASS - ads.txt generated from preserved publisher ID.
-PASS - clean privacy.html and impressum.html generated.
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
 
-Important safeguard:
+      - name: Run true final repair and hard audit
+        env:
+          PARLEYMAP_FIX_MODE: manual-rescue
+          REQUIRE_ADSENSE_READY: ${{ inputs.require_adsense_ready }}
+          ADSENSE_PUBLISHER_ID: ${{ inputs.publisher_id }}
+          ADSENSE_HEADER_SLOT_ID: ${{ inputs.header_slot_id }}
+          ADSENSE_SIDEBAR_SLOT_ID: ${{ inputs.sidebar_slot_id }}
+        run: node scripts/parleymap-true-final-fix.cjs
 
-The package does not invent AdSense IDs. If it cannot recover one publisher ID and two slot IDs from current files or git history, it fails when require_adsense_ready is true instead of injecting dummy code.
+      - name: Append run summary
+        if: always()
+        run: |
+          if [ -f data/diagnostics/LATEST_RUN_SUMMARY.md ]; then
+            cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload repaired files and diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: parleymap-true-final-files
+          path: |
+            index.html
+            ads.txt
+            privacy.html
+            impressum.html
+            contact.html
+            about.html
+            methodology.html
+            data-sources.html
+            data/demo.json
+            data/diagnostics/*.json
+            data/diagnostics/*.md
+
+      - name: Show changed files
+        run: git diff --name-only
+
+      - name: Commit true final repair
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Apply ParleyMap true final repair"
+          file_pattern: "index.html ads.txt privacy.html impressum.html contact.html about.html methodology.html data-sources.html data/demo.json data/diagnostics/*.json data/diagnostics/*.md"

@@ -4,31 +4,31 @@ on:
   workflow_dispatch:
     inputs:
       publisher_id:
-        description: "Optional AdSense publisher ID, ca-pub-... or pub-... Leave blank to preserve existing ID from current files or git history."
+        description: "Optional AdSense publisher ID. Use ca-pub-... or pub-... only if auto-recovery fails."
         required: false
-        default: ""
+        type: string
       header_slot_id:
-        description: "Optional AdSense header slot ID. Leave blank to preserve existing slot from current files or git history."
+        description: "Optional AdSense header ad slot ID. Use only if auto-recovery fails."
         required: false
-        default: ""
+        type: string
       sidebar_slot_id:
-        description: "Optional AdSense sidebar slot ID. Leave blank to preserve existing slot from current files or git history."
+        description: "Optional AdSense sidebar ad slot ID. Use only if auto-recovery fails."
         required: false
-        default: ""
+        type: string
       require_adsense_ready:
-        description: "Fail if AdSense IDs cannot be recovered or supplied."
+        description: "Fail if AdSense IDs and ads.txt cannot be made crawlable."
         required: true
         default: "true"
+        type: choice
+        options:
+          - "true"
+          - "false"
 
 permissions:
   contents: write
 
-concurrency:
-  group: parleymap-data-validation-repair
-  cancel-in-progress: false
-
 jobs:
-  repair-and-validate:
+  repair-validate:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -43,39 +43,27 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Repair data integrity, anchors, faces and fake watch rows
-        run: node scripts/parleymap-data-integrity-repair.cjs
-
-      - name: Repair AdSense surface and legal pages without overwriting IDs
-        run: node scripts/parleymap-adsense-legal-repair.cjs
+      - name: Run true final repair and hard audit
         env:
-          PARLEYMAP_ADSENSE_PUBLISHER_ID: ${{ github.event.inputs.publisher_id }}
-          PARLEYMAP_ADSENSE_HEADER_SLOT_ID: ${{ github.event.inputs.header_slot_id }}
-          PARLEYMAP_ADSENSE_SIDEBAR_SLOT_ID: ${{ github.event.inputs.sidebar_slot_id }}
-          PARLEYMAP_REQUIRE_ADSENSE_READY: ${{ github.event.inputs.require_adsense_ready }}
+          PARLEYMAP_FIX_MODE: manual-rescue
+          REQUIRE_ADSENSE_READY: ${{ inputs.require_adsense_ready }}
+          ADSENSE_PUBLISHER_ID: ${{ inputs.publisher_id }}
+          ADSENSE_HEADER_SLOT_ID: ${{ inputs.header_slot_id }}
+          ADSENSE_SIDEBAR_SLOT_ID: ${{ inputs.sidebar_slot_id }}
+        run: node scripts/parleymap-true-final-fix.cjs
 
-      - name: Run existing embedded-data validator if present
-        run: |
-          if [ -f scripts/validate-demo-data.mjs ]; then
-            node scripts/validate-demo-data.mjs
-          else
-            echo "scripts/validate-demo-data.mjs not present; hard audit reports were already written."
-          fi
-
-      - name: Add run summary
+      - name: Append run summary
         if: always()
         run: |
           if [ -f data/diagnostics/LATEST_RUN_SUMMARY.md ]; then
             cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
           fi
-          echo "Changed files:" >> "$GITHUB_STEP_SUMMARY"
-          git diff --name-only >> "$GITHUB_STEP_SUMMARY" || true
 
-      - name: Upload repaired files
+      - name: Upload repaired files and diagnostics
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: parleymap-data-adsense-repair-files
+          name: parleymap-true-final-files
           path: |
             index.html
             ads.txt
@@ -89,8 +77,11 @@ jobs:
             data/diagnostics/*.json
             data/diagnostics/*.md
 
-      - name: Commit repaired site surface and data
+      - name: Show changed files
+        run: git diff --name-only
+
+      - name: Commit true final repair
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Repair ParleyMap data integrity and AdSense surface"
+          commit_message: "Apply ParleyMap true final repair"
           file_pattern: "index.html ads.txt privacy.html impressum.html contact.html about.html methodology.html data-sources.html data/demo.json data/diagnostics/*.json data/diagnostics/*.md"

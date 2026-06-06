@@ -13,7 +13,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  monthly-roster-review:
+  roster-review:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -28,37 +28,35 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Repair data integrity before review
-        run: node scripts/parleymap-data-integrity-repair.cjs
+      - name: Run stabilizer before roster review
+        env:
+          PARLEYMAP_FIX_MODE: monthly-preflight
+          REQUIRE_ADSENSE_READY: "false"
+        run: node scripts/parleymap-true-final-fix.cjs
 
       - name: Run safe roster review diagnostics
         run: node scripts/parleymap-safe-roster-review.cjs
 
-      - name: Preserve AdSense and legal pages
-        run: node scripts/parleymap-adsense-legal-repair.cjs
-        env:
-          PARLEYMAP_REQUIRE_ADSENSE_READY: "false"
-
-      - name: Add run summary
+      - name: Append run summary
         if: always()
         run: |
-          if [ -f data/diagnostics/LATEST_RUN_SUMMARY.md ]; then cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"; fi
-          git diff --name-only >> "$GITHUB_STEP_SUMMARY" || true
+          if [ -f data/diagnostics/LATEST_RUN_SUMMARY.md ]; then
+            cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
+          fi
 
-      - name: Upload monthly files
+      - name: Upload monthly roster files
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: parleymap-monthly-roster-files
           path: |
             index.html
-            ads.txt
             data/demo.json
             data/diagnostics/*.json
             data/diagnostics/*.md
 
-      - name: Commit monthly review
+      - name: Commit monthly roster diagnostics
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Review ParleyMap roster safely"
-          file_pattern: "index.html ads.txt data/demo.json data/diagnostics/*.json data/diagnostics/*.md"
+          file_pattern: "index.html ads.txt privacy.html impressum.html contact.html about.html methodology.html data-sources.html data/demo.json data/diagnostics/*.json data/diagnostics/*.md"
