@@ -1,0 +1,47 @@
+PARLEYMAP FINAL RESCUE PACKAGE
+
+Upload these items to the repository root:
+
+.github
+scripts
+data
+README_FINAL_RESCUE.txt
+AUDIT_RESULTS.txt
+
+Commit message:
+Install ParleyMap final safe rescue
+
+Then run only this first:
+Actions > ParleyMap final rescue now > Run workflow
+
+If the workflow does not appear, GitHub did not upload the hidden .github folder. In that case, create this file manually in GitHub:
+.github/workflows/parleymap-final-rescue-now.yml
+and paste the content from:
+UPLOAD_THIS_AS_.github_workflows_parleymap-final-rescue-now.yml
+
+What this package does:
+1. Restores index.html from the last safe git-history version if the dataset is polluted.
+2. Repairs anchors and faces for known bad institutional anchors.
+3. Patches both profile rows and appearance-like rows.
+4. Installs a runtime Leaflet marker guard after the demo-data script.
+5. Fails before commit if Sheinbaum, Pope Leo XIV, Prabowo Subianto, or Rafael Grossi are not anchored correctly in the embedded data.
+6. Replaces the malformed nightly and monthly workflows with valid multiline YAML.
+7. Replaces the dangerous roster updater with a guarded manual updater.
+
+After the final rescue succeeds:
+- Nightly refresh runs daily at 03:19 UTC.
+- Monthly roster review runs on day 1 of each month at 04:31 UTC.
+- Monthly roster review is review-first and safe. It does not auto-publish large people changes.
+- Manual roster auto update exists, but it has hard safety gates and refuses big changes.
+
+Where to inspect changes:
+- Actions > latest run > Summary
+- data/diagnostics/LATEST_RUN_SUMMARY.md
+- data/diagnostics/final-rescue-report.json
+- data/diagnostics/final-audit-report.json
+- data/diagnostics/roster-current-holder-review.json
+
+How to save files locally:
+- Open a workflow run.
+- Download its artifact ZIP.
+- Or use Code > Download ZIP for the full repository.

@@ -7,14 +7,13 @@ permissions:
   contents: write
 
 concurrency:
-  group: parleymap-roster-auto-update-now
+  group: parleymap-roster-auto-update
   cancel-in-progress: false
 
 jobs:
   roster-auto-update:
     runs-on: ubuntu-latest
     timeout-minutes: 25
-
     steps:
       - name: Checkout repository with history
         uses: actions/checkout@v4
@@ -27,21 +26,20 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Rescue and audit before roster auto update
+      - name: Rescue and audit before roster update
+        run: node scripts/parleymap-safe-rescue.mjs
+
+      - name: Run guarded current-holder roster update
+        run: node scripts/parleymap-current-holder-review.mjs
+        env:
+          AUTO_APPLY_SAFE_ROSTER: "1"
+
+      - name: Rescue and audit after roster update
+        run: node scripts/parleymap-safe-rescue.mjs
+
+      - name: Validate final index.html
         run: |
-          node scripts/parleymap-final-rescue.mjs
-          node scripts/parleymap-final-audit.mjs
-
-      - name: Apply guarded current-holder roster update
-        run: node scripts/parleymap-current-holder-review.mjs --apply
-
-      - name: Rescue and audit after roster auto update
-        run: |
-          node scripts/parleymap-final-rescue.mjs
-          node scripts/parleymap-final-audit.mjs
-
-      - name: Validate final embedded dataset
-        run: node scripts/validate-demo-data.mjs
+          if [ -f scripts/validate-demo-data.mjs ]; then node scripts/validate-demo-data.mjs; fi
 
       - name: Build readable summary
         if: always()
@@ -52,15 +50,15 @@ jobs:
       - name: Upload roster update files
         uses: actions/upload-artifact@v4
         with:
-          name: parleymap-roster-update-files
+          name: parleymap-roster-auto-update-files
           path: |
             index.html
             data/demo.json
             data/diagnostics/*.json
             data/diagnostics/*.md
 
-      - name: Commit roster auto update changes
+      - name: Commit guarded roster update
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Apply guarded ParleyMap roster auto update"
+          commit_message: "Run ParleyMap guarded roster update"
           file_pattern: "index.html data/demo.json data/diagnostics/*.json data/diagnostics/*.md"

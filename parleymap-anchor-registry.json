@@ -1,0 +1,198 @@
+{
+  "version": "2026-06-06-final-rescue",
+  "targets": [
+    {
+      "key": "claudia_sheinbaum",
+      "displayName": "Claudia Sheinbaum",
+      "matchAll": ["claudia", "sheinbaum"],
+      "personIds": ["r-028-claudia-sheinbaum", "claudia-sheinbaum"],
+      "wikidataId": "Q6183674",
+      "anchor": {
+        "label": "Mexico City institutional base",
+        "city": "Mexico City",
+        "countryCode": "MX",
+        "countryName": "Mexico",
+        "lat": 19.4326,
+        "lng": -99.1332,
+        "region": "North America"
+      }
+    },
+    {
+      "key": "pope_leo_xiv",
+      "displayName": "Pope Leo XIV",
+      "matchAny": ["pope leo xiv", "leo xiv", "robert prevost", "robert francis prevost", "prevost", "pope"],
+      "personIds": ["pope-leo-xiv", "leo-xiv", "robert-prevost"],
+      "wikidataId": "Q134540884",
+      "anchor": {
+        "label": "Vatican City institutional base",
+        "city": "Vatican City",
+        "countryCode": "VA",
+        "countryName": "Vatican City",
+        "lat": 41.9029,
+        "lng": 12.4534,
+        "region": "Europe"
+      }
+    },
+    {
+      "key": "prabowo_subianto",
+      "displayName": "Prabowo Subianto",
+      "matchAll": ["prabowo", "subianto"],
+      "personIds": ["prabowo-subianto", "r-021-prabowo-subianto"],
+      "wikidataId": "Q57447",
+      "anchor": {
+        "label": "Jakarta institutional base",
+        "city": "Jakarta",
+        "countryCode": "ID",
+        "countryName": "Indonesia",
+        "lat": -6.2088,
+        "lng": 106.8456,
+        "region": "Asia"
+      }
+    },
+    {
+      "key": "rafael_grossi",
+      "displayName": "Rafael Grossi",
+      "matchAll": ["rafael", "grossi"],
+      "personIds": ["rafael-grossi", "rafael-mariano-grossi"],
+      "wikidataId": "Q7289260",
+      "anchor": {
+        "label": "IAEA Vienna institutional base",
+        "city": "Vienna",
+        "countryCode": "AT",
+        "countryName": "Austria",
+        "lat": 48.2345,
+        "lng": 16.4166,
+        "region": "Europe"
+      }
+    },
+    {
+      "key": "mohammed_bin_salman",
+      "displayName": "Mohammed bin Salman",
+      "matchAll": ["salman"],
+      "matchAny": ["mohammed", "mohammad", "muhammad", "mbs"],
+      "personIds": ["mohammed-bin-salman", "mohammad-bin-salman", "muhammad-bin-salman"],
+      "wikidataId": "Q1501770",
+      "anchor": {
+        "label": "Riyadh institutional base",
+        "city": "Riyadh",
+        "countryCode": "SA",
+        "countryName": "Saudi Arabia",
+        "lat": 24.7136,
+        "lng": 46.6753,
+        "region": "Middle East"
+      }
+    },
+    {
+      "key": "antonio_guterres",
+      "displayName": "Antonio Guterres",
+      "matchAll": ["antonio", "guterres"],
+      "personIds": ["antonio-guterres", "antonio-guterres-un"],
+      "wikidataId": "Q57329",
+      "anchor": {
+        "label": "UN New York institutional base",
+        "city": "New York",
+        "countryCode": "US",
+        "countryName": "United States",
+        "lat": 40.7499,
+        "lng": -73.968,
+        "region": "North America"
+      }
+    },
+    {
+      "key": "mark_rutte",
+      "displayName": "Mark Rutte",
+      "matchAll": ["mark", "rutte"],
+      "personIds": ["mark-rutte"],
+      "wikidataId": "Q57792",
+      "anchor": {
+        "label": "NATO Brussels institutional base",
+        "city": "Brussels",
+        "countryCode": "BE",
+        "countryName": "Belgium",
+        "lat": 50.8798,
+        "lng": 4.4219,
+        "region": "Europe"
+      }
+    },
+    {
+      "key": "ursula_von_der_leyen",
+      "displayName": "Ursula von der Leyen",
+      "matchAll": ["ursula", "leyen"],
+      "personIds": ["ursula-von-der-leyen"],
+      "wikidataId": "Q60772",
+      "anchor": {
+        "label": "European Commission Brussels institutional base",
+        "city": "Brussels",
+        "countryCode": "BE",
+        "countryName": "Belgium",
+        "lat": 50.8449,
+        "lng": 4.3824,
+        "region": "Europe"
+      }
+    },
+    {
+      "key": "kaja_kallas",
+      "displayName": "Kaja Kallas",
+      "matchAll": ["kaja", "kallas"],
+      "personIds": ["kaja-kallas"],
+      "wikidataId": "Q5765638",
+      "anchor": {
+        "label": "European External Action Service Brussels institutional base",
+        "city": "Brussels",
+        "countryCode": "BE",
+        "countryName": "Belgium",
+        "lat": 50.8418,
+        "lng": 4.3815,
+        "region": "Europe"
+      }
+    },
+    {
+      "key": "kristalina_georgieva",
+      "displayName": "Kristalina Georgieva",
+      "matchAll": ["kristalina", "georgieva"],
+      "personIds": ["kristalina-georgieva"],
+      "wikidataId": "Q243982",
+      "anchor": {
+        "label": "IMF Washington institutional base",
+        "city": "Washington",
+        "countryCode": "US",
+        "countryName": "United States",
+        "lat": 38.8995,
+        "lng": -77.0436,
+        "region": "North America"
+      }
+    },
+    {
+      "key": "ajay_banga",
+      "displayName": "Ajay Banga",
+      "matchAll": ["ajay", "banga"],
+      "personIds": ["ajay-banga"],
+      "wikidataId": "Q4702943",
+      "anchor": {
+        "label": "World Bank Washington institutional base",
+        "city": "Washington",
+        "countryCode": "US",
+        "countryName": "United States",
+        "lat": 38.8993,
+        "lng": -77.0427,
+        "region": "North America"
+      }
+    },
+    {
+      "key": "tedros_ghebreyesus",
+      "displayName": "Tedros Adhanom Ghebreyesus",
+      "matchAny": ["tedros", "ghebreyesus"],
+      "personIds": ["tedros-adhanom-ghebreyesus", "tedros-ghebreyesus"],
+      "wikidataId": "Q28478",
+      "anchor": {
+        "label": "WHO Geneva institutional base",
+        "city": "Geneva",
+        "countryCode": "CH",
+        "countryName": "Switzerland",
+        "lat": 46.2327,
+        "lng": 6.1341,
+        "region": "Europe"
+      }
+    }
+  ]
+}

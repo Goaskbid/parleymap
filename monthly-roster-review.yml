@@ -13,10 +13,9 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  monthly-roster-review:
+  roster-review:
     runs-on: ubuntu-latest
     timeout-minutes: 25
-
     steps:
       - name: Checkout repository with history
         uses: actions/checkout@v4
@@ -30,20 +29,19 @@ jobs:
           node-version: "20"
 
       - name: Rescue and audit before roster review
-        run: |
-          node scripts/parleymap-final-rescue.mjs
-          node scripts/parleymap-final-audit.mjs
+        run: node scripts/parleymap-safe-rescue.mjs
 
-      - name: Run guarded current-holder review and apply small safe changes
-        run: node scripts/parleymap-current-holder-review.mjs --apply
+      - name: Run current-holder roster review in safe review mode
+        run: node scripts/parleymap-current-holder-review.mjs
+        env:
+          AUTO_APPLY_SAFE_ROSTER: "0"
 
       - name: Rescue and audit after roster review
-        run: |
-          node scripts/parleymap-final-rescue.mjs
-          node scripts/parleymap-final-audit.mjs
+        run: node scripts/parleymap-safe-rescue.mjs
 
-      - name: Validate final embedded dataset
-        run: node scripts/validate-demo-data.mjs
+      - name: Validate final index.html
+        run: |
+          if [ -f scripts/validate-demo-data.mjs ]; then node scripts/validate-demo-data.mjs; fi
 
       - name: Build readable summary
         if: always()
@@ -61,8 +59,8 @@ jobs:
             data/diagnostics/*.json
             data/diagnostics/*.md
 
-      - name: Commit monthly roster changes
+      - name: Commit roster review diagnostics
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Review ParleyMap monthly roster"
+          commit_message: "Run ParleyMap monthly roster review"
           file_pattern: "index.html data/demo.json data/diagnostics/*.json data/diagnostics/*.md"

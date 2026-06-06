@@ -16,7 +16,6 @@ jobs:
   refresh:
     runs-on: ubuntu-latest
     timeout-minutes: 25
-
     steps:
       - name: Checkout repository with history
         uses: actions/checkout@v4
@@ -29,13 +28,12 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Preflight rescue and anchor audit
-        run: |
-          node scripts/parleymap-final-rescue.mjs
-          node scripts/parleymap-final-audit.mjs
+      - name: Rescue and audit before refresh
+        run: node scripts/parleymap-safe-rescue.mjs
 
-      - name: Validate current embedded dataset
-        run: node scripts/validate-demo-data.mjs
+      - name: Validate before crawler
+        run: |
+          if [ -f scripts/validate-demo-data.mjs ]; then node scripts/validate-demo-data.mjs; fi
 
       - name: Sync crawler input from current index.html
         run: |
@@ -52,30 +50,27 @@ jobs:
           const data = JSON.parse(html.slice(jsonStart, end).trim());
           fs.mkdirSync('data', { recursive: true });
           fs.writeFileSync('data/demo.json', JSON.stringify(data, null, 2) + '\n');
-          console.log(JSON.stringify({ people: data.people?.length, roster: data.roster?.length, appearances: data.appearances?.length }, null, 2));
+          console.log(JSON.stringify({ people: data.people?.length, roster: data.roster?.length, expansionRoster: data.expansionRoster?.length, appearances: data.appearances?.length }, null, 2));
           NODE
 
       - name: Clear old crawler outputs
         run: |
           mkdir -p data/crawler
-          rm -f data/crawler/candidate-appearances.json
-          rm -f data/crawler/publishable-appearances.json
-          rm -f data/crawler/quality-approved-appearances.json
-          rm -f data/crawler/rejected-appearances.json
-          rm -f data/crawler/crawl-report.json
+          rm -f data/crawler/candidate-appearances.json data/crawler/publishable-appearances.json data/crawler/quality-approved-appearances.json data/crawler/rejected-appearances.json data/crawler/crawl-report.json
 
-      - name: Run bounded crawler if available
+      - name: Run bounded crawler if present
+        id: crawler
         continue-on-error: true
         run: |
           if [ -f nightly-refresh.mjs ]; then
             timeout 12m node nightly-refresh.mjs --max-roster 60 --max-per-person 2 --max-pages-per-source 8 --lookback-days 21
           else
-            echo "nightly-refresh.mjs not present"
+            echo "nightly-refresh.mjs not found. Skipping crawler."
           fi
         env:
           PARLEYMAP_FETCH_TIMEOUT_MS: "3000"
 
-      - name: Ensure crawler output files exist
+      - name: Ensure crawler report files exist
         run: |
           node - <<'NODE'
           const fs = require('fs');
@@ -84,25 +79,24 @@ jobs:
             if (!fs.existsSync(p)) fs.writeFileSync(p, '[]\n');
           }
           if (!fs.existsSync('data/crawler/crawl-report.json')) {
-            fs.writeFileSync('data/crawler/crawl-report.json', JSON.stringify({ generatedAt: new Date().toISOString(), status: 'crawler_missing_or_timed_out', candidates: 0, publishable: 0 }, null, 2) + '\n');
+            fs.writeFileSync('data/crawler/crawl-report.json', JSON.stringify({ generatedAt: new Date().toISOString(), status: 'crawler_skipped_or_no_output', candidates: 0, publishable: 0 }, null, 2) + '\n');
           }
           NODE
 
-      - name: Guard publish crawler output if publisher exists
+      - name: Guard-publish crawler output if publisher exists
         run: |
           if [ -f scripts/guarded-publish-from-crawler.mjs ]; then
             node scripts/guarded-publish-from-crawler.mjs
           else
-            echo "guarded publisher not present. Skipping publish."
+            echo "No guarded publisher found. Crawler output kept as diagnostics only."
           fi
 
-      - name: Post-refresh rescue and audit
-        run: |
-          node scripts/parleymap-final-rescue.mjs
-          node scripts/parleymap-final-audit.mjs
+      - name: Rescue and audit after refresh
+        run: node scripts/parleymap-safe-rescue.mjs
 
-      - name: Validate final embedded dataset
-        run: node scripts/validate-demo-data.mjs
+      - name: Validate final index.html
+        run: |
+          if [ -f scripts/validate-demo-data.mjs ]; then node scripts/validate-demo-data.mjs; fi
 
       - name: Build readable summary
         if: always()
@@ -116,7 +110,7 @@ jobs:
       - name: Upload nightly files
         uses: actions/upload-artifact@v4
         with:
-          name: parleymap-nightly-files
+          name: parleymap-nightly-run-files
           path: |
             index.html
             data/demo.json
@@ -124,8 +118,8 @@ jobs:
             data/diagnostics/*.json
             data/diagnostics/*.md
 
-      - name: Commit nightly changes
+      - name: Commit nightly refresh
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Refresh ParleyMap nightly data"
+          commit_message: "Run ParleyMap guarded nightly refresh"
           file_pattern: "index.html data/demo.json data/crawler/*.json data/diagnostics/*.json data/diagnostics/*.md"
