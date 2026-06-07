@@ -1,0 +1,69 @@
+{
+  "version": "2026-06-07-official-events-only",
+  "events": [
+    {
+      "id": "official-grossi-board-governors-vienna-2026-03-02",
+      "personMatch": ["rafael grossi"],
+      "startsAt": "2026-03-02T09:00:00+01:00",
+      "endsAt": null,
+      "status": "VERIFIED_PAST",
+      "confidence": 0.95,
+      "confidenceLabel": "official IAEA statement",
+      "eventType": "OFFICIAL_STATEMENT",
+      "title": "IAEA Director General statement to the Board of Governors",
+      "summary": "Rafael Grossi delivered an official statement at the IAEA Board of Governors meeting at the Agency headquarters in Vienna.",
+      "significance": "Official-source nuclear diplomacy appearance.",
+      "location": { "label": "IAEA headquarters", "city": "Vienna", "countryCode": "AT", "countryName": "Austria", "lat": 48.2345, "lng": 16.4166, "precision": "city", "type": "public_institution" },
+      "topics": ["nuclear diplomacy", "IAEA", "Board of Governors"],
+      "sourcePack": [{ "title": "IAEA Director General's Introductory Statement to the Board of Governors", "url": "https://www.iaea.org/newscenter/statements/iaea-director-generals-introductory-statement-to-the-board-of-governors-2-6-march-2026", "type": "official", "reliability": "primary" }]
+    },
+    {
+      "id": "official-grossi-colombia-visit-2026-02-25",
+      "personMatch": ["rafael grossi"],
+      "startsAt": "2026-02-25T10:00:00-05:00",
+      "endsAt": null,
+      "status": "VERIFIED_PAST",
+      "confidence": 0.92,
+      "confidenceLabel": "official IAEA visit report",
+      "eventType": "OFFICIAL_VISIT",
+      "title": "IAEA Director General visit to Colombia",
+      "summary": "IAEA reported Rafael Grossi's visit to Cartagena and Bogotá for agreements on peaceful uses of nuclear technology.",
+      "significance": "Official-source international organization travel record.",
+      "location": { "label": "Bogotá / Cartagena public visit", "city": "Bogotá", "countryCode": "CO", "countryName": "Colombia", "lat": 4.711, "lng": -74.0721, "precision": "city", "type": "public_visit" },
+      "topics": ["IAEA", "official visit", "development"],
+      "sourcePack": [{ "title": "Colombia: IAEA Commits to Strengthen Food and Agriculture, Cancer Care, the Environment and Energy", "url": "https://www.iaea.org/newscenter/news/colombia-iaea-commits-to-strengthen-food-and-agriculture-cancer-care-the-environment-and-energy", "type": "official", "reliability": "primary" }]
+    },
+    {
+      "id": "official-pope-leo-xiv-spain-journey-2026-06-06",
+      "personMatch": ["pope leo xiv"],
+      "startsAt": "2026-06-06T09:00:00+02:00",
+      "endsAt": "2026-06-12T18:00:00+02:00",
+      "status": "ANNOUNCED_FUTURE",
+      "confidence": 0.95,
+      "confidenceLabel": "official Vatican journey page",
+      "eventType": "APOSTOLIC_JOURNEY",
+      "title": "Pope Leo XIV apostolic journey to Spain",
+      "summary": "The Vatican lists Pope Leo XIV's 6 to 12 June 2026 journey to Spain.",
+      "significance": "Official-source Vatican travel record.",
+      "location": { "label": "Spain public itinerary", "city": "Madrid", "countryCode": "ES", "countryName": "Spain", "lat": 40.4168, "lng": -3.7038, "precision": "city", "type": "official_public_journey" },
+      "topics": ["Vatican", "apostolic journey", "Spain"],
+      "sourcePack": [{ "title": "Apostolic Journey of Pope Leo XIV to Spain", "url": "https://www.vatican.va/content/leo-xiv/en/travels/2026/documents/spagna-6-12giugno2026.html", "type": "official", "reliability": "primary" }]
+    },
+    {
+      "id": "official-king-charles-congress-washington-2026-04-28",
+      "personMatch": ["king charles iii"],
+      "startsAt": "2026-04-28T12:00:00-04:00",
+      "endsAt": null,
+      "status": "VERIFIED_PAST",
+      "confidence": 0.92,
+      "confidenceLabel": "official Royal Family page",
+      "eventType": "STATE_VISIT_PUBLIC_ADDRESS",
+      "title": "King Charles III address to Congress in Washington",
+      "summary": "The Royal Family published King Charles III's public address to the joint meeting of Congress in Washington.",
+      "significance": "Official-source royal diplomacy public appearance.",
+      "location": { "label": "United States Congress", "city": "Washington", "countryCode": "US", "countryName": "United States", "lat": 38.8899, "lng": -77.0091, "precision": "city", "type": "public_institution" },
+      "topics": ["royal diplomacy", "state visit", "United States"],
+      "sourcePack": [{ "title": "The King's address to the joint meeting of Congress in Washington", "url": "https://www.royal.uk/news-and-activity/2026-04-28/the-kings-address-to-the-joint-meeting-of-congress-in-washington", "type": "official", "reliability": "primary" }]
+    }
+  ]
+}

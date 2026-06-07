@@ -1,18 +1,11 @@
 #!/usr/bin/env node
 const fs = require('fs');
-const REPORT_DIR = 'data/diagnostics';
-fs.mkdirSync(REPORT_DIR, {recursive:true});
-const report = {
-  generatedAt: new Date().toISOString(),
-  status: 'safe_roster_review_only',
-  note: 'This workflow does not auto-replace people. It only creates review placeholders. Current-holder updates must pass a separate human review to avoid historical chains and mass roster pollution.',
-  limits: {
-    autoPeopleAdditions: 0,
-    autoRosterReplacements: 0,
-    maximumSuggestedReplacementsBeforeHumanReview: 3
-  },
-  candidates: []
-};
-fs.writeFileSync(`${REPORT_DIR}/roster-current-holder-review.json`, JSON.stringify(report, null, 2) + '\n');
-fs.writeFileSync(`${REPORT_DIR}/roster-patch-candidates.json`, JSON.stringify({generatedAt:report.generatedAt,status:'manual_review_required',candidates:[]}, null, 2) + '\n');
-console.log(JSON.stringify(report, null, 2));
+const path = require('path');
+const DIAG='data/diagnostics';
+fs.mkdirSync(DIAG,{recursive:true});
+function readJson(p){try{return JSON.parse(fs.readFileSync(p,'utf8'));}catch{return null;}}
+const data=readJson('data/demo.json')||{};
+const report={generatedAt:new Date().toISOString(),status:'safe_review_only',note:'This monthly process does not mass-replace people. It flags current-holder review items for human approval to prevent historical office-holder chains.',counts:{people:data.people?.length??null,roster:data.roster?.length??null,expansionRoster:data.expansionRoster?.length??null,appearances:data.appearances?.length??null},candidates:[]};
+fs.writeFileSync(`${DIAG}/roster-current-holder-review.json`,JSON.stringify(report,null,2)+'\n');
+fs.writeFileSync(`${DIAG}/roster-patch-candidates.json`,JSON.stringify({generatedAt:report.generatedAt,status:'manual_review_required',candidates:[]},null,2)+'\n');
+console.log(JSON.stringify(report,null,2));

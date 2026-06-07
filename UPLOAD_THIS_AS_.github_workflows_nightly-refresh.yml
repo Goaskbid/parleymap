@@ -13,7 +13,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  nightly:
+  refresh:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -28,33 +28,40 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Run nightly stabilizer and audit
-        env:
-          PARLEYMAP_FIX_MODE: nightly
-          REQUIRE_ADSENSE_READY: "false"
-        run: node scripts/parleymap-true-final-fix.cjs
+      - name: Run official-source nightly refresh
+        run: node nightly-refresh.mjs
 
-      - name: Append run summary
+      - name: Validate embedded dataset if validator exists
+        run: |
+          if [ -f scripts/validate-demo-data.mjs ]; then
+            node scripts/validate-demo-data.mjs
+          else
+            echo "No legacy validator present; institutional rescue already ran hard audit."
+          fi
+
+      - name: Add summary to workflow page
         if: always()
         run: |
           if [ -f data/diagnostics/LATEST_RUN_SUMMARY.md ]; then
             cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
           fi
 
-      - name: Upload nightly files
+      - name: Upload nightly run files
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: parleymap-nightly-files
+          name: parleymap-nightly-run-files
           path: |
             index.html
             ads.txt
             data/demo.json
+            data/source-registry.json
+            data/crawler/*.json
             data/diagnostics/*.json
             data/diagnostics/*.md
 
-      - name: Commit nightly stabilized data
+      - name: Commit nightly refresh
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Refresh ParleyMap guarded nightly state"
-          file_pattern: "index.html ads.txt privacy.html impressum.html contact.html about.html methodology.html data-sources.html data/demo.json data/diagnostics/*.json data/diagnostics/*.md"
+          commit_message: "Refresh ParleyMap official-source data"
+          file_pattern: "index.html ads.txt data/demo.json data/source-registry.json data/crawler/*.json data/diagnostics/*.json data/diagnostics/*.md"

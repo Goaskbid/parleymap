@@ -6,32 +6,33 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: parleymap-roster-auto-update
+  cancel-in-progress: false
+
 jobs:
-  safe-review-only:
+  guarded-review:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - name: Checkout repository with history
         uses: actions/checkout@v4
         with:
           ref: main
           fetch-depth: 0
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-      - name: Structural repair and audit
-        run: node scripts/parleymap-structural-repair.cjs
-      - name: Refuse automatic mass roster replacement
-        run: |
-          mkdir -p data/diagnostics
-          cat > data/diagnostics/roster-auto-update-report.json <<'JSON'
-          {
-            "status": "safe_review_only_no_mass_replacement",
-            "note": "This workflow intentionally refuses automatic people replacement. Use roster-patch-candidates.json for manual review."
-          }
-          JSON
-      - name: Upload files
+
+      - name: Stabilize anchors and data first
+        run: node scripts/parleymap-institutional-rescue.cjs
+
+      - name: Run safe roster review only
+        run: node scripts/parleymap-safe-roster-review.cjs
+
+      - name: Upload safe roster review files
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -41,8 +42,9 @@ jobs:
             data/demo.json
             data/diagnostics/*.json
             data/diagnostics/*.md
-      - name: Commit safe review
+
+      - name: Commit safe roster diagnostics
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Run ParleyMap safe roster review"
+          commit_message: "Run guarded ParleyMap roster review"
           file_pattern: "index.html data/demo.json data/diagnostics/*.json data/diagnostics/*.md"

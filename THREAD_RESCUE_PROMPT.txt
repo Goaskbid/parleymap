@@ -1,34 +1,35 @@
-ParleyMap structural final package audit
+ParleyMap rescue state and intended fix
 
-Checks run before release:
-- node --check passed for scripts/parleymap-structural-repair.cjs
-- YAML parse passed for all workflow files
-- Mock repo dry run passed
+Repo: github.com/Goaskbid/parleymap
+Live site: parleymap.com
 
-Mock repo test details:
-- Current head index.html was intentionally broken/thin: "parleymap.com"
-- Git history contained a full safe app shell with embedded demo-data
-- The script restored the safe full index.html from git history
-- people stayed 94
-- roster stayed 200
-- expansionRoster stayed 114
-- appearances stayed >= 508 and remained above the safety floor after cleanup and real-event seeding
-- categories stayed 11
-- IAEA nuclear diplomacy watch removed
-- City of London finance diplomacy watch removed
-- Rafael Grossi anchor audit passed: Vienna / AT
-- Pope Leo XIV anchor audit passed: Vatican City / VA
-- Claudia Sheinbaum anchor audit passed: Mexico City / MX
-- Prabowo Subianto anchor audit passed: Jakarta / ID
-- Grossi duplicate helper-row suppression ran
-- Runtime Leaflet marker guard inserted
-- Mock AdSense client ca-pub-1234567890123456 preserved
-- Mock header slot 1111111111 preserved
-- Mock sidebar slot 2222222222 preserved
-- ads.txt generated from preserved publisher ID
-- final structural hard audit returned audit_passed
+Core failure class:
+1. index.html on main became crawler-visible as a thin one-line file.
+2. data/demo.json still holds the full dataset but contains duplicate visible Rafael Grossi rows, wrong institution/country anchor fields, wrong flagAudit values, fake dated watch cards, and missing images.
+3. Previous repairs patched only some profile rows. The visible map can render from roster, expansionRoster, topRoster, event-like rows and Leaflet runtime markers, so a single-row repair was insufficient.
+4. AdSense cannot be trusted unless index.html is crawlable, ads.txt exists, and the real ca-pub plus two data-ad-slot values are present or recoverable.
 
-Important behavior:
-- The package does not invent AdSense IDs.
-- The package restores a full app shell from git history only if the candidate file contains demo-data and passes strict count gates.
-- The package does not blindly inject data/demo.json into index.html.
+The final package installs:
+- .github/workflows/data-validate.yml
+- .github/workflows/nightly-refresh.yml
+- .github/workflows/monthly-roster-review.yml
+- .github/workflows/roster-auto-update-now.yml
+- scripts/parleymap-institutional-rescue.cjs
+- scripts/parleymap-safe-roster-review.cjs
+- data/curated-anchors.json
+- data/official-event-seeds.json
+- nightly-refresh.mjs
+
+First run:
+Actions > ParleyMap data validation > Run workflow
+
+What the script does:
+- Restores a full safe index.html from git history if current index.html is thin.
+- Repairs only the embedded demo-data script block.
+- Repairs profile anchors and images for Rafael Grossi, Pope Leo XIV, Claudia Sheinbaum, Prabowo Subianto, King Charles III, Mohammed bin Salman and key institutions.
+- Removes fake dated watch rows.
+- Removes duplicate visible profile rows from expansion-like collections, especially Rafael Grossi.
+- Adds official-source event seeds for IAEA, Vatican and royal public appearances.
+- Installs a runtime Leaflet marker guard to reposition and dedupe named markers.
+- Preserves AdSense IDs if found in current files or git history and writes ads.txt.
+- Writes diagnostics and fails if hard audit fails.

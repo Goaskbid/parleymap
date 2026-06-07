@@ -1,27 +1,24 @@
 {
   "officialDomains": [
-    "whitehouse.gov",
-    "state.gov",
+    "iaea.org",
+    "vatican.va",
+    "royal.uk",
     "gov.uk",
-    "consilium.europa.eu",
-    "commission.europa.eu",
+    "whitehouse.gov",
+    "gob.mx",
+    "presidenri.go.id",
+    "elysee.fr",
     "nato.int",
     "un.org",
-    "iaea.org",
-    "who.int",
-    "worldbank.org",
-    "imf.org",
-    "elysee.fr",
-    "bundesregierung.de",
-    "pmindia.gov.in",
-    "presidenri.go.id",
-    "gob.mx"
+    "consilium.europa.eu",
+    "commission.europa.eu"
   ],
+  "publicationRule": "Publish only records with person, date, city, event title and official or host-public sourcePack. Never publish generic watch cards.",
   "sitemaps": [
-    {"label":"White House","url":"https://www.whitehouse.gov/sitemap.xml","type":"official"},
-    {"label":"UK Government","url":"https://www.gov.uk/sitemap.xml","type":"official"},
-    {"label":"NATO","url":"https://www.nato.int/sitemap.xml","type":"official"}
-  ],
-  "eventKeywords": ["meeting","met","visit","summit","speech","address","forum","bilateral","delegation","ministerial","conference","remarks","ceremony"],
-  "blockedLocationTerms": ["home address","private residence","hotel room","hospital","flight tracker","leaked itinerary","private dinner","vacation home"]
+    { "label": "IAEA Director General", "url": "https://www.iaea.org/about/rafael-mariano-grossi", "type": "official_profile" },
+    { "label": "IAEA Statements", "url": "https://www.iaea.org/newscenter/statements", "type": "official_statements" },
+    { "label": "Vatican Leo XIV travels", "url": "https://www.vatican.va/content/leo-xiv/en/travels.html", "type": "official_travels" },
+    { "label": "Royal Family future engagements", "url": "https://www.royal.uk/media-centre/future-engagements", "type": "official_diary" },
+    { "label": "Royal Family news", "url": "https://www.royal.uk/news-and-activity", "type": "official_news" }
+  ]
 }
