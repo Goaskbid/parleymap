@@ -1,12 +1,10 @@
 # ParleyMap nightly refresh
 
-Run: 28
-Generated: 2026-06-06T10:45:11Z
+Run: 29
+Generated: 2026-06-07T07:14:04Z
 
 ## Changed files before commit
-data/crawler/candidate-appearances.json
 data/crawler/crawl-report.json
-data/crawler/rejected-appearances.json
 data/diagnostics/LATEST_RUN_SUMMARY.md
 data/diagnostics/publish-report.json
 data/diagnostics/repair-report.json
@@ -16,7 +14,7 @@ index.html
 
 ## Publish report
 {
-  "generatedAt": "2026-06-06T10:45:10.264Z",
+  "generatedAt": "2026-06-07T07:14:03.650Z",
   "candidatePath": "data/crawler/publishable-appearances.json",
   "candidateCount": 0,
   "approved": 0,
@@ -40,7 +38,7 @@ index.html
 
 ## Repair report
 {
-  "generatedAt": "2026-06-06T10:45:10.576Z",
+  "generatedAt": "2026-06-07T07:14:04.028Z",
   "before": {
     "people": 94,
     "roster": 200,
@@ -167,7 +165,7 @@ index.html
 
 ## Roster hygiene report
 {
-  "generatedAt": "2026-06-06T10:45:10.743Z",
+  "generatedAt": "2026-06-07T07:14:04.221Z",
   "before": {
     "people": 94,
     "roster": 200,
@@ -1714,7 +1712,7 @@ index.html
 
 ## Strict crawler audit
 {
-  "generatedAt": "2026-06-06T10:45:10.441Z",
+  "generatedAt": "2026-06-07T07:14:03.867Z",
   "before": {
     "people": 94,
     "roster": 200,

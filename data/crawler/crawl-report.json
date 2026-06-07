@@ -1,13 +1,7 @@
 {
-  "generatedAt": "2026-06-06T10:45:10.198Z",
-  "status": "safe_noop_real_event_gate",
-  "mode": "real-event-gated-noop",
+  "generatedAt": "2026-06-07T07:14:03.568Z",
+  "status": "safe_no_invented_events",
+  "note": "This replacement nightly refresh deliberately does not create generic watch/index cards. Official-source ingestion should be added only through validated candidate files.",
   "candidates": 0,
-  "publishable": 0,
-  "sourcesScanned": 0,
-  "notes": [
-    "Generic watch cards, office homepages, fact sheets, FAQ pages, and diary placeholders are not events.",
-    "No crawler record is published unless it is a specific source-backed public appearance with date, city, person, and sourcePack.",
-    "This safe no-op prevents fabricated City of London / IAEA watch events while the source registry is reviewed."
-  ]
+  "publishable": 0
 }
