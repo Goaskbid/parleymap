@@ -13,7 +13,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  nightly:
+  refresh:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -22,25 +22,30 @@ jobs:
         with:
           ref: main
           fetch-depth: 0
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-
-      - name: Run nightly stabilizer and audit
-        env:
-          PARLEYMAP_FIX_MODE: nightly
-          REQUIRE_ADSENSE_READY: "false"
-        run: node scripts/parleymap-true-final-fix.cjs
-
-      - name: Append run summary
+      - name: Structural repair before refresh
+        run: node scripts/parleymap-structural-repair.cjs
+      - name: Run bounded crawler if present
+        continue-on-error: true
+        run: |
+          if [ -f nightly-refresh.mjs ]; then
+            timeout 8m node nightly-refresh.mjs --max-roster 40 --max-per-person 1 --max-pages-per-source 6 --lookback-days 21
+          elif [ -f scripts/nightly-refresh.mjs ]; then
+            timeout 8m node scripts/nightly-refresh.mjs --max-roster 40 --max-per-person 1 --max-pages-per-source 6 --lookback-days 21
+          else
+            echo "No crawler present."
+          fi
+      - name: Structural repair after refresh
+        run: node scripts/parleymap-structural-repair.cjs
+      - name: Add summary
         if: always()
         run: |
           if [ -f data/diagnostics/LATEST_RUN_SUMMARY.md ]; then
             cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
           fi
-
       - name: Upload nightly files
         if: always()
         uses: actions/upload-artifact@v4
@@ -50,11 +55,11 @@ jobs:
             index.html
             ads.txt
             data/demo.json
+            data/crawler/*.json
             data/diagnostics/*.json
             data/diagnostics/*.md
-
-      - name: Commit nightly stabilized data
+      - name: Commit nightly repair
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Refresh ParleyMap guarded nightly state"
-          file_pattern: "index.html ads.txt privacy.html impressum.html contact.html about.html methodology.html data-sources.html data/demo.json data/diagnostics/*.json data/diagnostics/*.md"
+          commit_message: "Refresh ParleyMap safely"
+          file_pattern: "index.html ads.txt privacy.html impressum.html about.html contact.html methodology.html data-sources.html data/demo.json data/crawler/*.json data/diagnostics/*.json data/diagnostics/*.md"

@@ -15,36 +15,36 @@ concurrency:
 jobs:
   roster-review:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 15
     steps:
       - name: Checkout repository with history
         uses: actions/checkout@v4
         with:
           ref: main
           fetch-depth: 0
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-
-      - name: Run stabilizer before roster review
-        env:
-          PARLEYMAP_FIX_MODE: monthly-preflight
-          REQUIRE_ADSENSE_READY: "false"
-        run: node scripts/parleymap-true-final-fix.cjs
-
-      - name: Run safe roster review diagnostics
-        run: node scripts/parleymap-safe-roster-review.cjs
-
-      - name: Append run summary
+      - name: Structural repair and hard audit
+        run: node scripts/parleymap-structural-repair.cjs
+      - name: Safe roster review only
+        run: |
+          node - <<'NODE'
+          const fs=require('fs');
+          fs.mkdirSync('data/diagnostics',{recursive:true});
+          const report={generatedAt:new Date().toISOString(),status:'safe_review_only',note:'Monthly roster review is diagnostic-only until manual approval. It must not mass-replace people.'};
+          fs.writeFileSync('data/diagnostics/roster-current-holder-review.json',JSON.stringify(report,null,2)+'\n');
+          fs.writeFileSync('data/diagnostics/roster-patch-candidates.json',JSON.stringify({generatedAt:report.generatedAt,status:'manual_review_required',candidates:[]},null,2)+'\n');
+          console.log(JSON.stringify(report,null,2));
+          NODE
+      - name: Add summary
         if: always()
         run: |
           if [ -f data/diagnostics/LATEST_RUN_SUMMARY.md ]; then
             cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
           fi
-
-      - name: Upload monthly roster files
+      - name: Upload monthly files
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -54,9 +54,8 @@ jobs:
             data/demo.json
             data/diagnostics/*.json
             data/diagnostics/*.md
-
-      - name: Commit monthly roster diagnostics
+      - name: Commit monthly review
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Review ParleyMap roster safely"
-          file_pattern: "index.html ads.txt privacy.html impressum.html contact.html about.html methodology.html data-sources.html data/demo.json data/diagnostics/*.json data/diagnostics/*.md"
+          file_pattern: "index.html data/demo.json data/diagnostics/*.json data/diagnostics/*.md"

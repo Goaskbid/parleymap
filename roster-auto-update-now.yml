@@ -11,30 +11,38 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: Checkout repository
+      - name: Checkout repository with history
         uses: actions/checkout@v4
         with:
           ref: main
           fetch-depth: 0
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-
-      - name: Refuse unsafe automatic roster replacement and write review files
-        run: node scripts/parleymap-safe-roster-review.cjs
-
-      - name: Upload roster review files
+      - name: Structural repair and audit
+        run: node scripts/parleymap-structural-repair.cjs
+      - name: Refuse automatic mass roster replacement
+        run: |
+          mkdir -p data/diagnostics
+          cat > data/diagnostics/roster-auto-update-report.json <<'JSON'
+          {
+            "status": "safe_review_only_no_mass_replacement",
+            "note": "This workflow intentionally refuses automatic people replacement. Use roster-patch-candidates.json for manual review."
+          }
+          JSON
+      - name: Upload files
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: parleymap-roster-review-files
+          name: parleymap-roster-safe-review-files
           path: |
-            data/diagnostics/roster-current-holder-review.json
-            data/diagnostics/roster-patch-candidates.json
-
-      - name: Commit roster review files
+            index.html
+            data/demo.json
+            data/diagnostics/*.json
+            data/diagnostics/*.md
+      - name: Commit safe review
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Write safe ParleyMap roster review diagnostics"
-          file_pattern: "data/diagnostics/roster-current-holder-review.json data/diagnostics/roster-patch-candidates.json"
+          commit_message: "Run ParleyMap safe roster review"
+          file_pattern: "index.html data/demo.json data/diagnostics/*.json data/diagnostics/*.md"

@@ -1,28 +1,34 @@
-Context for continuing ParleyMap repair:
+ParleyMap structural final package audit
 
-Repo: github.com/Goaskbid/parleymap
-Live: parleymap.com
+Checks run before release:
+- node --check passed for scripts/parleymap-structural-repair.cjs
+- YAML parse passed for all workflow files
+- Mock repo dry run passed
 
-Critical facts:
-- The live app data is embedded in index.html in <script id="demo-data" type="application/json">.
-- Previous attempts repeatedly damaged index.html, created thin one-line index.html, polluted people from 94 to 137, created historical office-holder chains, left duplicate Rafael Grossi rows, wrong institutional anchors, fake dated watch cards, and missing AdSense crawler signals.
-- Do not write data/demo.json blindly into index.html.
-- Always restore a full safe index.html from git history if current index.html is thin.
-- Always validate counts before and after.
-- AdSense IDs must be preserved from existing files or git history, or supplied by workflow inputs. Never invent IDs.
+Mock repo test details:
+- Current head index.html was intentionally broken/thin: "parleymap.com"
+- Git history contained a full safe app shell with embedded demo-data
+- The script restored the safe full index.html from git history
+- people stayed 94
+- roster stayed 200
+- expansionRoster stayed 114
+- appearances stayed >= 508 and remained above the safety floor after cleanup and real-event seeding
+- categories stayed 11
+- IAEA nuclear diplomacy watch removed
+- City of London finance diplomacy watch removed
+- Rafael Grossi anchor audit passed: Vienna / AT
+- Pope Leo XIV anchor audit passed: Vatican City / VA
+- Claudia Sheinbaum anchor audit passed: Mexico City / MX
+- Prabowo Subianto anchor audit passed: Jakarta / ID
+- Grossi duplicate helper-row suppression ran
+- Runtime Leaflet marker guard inserted
+- Mock AdSense client ca-pub-1234567890123456 preserved
+- Mock header slot 1111111111 preserved
+- Mock sidebar slot 2222222222 preserved
+- ads.txt generated from preserved publisher ID
+- final structural hard audit returned audit_passed
 
-The current package is parleymap_true_final_fix.
-Run existing workflow: ParleyMap data validation.
-Expected reports:
-- data/diagnostics/true-final-fix-report.json
-- data/diagnostics/final-hard-audit-report.json
-- data/diagnostics/adsense-preserve-audit-report.json
-
-Hard audit must pass:
-- Claudia Sheinbaum -> Mexico City / MX.
-- Pope Leo XIV -> Vatican City / VA.
-- Prabowo Subianto -> Jakarta / ID.
-- Rafael Grossi -> Vienna / AT.
-- No fake City of London / IAEA / think-tank / royal diary watch rows.
-- Runtime guard present.
-- If require_adsense_ready=true, ads.txt and AdSense meta/script/slots must exist.
+Important behavior:
+- The package does not invent AdSense IDs.
+- The package restores a full app shell from git history only if the candidate file contains demo-data and passes strict count gates.
+- The package does not blindly inject data/demo.json into index.html.

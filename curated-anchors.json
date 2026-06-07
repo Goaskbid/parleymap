@@ -1,18 +1,142 @@
 {
   "targets": [
-    {"key":"claudia_sheinbaum","matchAll":["claudia","sheinbaum"],"anchor":{"label":"Mexico City institutional base","city":"Mexico City","countryCode":"MX","countryName":"Mexico","lat":19.4326,"lng":-99.1332,"region":"North America"},"imageUrl":"https://commons.wikimedia.org/wiki/Special:FilePath/Claudia%20Sheinbaum%20%28cropped%2C%20centered%29.jpg"},
-    {"key":"pope_leo_xiv","matchAny":["pope leo xiv","leo xiv","robert prevost","prevost","pope"],"anchor":{"label":"Vatican City institutional base","city":"Vatican City","countryCode":"VA","countryName":"Vatican City","lat":41.9029,"lng":12.4534,"region":"Europe"},"imageUrl":"https://commons.wikimedia.org/wiki/Special:FilePath/Pope%20Leo%20XIV%20portrait.jpg"},
-    {"key":"prabowo_subianto","matchAll":["prabowo","subianto"],"anchor":{"label":"Jakarta institutional base","city":"Jakarta","countryCode":"ID","countryName":"Indonesia","lat":-6.2088,"lng":106.8456,"region":"Asia"},"imageUrl":"https://commons.wikimedia.org/wiki/Special:FilePath/Prabowo%20Subianto%2C%20Presiden%20RI.jpg"},
-    {"key":"rafael_grossi","matchAny":["rafael grossi","rafael mariano grossi","r 057 rafael grossi"],"anchor":{"label":"Vienna IAEA institutional base","city":"Vienna","countryCode":"AT","countryName":"Austria","lat":48.2082,"lng":16.3738,"region":"Europe"},"organization":"International Atomic Energy Agency","orgMark":{"code":"IAEA","label":"IAEA"},"imageUrl":"https://commons.wikimedia.org/wiki/Special:FilePath/Rafael%20Grossi%20IAEA%20Director%20General.jpg"},
-    {"key":"mohammed_bin_salman","matchAll":["salman"],"matchAny":["mohammed","mohammad","muhammad","mbs"],"anchor":{"label":"Riyadh institutional base","city":"Riyadh","countryCode":"SA","countryName":"Saudi Arabia","lat":24.7136,"lng":46.6753,"region":"Middle East"},"imageUrl":"https://commons.wikimedia.org/wiki/Special:FilePath/Mohammad%20bin%20Salman%20Al%20Saud%20-%202019.jpg"},
-    {"key":"king_charles_iii","matchAny":["king charles iii","charles iii"],"anchor":{"label":"London institutional base","city":"London","countryCode":"GB","countryName":"United Kingdom","lat":51.5074,"lng":-0.1278,"region":"Europe"},"imageUrl":"https://commons.wikimedia.org/wiki/Special:FilePath/King%20Charles%20III%20%28July%202023%29.jpg"},
-    {"key":"antonio_guterres","matchAny":["antonio guterres","antónio guterres"],"anchor":{"label":"UN New York institutional base","city":"New York","countryCode":"US","countryName":"United States","lat":40.7499,"lng":-73.968,"region":"North America"},"orgMark":{"code":"UN","label":"United Nations"}},
-    {"key":"mark_rutte","matchAll":["mark","rutte"],"anchor":{"label":"NATO Brussels institutional base","city":"Brussels","countryCode":"BE","countryName":"Belgium","lat":50.8798,"lng":4.4219,"region":"Europe"},"orgMark":{"code":"NATO","label":"NATO"}},
-    {"key":"ursula_von_der_leyen","matchAll":["ursula","leyen"],"anchor":{"label":"Brussels EU institutional base","city":"Brussels","countryCode":"BE","countryName":"Belgium","lat":50.8503,"lng":4.3517,"region":"Europe"},"orgMark":{"code":"EU","label":"European Commission"}},
-    {"key":"kaja_kallas","matchAll":["kaja","kallas"],"anchor":{"label":"Brussels EU institutional base","city":"Brussels","countryCode":"BE","countryName":"Belgium","lat":50.8503,"lng":4.3517,"region":"Europe"},"orgMark":{"code":"EU","label":"European Union"}},
-    {"key":"kristalina_georgieva","matchAll":["kristalina","georgieva"],"anchor":{"label":"Washington IMF institutional base","city":"Washington","countryCode":"US","countryName":"United States","lat":38.8995,"lng":-77.0436,"region":"North America"},"orgMark":{"code":"IMF","label":"IMF"}},
-    {"key":"ajay_banga","matchAll":["ajay","banga"],"anchor":{"label":"Washington World Bank institutional base","city":"Washington","countryCode":"US","countryName":"United States","lat":38.8993,"lng":-77.0427,"region":"North America"},"orgMark":{"code":"WB","label":"World Bank"}},
-    {"key":"tedros_ghebreyesus","matchAll":["tedros","ghebreyesus"],"anchor":{"label":"Geneva WHO institutional base","city":"Geneva","countryCode":"CH","countryName":"Switzerland","lat":46.2327,"lng":6.1341,"region":"Europe"},"orgMark":{"code":"WHO","label":"WHO"}},
-    {"key":"emmanuel_macron","matchAll":["emmanuel","macron"],"anchor":{"label":"Paris institutional base","city":"Paris","countryCode":"FR","countryName":"France","lat":48.8566,"lng":2.3522,"region":"Europe"},"imageUrl":"https://commons.wikimedia.org/wiki/Special:FilePath/Emmanuel%20Macron%20%28cropped%29.jpg"}
+    {
+      "key": "rafael_grossi",
+      "matchAny": ["rafael grossi", "rafael mariano grossi"],
+      "canonicalName": "Rafael Grossi",
+      "roleTitle": "Director General of the International Atomic Energy Agency",
+      "organization": "International Atomic Energy Agency",
+      "category": "INTERNATIONAL_ORG",
+      "anchor": {"city":"Vienna","countryCode":"AT","countryName":"Austria","lat":48.2082,"lng":16.3738,"region":"Europe","label":"Vienna IAEA institutional base"},
+      "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Rafael%20Mariano%20Grossi%20-%202020%20(cropped).jpg",
+      "officialUrl": "https://www.iaea.org/about/rafael-grossi",
+      "wikidataId": "Q7283122",
+      "singleVisibleProfile": true
+    },
+    {
+      "key": "pope_leo_xiv",
+      "matchAny": ["pope leo xiv", "leo xiv", "robert prevost", "robert francis prevost"],
+      "canonicalName": "Pope Leo XIV",
+      "roleTitle": "Pope of the Catholic Church",
+      "organization": "Holy See",
+      "category": "RELIGIOUS_LEADER",
+      "anchor": {"city":"Vatican City","countryCode":"VA","countryName":"Vatican City","lat":41.9029,"lng":12.4534,"region":"Europe","label":"Vatican City institutional base"},
+      "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Portrait%20of%20Pope%20Leo%20XIV%201%20(20150512).png",
+      "officialUrl": "https://www.vatican.va/content/leo-xiv/en.html",
+      "wikidataId": "Q134582445",
+      "singleVisibleProfile": true
+    },
+    {
+      "key": "claudia_sheinbaum",
+      "matchAny": ["claudia sheinbaum"],
+      "canonicalName": "Claudia Sheinbaum",
+      "roleTitle": "President of Mexico",
+      "organization": "Government of Mexico",
+      "category": "HEAD_OF_STATE",
+      "anchor": {"city":"Mexico City","countryCode":"MX","countryName":"Mexico","lat":19.4326,"lng":-99.1332,"region":"North America","label":"Mexico City institutional base"},
+      "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Claudia%20Sheinbaum%20(cropped%2C%20centered).jpg",
+      "officialUrl": "https://www.gob.mx/presidencia",
+      "wikidataId": "Q5771800",
+      "singleVisibleProfile": true
+    },
+    {
+      "key": "prabowo_subianto",
+      "matchAny": ["prabowo subianto"],
+      "canonicalName": "Prabowo Subianto",
+      "roleTitle": "President of Indonesia",
+      "organization": "Government of Indonesia",
+      "category": "HEAD_OF_STATE",
+      "anchor": {"city":"Jakarta","countryCode":"ID","countryName":"Indonesia","lat":-6.2088,"lng":106.8456,"region":"Asia","label":"Jakarta institutional base"},
+      "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Prabowo%20Subianto%202024%20official%20portrait.jpg",
+      "officialUrl": "https://www.presidenri.go.id/",
+      "wikidataId": "Q57487",
+      "singleVisibleProfile": true
+    },
+    {
+      "key": "mohammed_bin_salman",
+      "matchAny": ["mohammed bin salman", "mohammad bin salman", "muhammad bin salman", "mbs"],
+      "canonicalName": "Mohammed bin Salman",
+      "roleTitle": "Crown Prince and Prime Minister of Saudi Arabia",
+      "organization": "Kingdom of Saudi Arabia",
+      "category": "HEAD_OF_GOVERNMENT",
+      "anchor": {"city":"Riyadh","countryCode":"SA","countryName":"Saudi Arabia","lat":24.7136,"lng":46.6753,"region":"Middle East","label":"Riyadh institutional base"},
+      "singleVisibleProfile": true
+    },
+    {
+      "key": "emmanuel_macron",
+      "matchAny": ["emmanuel macron"],
+      "anchor": {"city":"Paris","countryCode":"FR","countryName":"France","lat":48.8566,"lng":2.3522,"region":"Europe","label":"Paris institutional base"}
+    },
+    {
+      "key": "king_charles_iii",
+      "matchAny": ["king charles iii", "charles iii"],
+      "canonicalName": "King Charles III",
+      "roleTitle": "King of the United Kingdom",
+      "organization": "Royal Household",
+      "category": "ROYALTY",
+      "anchor": {"city":"London","countryCode":"GB","countryName":"United Kingdom","lat":51.5074,"lng":-0.1278,"region":"Europe","label":"London institutional base"},
+      "singleVisibleProfile": true
+    },
+    {
+      "key": "antonio_guterres",
+      "matchAny": ["antonio guterres", "antónio guterres"],
+      "anchor": {"city":"New York","countryCode":"US","countryName":"United States","lat":40.7499,"lng":-73.9680,"region":"North America","label":"UN New York institutional base"}
+    },
+    {
+      "key": "mark_rutte",
+      "matchAny": ["mark rutte"],
+      "anchor": {"city":"Brussels","countryCode":"BE","countryName":"Belgium","lat":50.8798,"lng":4.4219,"region":"Europe","label":"NATO Brussels institutional base"}
+    },
+    {
+      "key": "ursula_von_der_leyen",
+      "matchAny": ["ursula von der leyen"],
+      "anchor": {"city":"Brussels","countryCode":"BE","countryName":"Belgium","lat":50.8503,"lng":4.3517,"region":"Europe","label":"Brussels institutional base"}
+    },
+    {
+      "key": "kaja_kallas",
+      "matchAny": ["kaja kallas"],
+      "anchor": {"city":"Brussels","countryCode":"BE","countryName":"Belgium","lat":50.8503,"lng":4.3517,"region":"Europe","label":"Brussels institutional base"}
+    }
+  ],
+  "realEventSeeds": [
+    {
+      "id": "real-pope-leo-xiv-spain-2026",
+      "personKey": "pope_leo_xiv",
+      "personIdHint": "pope",
+      "title": "Pope Leo XIV apostolic journey to Spain",
+      "startsAt": "2026-06-06T08:00:00+02:00",
+      "endsAt": "2026-06-12T20:10:00+02:00",
+      "eventType": "APOSTOLIC_JOURNEY",
+      "location": {"label":"Madrid public official itinerary","city":"Madrid","countryCode":"ES","countryName":"Spain","lat":40.4168,"lng":-3.7038,"precision":"city"},
+      "summary": "Official Vatican itinerary for Pope Leo XIV's apostolic journey to Spain, 6-12 June 2026.",
+      "sourcePack": [{"label":"Vatican official itinerary","url":"https://www.vatican.va/content/leo-xiv/en/travels/2026/documents/spagna-6-12giugno2026.html","type":"official_or_host","reliability":"primary","checkedAt":"2026-06-07T00:00:00Z"}],
+      "topics": ["Holy See", "Spain", "apostolic journey"]
+    },
+    {
+      "id": "real-grossi-board-governors-vienna-2026",
+      "personKey": "rafael_grossi",
+      "personIdHint": "grossi",
+      "title": "Rafael Grossi statement to the IAEA Board of Governors",
+      "startsAt": "2026-03-02T09:00:00+01:00",
+      "endsAt": "2026-03-02T12:00:00+01:00",
+      "eventType": "OFFICIAL_STATEMENT",
+      "location": {"label":"IAEA headquarters public record","city":"Vienna","countryCode":"AT","countryName":"Austria","lat":48.2082,"lng":16.3738,"precision":"city"},
+      "summary": "IAEA official record of Director General Rafael Mariano Grossi's statement at the Agency headquarters in Vienna.",
+      "sourcePack": [{"label":"IAEA official statement","url":"https://www.iaea.org/newscenter/statements/iaea-director-generals-introductory-statement-to-the-board-of-governors-2-6-march-2026","type":"official_or_host","reliability":"primary","checkedAt":"2026-06-07T00:00:00Z"}],
+      "topics": ["IAEA", "nuclear governance", "Board of Governors"]
+    },
+    {
+      "id": "real-king-charles-us-congress-2026",
+      "personKey": "king_charles_iii",
+      "personIdHint": "charles",
+      "title": "King Charles III address to the joint meeting of Congress",
+      "startsAt": "2026-04-28T12:00:00-04:00",
+      "endsAt": "2026-04-28T14:00:00-04:00",
+      "eventType": "STATE_VISIT_PUBLIC_ADDRESS",
+      "location": {"label":"Washington public official record","city":"Washington","countryCode":"US","countryName":"United States","lat":38.8899,"lng":-77.0091,"precision":"city"},
+      "summary": "Royal Family official record of the King's address to the joint meeting of Congress in Washington during the US state visit.",
+      "sourcePack": [{"label":"Royal Family official record","url":"https://www.royal.uk/news-and-activity/2026-04-28/the-kings-address-to-the-joint-meeting-of-congress-in-washington","type":"official_or_host","reliability":"primary","checkedAt":"2026-06-07T00:00:00Z"}],
+      "topics": ["state visit", "United Kingdom", "United States"]
+    }
   ]
 }

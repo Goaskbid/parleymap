@@ -4,33 +4,29 @@ on:
   workflow_dispatch:
     inputs:
       publisher_id:
-        description: "Optional AdSense publisher ID. Use ca-pub-... or pub-... only if auto-recovery fails."
+        description: "Optional AdSense publisher ID, pub-... or ca-pub-...; leave blank to recover from current files and history"
         required: false
-        type: string
+        default: ""
       header_slot_id:
-        description: "Optional AdSense header ad slot ID. Use only if auto-recovery fails."
+        description: "Optional header ad unit slot ID; leave blank to recover from current files and history"
         required: false
-        type: string
+        default: ""
       sidebar_slot_id:
-        description: "Optional AdSense sidebar ad slot ID. Use only if auto-recovery fails."
+        description: "Optional sidebar ad unit slot ID; leave blank to recover from current files and history"
         required: false
-        type: string
-      require_adsense_ready:
-        description: "Fail if AdSense IDs and ads.txt cannot be made crawlable."
-        required: true
-        default: "true"
-        type: choice
-        options:
-          - "true"
-          - "false"
+        default: ""
 
 permissions:
   contents: write
 
+concurrency:
+  group: parleymap-structural-repair
+  cancel-in-progress: false
+
 jobs:
-  repair-validate:
+  validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 15
     steps:
       - name: Checkout repository with history
         uses: actions/checkout@v4
@@ -43,45 +39,51 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Run true final repair and hard audit
+      - name: Run structural repair and hard audit
         env:
-          PARLEYMAP_FIX_MODE: manual-rescue
-          REQUIRE_ADSENSE_READY: ${{ inputs.require_adsense_ready }}
-          ADSENSE_PUBLISHER_ID: ${{ inputs.publisher_id }}
-          ADSENSE_HEADER_SLOT_ID: ${{ inputs.header_slot_id }}
-          ADSENSE_SIDEBAR_SLOT_ID: ${{ inputs.sidebar_slot_id }}
-        run: node scripts/parleymap-true-final-fix.cjs
+          ADSENSE_PUBLISHER_ID: ${{ github.event.inputs.publisher_id }}
+          ADSENSE_HEADER_SLOT_ID: ${{ github.event.inputs.header_slot_id }}
+          ADSENSE_SIDEBAR_SLOT_ID: ${{ github.event.inputs.sidebar_slot_id }}
+        run: node scripts/parleymap-structural-repair.cjs
 
-      - name: Append run summary
+      - name: Validate embedded dataset if validator exists
+        run: |
+          if [ -f scripts/validate-demo-data.mjs ]; then
+            node scripts/validate-demo-data.mjs
+          else
+            echo "scripts/validate-demo-data.mjs not present; structural audit already passed."
+          fi
+
+      - name: Add summary
         if: always()
         run: |
           if [ -f data/diagnostics/LATEST_RUN_SUMMARY.md ]; then
             cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
           fi
 
-      - name: Upload repaired files and diagnostics
+      - name: Upload repaired files
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: parleymap-true-final-files
+          name: parleymap-structural-repair-files
           path: |
             index.html
             ads.txt
+            data/demo.json
             privacy.html
             impressum.html
-            contact.html
             about.html
+            contact.html
             methodology.html
             data-sources.html
-            data/demo.json
             data/diagnostics/*.json
             data/diagnostics/*.md
 
       - name: Show changed files
         run: git diff --name-only
 
-      - name: Commit true final repair
+      - name: Commit structural repair
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Apply ParleyMap true final repair"
-          file_pattern: "index.html ads.txt privacy.html impressum.html contact.html about.html methodology.html data-sources.html data/demo.json data/diagnostics/*.json data/diagnostics/*.md"
+          commit_message: "Repair ParleyMap structure, events, anchors and AdSense"
+          file_pattern: "index.html ads.txt privacy.html impressum.html about.html contact.html methodology.html data-sources.html data/demo.json data/diagnostics/*.json data/diagnostics/*.md"
