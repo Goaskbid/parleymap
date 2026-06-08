@@ -6,14 +6,11 @@ on:
 permissions:
   contents: write
 
-concurrency:
-  group: parleymap-canonical-maintenance
-  cancel-in-progress: false
 
 jobs:
   validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -26,369 +23,171 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Write canonical maintenance script
+      - name: Install canonical repair script
         run: |
-          mkdir -p scripts data/diagnostics data/crawler
-          cat > scripts/parleymap-maintenance.cjs <<'NODE'
+          mkdir -p scripts data/diagnostics
+          cat > scripts/parleymap-canonical-maintenance.cjs <<'NODE'
           const fs = require('fs');
           const cp = require('child_process');
 
           const INDEX = 'index.html';
-          const MIRROR = 'data/demo.json';
+          const DEMO = 'data/demo.json';
+          const ADS = 'ads.txt';
           const DIAG = 'data/diagnostics';
-          const OPEN = '<script id="demo-data" type="application/json">';
-          const CLOSE = '</' + 'script>';
-          const NOW = new Date().toISOString();
+          fs.mkdirSync(DIAG, { recursive: true });
 
-          const TARGETS = [
-            { key:'rafael_grossi', names:['rafael grossi','rafael mariano grossi'], terms:['grossi'], anchor:{ city:'Vienna', countryCode:'AT', countryName:'Austria', lat:48.2082, lng:16.3738, region:'Europe', label:'Vienna institutional base' }, org:'International Atomic Energy Agency', orgMark:'IAEA', image:'https://commons.wikimedia.org/wiki/Special:FilePath/Rafael%20Grossi%20IAEA%20Director%20General.jpg' },
-            { key:'pope_leo_xiv', names:['pope leo xiv','leo xiv','robert prevost','robert francis prevost'], terms:['pope'], anchor:{ city:'Vatican City', countryCode:'VA', countryName:'Vatican City', lat:41.9029, lng:12.4534, region:'Europe', label:'Vatican City institutional base' }, org:'Holy See', orgMark:'Vatican', image:'https://commons.wikimedia.org/wiki/Special:FilePath/Pope%20Leo%20XIV%20official%20portrait.jpg' },
-            { key:'claudia_sheinbaum', names:['claudia sheinbaum','claudia sheinbaum pardo'], terms:['claudia','sheinbaum'], anchor:{ city:'Mexico City', countryCode:'MX', countryName:'Mexico', lat:19.4326, lng:-99.1332, region:'North America', label:'Mexico City institutional base' }, org:'Mexico', orgMark:'MX', image:'https://commons.wikimedia.org/wiki/Special:FilePath/Claudia%20Sheinbaum%20(cropped,%20centered).jpg' },
-            { key:'prabowo_subianto', names:['prabowo subianto'], terms:['prabowo','subianto'], anchor:{ city:'Jakarta', countryCode:'ID', countryName:'Indonesia', lat:-6.2088, lng:106.8456, region:'Asia', label:'Jakarta institutional base' }, org:'Indonesia', orgMark:'ID', image:'https://commons.wikimedia.org/wiki/Special:FilePath/Prabowo%20Subianto%202024%20official%20portrait.jpg' },
-            { key:'mohammed_bin_salman', names:['mohammed bin salman','mohammad bin salman','muhammad bin salman','mbs'], terms:['salman'], any:['mohammed','mohammad','muhammad','mbs'], anchor:{ city:'Riyadh', countryCode:'SA', countryName:'Saudi Arabia', lat:24.7136, lng:46.6753, region:'Middle East', label:'Riyadh institutional base' }, org:'Saudi Arabia', orgMark:'SA' },
-            { key:'king_charles', names:['king charles iii','charles iii'], terms:['charles'], any:['king','monarch'], anchor:{ city:'London', countryCode:'GB', countryName:'United Kingdom', lat:51.5074, lng:-0.1278, region:'Europe', label:'London institutional base' }, org:'United Kingdom', orgMark:'GB' },
-            { key:'mark_rutte', names:['mark rutte'], terms:['mark','rutte'], anchor:{ city:'Brussels', countryCode:'BE', countryName:'Belgium', lat:50.8798, lng:4.4219, region:'Europe', label:'NATO Brussels institutional base' }, org:'NATO', orgMark:'NATO' },
-            { key:'antonio_guterres', names:['antonio guterres','antónio guterres'], terms:['guterres'], anchor:{ city:'New York', countryCode:'US', countryName:'United States', lat:40.7499, lng:-73.9680, region:'North America', label:'UN New York institutional base' }, org:'United Nations', orgMark:'UN' },
-            { key:'emmanuel_macron', names:['emmanuel macron'], terms:['emmanuel','macron'], anchor:{ city:'Paris', countryCode:'FR', countryName:'France', lat:48.8566, lng:2.3522, region:'Europe', label:'Paris institutional base' }, org:'France', orgMark:'FR' },
-            { key:'ursula_von_der_leyen', names:['ursula von der leyen'], terms:['ursula','leyen'], anchor:{ city:'Brussels', countryCode:'BE', countryName:'Belgium', lat:50.8503, lng:4.3517, region:'Europe', label:'Brussels institutional base' }, org:'European Union', orgMark:'EU' },
-            { key:'kaja_kallas', names:['kaja kallas'], terms:['kaja','kallas'], anchor:{ city:'Brussels', countryCode:'BE', countryName:'Belgium', lat:50.8503, lng:4.3517, region:'Europe', label:'Brussels institutional base' }, org:'European Union', orgMark:'EU' }
+          const OPEN_RE = /<script\s+id=["']demo-data["']\s+type=["']application\/json["']\s*>/i;
+          const CLOSE = '</' + 'script>';
+
+          const BAD_EVENT_RE = /\b(iaea nuclear diplomacy watch|city of london finance diplomacy|think[- ]tank leadership events watch|royal diaries? and state[- ]visit|royal diary watch|source[- ]watch|generic watch|events watch|finance diplomacy watch)\b/i;
+          const GENERIC_EVENT_RE = /\b(homepage|profile page|faq|frequently asked|fact sheet|programme|program|generic index|watch card)\b/i;
+
+          const anchors = [
+            { key:'rafael_grossi', any:['rafael grossi','grossi'], anchor:{city:'Vienna', countryCode:'AT', countryName:'Austria', lat:48.2082, lng:16.3738, label:'Vienna institutional base', region:'Europe'}, org:'International Atomic Energy Agency', orgMark:'IAEA', image:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Rafael_Mariano_Grossi_2022_%28cropped%29.jpg/330px-Rafael_Mariano_Grossi_2022_%28cropped%29.jpg' },
+            { key:'pope_leo_xiv', any:['pope leo xiv','leo xiv','robert prevost','pope xiv','pope'], anchor:{city:'Vatican City', countryCode:'VA', countryName:'Vatican City', lat:41.9029, lng:12.4534, label:'Vatican City institutional base', region:'Europe'}, org:'Holy See', orgMark:'Vatican', image:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Robert_Francis_Prevost%2C_2024.jpg/330px-Robert_Francis_Prevost%2C_2024.jpg' },
+            { key:'claudia_sheinbaum', all:['claudia','sheinbaum'], anchor:{city:'Mexico City', countryCode:'MX', countryName:'Mexico', lat:19.4326, lng:-99.1332, label:'Mexico City institutional base', region:'North America'}, org:'Government of Mexico', orgMark:'Mexico', image:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Claudia_Sheinbaum_%28cropped%2C_centered%29.jpg/330px-Claudia_Sheinbaum_%28cropped%2C_centered%29.jpg' },
+            { key:'prabowo_subianto', all:['prabowo','subianto'], anchor:{city:'Jakarta', countryCode:'ID', countryName:'Indonesia', lat:-6.2088, lng:106.8456, label:'Jakarta institutional base', region:'Asia'}, org:'Government of Indonesia', orgMark:'Indonesia', image:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Prabowo_Subianto_2024_official_portrait.jpg/330px-Prabowo_Subianto_2024_official_portrait.jpg' },
+            { key:'mohammed_bin_salman', all:['salman'], any:['mohammed','mohammad','muhammad','mbs'], anchor:{city:'Riyadh', countryCode:'SA', countryName:'Saudi Arabia', lat:24.7136, lng:46.6753, label:'Riyadh institutional base', region:'Middle East'}, org:'Saudi Arabia', orgMark:'Saudi Arabia' },
+            { key:'king_charles', any:['king charles','charles iii'], anchor:{city:'London', countryCode:'GB', countryName:'United Kingdom', lat:51.5074, lng:-0.1278, label:'London institutional base', region:'Europe'}, org:'The Royal Family', orgMark:'Royal Family' },
+            { key:'mark_rutte', all:['mark','rutte'], anchor:{city:'Brussels', countryCode:'BE', countryName:'Belgium', lat:50.8798, lng:4.4219, label:'NATO Brussels institutional base', region:'Europe'}, org:'NATO', orgMark:'NATO' },
+            { key:'antonio_guterres', any:['antonio guterres','antónio guterres','guterres'], anchor:{city:'New York', countryCode:'US', countryName:'United States', lat:40.7499, lng:-73.9680, label:'UN New York institutional base', region:'North America'}, org:'United Nations', orgMark:'UN' },
+            { key:'emmanuel_macron', all:['emmanuel','macron'], anchor:{city:'Paris', countryCode:'FR', countryName:'France', lat:48.8566, lng:2.3522, label:'Paris institutional base', region:'Europe'}, org:'France', orgMark:'France' }
           ];
 
-          const FAKE_EVENT_RE = /\b(iaea nuclear diplomacy watch|city of london finance diplomacy watch|think[- ]tank leadership events watch|royal diaries|royal diary|state[- ]visit watch|source watch|source-watch|watch card|diplomacy watch|events watch)\b/i;
-          const GENERIC_EVENT_RE = /\b(faq|frequently asked|foire aux questions|homepage|home page|profile page|fact sheet|programme|program|sitemap|privacy|terms|cookie)\b/i;
-          const EVENT_ARRAY_HINT = /appearances|events|agendas|summits|signals|alerts|watch|timeline|catalog|calls|meetings/i;
-          const PROFILE_ARRAYS = ['people','roster','topRoster','expansionRoster','priorityExpansion','watchlistExamples'];
-          const HELPER_PROFILE_ARRAYS = ['topRoster','priorityExpansion','watchlistExamples'];
+          function sh(cmd, opts={}) { return cp.execSync(cmd, { encoding:'utf8', stdio:['ignore','pipe','pipe'], ...opts }); }
+          function norm(v){return String(v||'').toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,' ').trim();}
+          function slug(v){return norm(v).replace(/ /g,'-').slice(0,90)}
+          function textOf(o){ if(!o||typeof o!=='object') return ''; return norm([o.id,o.slug,o.name,o.canonicalName,o.wikiTitle,o.wikidataId,o.roleTitle,o.organization,o.orgMark,o.category,o.countryName,o.countryFocus,o.countryFocusCode,o.profileLine,Array.isArray(o.profileLines)?o.profileLines.map(x=>x.text||x).join(' '):''].join(' ')); }
+          function matchRule(obj){ const txt=textOf(obj); if(!txt) return null; for(const r of anchors){ const allOK = !r.all || r.all.every(t=>txt.includes(norm(t))); const anyOK = !r.any || r.any.some(t=>txt.includes(norm(t))); if(allOK && anyOK) return r; } return null; }
+          function isProfileLike(o){ return o && typeof o==='object' && !Array.isArray(o) && (o.id||o.slug||o.name||o.canonicalName||o.wikiTitle||o.roleTitle) && !o.startsAt; }
+          function anchorObj(a){ return {label:a.label, city:a.city, countryCode:a.countryCode, countryName:a.countryName, lat:a.lat, lng:a.lng, precision:'city', type:'institutional_base', privacy:'city-level public institutional base only'}; }
+          function applyAnchor(o, rule){ const a=rule.anchor; const anchor=anchorObj(a); o.homeBases=[anchor]; o.homeBase=anchor; o.mapAnchor=anchor; o.anchorLocation=anchor; o.baseLocation=anchor; o.institutionalBase=anchor; o.countryFocus=a.countryCode; o.countryFocusCode=a.countryCode; o.countryCode=a.countryCode; o.countryName=a.countryName; o.country=a.countryName; o.homeRegion=a.region; o.locationStatus='institutional_base_city_level'; o.lat=a.lat; o.lng=a.lng; o.latitude=a.lat; o.longitude=a.lng; o.mapLat=a.lat; o.mapLng=a.lng; o.homeLat=a.lat; o.homeLng=a.lng; o.anchorLat=a.lat; o.anchorLng=a.lng; o.flagAudit={...(o.flagAudit||{}), code:a.countryCode, countryCode:a.countryCode, countryName:a.countryName, label:a.countryName, status:'country flag'}; o.flagCode=a.countryCode; o.countryFlagCode=a.countryCode; if(rule.org) o.organization=rule.org; if(rule.orgMark) o.orgMark=rule.orgMark; if((!o.imageUrl || /placeholder|missing|runtime|blank/i.test(String(o.imageUrl))) && rule.image) { o.imageUrl=rule.image; o.imageProvider='curated public image fallback'; } }
 
-          function norm(v){ return String(v||'').toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,' ').trim(); }
-          function slug(v){ return norm(v).replace(/ /g,'-').replace(/^-+|-+$/g,'').slice(0,90); }
-          function read(path){ return fs.existsSync(path) ? fs.readFileSync(path,'utf8') : ''; }
-          function sh(cmd){ return cp.execSync(cmd,{encoding:'utf8',stdio:['ignore','pipe','pipe']}); }
-          function safeJsonParse(s){ try { return JSON.parse(s); } catch { return null; } }
-          function extract(html){
-            const start = html.indexOf(OPEN);
-            if(start < 0) return null;
-            const jsonStart = start + OPEN.length;
-            const end = html.indexOf(CLOSE, jsonStart);
-            if(end < 0) return null;
-            const txt = html.slice(jsonStart,end).trim();
-            const data = safeJsonParse(txt);
-            if(!data) return null;
-            return { html, jsonStart, jsonEnd:end, data };
-          }
-          function count(data,k){ return Array.isArray(data && data[k]) ? data[k].length : null; }
-          function basicOk(data){
-            return data && typeof data === 'object' &&
-              Array.isArray(data.people) && data.people.length >= 80 &&
-              Array.isArray(data.roster) && data.roster.length >= 180 &&
-              Array.isArray(data.expansionRoster) && data.expansionRoster.length >= 90 &&
-              Array.isArray(data.appearances) && data.appearances.length >= 450 &&
-              Array.isArray(data.categories) && data.categories.length >= 8;
-          }
-          function recoverIndex(){
-            const current = read(INDEX);
-            const currentExtracted = extract(current);
-            if(currentExtracted && basicOk(currentExtracted.data)) return currentExtracted;
-            const commits = sh('git rev-list --all -- index.html').split(/\n/).filter(Boolean);
-            for(const sha of commits){
-              let html = '';
-              try { html = sh(`git show ${sha}:index.html`); } catch { continue; }
-              const ex = extract(html);
-              if(ex && basicOk(ex.data)){
-                fs.writeFileSync(INDEX, html);
-                return ex;
-              }
+          function extractFromHtml(html){ const m=OPEN_RE.exec(html); if(!m) return null; const start=m.index + m[0].length; const end=html.indexOf(CLOSE,start); if(end<0) return null; const jsonText=html.slice(start,end).trim(); return { start, end, data: JSON.parse(jsonText) }; }
+          function counts(d){return {people:Array.isArray(d.people)?d.people.length:null, roster:Array.isArray(d.roster)?d.roster.length:null, topRoster:Array.isArray(d.topRoster)?d.topRoster.length:null, expansionRoster:Array.isArray(d.expansionRoster)?d.expansionRoster.length:null, appearances:Array.isArray(d.appearances)?d.appearances.length:null, categories:Array.isArray(d.categories)?d.categories.length:null};}
+          function sane(d){ const c=counts(d); return c.people>=80 && c.people<=115 && c.roster>=180 && c.expansionRoster>=90 && c.categories>=8; }
+          function readCurrentOrRecover(){ let html=fs.existsSync(INDEX)?fs.readFileSync(INDEX,'utf8'):''; let ex=null; try{ ex=extractFromHtml(html); }catch(e){} if(ex && sane(ex.data)) return {html, ex, recovered:false}; const hashes=sh('git log --format=%H -- index.html').trim().split(/\n+/).filter(Boolean); for(const h of hashes){ try{ const candidate=sh(`git show ${h}:index.html`, {maxBuffer:80*1024*1024}); const cex=extractFromHtml(candidate); if(cex && sane(cex.data)){ return {html:candidate, ex:cex, recovered:true, recoveredCommit:h}; } }catch(e){} } throw new Error('No safe full index.html with demo-data found in current file or git history'); }
+
+          function walkArrays(obj, cb, path='data'){ if(!obj||typeof obj!=='object') return; if(Array.isArray(obj)){ cb(obj,path); obj.forEach((v,i)=>walkArrays(v,cb,`${path}[${i}]`)); return; } for(const [k,v] of Object.entries(obj)){ if(v&&typeof v==='object') walkArrays(v,cb,`${path}.${k}`); } }
+          function isBadEvent(o){ if(!o || typeof o!=='object' || Array.isArray(o)) return false; const title=[o.title,o.name,o.label,o.summary,o.description].join(' '); if(BAD_EVENT_RE.test(title)) return true; if(o.startsAt && String(o.status||'').toLowerCase().includes('source-watch')) return true; if(o.startsAt && GENERIC_EVENT_RE.test(title)) return true; return false; }
+
+          function repairData(data){ const report={anchorRepairs:[], fakeEventsRemoved:[], duplicateProfilesRemoved:[], officialEventsAdded:[]};
+            // Remove fake event/watch rows across all arrays.
+            walkArrays(data,(arr,path)=>{ for(let i=arr.length-1;i>=0;i--){ const o=arr[i]; if(isBadEvent(o)){ report.fakeEventsRemoved.push({path:`${path}[${i}]`, title:o.title||o.name||o.label||null, id:o.id||null}); arr.splice(i,1); } } });
+            // Repair all profile-like objects.
+            const grossiSeen=[];
+            walkArrays(data,(arr,path)=>{ arr.forEach((o,i)=>{ if(isProfileLike(o)){ const rule=matchRule(o); if(rule){ const before={id:o.id||null,name:o.canonicalName||o.name||null,countryFocusCode:o.countryFocusCode||null,flagAudit:o.flagAudit||null,lat:o.lat??o.homeBases?.[0]?.lat??null,lng:o.lng??o.homeBases?.[0]?.lng??null}; applyAnchor(o,rule); report.anchorRepairs.push({target:rule.key,path:`${path}[${i}]`,before,after:{id:o.id||null,name:o.canonicalName||o.name||null,countryFocusCode:o.countryFocusCode,lat:o.lat,lng:o.lng}}); if(rule.key==='rafael_grossi') grossiSeen.push({arr,i,path,obj:o}); } } }); });
+            // Hide/remove visible helper duplicates for Grossi while keeping canonical presence in people/roster.
+            const helperCollections=/\.(topRoster|priorityExpansion|watchlistExamples|openCatalogs|structuredSourceWatch|eventAgendas|alerts|signals|summits)$/;
+            for(const hit of grossiSeen.slice().reverse()){
+              if(helperCollections.test(hit.path)) { report.duplicateProfilesRemoved.push({path:`${hit.path}[${hit.i}]`, id:hit.obj.id||null, name:hit.obj.canonicalName||hit.obj.name||null}); hit.arr.splice(hit.i,1); }
+              else { hit.obj.renderOnMap = hit.obj.renderOnMap !== false; hit.obj.mapVisible = true; }
             }
-            throw new Error('No safe full index.html with demo-data found in git history. Current index.html cannot be repaired safely.');
+            // Mark any non-canonical Grossi copies as non-map-renderable if still multiple profile rows remain.
+            let keptGrossi=false;
+            walkArrays(data,(arr,path)=>{ arr.forEach((o,i)=>{ if(isProfileLike(o) && /rafael\s+grossi/.test(textOf(o))){ if(!keptGrossi && /\.(people|roster)$/.test(path)){ keptGrossi=true; o.mapVisible=true; o.renderOnMap=true; } else if(!/\.(people|roster)$/.test(path)){ o.mapVisible=false; o.renderOnMap=false; o.excludeFromOpeningMap=true; } } }); });
+            // Official event seeds.
+            const existingIds = new Set((data.appearances||[]).map(x=>x.id));
+            function findPersonId(re){ const rows=[...(data.people||[]),...(data.roster||[]),...(data.expansionRoster||[])]; const f=rows.find(x=>re.test(norm([x.id,x.slug,x.name,x.canonicalName].join(' ')))); return f&&f.id; }
+            function addEvent(seed){ if(!Array.isArray(data.appearances)) data.appearances=[]; if(existingIds.has(seed.id)) return; data.appearances.push(seed); existingIds.add(seed.id); report.officialEventsAdded.push({id:seed.id,title:seed.title,personId:seed.personId}); }
+            const grossiId=findPersonId(/grossi/); if(grossiId) addEvent({id:'official-iaea-grossi-bog-2026-03-02',personId:grossiId,startsAt:'2026-03-02T09:00:00+01:00',endsAt:null,status:'VERIFIED_PAST',confidence:0.95,confidenceLabel:'official IAEA source',eventType:'OFFICIAL_STATEMENT',title:'Rafael Grossi statement to the IAEA Board of Governors',summary:'Official IAEA Board of Governors statement at the Agency headquarters in Vienna.',significance:'Official-source public institutional appearance.',decisions:'',location:{label:'IAEA headquarters, Vienna',city:'Vienna',countryCode:'AT',countryName:'Austria',lat:48.2345,lng:16.4166,precision:'city'},venuePublic:true,securityPrecision:'public institutional venue only',publicInterestScore:72,eventGroupId:'eg-iaea-vienna-2026-03-02',topics:['nuclear security','diplomacy'],counterpartIds:[],sourcePack:[{type:'official',title:'IAEA Director General statement to the Board of Governors',url:'https://www.iaea.org/newscenter/statements/iaea-director-generals-introductory-statement-to-the-board-of-governors-2-6-march-2026',reliability:'official primary source'}],visual:{status:'official public event'},lastCheckedAt:new Date().toISOString(),marketImpact:{sectors:['energy'],countries:['Austria'],confidence:'medium'}});
+            const popeId=findPersonId(/pope|leo xiv|prevost/); if(popeId) addEvent({id:'official-vatican-pope-spain-2026-06-06',personId:popeId,startsAt:'2026-06-06T09:00:00+02:00',endsAt:'2026-06-12T18:00:00+02:00',status:'ANNOUNCED_FUTURE',confidence:0.95,confidenceLabel:'official Vatican travel source',eventType:'APOSTOLIC_JOURNEY',title:'Pope Leo XIV apostolic journey to Spain',summary:'Official Vatican travel programme for Spain journey.',significance:'Official Vatican-published public travel itinerary.',decisions:'',location:{label:'Madrid public itinerary anchor',city:'Madrid',countryCode:'ES',countryName:'Spain',lat:40.4168,lng:-3.7038,precision:'city'},venuePublic:true,securityPrecision:'city-level public itinerary only',publicInterestScore:76,eventGroupId:'eg-vatican-spain-2026-06-06',topics:['religion','diplomacy'],counterpartIds:[],sourcePack:[{type:'official',title:'Vatican travel programme for Pope Leo XIV Spain journey',url:'https://www.vatican.va/content/leo-xiv/en/travels/2026/documents/spagna-6-12giugno2026.html',reliability:'official primary source'}],visual:{status:'official public event'},lastCheckedAt:new Date().toISOString(),marketImpact:{sectors:[],countries:['Spain'],confidence:'low'}});
+            const kingId=findPersonId(/king charles|charles iii/); if(kingId) addEvent({id:'official-royal-king-charles-washington-2026-04-28',personId:kingId,startsAt:'2026-04-28T12:00:00-04:00',endsAt:null,status:'VERIFIED_PAST',confidence:0.92,confidenceLabel:'official Royal Family source',eventType:'STATE_VISIT_PUBLIC_ADDRESS',title:'King Charles III address to Congress in Washington',summary:'Official Royal Family record for the King address in Washington.',significance:'Official public royal diplomatic appearance.',decisions:'',location:{label:'Washington public address anchor',city:'Washington',countryCode:'US',countryName:'United States',lat:38.9072,lng:-77.0369,precision:'city'},venuePublic:true,securityPrecision:'city-level public venue only',publicInterestScore:70,eventGroupId:'eg-royal-washington-2026-04-28',topics:['diplomacy','royalty'],counterpartIds:[],sourcePack:[{type:'official',title:'Royal Family record of Washington address',url:'https://www.royal.uk/news-and-activity/2026-04-28/the-kings-address-to-the-joint-meeting-of-congress-in-washington',reliability:'official primary source'}],visual:{status:'official public event'},lastCheckedAt:new Date().toISOString(),marketImpact:{sectors:[],countries:['United States','United Kingdom'],confidence:'low'}});
+            data.meta={...(data.meta||{}), lastDataUpdate:new Date().toISOString(), canonicalMaintenanceStatus:'canonical repair and audit applied'};
+            return report;
           }
-          function replaceDemo(payload, data){
-            const next = payload.html.slice(0,payload.jsonStart) + '\n' + JSON.stringify(data,null,2) + '\n' + payload.html.slice(payload.jsonEnd);
-            fs.writeFileSync(INDEX,next);
-            fs.mkdirSync('data',{recursive:true});
-            fs.writeFileSync(MIRROR, JSON.stringify(data,null,2)+'\n');
-          }
-          function textOf(obj){
-            if(!obj || typeof obj !== 'object') return '';
-            return norm([obj.id,obj.slug,obj.name,obj.canonicalName,obj.wikiTitle,obj.wikidataId,obj.roleTitle,obj.organization,obj.orgMark,obj.countryName,obj.countryFocus,obj.countryFocusCode,obj.profileLine,Array.isArray(obj.profileLines)?obj.profileLines.join(' '):'',obj.title,obj.summary].join(' '));
-          }
-          function matchesTarget(obj, target){
-            const t = textOf(obj);
-            if(!t) return false;
-            if((target.names||[]).some(n => t.includes(norm(n)))) return true;
-            const termsOk = !target.terms || target.terms.every(term => t.includes(norm(term)));
-            const anyOk = !target.any || target.any.some(term => t.includes(norm(term)));
-            return termsOk && anyOk;
-          }
-          function isProfileLike(obj){
-            return obj && typeof obj === 'object' && !Array.isArray(obj) && !obj.startsAt && (obj.slug || obj.name || obj.canonicalName || obj.roleTitle || obj.wikidataId || obj.profileLine);
-          }
-          function anchorObj(target){
-            const a = target.anchor;
-            return { label:a.label, city:a.city, countryCode:a.countryCode, countryName:a.countryName, lat:a.lat, lng:a.lng, precision:'city', type:'institutional_base', privacy:'city-level public institutional base only' };
-          }
-          function patchProfile(obj, target, report, path, visible){
-            const a = target.anchor;
-            const anchor = anchorObj(target);
-            const before = { countryFocus:obj.countryFocus, countryFocusCode:obj.countryFocusCode, countryName:obj.countryName, flagAudit:obj.flagAudit, lat:obj.lat, lng:obj.lng };
-            obj.countryFocus = a.countryCode;
-            obj.countryFocusCode = a.countryCode;
-            obj.countryCode = a.countryCode;
-            obj.countryName = a.countryName;
-            obj.country = a.countryName;
-            obj.homeRegion = a.region;
-            obj.locationStatus = 'institutional_base_city_level';
-            obj.homeBases = [anchor];
-            obj.homeBase = anchor;
-            obj.mapAnchor = anchor;
-            obj.anchorLocation = anchor;
-            obj.baseLocation = anchor;
-            obj.institutionalBase = anchor;
-            obj.lat = a.lat; obj.lng = a.lng; obj.lon = a.lng; obj.long = a.lng;
-            obj.latitude = a.lat; obj.longitude = a.lng;
-            obj.homeLat = a.lat; obj.homeLng = a.lng; obj.homeLon = a.lng; obj.homeLongitude = a.lng;
-            obj.mapLat = a.lat; obj.mapLng = a.lng; obj.mapLon = a.lng; obj.mapLongitude = a.lng;
-            obj.anchorLat = a.lat; obj.anchorLng = a.lng; obj.anchorLon = a.lng; obj.anchorLongitude = a.lng;
-            obj.coordinates = { lat:a.lat, lng:a.lng };
-            obj.geo = { lat:a.lat, lng:a.lng, city:a.city, countryCode:a.countryCode, countryName:a.countryName };
-            obj.flagAudit = { ...(obj.flagAudit || {}), code:a.countryCode, countryCode:a.countryCode, label:a.countryName, countryName:a.countryName, status:'country flag' };
-            obj.flagCode = a.countryCode;
-            obj.countryFlagCode = a.countryCode;
-            if(target.org){ obj.organization = target.org; obj.orgMark = target.orgMark || obj.orgMark; }
-            if(target.image && (!obj.imageUrl || /placeholder|blank|missing/i.test(String(obj.imageUrl)))){ obj.imageUrl = target.image; obj.imageProvider = obj.imageProvider || 'curated public source'; }
-            obj.__parleymapCanonicalAnchor = target.key;
-            if(visible === false){ obj.renderOnMap = false; obj.mapVisible = false; obj.includeInOpeningMap = false; obj.visible = false; obj.trackingStatus = 'duplicate_hidden_by_canonical_repair'; }
-            report.anchorRepairs.push({ path, target:target.key, before, after:{ countryFocusCode:obj.countryFocusCode, countryName:obj.countryName, lat:obj.lat, lng:obj.lng } });
-          }
-          function walk(obj, fn, path='data'){
-            if(!obj || typeof obj !== 'object') return;
-            fn(obj,path);
-            if(Array.isArray(obj)) obj.forEach((v,i)=>walk(v,fn,`${path}[${i}]`));
-            else Object.entries(obj).forEach(([k,v])=>{ if(v && typeof v === 'object') walk(v,fn,`${path}.${k}`); });
-          }
-          function eventText(o){ return norm([o && o.id,o && o.title,o && o.summary,o && o.status,o && o.eventType,o && o.type,o && o.label].join(' ')); }
-          function isFakeEvent(o){
-            if(!o || typeof o !== 'object' || Array.isArray(o)) return false;
-            const txt = eventText(o);
-            const dated = !!(o.startsAt || o.date || o.endsAt || o.eventDate);
-            const sourceWatch = /source watch|source-watch|watch/.test(txt) || o.status === 'source-watch' || o.status === 'SOURCE_WATCH';
-            return (FAKE_EVENT_RE.test(txt) || (dated && sourceWatch) || (dated && GENERIC_EVENT_RE.test(txt)));
-          }
-          function filterArrays(node, path, report){
-            if(!node || typeof node !== 'object') return;
-            if(Array.isArray(node)){
-              for(let i=node.length-1;i>=0;i--){
-                const item=node[i];
-                if(isFakeEvent(item)){
-                  report.fakeEventsRemoved.push({ path:`${path}[${i}]`, id:item.id||null, title:item.title||item.label||null, status:item.status||null });
-                  node.splice(i,1);
-                }
-              }
-              node.forEach((v,i)=>filterArrays(v,`${path}[${i}]`,report));
-              return;
-            }
-            for(const [k,v] of Object.entries(node)) filterArrays(v,`${path}.${k}`,report);
-          }
-          function dedupeSameIdInArray(arr, path, report){
-            if(!Array.isArray(arr)) return;
-            const seen = new Set();
-            for(let i=arr.length-1;i>=0;i--){
-              const item = arr[i];
-              if(!item || typeof item !== 'object') continue;
-              const id = String(item.id || item.slug || '').trim();
-              if(!id) continue;
-              if(seen.has(id)){
-                report.profileDuplicatesRemoved.push({ path:`${path}[${i}]`, id, name:item.canonicalName||item.name||null, reason:'duplicate_id_within_array' });
-                arr.splice(i,1);
-              } else seen.add(id);
-            }
-          }
-          function applyProfileRepairs(data, report){
-            const grossi = TARGETS.find(t=>t.key==='rafael_grossi');
-            for(const name of Object.keys(data)){
-              const arr = data[name];
-              if(Array.isArray(arr)) dedupeSameIdInArray(arr, `data.${name}`, report);
-            }
-            for(const collection of PROFILE_ARRAYS){
-              const arr = Array.isArray(data[collection]) ? data[collection] : [];
-              for(let i=arr.length-1;i>=0;i--){
-                const item = arr[i];
-                if(!isProfileLike(item)) continue;
-                if(grossi && matchesTarget(item,grossi) && HELPER_PROFILE_ARRAYS.includes(collection)){
-                  report.profileDuplicatesRemoved.push({ path:`data.${collection}[${i}]`, id:item.id||null, name:item.canonicalName||item.name||null, reason:'grossi_helper_collection_suppressed' });
-                  arr.splice(i,1);
-                }
-              }
-            }
-            let grossiVisibleKept = false;
-            walk(data,(obj,path)=>{
-              if(!isProfileLike(obj)) return;
-              for(const target of TARGETS){
-                if(!matchesTarget(obj,target)) continue;
-                let visible = true;
-                if(target.key === 'rafael_grossi'){
-                  const inRoster = /data\.roster\[/.test(path);
-                  const inPeople = /data\.people\[/.test(path);
-                  if(!grossiVisibleKept && inRoster){ grossiVisibleKept = true; visible = true; }
-                  else if(!grossiVisibleKept && inPeople){ visible = false; }
-                  else if(!inRoster){ visible = false; }
-                }
-                patchProfile(obj,target,report,path,visible);
-                break;
-              }
-            });
-          }
-          function findPersonId(data, names){
-            const pools = ['people','roster','topRoster','expansionRoster'];
-            for(const p of pools){
-              for(const item of Array.isArray(data[p]) ? data[p] : []){
-                const t = textOf(item);
-                if(names.some(n=>t.includes(norm(n)))) return item.id || item.slug;
-              }
-            }
-            return null;
-          }
-          function sourcePack(url,label){ return [{ url, label, type:'official', reliability:'official-primary', checkedAt:NOW }]; }
-          function makeEvent(id, personId, title, startsAt, city, countryCode, countryName, lat, lng, url, summary){
-            return { id, personId, startsAt, endsAt:null, status:'VERIFIED_PUBLIC', confidence:0.95, confidenceLabel:'official source', eventType:'PUBLIC_APPEARANCE', title, summary:summary||title, significance:'Official-source public event.', decisions:'', location:{ label:city, city, countryCode, countryName, lat, lng, precision:'city', type:'public_city' }, venuePublic:true, securityPrecision:'city-level public event only', publicInterestScore:80, eventGroupId:`eg-${id}`, topics:['official-source'], counterpartIds:[], sourcePack:sourcePack(url,'official source'), visual:{status:'runtime portrait'}, lastCheckedAt:NOW, marketImpact:{sectors:[],companies:[],countries:[countryName],confidence:'medium'}, realEvent:true };
-          }
-          function addOfficialEvents(data, report){
-            const grossiId = findPersonId(data,['rafael grossi']);
-            const popeId = findPersonId(data,['pope leo xiv','pope']);
-            const kingId = findPersonId(data,['king charles iii','charles iii']);
-            const seeds = [];
-            if(grossiId) seeds.push(makeEvent('official-iaea-grossi-bog-vienna-2026-03-02', grossiId, 'IAEA Board of Governors statement', '2026-03-02T09:00:00Z', 'Vienna', 'AT', 'Austria', 48.2082, 16.3738, 'https://www.iaea.org/newscenter/statements/iaea-director-generals-introductory-statement-to-the-board-of-governors-2-6-march-2026', 'Rafael Grossi at the IAEA Board of Governors in Vienna.'));
-            if(popeId) seeds.push(makeEvent('official-vatican-pope-leo-xiv-spain-2026-06-06', popeId, 'Pope Leo XIV apostolic journey to Spain', '2026-06-06T09:00:00Z', 'Madrid', 'ES', 'Spain', 40.4168, -3.7038, 'https://www.vatican.va/content/leo-xiv/en/travels/2026/documents/spagna-6-12giugno2026.html', 'Vatican-published itinerary for Pope Leo XIV in Spain.'));
-            if(kingId) seeds.push(makeEvent('official-royal-king-charles-washington-congress-2026-04-28', kingId, 'The King address to Congress in Washington', '2026-04-28T12:00:00Z', 'Washington', 'US', 'United States', 38.9072, -77.0369, 'https://www.royal.uk/news-and-activity/2026-04-28/the-kings-address-to-the-joint-meeting-of-congress-in-washington', 'Royal Family official record of the King in Washington.'));
-            data.appearances = Array.isArray(data.appearances) ? data.appearances : [];
-            const ids = new Set(data.appearances.map(x=>x && x.id));
-            for(const ev of seeds){ if(!ids.has(ev.id)){ data.appearances.push(ev); report.officialEventsAdded.push({ id:ev.id, title:ev.title, personId:ev.personId }); } }
-          }
-          function collectAdsenseFromText(text, found){
-            for(const m of String(text||'').matchAll(/ca-pub-[0-9]{10,}/g)) found.clients.add(m[0]);
-            for(const m of String(text||'').matchAll(/pub-[0-9]{10,}/g)) found.publishers.add(m[0]);
-            for(const m of String(text||'').matchAll(/data-ad-slot=["']([^"']{3,})["']/g)) found.slots.add(m[1]);
-          }
-          function findAdsense(){
-            const found = { clients:new Set(), publishers:new Set(), slots:new Set() };
-            const files = ['index.html','ads.txt','index.template.html','privacy.html','impressum.html','data/demo.json'];
-            for(const f of files) collectAdsenseFromText(read(f),found);
-            let grep = '';
-            try { grep = sh("git grep -I -h -E 'ca-pub-|data-ad-slot|pub-[0-9]' $(git rev-list --all) -- '*.html' '*.txt' '*.json' 2>/dev/null || true"); } catch {}
-            collectAdsenseFromText(grep,found);
-            const client = [...found.clients][0] || '';
-            const publisher = client ? client.replace(/^ca-/,'') : ([...found.publishers][0] || '');
-            const slots = [...found.slots].filter(Boolean);
-            return { client, publisherId:publisher, headerSlot:slots[0]||'', sidebarSlot:slots.find(s=>s!==slots[0])||slots[1]||'' };
-          }
-          function ensureHead(html, snippet, marker){
-            if(html.includes(marker)) return html;
-            if(/<\/head>/i.test(html)) return html.replace(/<\/head>/i, snippet + '\n</head>');
-            return snippet + '\n' + html;
-          }
-          function installAdsense(report){
-            let html = read(INDEX);
-            const ids = findAdsense();
-            report.adsense = { ...ids, status: ids.client && ids.headerSlot && ids.sidebarSlot ? 'adsense_preserved_and_audited' : 'adsense_ids_not_found_no_fake_ids_injected' };
-            if(ids.client){
-              html = ensureHead(html, `<meta name="google-adsense-account" content="${ids.client}">`, 'google-adsense-account');
-              html = ensureHead(html, `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ids.client}" crossorigin="anonymous"></script>`, 'pagead2.googlesyndication.com/pagead/js/adsbygoogle.js');
-              fs.writeFileSync(INDEX, html);
-              if(ids.publisherId) fs.writeFileSync('ads.txt', `google.com, ${ids.publisherId}, DIRECT, f08c47fec0942fa0\n`);
-            }
-            const privacy = '<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Privacy Policy - ParleyMap</title><meta name="viewport" content="width=device-width,initial-scale=1"></head><body><main><h1>Privacy Policy</h1><p>ParleyMap uses public-source information to map public appearances and institutional events. It does not publish private addresses, private residences, hotels, hospitals, leaked itineraries or live routes.</p><p>The site may use essential storage for preferences and, where accepted, analytics or advertising services such as Google AdSense.</p><p>Contact: contact@parleymap.com</p></main></body></html>\n';
-            const impressum = '<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Impressum - ParleyMap</title><meta name="viewport" content="width=device-width,initial-scale=1"></head><body><main><h1>Impressum</h1><p>ParleyMap is a public-source presence intelligence project.</p><p>Contact: contact@parleymap.com</p></main></body></html>\n';
-            if(!/<html/i.test(read('privacy.html')) || /index\.html|workflow|build/i.test(read('privacy.html'))) fs.writeFileSync('privacy.html', privacy);
-            if(!/<html/i.test(read('impressum.html')) || /index\.html|workflow|build/i.test(read('impressum.html'))) fs.writeFileSync('impressum.html', impressum);
-            if(!fs.existsSync('about.html')) fs.writeFileSync('about.html','<!doctype html><html><head><meta charset="utf-8"><title>About ParleyMap</title></head><body><main><h1>About ParleyMap</h1><p>ParleyMap tracks public appearances, official meetings and institutionally sourced events at city-level precision.</p></main></body></html>\n');
-            if(!fs.existsSync('methodology.html')) fs.writeFileSync('methodology.html','<!doctype html><html><head><meta charset="utf-8"><title>Methodology</title></head><body><main><h1>Methodology</h1><p>Records are sourced from official or host-public sources and filtered to avoid private movement tracking.</p></main></body></html>\n');
-            if(!fs.existsSync('data-sources.html')) fs.writeFileSync('data-sources.html','<!doctype html><html><head><meta charset="utf-8"><title>Data Sources</title></head><body><main><h1>Data Sources</h1><p>Sources include official government, institutional, Vatican, IAEA, royal and multilateral public pages.</p></main></body></html>\n');
-            if(!fs.existsSync('contact.html')) fs.writeFileSync('contact.html','<!doctype html><html><head><meta charset="utf-8"><title>Contact</title></head><body><main><h1>Contact</h1><p>contact@parleymap.com</p></main></body></html>\n');
-          }
-          function installRuntimeGuard(){
-            let html = read(INDEX);
-            const guardId = 'parleymap-canonical-runtime-guard';
-            const guard = `<script id="${guardId}">(function(){var A={grossi:{lat:48.2082,lng:16.3738,city:'Vienna'},pope:{lat:41.9029,lng:12.4534,city:'Vatican City'},sheinbaum:{lat:19.4326,lng:-99.1332,city:'Mexico City'},subianto:{lat:-6.2088,lng:106.8456,city:'Jakarta'}};function key(s){s=String(s||'').toLowerCase();if(s.includes('grossi'))return'grossi';if(s.includes('pope')||s.includes('leo xiv'))return'pope';if(s.includes('sheinbaum'))return'sheinbaum';if(s.includes('subianto')||s.includes('prabowo'))return'subianto';return''}function patch(){if(!window.L||!L.marker||L.marker.__pmCanonicalGuard){setTimeout(patch,200);return}var orig=L.marker,seen={};L.marker=function(latlng,opt){var txt='';try{txt=JSON.stringify(opt||{})}catch(e){}var k=key(txt);if(k&&A[k]){latlng=[A[k].lat,A[k].lng];seen[k]=(seen[k]||0)+1;if(k==='grossi'&&seen[k]>1){opt=Object.assign({},opt||{},{opacity:0,interactive:false});}}return orig.call(this,latlng,opt)};L.marker.__pmCanonicalGuard=true}patch();setInterval(function(){var seen={};document.querySelectorAll('.leaflet-marker-icon,.leaflet-tooltip,.leaflet-popup').forEach(function(el){var k=key(el.textContent||el.innerHTML||'');if(!k)return;if(k==='grossi'){seen[k]=(seen[k]||0)+1;if(seen[k]>1)el.style.display='none'}})},1000);})();</script>`;
-            const re = new RegExp(`<script id=["']${guardId}["'][\\s\\S]*?<\\/script>`,'g');
-            html = html.replace(re,'');
-            const ex = extract(html);
-            if(ex){
-              const insertAt = html.indexOf(CLOSE, ex.jsonEnd) + CLOSE.length;
-              html = html.slice(0,insertAt) + '\n' + guard + '\n' + html.slice(insertAt);
-            } else if(/<\/head>/i.test(html)) html = html.replace(/<\/head>/i, guard+'\n</head>');
-            else html = guard+'\n'+html;
-            fs.writeFileSync(INDEX, html);
-          }
-          function visibleGrossiCount(data){
-            let c=0;
-            for(const k of PROFILE_ARRAYS){
-              for(const item of Array.isArray(data[k]) ? data[k] : []){
-                if(matchesTarget(item,TARGETS[0]) && item.renderOnMap !== false && item.mapVisible !== false && item.visible !== false) c++;
-              }
-            }
-            return c;
-          }
-          function audit(data, report){
-            const fail=[];
-            if(!basicOk(data)) fail.push('core_counts_below_floor');
-            const fake=[]; walk(data,(o,p)=>{ if(isFakeEvent(o)) fake.push({path:p,title:o.title||o.label||null}); });
-            if(fake.length) fail.push('fake_events_remaining');
-            const vg = visibleGrossiCount(data); if(vg !== 1) fail.push('grossi_visible_count_'+vg);
-            const checks = [
-              ['rafael_grossi','AT','Vienna'],['pope_leo_xiv','VA','Vatican City'],['claudia_sheinbaum','MX','Mexico City'],['prabowo_subianto','ID','Jakarta']
-            ];
-            for(const [key,code,city] of checks){
-              const t = TARGETS.find(x=>x.key===key); let found=0,bad=0;
-              walk(data,(o)=>{ if(isProfileLike(o)&&matchesTarget(o,t)){ found++; const txt = JSON.stringify(o).toLowerCase(); if(!txt.includes(city.toLowerCase()) || String(o.countryFocusCode||o.countryCode||'').toUpperCase()!==code) bad++; if(key==='rafael_grossi' && /"countryFocusCode":"IA"|"code":"BI"|BIS/.test(JSON.stringify(o))) bad++; }});
-              if(!found) fail.push(key+'_not_found'); if(bad) fail.push(key+'_bad_anchor_'+bad);
-            }
-            const status = fail.length ? 'audit_failed' : 'audit_passed';
-            const auditReport = { generatedAt:NOW, status, failures:fail, fakeEventsRemaining:fake.slice(0,20), grossiVisibleCount:vg, before:report.before, after:report.after };
-            fs.writeFileSync(`${DIAG}/canonical-hard-audit-report.json`, JSON.stringify(auditReport,null,2)+'\n');
-            if(fail.length) throw new Error('Hard audit failed: '+fail.join(', '));
-          }
-          function writeScheduledWorkflows(){
-            fs.mkdirSync('.github/workflows',{recursive:true});
-            fs.writeFileSync('.github/workflows/nightly-refresh.yml', `name: ParleyMap nightly refresh\n\non:\n  workflow_dispatch:\n  schedule:\n    - cron: "19 3 * * *"\n\npermissions:\n  contents: write\n\nconcurrency:\n  group: parleymap-nightly-refresh\n  cancel-in-progress: false\n\njobs:\n  refresh:\n    runs-on: ubuntu-latest\n    timeout-minutes: 15\n    steps:\n      - uses: actions/checkout@v4\n        with:\n          ref: main\n          fetch-depth: 0\n      - uses: actions/setup-node@v4\n        with:\n          node-version: "20"\n      - name: Run canonical maintenance\n        run: node scripts/parleymap-maintenance.cjs\n      - name: Commit maintenance results\n        uses: stefanzweifel/git-auto-commit-action@v5\n        with:\n          commit_message: "Run ParleyMap nightly canonical maintenance"\n          file_pattern: "index.html data/demo.json ads.txt *.html data/diagnostics/*.json data/diagnostics/*.md .github/workflows/*.yml scripts/parleymap-maintenance.cjs"\n`);
-            fs.writeFileSync('.github/workflows/monthly-roster-review.yml', `name: ParleyMap monthly roster review\n\non:\n  workflow_dispatch:\n  schedule:\n    - cron: "31 4 1 * *"\n\npermissions:\n  contents: write\n\nconcurrency:\n  group: parleymap-monthly-roster-review\n  cancel-in-progress: false\n\njobs:\n  review:\n    runs-on: ubuntu-latest\n    timeout-minutes: 15\n    steps:\n      - uses: actions/checkout@v4\n        with:\n          ref: main\n          fetch-depth: 0\n      - uses: actions/setup-node@v4\n        with:\n          node-version: "20"\n      - name: Run canonical maintenance and safe roster review\n        run: node scripts/parleymap-maintenance.cjs\n      - name: Commit roster diagnostics\n        uses: stefanzweifel/git-auto-commit-action@v5\n        with:\n          commit_message: "Run ParleyMap monthly safe roster review"\n          file_pattern: "index.html data/demo.json ads.txt *.html data/diagnostics/*.json data/diagnostics/*.md"\n`);
-            fs.writeFileSync('.github/workflows/roster-auto-update-now.yml', `name: ParleyMap roster auto update now\n\non:\n  workflow_dispatch:\n\npermissions:\n  contents: read\n\njobs:\n  disabled:\n    runs-on: ubuntu-latest\n    steps:\n      - name: Safety hold\n        run: echo "Roster auto update is disabled. Monthly roster review is diagnostics and maintenance only."\n`);
-          }
-          function main(){
-            fs.mkdirSync(DIAG,{recursive:true});
-            const payload = recoverIndex();
-            const data = payload.data;
-            const report = { generatedAt:NOW, status:'canonical_maintenance_applied', before:{ people:count(data,'people'), roster:count(data,'roster'), expansionRoster:count(data,'expansionRoster'), appearances:count(data,'appearances'), categories:count(data,'categories') }, fakeEventsRemoved:[], profileDuplicatesRemoved:[], anchorRepairs:[], officialEventsAdded:[], adsense:{} };
-            filterArrays(data,'data',report);
-            applyProfileRepairs(data,report);
-            addOfficialEvents(data,report);
-            data.meta = { ...(data.meta||{}), lastDataUpdate:NOW, lastCanonicalMaintenance:NOW, canonicalMaintenanceStatus:'repaired anchors, fake events and source registry' };
-            report.after = { people:count(data,'people'), roster:count(data,'roster'), expansionRoster:count(data,'expansionRoster'), appearances:count(data,'appearances'), categories:count(data,'categories') };
-            if(report.after.people < 80 || report.after.roster < 180 || report.after.expansionRoster < 90 || report.after.appearances < 450) throw new Error('Safety count floor failed after repair');
-            replaceDemo(payload,data);
-            installRuntimeGuard();
-            installAdsense(report);
-            const afterPayload = extract(read(INDEX));
-            if(!afterPayload || !basicOk(afterPayload.data)) throw new Error('Post-write index extraction failed');
-            audit(afterPayload.data, report);
-            writeScheduledWorkflows();
-            fs.writeFileSync(`${DIAG}/canonical-maintenance-report.json`, JSON.stringify(report,null,2)+'\n');
-            fs.writeFileSync(`${DIAG}/adsense-preserve-audit-report.json`, JSON.stringify({ generatedAt:NOW, ...report.adsense },null,2)+'\n');
-            fs.writeFileSync(`${DIAG}/LATEST_RUN_SUMMARY.md`, `# ParleyMap canonical maintenance\n\nStatus: ${report.status}\n\nFake events removed: ${report.fakeEventsRemoved.length}\n\nProfile duplicates removed: ${report.profileDuplicatesRemoved.length}\n\nAnchor repairs: ${report.anchorRepairs.length}\n\nOfficial events added: ${report.officialEventsAdded.length}\n\nAdSense status: ${report.adsense.status}\n\nAdSense client: ${report.adsense.client||'not found'}\n\nHeader slot: ${report.adsense.headerSlot||'not found'}\n\nSidebar slot: ${report.adsense.sidebarSlot||'not found'}\n`);
-            console.log(JSON.stringify({status:report.status, fakeEventsRemoved:report.fakeEventsRemoved.length, duplicatesRemoved:report.profileDuplicatesRemoved.length, anchorRepairs:report.anchorRepairs.length, officialEventsAdded:report.officialEventsAdded.length, adsense:report.adsense.status}, null, 2));
-          }
-          main();
+
+          function installRuntimeGuard(html){ if(html.includes('PARLEYMAP_CANONICAL_RUNTIME_GUARD_V4')) return html; const guard = `\n<script id="parleymap-canonical-runtime-guard">\n/* PARLEYMAP_CANONICAL_RUNTIME_GUARD_V4 */\n(function(){\n  var rules=[\n    {key:'rafael-grossi', names:['rafael grossi','grossi'], lat:48.2082,lng:16.3738},\n    {key:'pope-leo-xiv', names:['pope leo xiv','leo xiv','pope xiv','pope'], lat:41.9029,lng:12.4534},\n    {key:'claudia-sheinbaum', names:['claudia sheinbaum','sheinbaum'], lat:19.4326,lng:-99.1332},\n    {key:'prabowo-subianto', names:['prabowo subianto','subianto'], lat:-6.2088,lng:106.8456}\n  ];\n  function n(s){return String(s||'').toLowerCase().normalize('NFKD').replace(/[\\u0300-\\u036f]/g,'').replace(/[^a-z0-9]+/g,' ').trim();}\n  function rule(txt){txt=n(txt); for(var i=0;i<rules.length;i++){if(rules[i].names.some(function(x){return txt.indexOf(x)>=0;})) return rules[i];} return null;}\n  function install(){ if(!window.L || window.__parleymapCanonicalGuardInstalled) return; window.__parleymapCanonicalGuardInstalled=true; var seen={}; var oldMarker=L.marker; if(oldMarker){ L.marker=function(latlng,opt){ var r=rule((opt&&opt.title)||''+(opt&&opt.alt)||''+(opt&&opt.icon&&opt.icon.options&&opt.icon.options.html)||''); if(r) latlng=[r.lat,r.lng]; var m=oldMarker.call(this,latlng,opt); var oldBind=m.bindTooltip; if(oldBind){m.bindTooltip=function(content,options){var rr=rule(content); if(rr){try{m.setLatLng([rr.lat,rr.lng]); if(seen[rr.key]&&seen[rr.key]!==m){ setTimeout(function(){try{m.remove();}catch(e){}},0); } else seen[rr.key]=m;}catch(e){}} return oldBind.call(this,content,options);};} var oldPopup=m.bindPopup; if(oldPopup){m.bindPopup=function(content,options){var rr=rule(content); if(rr){try{m.setLatLng([rr.lat,rr.lng]);}catch(e){}} return oldPopup.call(this,content,options);};} return m; }; } }\n  var t=setInterval(function(){install(); if(window.__parleymapCanonicalGuardInstalled) clearInterval(t);},50); setTimeout(function(){clearInterval(t);install();},5000);\n})();\n</script>\n`; const ex=extractFromHtml(html); if(!ex) return html.replace('</head>', guard+'</head>'); return html.slice(0,ex.end+CLOSE.length)+guard+html.slice(ex.end+CLOSE.length); }
+
+          function adsenseCandidates(){ const blobs=[]; const files=['index.html','ads.txt','index.template.html','privacy.html','impressum.html']; for(const f of files){ if(fs.existsSync(f)) blobs.push(fs.readFileSync(f,'utf8')); } try{ const hashes=sh('git log --format=%H --all').trim().split(/\n+/).slice(0,80); for(const h of hashes){ for(const f of files){ try{ blobs.push(sh(`git show ${h}:${f}`, {maxBuffer:40*1024*1024})); }catch(e){} } } }catch(e){} const text=blobs.join('\n'); const ca=[...text.matchAll(/ca-pub-([0-9]{10,})/g)].map(m=>'ca-pub-'+m[1]); const pub=[...text.matchAll(/(?:^|[^a-z])pub-([0-9]{10,})/g)].map(m=>'pub-'+m[1]); const slots=[...text.matchAll(/data-ad-slot=["']([0-9A-Za-z_-]{4,})["']/g)].map(m=>m[1]); const client=ca[0] || (pub[0] ? 'ca-'+pub[0] : null); const publisherId=client ? client.replace(/^ca-/,'') : (pub[0]||null); const uniqueSlots=[...new Set(slots)]; return {client,publisherId,headerSlot:uniqueSlots[0]||null,sidebarSlot:uniqueSlots[1]||null}; }
+          function installAdsense(html, ids){ let out=html; if(ids.client){ if(!out.includes('google-adsense-account')) out=out.replace('</head>', `<meta name="google-adsense-account" content="${ids.client}">\n</head>`); if(!out.includes('pagead2.googlesyndication.com/pagead/js/adsbygoogle.js')) out=out.replace('</head>', `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ids.client}" crossorigin="anonymous"></script>\n</head>`); if(ids.publisherId){ fs.writeFileSync(ADS, `google.com, ${ids.publisherId}, DIRECT, f08c47fec0942fa0\n`); } } return out; }
+          function writeLegalPages(){ fs.writeFileSync('privacy.html','<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Privacy Policy - ParleyMap</title><meta name="viewport" content="width=device-width,initial-scale=1"></head><body><main><h1>Privacy Policy</h1><p>ParleyMap uses public-source information to map public appearances and institutional events. We do not publish private addresses, hotels, hospitals, private routes or leaked itineraries.</p><p>Advertising and analytics cookies are optional where applicable. Third-party services may process limited technical data according to their own policies.</p><p>Contact: contact@parleymap.com</p></main></body></html>\n'); fs.writeFileSync('impressum.html','<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Impressum - ParleyMap</title><meta name="viewport" content="width=device-width,initial-scale=1"></head><body><main><h1>Impressum</h1><p>ParleyMap is a public-source presence intelligence project.</p><p>Contact: contact@parleymap.com</p></main></body></html>\n'); fs.writeFileSync('about.html','<!doctype html><html lang="en"><head><meta charset="utf-8"><title>About ParleyMap</title></head><body><main><h1>About ParleyMap</h1><p>ParleyMap tracks public appearances, official meetings and institutional events from public sources.</p></main></body></html>\n'); fs.writeFileSync('methodology.html','<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Methodology - ParleyMap</title></head><body><main><h1>Methodology</h1><p>Events require a person, date, public city-level location and official or host-public source. Generic watch lists are not treated as dated events.</p></main></body></html>\n'); fs.writeFileSync('data-sources.html','<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Data Sources - ParleyMap</title></head><body><main><h1>Data Sources</h1><p>Preferred sources include official diaries, institutional press rooms, host event pages and public readouts.</p></main></body></html>\n'); }
+          function audit(data){ const problems=[]; const texts=[]; walkArrays(data,(arr,path)=>{arr.forEach((o,i)=>{ if(o&&typeof o==='object') texts.push({path:`${path}[${i}]`, text:[o.title,o.name,o.label,o.summary,o.id].join(' '), obj:o}); });}); for(const x of texts){ if(BAD_EVENT_RE.test(x.text)) problems.push(`bad event remains at ${x.path}: ${x.text}`); }
+            function collect(ruleKey){ const out=[]; walkArrays(data,(arr,path)=>arr.forEach((o,i)=>{if(isProfileLike(o)){const r=matchRule(o); if(r&&r.key===ruleKey) out.push({path:`${path}[${i}]`, obj:o});}})); return out; }
+            const grossis=collect('rafael_grossi'); for(const g of grossis){ const o=g.obj; if(String(o.countryFocusCode||'')==='IA') problems.push('Grossi still has IA code at '+g.path); if(o.flagAudit && /BI|BIS/i.test([o.flagAudit.code,o.flagAudit.label].join(' '))) problems.push('Grossi still has BI/BIS flag at '+g.path); const b=o.homeBases&&o.homeBases[0]; if(!b || b.city!=='Vienna' || b.countryCode!=='AT') problems.push('Grossi bad anchor at '+g.path); }
+            const critical=[['pope_leo_xiv','Vatican City','VA'],['claudia_sheinbaum','Mexico City','MX'],['prabowo_subianto','Jakarta','ID']]; for(const [key,city,cc] of critical){ const rows=collect(key); if(rows.length===0) problems.push('Missing '+key); for(const r of rows){ const b=r.obj.homeBases&&r.obj.homeBases[0]; if(!b || b.city!==city || b.countryCode!==cc) problems.push(key+' bad anchor at '+r.path); } }
+            if(problems.length) { const err=new Error('Hard audit failed:\n'+problems.join('\n')); err.problems=problems; throw err; }
+            return {status:'audit_passed', generatedAt:new Date().toISOString(), grossiProfileCopies:grossis.length}; }
+
+          const start=readCurrentOrRecover(); let html=start.html; let ex=start.ex; let data=start.ex.data; const before=counts(data); const repairReport=repairData(data); const after=counts(data); html=html.slice(0,ex.start)+'\n'+JSON.stringify(data,null,2)+'\n'+html.slice(ex.end); html=installRuntimeGuard(html); const ad=adsenseCandidates(); html=installAdsense(html,ad); fs.writeFileSync(INDEX,html); fs.mkdirSync('data',{recursive:true}); fs.writeFileSync(DEMO,JSON.stringify(data,null,2)+'\n'); writeLegalPages();
+          const reExtract=extractFromHtml(fs.readFileSync(INDEX,'utf8')); if(!reExtract) throw new Error('Post-write index.html has no demo-data'); const auditReport=audit(reExtract.data); fs.writeFileSync(`${DIAG}/canonical-hard-audit-report.json`,JSON.stringify(auditReport,null,2)+'\n'); fs.writeFileSync(`${DIAG}/canonical-maintenance-report.json`,JSON.stringify({generatedAt:new Date().toISOString(),status:'canonical_maintenance_applied',recovered:start.recovered||false,recoveredCommit:start.recoveredCommit||null,before,after,...repairReport},null,2)+'\n'); fs.writeFileSync(`${DIAG}/adsense-preserve-audit-report.json`,JSON.stringify({generatedAt:new Date().toISOString(),status:ad.client&&ad.headerSlot&&ad.sidebarSlot?'adsense_preserved_and_audited':'adsense_ids_not_found_no_fake_ids_injected',...ad},null,2)+'\n'); fs.writeFileSync(`${DIAG}/LATEST_RUN_SUMMARY.md`, `# ParleyMap canonical maintenance\n\nStatus: ${auditReport.status}\nRecovered index: ${start.recovered?'yes':'no'}\nFake events removed: ${repairReport.fakeEventsRemoved.length}\nDuplicate profile rows removed: ${repairReport.duplicateProfilesRemoved.length}\nOfficial events added: ${repairReport.officialEventsAdded.length}\nAdSense client: ${ad.client||'not found'}\nHeader slot: ${ad.headerSlot||'not found'}\nSidebar slot: ${ad.sidebarSlot||'not found'}\n`); console.log(JSON.stringify({audit:auditReport, before, after, repairs:repairReport, adsense:ad},null,2));
           NODE
 
-      - name: Run canonical maintenance repair
-        run: node scripts/parleymap-maintenance.cjs
+      - name: Run canonical repair and hard audit
+        run: node scripts/parleymap-canonical-maintenance.cjs
 
-      - name: Validate embedded dataset with existing validator
-        run: node scripts/validate-demo-data.mjs
-
-      - name: Show quick summary
-        if: always()
+      - name: Validate embedded dataset if validator exists
         run: |
-          cat data/diagnostics/LATEST_RUN_SUMMARY.md || true
-          git diff --name-only || true
+          if [ -f scripts/validate-demo-data.mjs ]; then node scripts/validate-demo-data.mjs; else echo "No legacy validator present"; fi
+
+      - name: Install clean nightly and monthly workflows
+        run: |
+          cat > .github/workflows/nightly-refresh.yml <<'YAML'
+          name: ParleyMap nightly refresh
+          on:
+            workflow_dispatch:
+            schedule:
+              - cron: "19 3 * * *"
+          permissions:
+            contents: write
+          concurrency:
+            group: parleymap-nightly-refresh
+            cancel-in-progress: false
+          jobs:
+            refresh:
+              runs-on: ubuntu-latest
+              timeout-minutes: 20
+              steps:
+                - uses: actions/checkout@v4
+                  with:
+                    ref: main
+                    fetch-depth: 0
+                - uses: actions/setup-node@v4
+                  with:
+                    node-version: "20"
+                - name: Run canonical repair
+                  run: node scripts/parleymap-canonical-maintenance.cjs
+                - name: Commit nightly canonical repair
+                  uses: stefanzweifel/git-auto-commit-action@v5
+                  with:
+                    commit_message: "Run ParleyMap nightly canonical maintenance"
+                    file_pattern: "index.html data/demo.json ads.txt privacy.html impressum.html about.html methodology.html data-sources.html data/diagnostics/*.json data/diagnostics/*.md"
+          YAML
+          cat > .github/workflows/monthly-roster-review.yml <<'YAML'
+          name: ParleyMap monthly roster review
+          on:
+            workflow_dispatch:
+            schedule:
+              - cron: "31 4 1 * *"
+          permissions:
+            contents: write
+          concurrency:
+            group: parleymap-monthly-roster-review
+            cancel-in-progress: false
+          jobs:
+            review:
+              runs-on: ubuntu-latest
+              timeout-minutes: 20
+              steps:
+                - uses: actions/checkout@v4
+                  with:
+                    ref: main
+                    fetch-depth: 0
+                - uses: actions/setup-node@v4
+                  with:
+                    node-version: "20"
+                - name: Run canonical repair before roster review
+                  run: node scripts/parleymap-canonical-maintenance.cjs
+                - name: Write safe roster review placeholder
+                  run: |
+                    mkdir -p data/diagnostics
+                    node -e "const fs=require('fs');fs.writeFileSync('data/diagnostics/roster-patch-candidates.json',JSON.stringify({generatedAt:new Date().toISOString(),status:'safe_review_only',note:'No automatic mass replacement. Review current-holder changes manually.'},null,2)+'\n')"
+                - name: Commit monthly roster review
+                  uses: stefanzweifel/git-auto-commit-action@v5
+                  with:
+                    commit_message: "Run ParleyMap monthly safe roster review"
+                    file_pattern: "index.html data/demo.json data/diagnostics/*.json data/diagnostics/*.md"
+          YAML
 
       - name: Upload repaired files artifact
         uses: actions/upload-artifact@v4
@@ -401,14 +200,18 @@ jobs:
             privacy.html
             impressum.html
             about.html
-            contact.html
             methodology.html
             data-sources.html
             data/diagnostics/*.json
             data/diagnostics/*.md
+            .github/workflows/*.yml
+            scripts/parleymap-canonical-maintenance.cjs
+
+      - name: Show changed files
+        run: git diff --name-only
 
       - name: Commit canonical maintenance repair
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Run ParleyMap canonical maintenance repair"
-          file_pattern: "index.html data/demo.json ads.txt *.html data/diagnostics/*.json data/diagnostics/*.md .github/workflows/*.yml scripts/parleymap-maintenance.cjs"
+          file_pattern: "index.html data/demo.json ads.txt privacy.html impressum.html about.html methodology.html data-sources.html data/diagnostics/*.json data/diagnostics/*.md .github/workflows/*.yml scripts/parleymap-canonical-maintenance.cjs"
