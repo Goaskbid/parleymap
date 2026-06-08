@@ -1,7 +1,13 @@
 {
-  "generatedAt": "2026-06-07T07:14:03.568Z",
-  "status": "safe_no_invented_events",
-  "note": "This replacement nightly refresh deliberately does not create generic watch/index cards. Official-source ingestion should be added only through validated candidate files.",
-  "candidates": 0,
-  "publishable": 0
+  "generatedAt": "2026-06-08T08:23:09.213Z",
+  "status": "safe_official_seed_refresh_only",
+  "note": "This refresh does not create generic watch cards. Canonical repair handles official event insertion and hard audits.",
+  "officialSeedEventsAvailable": 0,
+  "blockedSyntheticEventTypes": [
+    "IAEA nuclear diplomacy watch",
+    "City of London finance diplomacy watch",
+    "Think-tank leadership events watch",
+    "Royal diaries and state-visit watch",
+    "generic source-watch cards"
+  ]
 }
