@@ -3,16 +3,24 @@ name: ParleyMap data validation
 on:
   workflow_dispatch:
     inputs:
+      require_adsense_ready:
+        description: "Fail if AdSense IDs cannot be recovered"
+        required: true
+        default: "false"
+        type: choice
+        options:
+          - "false"
+          - "true"
       publisher_id:
         description: "Optional AdSense publisher ID, ca-pub-... or pub-..."
         required: false
         default: ""
       header_slot_id:
-        description: "Optional existing AdSense header ad slot ID"
+        description: "Optional header ad unit slot ID"
         required: false
         default: ""
       sidebar_slot_id:
-        description: "Optional existing AdSense sidebar ad slot ID"
+        description: "Optional sidebar ad unit slot ID"
         required: false
         default: ""
 
@@ -20,15 +28,15 @@ permissions:
   contents: write
 
 concurrency:
-  group: parleymap-data-validation-rescue
+  group: parleymap-canonical-rescue
   cancel-in-progress: false
 
 jobs:
-  validate:
+  rescue:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - name: Checkout repository with history
+      - name: Checkout full repository history
         uses: actions/checkout@v4
         with:
           ref: main
@@ -39,53 +47,44 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Run institutional rescue, event audit, and AdSense preservation
-        run: node scripts/parleymap-institutional-rescue.cjs
+      - name: Run canonical source-of-truth repair and hard audit
         env:
-          PUBLISHER_ID: ${{ github.event.inputs.publisher_id }}
-          HEADER_SLOT_ID: ${{ github.event.inputs.header_slot_id }}
-          SIDEBAR_SLOT_ID: ${{ github.event.inputs.sidebar_slot_id }}
+          REQUIRE_ADSENSE_READY: ${{ inputs.require_adsense_ready }}
+          ADSENSE_PUBLISHER_ID: ${{ inputs.publisher_id }}
+          ADSENSE_HEADER_SLOT_ID: ${{ inputs.header_slot_id }}
+          ADSENSE_SIDEBAR_SLOT_ID: ${{ inputs.sidebar_slot_id }}
+        run: node scripts/parleymap-canonical-rescue.cjs
 
-      - name: Validate embedded dataset if validator exists
-        run: |
-          if [ -f scripts/validate-demo-data.mjs ]; then
-            node scripts/validate-demo-data.mjs
-          else
-            echo "No legacy validator present; institutional rescue already ran hard audit."
-          fi
+      - name: Run safe roster review diagnostics
+        run: node scripts/parleymap-safe-roster-review.cjs
 
-      - name: Add summary to workflow page
+      - name: Show summary
         if: always()
         run: |
           if [ -f data/diagnostics/LATEST_RUN_SUMMARY.md ]; then
             cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
+            cat data/diagnostics/LATEST_RUN_SUMMARY.md
           fi
 
       - name: Upload repaired files and diagnostics
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: parleymap-institutional-rescue-files
+          name: parleymap-canonical-rescue-files
           path: |
             index.html
             ads.txt
+            data/demo.json
             privacy.html
             impressum.html
-            contact.html
             about.html
+            contact.html
             methodology.html
             data-sources.html
-            data/demo.json
-            data/source-registry.json
-            data/diagnostics/*.json
-            data/diagnostics/*.md
-            data/crawler/*.json
+            data/diagnostics/*
 
-      - name: Show changed files
-        run: git diff --name-only
-
-      - name: Commit institutional rescue
+      - name: Commit canonical repair
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Repair ParleyMap institutional anchors and events"
-          file_pattern: "index.html ads.txt privacy.html impressum.html contact.html about.html methodology.html data-sources.html data/demo.json data/source-registry.json data/crawler/*.json data/diagnostics/*.json data/diagnostics/*.md"
+          commit_message: "Repair ParleyMap canonical data and AdSense surface"
+          file_pattern: "index.html ads.txt data/demo.json privacy.html impressum.html about.html contact.html methodology.html data-sources.html data/diagnostics/*"

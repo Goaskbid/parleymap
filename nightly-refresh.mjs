@@ -1,59 +1,29 @@
-name: ParleyMap monthly roster review
+import fs from 'node:fs';
 
-on:
-  workflow_dispatch:
-  schedule:
-    - cron: "31 4 1 * *"
+fs.mkdirSync('data/crawler', { recursive: true });
+const now = new Date().toISOString();
+const seedsPath = 'data/official-event-seeds.json';
+let seeds = [];
+if (fs.existsSync(seedsPath)) {
+  const parsed = JSON.parse(fs.readFileSync(seedsPath, 'utf8'));
+  seeds = Array.isArray(parsed.events) ? parsed.events : [];
+}
 
-permissions:
-  contents: write
+const report = {
+  generatedAt: now,
+  status: 'safe_official_seed_refresh_only',
+  note: 'This refresh does not create generic watch cards. Canonical repair handles official event insertion and hard audits.',
+  officialSeedEventsAvailable: seeds.length,
+  blockedSyntheticEventTypes: [
+    'IAEA nuclear diplomacy watch',
+    'City of London finance diplomacy watch',
+    'Think-tank leadership events watch',
+    'Royal diaries and state-visit watch',
+    'generic source-watch cards'
+  ]
+};
 
-concurrency:
-  group: parleymap-monthly-roster-review
-  cancel-in-progress: false
-
-jobs:
-  review:
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    steps:
-      - name: Checkout repository with history
-        uses: actions/checkout@v4
-        with:
-          ref: main
-          fetch-depth: 0
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-
-      - name: Stabilize anchors before roster review
-        run: node scripts/parleymap-institutional-rescue.cjs
-
-      - name: Run safe roster review diagnostics
-        run: node scripts/parleymap-safe-roster-review.cjs
-
-      - name: Add summary to workflow page
-        if: always()
-        run: |
-          if [ -f data/diagnostics/LATEST_RUN_SUMMARY.md ]; then
-            cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
-          fi
-
-      - name: Upload roster review files
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: parleymap-monthly-roster-files
-          path: |
-            index.html
-            data/demo.json
-            data/diagnostics/*.json
-            data/diagnostics/*.md
-
-      - name: Commit roster review diagnostics
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "Review ParleyMap roster safely"
-          file_pattern: "index.html data/demo.json data/diagnostics/*.json data/diagnostics/*.md"
+fs.writeFileSync('data/crawler/crawl-report.json', JSON.stringify(report, null, 2) + '\n');
+fs.writeFileSync('data/crawler/candidate-appearances.json', '[]\n');
+fs.writeFileSync('data/crawler/publishable-appearances.json', '[]\n');
+console.log(JSON.stringify(report, null, 2));

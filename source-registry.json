@@ -1,24 +1,34 @@
 {
+  "version": "2026-06-08-final-architecture",
+  "principle": "Only official or host-public pages that identify a person, date, city and event are publishable. Generic watch, homepage, profile, FAQ, programme or topic pages are rejected.",
   "officialDomains": [
-    "iaea.org",
-    "vatican.va",
-    "royal.uk",
-    "gov.uk",
-    "whitehouse.gov",
-    "gob.mx",
-    "presidenri.go.id",
-    "elysee.fr",
-    "nato.int",
-    "un.org",
-    "consilium.europa.eu",
-    "commission.europa.eu"
+    "vatican.va", "press.vatican.va", "vaticannews.va",
+    "iaea.org", "royal.uk",
+    "whitehouse.gov", "state.gov", "gov.uk", "elysee.fr", "bundesregierung.de",
+    "nato.int", "un.org", "consilium.europa.eu", "commission.europa.eu",
+    "worldbank.org", "imf.org", "mfa.gov.cn", "mfa.gov.tr", "pm.gc.ca"
   ],
-  "publicationRule": "Publish only records with person, date, city, event title and official or host-public sourcePack. Never publish generic watch cards.",
-  "sitemaps": [
-    { "label": "IAEA Director General", "url": "https://www.iaea.org/about/rafael-mariano-grossi", "type": "official_profile" },
-    { "label": "IAEA Statements", "url": "https://www.iaea.org/newscenter/statements", "type": "official_statements" },
-    { "label": "Vatican Leo XIV travels", "url": "https://www.vatican.va/content/leo-xiv/en/travels.html", "type": "official_travels" },
-    { "label": "Royal Family future engagements", "url": "https://www.royal.uk/media-centre/future-engagements", "type": "official_diary" },
-    { "label": "Royal Family news", "url": "https://www.royal.uk/news-and-activity", "type": "official_news" }
+  "sourceAdapters": [
+    {
+      "id": "vatican_travel",
+      "domains": ["vatican.va", "press.vatican.va"],
+      "accept": "Papal travel pages and Holy See Press Office bulletins with explicit date, city and itinerary item.",
+      "reject": "Generic Vatican profile pages or news indexes without an itinerary row."
+    },
+    {
+      "id": "iaea_grossi",
+      "domains": ["iaea.org"],
+      "accept": "IAEA statements, official visits and Board of Governors pages naming Rafael Grossi with date and city.",
+      "reject": "IAEA topic pages, nuclear diplomacy watch pages or institution homepages."
+    },
+    {
+      "id": "royal_family",
+      "domains": ["royal.uk"],
+      "accept": "Royal Family future engagements, Court Circular and activity pages naming a royal, date and place.",
+      "reject": "Generic Royal diary index pages without a person-specific event."
+    }
+  ],
+  "blockedEventTitlePatterns": [
+    "source watch", "events watch", "iaea nuclear diplomacy watch", "city of london finance diplomacy watch", "think-tank leadership events watch", "royal diaries and state-visit watch", "homepage", "faq", "fact sheet", "programme", "profile"
   ]
 }

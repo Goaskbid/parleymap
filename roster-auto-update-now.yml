@@ -7,15 +7,15 @@ permissions:
   contents: write
 
 concurrency:
-  group: parleymap-roster-auto-update
+  group: parleymap-roster-auto-update-now
   cancel-in-progress: false
 
 jobs:
-  guarded-review:
+  safe-review-only:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - name: Checkout repository with history
+      - name: Checkout full repository history
         uses: actions/checkout@v4
         with:
           ref: main
@@ -26,25 +26,35 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Stabilize anchors and data first
-        run: node scripts/parleymap-institutional-rescue.cjs
+      - name: Canonical repair
+        env:
+          REQUIRE_ADSENSE_READY: "false"
+        run: node scripts/parleymap-canonical-rescue.cjs
 
-      - name: Run safe roster review only
+      - name: Safe roster review diagnostics
         run: node scripts/parleymap-safe-roster-review.cjs
 
-      - name: Upload safe roster review files
+      - name: Show summary
+        if: always()
+        run: |
+          if [ -f data/diagnostics/LATEST_RUN_SUMMARY.md ]; then
+            cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
+            cat data/diagnostics/LATEST_RUN_SUMMARY.md
+          fi
+
+      - name: Upload roster review files
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: parleymap-roster-safe-review-files
           path: |
             index.html
+            ads.txt
             data/demo.json
-            data/diagnostics/*.json
-            data/diagnostics/*.md
+            data/diagnostics/*
 
-      - name: Commit safe roster diagnostics
+      - name: Commit safe roster review
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Run guarded ParleyMap roster review"
-          file_pattern: "index.html data/demo.json data/diagnostics/*.json data/diagnostics/*.md"
+          commit_message: "Run ParleyMap safe roster review"
+          file_pattern: "index.html ads.txt data/demo.json data/diagnostics/* privacy.html impressum.html about.html contact.html methodology.html data-sources.html"

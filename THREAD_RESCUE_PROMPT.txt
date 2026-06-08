@@ -1,35 +1,19 @@
-ParleyMap rescue state and intended fix
+The ParleyMap repo had three intertwined failures:
+1. index.html could be crawler-visible as a one-line manifest, while the real app data lived in embedded demo-data or data/demo.json.
+2. data/demo.json contained duplicate visible profile rows, especially Rafael Grossi, and fake dated source-watch cards such as IAEA nuclear diplomacy watch and City of London finance diplomacy watch.
+3. AdSense was not crawler-visible because ads.txt and raw ad markers could be missing from the public surface.
 
-Repo: github.com/Goaskbid/parleymap
-Live site: parleymap.com
+The final architecture package treats index.html demo-data as source of truth when present, restores a safe full shell from git history when index.html is thin, repairs the canonical dataset globally, writes back only the demo-data block, mirrors to data/demo.json, preserves AdSense IDs from current files or git history, and writes hard audit reports.
 
-Core failure class:
-1. index.html on main became crawler-visible as a thin one-line file.
-2. data/demo.json still holds the full dataset but contains duplicate visible Rafael Grossi rows, wrong institution/country anchor fields, wrong flagAudit values, fake dated watch cards, and missing images.
-3. Previous repairs patched only some profile rows. The visible map can render from roster, expansionRoster, topRoster, event-like rows and Leaflet runtime markers, so a single-row repair was insufficient.
-4. AdSense cannot be trusted unless index.html is crawlable, ads.txt exists, and the real ca-pub plus two data-ad-slot values are present or recoverable.
-
-The final package installs:
-- .github/workflows/data-validate.yml
-- .github/workflows/nightly-refresh.yml
-- .github/workflows/monthly-roster-review.yml
-- .github/workflows/roster-auto-update-now.yml
-- scripts/parleymap-institutional-rescue.cjs
+Key files:
+- scripts/parleymap-canonical-rescue.cjs
 - scripts/parleymap-safe-roster-review.cjs
 - data/curated-anchors.json
 - data/official-event-seeds.json
-- nightly-refresh.mjs
+- data/source-registry.json
+- .github/workflows/data-validate.yml
+- .github/workflows/nightly-refresh.yml
+- .github/workflows/monthly-roster-review.yml
 
-First run:
-Actions > ParleyMap data validation > Run workflow
-
-What the script does:
-- Restores a full safe index.html from git history if current index.html is thin.
-- Repairs only the embedded demo-data script block.
-- Repairs profile anchors and images for Rafael Grossi, Pope Leo XIV, Claudia Sheinbaum, Prabowo Subianto, King Charles III, Mohammed bin Salman and key institutions.
-- Removes fake dated watch rows.
-- Removes duplicate visible profile rows from expansion-like collections, especially Rafael Grossi.
-- Adds official-source event seeds for IAEA, Vatican and royal public appearances.
-- Installs a runtime Leaflet marker guard to reposition and dedupe named markers.
-- Preserves AdSense IDs if found in current files or git history and writes ads.txt.
-- Writes diagnostics and fails if hard audit fails.
+Run first: Actions > ParleyMap data validation > Run workflow.
+Check: data/diagnostics/canonical-hard-audit-report.json must contain status audit_passed.

@@ -13,11 +13,11 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  review:
+  monthly-roster-review:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - name: Checkout repository with history
+      - name: Checkout full repository history
         uses: actions/checkout@v4
         with:
           ref: main
@@ -28,32 +28,35 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Stabilize anchors before roster review
-        run: node scripts/parleymap-institutional-rescue.cjs
+      - name: Canonical repair before roster review
+        env:
+          REQUIRE_ADSENSE_READY: "false"
+        run: node scripts/parleymap-canonical-rescue.cjs
 
-      - name: Run safe roster review diagnostics
+      - name: Safe roster review diagnostics
         run: node scripts/parleymap-safe-roster-review.cjs
 
-      - name: Add summary to workflow page
+      - name: Show summary
         if: always()
         run: |
           if [ -f data/diagnostics/LATEST_RUN_SUMMARY.md ]; then
             cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
+            cat data/diagnostics/LATEST_RUN_SUMMARY.md
           fi
 
       - name: Upload roster review files
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: parleymap-monthly-roster-files
+          name: parleymap-monthly-roster-review-files
           path: |
             index.html
+            ads.txt
             data/demo.json
-            data/diagnostics/*.json
-            data/diagnostics/*.md
+            data/diagnostics/*
 
-      - name: Commit roster review diagnostics
+      - name: Commit monthly roster review
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Review ParleyMap roster safely"
-          file_pattern: "index.html data/demo.json data/diagnostics/*.json data/diagnostics/*.md"
+          commit_message: "Run ParleyMap monthly safe roster review"
+          file_pattern: "index.html ads.txt data/demo.json data/diagnostics/* privacy.html impressum.html about.html contact.html methodology.html data-sources.html"
