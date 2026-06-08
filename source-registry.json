@@ -1,6 +1,6 @@
 {
-  "version": "final-working-2026-06-08",
-  "policy": "Official or host-public sources only. Generic source-watch pages are not publishable events.",
+  "version": "2026-06-08-source-registry",
+  "policy": "Use official or host-public sources only for publishable events. Reject generic watch/index/profile/FAQ/programme pages unless they contain a person, date, city, specific public event and official source.",
   "officialDomains": [
     "vatican.va",
     "press.vatican.va",
@@ -18,27 +18,39 @@
     "imf.org",
     "elysee.fr"
   ],
-  "adapters": [
+  "sourceAdapters": [
     {
-      "name": "vatican-travel",
-      "domains": ["vatican.va", "press.vatican.va"],
-      "accept": ["/travels/", "Apostolic Journey", "itinerary"],
-      "reject": ["homepage", "generic profile", "media index"],
-      "requires": ["person", "date", "city", "official source"]
+      "id": "vatican_travels",
+      "domain": "vatican.va",
+      "acceptUrlContains": ["/travels/"],
+      "rejectTitleContains": ["home", "profile", "biography", "faq", "programme watch"],
+      "requires": ["person", "date", "city", "official_source"]
     },
     {
-      "name": "iaea-statements",
-      "domains": ["iaea.org"],
-      "accept": ["/newscenter/statements/", "/newscenter/pressreleases/", "Rafael Grossi"],
-      "reject": ["topic page", "profile page", "watch card"],
-      "requires": ["person", "date", "city", "official source"]
+      "id": "iaea_statements",
+      "domain": "iaea.org",
+      "acceptUrlContains": ["/newscenter/statements/", "/newscenter/pressreleases/"],
+      "rejectTitleContains": ["topic", "profile", "watch", "homepage"],
+      "requires": ["Rafael Grossi", "date", "city_or_headquarters", "official_source"]
     },
     {
-      "name": "royal-engagements",
-      "domains": ["royal.uk"],
-      "accept": ["/news-and-activity/", "future engagements", "Court Circular"],
-      "reject": ["generic royal diary watch", "homepage"],
-      "requires": ["named royal", "date", "place", "official source"]
+      "id": "royal_engagements",
+      "domain": "royal.uk",
+      "acceptUrlContains": ["/news-and-activity/", "/media-centre/future-engagements"],
+      "rejectTitleContains": ["watch", "homepage", "generic diary"],
+      "requires": ["named_royal", "date", "place", "official_source"]
     }
+  ],
+  "blockedEventTitlePatterns": [
+    "IAEA nuclear diplomacy watch",
+    "City of London finance diplomacy watch",
+    "Think-tank leadership events watch",
+    "Royal diaries and state-visit watch",
+    "source-watch",
+    "homepage",
+    "FAQ",
+    "fact sheet",
+    "profile",
+    "programme"
   ]
 }

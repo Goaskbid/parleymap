@@ -22,34 +22,21 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Canonical repair
-        run: node scripts/parleymap-canonical-rescue.cjs
-        env:
-          REQUIRE_ADSENSE_READY: "false"
-
-      - name: Safe current-holder roster review diagnostics
+      - name: Run safe roster review only
         run: node scripts/parleymap-safe-roster-review.cjs
 
-      - name: Add run summary
-        if: always()
-        run: |
-          if [ -f data/diagnostics/LATEST_RUN_SUMMARY.md ]; then
-            cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
-          fi
-
-      - name: Upload roster review files
+      - name: Upload roster review diagnostics
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: parleymap-roster-review-files
+          name: parleymap-safe-roster-review-files
           path: |
-            index.html
-            data/demo.json
-            data/diagnostics/*.json
-            data/diagnostics/*.md
+            data/diagnostics/roster-safe-review.json
+            data/diagnostics/roster-patch-candidates.json
+            data/diagnostics/LATEST_RUN_SUMMARY.md
 
-      - name: Commit safe roster review diagnostics
+      - name: Commit safe roster diagnostics
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Review ParleyMap roster safely"
-          file_pattern: "index.html data/demo.json data/diagnostics/*.json data/diagnostics/*.md"
+          file_pattern: "data/diagnostics/roster-safe-review.json data/diagnostics/roster-patch-candidates.json data/diagnostics/LATEST_RUN_SUMMARY.md"

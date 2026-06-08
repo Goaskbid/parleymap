@@ -1,94 +1,26 @@
-ParleyMap final working fix
-===========================
+ParleyMap rescue context
 
-Purpose
--------
-This package repairs the actual source chain:
+The live app dataset is embedded in index.html inside:
+<script id="demo-data" type="application/json"> ... </script>
 
-1. Extract demo-data from checked-out index.html.
-2. Repair that extracted object in memory.
-3. Audit the repaired object.
-4. Write it back only into the same demo-data script block.
-5. Mirror the repaired object to data/demo.json only after the index audit passes.
+Fixes must not blindly inject data/demo.json into index.html. The correct path is:
+1. checkout repo with git history
+2. read checked-out index.html
+3. extract demo-data JSON
+4. repair the extracted object in memory
+5. hard-audit the repaired object
+6. write back only into the same demo-data script block
+7. sync data/demo.json from repaired index.html
+8. hard-audit index.html after write
+9. commit only if audits pass
 
-It does not blindly inject data/demo.json into index.html.
+Known structural failures:
+- Rafael Grossi duplicated across visible/helper collections and contaminated by IA/BIS metadata.
+- Pope Leo XIV, Claudia Sheinbaum and Prabowo Subianto have wrong institutional anchors or wrong flag fallback fields in some copies.
+- Fake dated watch cards remain: IAEA nuclear diplomacy watch, City of London finance diplomacy watch, Think-tank leadership events watch, Royal diaries and state-visit watch.
+- nightly-refresh.mjs had been corrupted before and must be a safe wrapper, not YAML or audit text.
+- source-registry must include Vatican, IAEA and Royal Family official sources.
+- AdSense IDs must be preserved from current files or git history; no dummy IDs.
 
-What it fixes
--------------
-- Rafael Grossi duplicate helper rows.
-- Rafael Grossi institutional anchor and flag contamination.
-- Pope Leo XIV institutional anchor.
-- Claudia Sheinbaum institutional anchor and flag contamination.
-- Prabowo Subianto institutional anchor.
-- Non-event watch cards with dates, including IAEA, City of London, think-tank and royal diary watch cards.
-- Missing ads.txt when AdSense IDs are recoverable from current files or git history.
-- Missing AdSense meta, loader and slot runtime installer when recoverable IDs exist.
-- Broken privacy and impressum pages.
-- Collapsed or unreliable workflow YAML files.
-
-How to upload
--------------
-Extract this ZIP.
-Upload the contents of the folder parleymap_final_working to the repository root.
-Do not upload the parent folder itself.
-
-You should see these paths in the GitHub upload list:
-
-.github/workflows/data-validate.yml
-.github/workflows/nightly-refresh.yml
-.github/workflows/monthly-roster-review.yml
-.github/workflows/roster-auto-update-now.yml
-scripts/parleymap-canonical-rescue.cjs
-scripts/parleymap-safe-roster-review.cjs
-data/curated-anchors.json
-data/official-event-seeds.json
-data/source-registry.json
-nightly-refresh.mjs
-
-Commit message:
-Install ParleyMap canonical rescue
-
-First run
----------
-Run the existing workflow:
-
+Expected first action after upload:
 Actions > ParleyMap data validation > Run workflow
-
-First run settings:
-- require_adsense_ready: false
-- publisher_id: blank
-- header_slot_id: blank
-- sidebar_slot_id: blank
-
-The script will recover existing AdSense IDs from current files and git history. It will not invent fake IDs.
-
-If the AdSense report says IDs were not found, rerun the same workflow with the real publisher ID and two real slot IDs.
-
-Expected reports
-----------------
-Open these after the run:
-
-data/diagnostics/canonical-hard-audit-report.json
-data/diagnostics/canonical-rescue-report.json
-data/diagnostics/adsense-preserve-audit-report.json
-data/diagnostics/LATEST_RUN_SUMMARY.md
-
-Required success:
-canonical-hard-audit-report.json -> status: audit_passed
-canonical-rescue-report.json -> status: canonical_rescue_applied
-
-AdSense success:
-adsense-preserve-audit-report.json -> status: adsense_preserved_and_audited
-
-The AdSense report names:
-- client
-- publisherId
-- headerSlot
-- sidebarSlot
-
-Daily and monthly
------------------
-Nightly runs daily at 03:19 UTC.
-Monthly roster review runs on day 1 at 04:31 UTC.
-
-The monthly roster process is review-only. It does not mass-replace people. This prevents the historical-holder pollution failure.

@@ -28,27 +28,20 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Canonical repair before roster review
-        run: node scripts/parleymap-canonical-rescue.cjs
-        env:
-          REQUIRE_ADSENSE_READY: "false"
+      - name: Repair canonical data before roster review
+        run: node scripts/parleymap-canonical-governor.cjs repair --require-adsense-ready false
 
-      - name: Safe current-holder roster review diagnostics
+      - name: Run safe current-holder roster review
         run: node scripts/parleymap-safe-roster-review.cjs
 
-      - name: Canonical repair after roster review
-        run: node scripts/parleymap-canonical-rescue.cjs
-        env:
-          REQUIRE_ADSENSE_READY: "false"
-
-      - name: Add run summary
+      - name: Append summary
         if: always()
         run: |
           if [ -f data/diagnostics/LATEST_RUN_SUMMARY.md ]; then
             cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
           fi
 
-      - name: Upload monthly roster files
+      - name: Upload monthly roster diagnostics
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -59,8 +52,8 @@ jobs:
             data/diagnostics/*.json
             data/diagnostics/*.md
 
-      - name: Commit monthly roster diagnostics and repairs
+      - name: Commit monthly roster review
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Review ParleyMap roster safely"
+          commit_message: "Review ParleyMap roster and canonical data"
           file_pattern: "index.html data/demo.json data/diagnostics/*.json data/diagnostics/*.md"

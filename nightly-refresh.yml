@@ -28,54 +28,34 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Pre-refresh canonical repair and hard audit
-        run: node scripts/parleymap-canonical-rescue.cjs
-        env:
-          REQUIRE_ADSENSE_READY: "false"
+      - name: Run safe nightly canonical refresh
+        run: node nightly-refresh.mjs
 
-      - name: Run safe official-source refresh if available
-        run: |
-          if [ -f nightly-refresh.mjs ]; then
-            timeout 8m node nightly-refresh.mjs || echo "nightly-refresh.mjs ended non-zero; canonical audit still protects publish."
-          else
-            echo "No nightly-refresh.mjs present. Skipping crawler."
-          fi
-        env:
-          PARLEYMAP_FETCH_TIMEOUT_MS: "3000"
-
-      - name: Post-refresh canonical repair and hard audit
-        run: node scripts/parleymap-canonical-rescue.cjs
-        env:
-          REQUIRE_ADSENSE_READY: "false"
-
-      - name: Validate embedded dataset with existing validator when present
-        run: |
-          if [ -f scripts/validate-demo-data.mjs ]; then
-            node scripts/validate-demo-data.mjs
-          fi
-
-      - name: Add run summary
+      - name: Append summary
         if: always()
         run: |
           if [ -f data/diagnostics/LATEST_RUN_SUMMARY.md ]; then
             cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
           fi
 
-      - name: Upload nightly files and diagnostics
+      - name: Show changed files
+        if: always()
+        run: git diff --name-only || true
+
+      - name: Upload nightly diagnostics
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: parleymap-nightly-files
+          name: parleymap-nightly-canonical-files
           path: |
             index.html
             ads.txt
             data/demo.json
-            data/crawler/*.json
             data/diagnostics/*.json
             data/diagnostics/*.md
 
-      - name: Commit nightly repaired data
+      - name: Commit nightly canonical refresh
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Refresh ParleyMap canonical data"
-          file_pattern: "index.html ads.txt privacy.html impressum.html about.html contact.html methodology.html data-sources.html data/demo.json data/crawler/*.json data/diagnostics/*.json data/diagnostics/*.md"
+          file_pattern: "index.html ads.txt data/demo.json data/diagnostics/*.json data/diagnostics/*.md"

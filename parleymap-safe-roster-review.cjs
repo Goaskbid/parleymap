@@ -1,153 +1,161 @@
 #!/usr/bin/env node
 'use strict';
 
-const fs = require('node:fs');
-const DIAG_DIR = 'data/diagnostics';
-const REVIEW_PATH = `${DIAG_DIR}/roster-current-holder-review.json`;
-const PATCH_PATH = `${DIAG_DIR}/roster-patch-candidates.json`;
+const fs = require('fs');
 
-function norm(v) {
-  return String(v || '').toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
+const INDEX_PATH = 'index.html';
+const REVIEW_PATH = 'data/diagnostics/roster-safe-review.json';
+const PATCH_PATH = 'data/diagnostics/roster-patch-candidates.json';
+const SUMMARY_PATH = 'data/diagnostics/LATEST_RUN_SUMMARY.md';
+const DEMO_SCRIPT_RE = /<script\b(?=[^>]*\bid=["']demo-data["'])(?=[^>]*\btype=["']application\/json["'])[^>]*>([\s\S]*?)<\/script>/i;
+
+const TARGETS = [
+  { code: 'US', name: 'United States', qid: 'Q30' },
+  { code: 'MX', name: 'Mexico', qid: 'Q96' },
+  { code: 'ID', name: 'Indonesia', qid: 'Q252' },
+  { code: 'FR', name: 'France', qid: 'Q142' },
+  { code: 'GB', name: 'United Kingdom', qid: 'Q145' },
+  { code: 'DE', name: 'Germany', qid: 'Q183' },
+  { code: 'IT', name: 'Italy', qid: 'Q38' },
+  { code: 'ES', name: 'Spain', qid: 'Q29' },
+  { code: 'CA', name: 'Canada', qid: 'Q16' },
+  { code: 'BR', name: 'Brazil', qid: 'Q155' },
+  { code: 'IN', name: 'India', qid: 'Q668' },
+  { code: 'JP', name: 'Japan', qid: 'Q17' },
+  { code: 'AU', name: 'Australia', qid: 'Q408' },
+  { code: 'SA', name: 'Saudi Arabia', qid: 'Q851' },
+  { code: 'AE', name: 'United Arab Emirates', qid: 'Q878' },
+  { code: 'QA', name: 'Qatar', qid: 'Q846' },
+  { code: 'TR', name: 'Turkey', qid: 'Q43' }
+];
+
+function ensureDir(filePath) { fs.mkdirSync(require('path').dirname(filePath), { recursive: true }); }
+function norm(value) { return String(value || '').toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, ' ').trim(); }
+
+function extractData() {
+  const html = fs.readFileSync(INDEX_PATH, 'utf8');
+  const match = html.match(DEMO_SCRIPT_RE);
+  if (!match) throw new Error('demo-data not found in index.html');
+  return JSON.parse(match[1]);
 }
 
-function readDataset() {
-  const html = fs.readFileSync('index.html', 'utf8');
-  const m = html.match(/<script\b[^>]*\bid=["']demo-data["'][^>]*>([\s\S]*?)<\/script>/i);
-  if (!m) throw new Error('demo-data block not found in index.html');
-  return JSON.parse(m[1].trim());
+function allRows(data) {
+  return ['people', 'roster', 'topRoster', 'expansionRoster'].flatMap((key) => Array.isArray(data[key]) ? data[key].map((row) => ({ collection: key, row })) : []);
 }
 
-function validate(data) {
-  for (const key of ['people', 'roster', 'expansionRoster', 'appearances', 'categories']) {
-    if (!Array.isArray(data[key])) throw new Error(`${key} must be an array`);
-  }
-  if (data.people.length > 115) throw new Error(`unsafe people count ${data.people.length}. Review required before roster mutation.`);
-}
+function countryCode(row) { return String(row.countryFocusCode || row.countryFocus || row.countryCode || '').toUpperCase(); }
+function rowName(row) { return row.canonicalName || row.name || row.wikiTitle || ''; }
+function roleText(row) { return norm([row.roleTitle, row.organization, row.profileLine, row.category].join(' ')); }
+function leaderLike(row) { return /president|prime minister|chancellor|king|queen|monarch|emir|pope|head of state|head of government/.test(roleText(row)); }
 
 async function fetchEntity(qid) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), 8000);
   try {
-    const res = await fetch(`https://www.wikidata.org/wiki/Special:EntityData/${qid}.json`, {
-      signal: controller.signal,
-      headers: { 'user-agent': 'ParleyMap safe roster review diagnostics' }
-    });
+    const res = await fetch(`https://www.wikidata.org/wiki/Special:EntityData/${qid}.json`, { signal: controller.signal, headers: { 'user-agent': 'ParleyMap safe roster review' } });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const json = await res.json();
-    return json.entities && json.entities[qid];
-  } finally {
-    clearTimeout(timer);
-  }
+    return json.entities?.[qid] || null;
+  } finally { clearTimeout(timer); }
 }
 
-function label(entity) {
-  return entity?.labels?.en?.value || entity?.labels?.mul?.value || '';
+function label(entity) { return entity?.labels?.en?.value || entity?.labels?.mul?.value || ''; }
+function activeClaimTargets(entity, property) {
+  const claims = entity?.claims?.[property] || [];
+  return claims.filter((claim) => {
+    const rank = claim.rank || 'normal';
+    if (rank === 'deprecated') return false;
+    const qualifiers = claim.qualifiers || {};
+    if (qualifiers.P582 && qualifiers.P582.length) return false; // end date present
+    return true;
+  }).map((claim) => claim?.mainsnak?.datavalue?.value?.id).filter(Boolean);
 }
 
-function activeClaimTargets(entity, prop) {
-  const claims = entity?.claims?.[prop] || [];
-  return claims
-    .filter((claim) => {
-      const qualifiers = claim.qualifiers || {};
-      if (qualifiers.P582 && qualifiers.P582.length) return false;
-      if (claim.rank === 'deprecated') return false;
-      return true;
-    })
-    .map((claim) => claim?.mainsnak?.datavalue?.value?.id)
-    .filter(Boolean);
-}
-
-const countries = [
-  ['US', 'United States', 'Q30'],
-  ['MX', 'Mexico', 'Q96'],
-  ['ID', 'Indonesia', 'Q252'],
-  ['FR', 'France', 'Q142'],
-  ['DE', 'Germany', 'Q183'],
-  ['GB', 'United Kingdom', 'Q145'],
-  ['CA', 'Canada', 'Q16'],
-  ['BR', 'Brazil', 'Q155'],
-  ['IN', 'India', 'Q668'],
-  ['JP', 'Japan', 'Q17'],
-  ['AU', 'Australia', 'Q408'],
-  ['IT', 'Italy', 'Q38'],
-  ['ES', 'Spain', 'Q29'],
-  ['UA', 'Ukraine', 'Q212'],
-  ['TR', 'Turkey', 'Q43'],
-  ['SA', 'Saudi Arabia', 'Q851'],
-  ['AE', 'United Arab Emirates', 'Q878'],
-  ['QA', 'Qatar', 'Q846'],
-  ['IL', 'Israel', 'Q801']
-];
-
-function rows(data) {
-  return [...(data.people || []), ...(data.roster || []), ...(data.topRoster || []), ...(data.expansionRoster || [])];
-}
-
-function findRosterMatch(allRows, code, holderName) {
-  const h = norm(holderName);
-  return allRows.find((row) => {
-    const rowCountry = String(row.countryFocusCode || row.countryFocus || row.countryCode || '').toUpperCase();
-    const text = norm([row.name, row.canonicalName, row.slug, row.roleTitle, row.organization, row.countryName].join(' '));
-    return rowCountry === code && (text.includes(h) || h.includes(norm(row.canonicalName || row.name || '')));
-  });
-}
-
-(async function main() {
-  fs.mkdirSync(DIAG_DIR, { recursive: true });
-  const data = readDataset();
-  validate(data);
-  const allRows = rows(data);
+async function main() {
+  ensureDir(REVIEW_PATH);
+  const data = extractData();
+  const rows = allRows(data);
   const review = {
     generatedAt: new Date().toISOString(),
     status: 'safe_roster_review_complete',
-    mode: 'review_only_no_people_mutation',
     counts: {
-      people: data.people.length,
-      roster: data.roster.length,
-      topRoster: data.topRoster?.length || null,
-      expansionRoster: data.expansionRoster.length
+      people: data.people?.length ?? null,
+      roster: data.roster?.length ?? null,
+      topRoster: data.topRoster?.length ?? null,
+      expansionRoster: data.expansionRoster?.length ?? null
     },
     checkedCountries: [],
-    missingCurrentHolderCandidates: [],
-    possibleStaleRows: [],
-    errors: []
+    addOrPromoteCandidates: [],
+    staleRoleCandidates: [],
+    warnings: []
   };
 
-  for (const [code, country, qid] of countries) {
-    try {
-      const entity = await fetchEntity(qid);
-      const holderIds = [...new Set([...activeClaimTargets(entity, 'P35'), ...activeClaimTargets(entity, 'P6')])];
-      const holders = [];
-      for (const holderId of holderIds) {
-        try {
-          const holderEntity = await fetchEntity(holderId);
-          holders.push({ qid: holderId, name: label(holderEntity) });
-        } catch (error) {
-          review.errors.push({ countryCode: code, holderId, error: String(error.message || error) });
-        }
+  if (review.counts.people > 115) {
+    review.status = 'unsafe_people_count_review_only';
+    review.warnings.push('people count above 115, roster changes must not be auto-applied');
+  }
+
+  const labelCache = new Map();
+  async function labelFor(qid) {
+    if (labelCache.has(qid)) return labelCache.get(qid);
+    try { const e = await fetchEntity(qid); const l = label(e) || qid; labelCache.set(qid, l); return l; } catch { labelCache.set(qid, qid); return qid; }
+  }
+
+  for (const target of TARGETS) {
+    let entity;
+    try { entity = await fetchEntity(target.qid); } catch (error) {
+      review.checkedCountries.push({ ...target, status: 'fetch_failed', error: String(error.message || error) });
+      continue;
+    }
+    const currentHolderQids = [...new Set([...activeClaimTargets(entity, 'P35'), ...activeClaimTargets(entity, 'P6')])];
+    const currentNames = [];
+    for (const qid of currentHolderQids) currentNames.push(await labelFor(qid));
+
+    review.checkedCountries.push({ ...target, status: 'checked', currentHolderQids, currentHolderNames: currentNames });
+
+    for (const holderName of currentNames) {
+      const holderNorm = norm(holderName);
+      const present = rows.find(({ row }) => countryCode(row) === target.code && norm(rowName(row)).includes(holderNorm));
+      if (!present) review.addOrPromoteCandidates.push({ countryCode: target.code, countryName: target.name, holderName, source: `${target.qid} active P35/P6 claim without end date`, action: 'review_add_or_promote' });
+    }
+
+    const localLeaders = rows.filter(({ row }) => countryCode(row) === target.code && leaderLike(row));
+    for (const { collection, row } of localLeaders) {
+      const name = norm(rowName(row));
+      const currentHit = currentNames.some((current) => {
+        const c = norm(current);
+        return c && (name.includes(c) || c.includes(name));
+      });
+      if (!currentHit && currentNames.length) {
+        review.staleRoleCandidates.push({ collection, id: row.id || null, name: rowName(row), roleTitle: row.roleTitle || null, countryCode: target.code, currentHolderNames: currentNames, action: 'review_mark_former_or_replace_slot' });
       }
-      review.checkedCountries.push({ countryCode: code, country, qid, activeHolders: holders });
-      for (const holder of holders) {
-        if (!findRosterMatch(allRows, code, holder.name)) {
-          review.missingCurrentHolderCandidates.push({ countryCode: code, country, holderName: holder.name, holderQid: holder.qid, action: 'manual_review_add_or_promote' });
-        }
-      }
-    } catch (error) {
-      review.errors.push({ countryCode: code, country, qid, error: String(error.message || error) });
     }
   }
 
   const patch = {
     generatedAt: review.generatedAt,
     status: 'manual_review_required',
-    note: 'This workflow is diagnostic. It does not mass-replace people. It prevents historical-holder chains and unsafe roster mutation.',
-    additionsOrPromotions: review.missingCurrentHolderCandidates,
-    possibleStaleRows: review.possibleStaleRows
+    policy: 'This workflow does not mass-replace people. It proposes current-holder changes only from active Wikidata claims without end dates.',
+    addOrPromoteCandidates: review.addOrPromoteCandidates,
+    staleRoleCandidates: review.staleRoleCandidates,
+    warnings: review.warnings
   };
+
   fs.writeFileSync(REVIEW_PATH, JSON.stringify(review, null, 2) + '\n');
   fs.writeFileSync(PATCH_PATH, JSON.stringify(patch, null, 2) + '\n');
-  console.log(JSON.stringify({ status: review.status, checkedCountries: review.checkedCountries.length, candidates: review.missingCurrentHolderCandidates.length, errors: review.errors.length }, null, 2));
-})().catch((error) => {
-  console.error(error && error.stack ? error.stack : error);
-  process.exit(1);
-});
+
+  const summary = [
+    '# ParleyMap safe roster review', '',
+    `Generated: ${review.generatedAt}`,
+    `Status: ${review.status}`, '',
+    `Checked countries: ${review.checkedCountries.length}`,
+    `Add/promote candidates: ${review.addOrPromoteCandidates.length}`,
+    `Stale role candidates: ${review.staleRoleCandidates.length}`,
+    `Warnings: ${review.warnings.length}`,
+    ''
+  ].join('\n');
+  fs.writeFileSync(SUMMARY_PATH, summary);
+  console.log(JSON.stringify({ status: review.status, addOrPromote: review.addOrPromoteCandidates.length, stale: review.staleRoleCandidates.length }, null, 2));
+}
+
+main().catch((error) => { console.error(error.stack || error.message || error); process.exit(1); });

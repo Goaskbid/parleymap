@@ -4,31 +4,28 @@ on:
   workflow_dispatch:
     inputs:
       require_adsense_ready:
-        description: "Fail if AdSense IDs or ads.txt cannot be verified"
+        description: "Fail unless AdSense IDs and ads.txt are present or recoverable"
         required: false
         default: "false"
       publisher_id:
-        description: "Optional existing AdSense publisher ID, ca-pub-... or pub-..."
+        description: "Optional AdSense publisher/client ID, ca-pub-... or pub-..."
         required: false
         default: ""
       header_slot_id:
-        description: "Optional existing header ad slot ID"
+        description: "Optional header ad slot ID"
         required: false
         default: ""
       sidebar_slot_id:
-        description: "Optional existing sidebar ad slot ID"
+        description: "Optional sidebar ad slot ID"
         required: false
         default: ""
 
 permissions:
   contents: write
 
-concurrency:
-  group: parleymap-data-validation
-  cancel-in-progress: false
 
 jobs:
-  repair-audit-and-commit:
+  canonical-repair:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -43,23 +40,15 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Canonical repair and hard audit
-        run: node scripts/parleymap-canonical-rescue.cjs
-        env:
-          REQUIRE_ADSENSE_READY: ${{ inputs.require_adsense_ready }}
-          PUBLISHER_ID: ${{ inputs.publisher_id }}
-          HEADER_SLOT_ID: ${{ inputs.header_slot_id }}
-          SIDEBAR_SLOT_ID: ${{ inputs.sidebar_slot_id }}
-
-      - name: Validate embedded dataset with existing validator when present
+      - name: Run canonical repair and hard audit
         run: |
-          if [ -f scripts/validate-demo-data.mjs ]; then
-            node scripts/validate-demo-data.mjs
-          else
-            echo "scripts/validate-demo-data.mjs not present; canonical rescue audit already passed."
-          fi
+          node scripts/parleymap-canonical-governor.cjs repair \
+            --require-adsense-ready "${{ github.event.inputs.require_adsense_ready }}" \
+            --publisher-id "${{ github.event.inputs.publisher_id }}" \
+            --header-slot-id "${{ github.event.inputs.header_slot_id }}" \
+            --sidebar-slot-id "${{ github.event.inputs.sidebar_slot_id }}"
 
-      - name: Add run summary
+      - name: Append summary
         if: always()
         run: |
           if [ -f data/diagnostics/LATEST_RUN_SUMMARY.md ]; then
@@ -74,22 +63,22 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: parleymap-canonical-rescue-files
+          name: parleymap-canonical-repair-files
           path: |
             index.html
             ads.txt
             privacy.html
             impressum.html
             about.html
-            contact.html
             methodology.html
             data-sources.html
+            contact.html
             data/demo.json
             data/diagnostics/*.json
             data/diagnostics/*.md
 
-      - name: Commit repaired ParleyMap data and AdSense surface
+      - name: Commit canonical repair
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Repair ParleyMap canonical data and AdSense surface"
-          file_pattern: "index.html ads.txt privacy.html impressum.html about.html contact.html methodology.html data-sources.html data/demo.json data/diagnostics/*.json data/diagnostics/*.md"
+          file_pattern: "index.html ads.txt privacy.html impressum.html about.html methodology.html data-sources.html contact.html data/demo.json data/diagnostics/*.json data/diagnostics/*.md"
