@@ -12,11 +12,10 @@ concurrency:
   group: parleymap-monthly-roster-review
   cancel-in-progress: false
 
-timeout-minutes: 25
-
 jobs:
-  monthly:
+  monthly-roster-review:
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     steps:
       - name: Checkout repository with history
         uses: actions/checkout@v4
@@ -29,22 +28,27 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Canonical truth repair
-        run: node scripts/parleymap-canonical-truth-fix.cjs
+      - name: Canonical repair before roster review
+        run: node scripts/parleymap-canonical-rescue.cjs
+        env:
+          REQUIRE_ADSENSE_READY: "false"
 
-      - name: Safe roster review report
-        run: |
-          mkdir -p data/diagnostics
-          node -e "const fs=require('fs');const data=JSON.parse(fs.readFileSync('data/demo.json','utf8'));const report={generatedAt:new Date().toISOString(),status:'safe_review_only',counts:{people:data.people?.length,roster:data.roster?.length,expansionRoster:data.expansionRoster?.length,appearances:data.appearances?.length},note:'Monthly roster review is intentionally review-only. It must not mass-replace people automatically.'};fs.writeFileSync('data/diagnostics/roster-current-holder-review.json',JSON.stringify(report,null,2)+'\n');fs.writeFileSync('data/diagnostics/roster-patch-candidates.json',JSON.stringify({generatedAt:report.generatedAt,status:'manual_review_required',candidates:[]},null,2)+'\n');console.log(JSON.stringify(report,null,2));"
+      - name: Safe current-holder roster review diagnostics
+        run: node scripts/parleymap-safe-roster-review.cjs
 
-      - name: Append summary
+      - name: Canonical repair after roster review
+        run: node scripts/parleymap-canonical-rescue.cjs
+        env:
+          REQUIRE_ADSENSE_READY: "false"
+
+      - name: Add run summary
         if: always()
         run: |
           if [ -f data/diagnostics/LATEST_RUN_SUMMARY.md ]; then
             cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
           fi
 
-      - name: Upload monthly files
+      - name: Upload monthly roster files
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -55,7 +59,7 @@ jobs:
             data/diagnostics/*.json
             data/diagnostics/*.md
 
-      - name: Commit monthly canonical review
+      - name: Commit monthly roster diagnostics and repairs
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Review ParleyMap roster safely"

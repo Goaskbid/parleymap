@@ -12,11 +12,10 @@ concurrency:
   group: parleymap-nightly-refresh
   cancel-in-progress: false
 
-timeout-minutes: 30
-
 jobs:
   nightly:
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     steps:
       - name: Checkout repository with history
         uses: actions/checkout@v4
@@ -29,37 +28,40 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Pre-refresh canonical truth repair
-        run: node scripts/parleymap-canonical-truth-fix.cjs
+      - name: Pre-refresh canonical repair and hard audit
+        run: node scripts/parleymap-canonical-rescue.cjs
+        env:
+          REQUIRE_ADSENSE_READY: "false"
 
-      - name: Run safe crawler only if available
-        continue-on-error: true
+      - name: Run safe official-source refresh if available
         run: |
           if [ -f nightly-refresh.mjs ]; then
-            timeout 10m node nightly-refresh.mjs --official-only --no-watch-cards --max-roster 40 --max-per-person 2 --lookback-days 21 || true
+            timeout 8m node nightly-refresh.mjs || echo "nightly-refresh.mjs ended non-zero; canonical audit still protects publish."
           else
-            echo "nightly-refresh.mjs not found. Skipping crawler."
+            echo "No nightly-refresh.mjs present. Skipping crawler."
           fi
+        env:
+          PARLEYMAP_FETCH_TIMEOUT_MS: "3000"
 
-      - name: Post-refresh canonical truth repair and hard audit
-        run: node scripts/parleymap-canonical-truth-fix.cjs
+      - name: Post-refresh canonical repair and hard audit
+        run: node scripts/parleymap-canonical-rescue.cjs
+        env:
+          REQUIRE_ADSENSE_READY: "false"
 
-      - name: Validate embedded dataset when validator exists
+      - name: Validate embedded dataset with existing validator when present
         run: |
           if [ -f scripts/validate-demo-data.mjs ]; then
             node scripts/validate-demo-data.mjs
-          else
-            echo "No existing validator found. Canonical truth audit already passed."
           fi
 
-      - name: Append summary
+      - name: Add run summary
         if: always()
         run: |
           if [ -f data/diagnostics/LATEST_RUN_SUMMARY.md ]; then
             cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
           fi
 
-      - name: Upload nightly files
+      - name: Upload nightly files and diagnostics
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -72,8 +74,8 @@ jobs:
             data/diagnostics/*.json
             data/diagnostics/*.md
 
-      - name: Commit nightly canonical repair
+      - name: Commit nightly repaired data
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Refresh ParleyMap canonical data safely"
+          commit_message: "Refresh ParleyMap canonical data"
           file_pattern: "index.html ads.txt privacy.html impressum.html about.html contact.html methodology.html data-sources.html data/demo.json data/crawler/*.json data/diagnostics/*.json data/diagnostics/*.md"

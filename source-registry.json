@@ -1,5 +1,6 @@
 {
-  "policy": "official-source-only; no generic watch cards as dated events",
+  "version": "final-working-2026-06-08",
+  "policy": "Official or host-public sources only. Generic source-watch pages are not publishable events.",
   "officialDomains": [
     "vatican.va",
     "press.vatican.va",
@@ -8,53 +9,36 @@
     "whitehouse.gov",
     "state.gov",
     "gov.uk",
-    "elysee.fr",
-    "bundesregierung.de",
     "consilium.europa.eu",
     "commission.europa.eu",
     "nato.int",
     "un.org",
     "who.int",
     "worldbank.org",
-    "imf.org"
+    "imf.org",
+    "elysee.fr"
   ],
-  "crawlerRules": {
-    "rejectTitlesMatching": [
-      "watch",
-      "source-watch",
-      "faq",
-      "fact sheet",
-      "programme",
-      "homepage",
-      "profile page",
-      "privacy",
-      "terms",
-      "sitemap"
-    ],
-    "requireForEvents": [
-      "personId",
-      "startsAt",
-      "title",
-      "location.city",
-      "sourcePack[0].url",
-      "sourcePack[0].type=official"
-    ]
-  },
-  "sourceAdapters": {
-    "vatican": {
+  "adapters": [
+    {
+      "name": "vatican-travel",
       "domains": ["vatican.va", "press.vatican.va"],
-      "accepted": ["travel itinerary pages", "public audience pages", "official journey documents"],
-      "rejected": ["generic news index", "profile pages"]
+      "accept": ["/travels/", "Apostolic Journey", "itinerary"],
+      "reject": ["homepage", "generic profile", "media index"],
+      "requires": ["person", "date", "city", "official source"]
     },
-    "iaea": {
+    {
+      "name": "iaea-statements",
       "domains": ["iaea.org"],
-      "accepted": ["official statements", "official visit reports", "Board of Governors pages"],
-      "rejected": ["topic landing pages", "generic nuclear diplomacy watch"]
+      "accept": ["/newscenter/statements/", "/newscenter/pressreleases/", "Rafael Grossi"],
+      "reject": ["topic page", "profile page", "watch card"],
+      "requires": ["person", "date", "city", "official source"]
     },
-    "royal": {
+    {
+      "name": "royal-engagements",
       "domains": ["royal.uk"],
-      "accepted": ["future engagements", "official news activity", "Court Circular entries"],
-      "rejected": ["generic diary index without person/date/place"]
+      "accept": ["/news-and-activity/", "future engagements", "Court Circular"],
+      "reject": ["generic royal diary watch", "homepage"],
+      "requires": ["named royal", "date", "place", "official source"]
     }
-  }
+  ]
 }

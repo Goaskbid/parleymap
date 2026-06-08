@@ -7,9 +7,9 @@ permissions:
   contents: write
 
 jobs:
-  guarded-review-only:
+  safe-review-only:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
     steps:
       - name: Checkout repository with history
         uses: actions/checkout@v4
@@ -22,32 +22,34 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Canonical truth repair
-        run: node scripts/parleymap-canonical-truth-fix.cjs
+      - name: Canonical repair
+        run: node scripts/parleymap-canonical-rescue.cjs
+        env:
+          REQUIRE_ADSENSE_READY: "false"
 
-      - name: Write guarded roster review notice
+      - name: Safe current-holder roster review diagnostics
+        run: node scripts/parleymap-safe-roster-review.cjs
+
+      - name: Add run summary
+        if: always()
         run: |
-          mkdir -p data/diagnostics
-          cat > data/diagnostics/roster-auto-update-report.json <<'JSON'
-          {
-            "status": "disabled_safe_review_only",
-            "reason": "Automatic mass replacement is disabled after the historical office-holder pollution failure. Use monthly review diagnostics only."
-          }
-          JSON
+          if [ -f data/diagnostics/LATEST_RUN_SUMMARY.md ]; then
+            cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
+          fi
 
-      - name: Upload files
+      - name: Upload roster review files
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: parleymap-roster-safe-review-files
+          name: parleymap-roster-review-files
           path: |
             index.html
             data/demo.json
             data/diagnostics/*.json
             data/diagnostics/*.md
 
-      - name: Commit safe roster review output
+      - name: Commit safe roster review diagnostics
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Run safe ParleyMap roster review only"
+          commit_message: "Review ParleyMap roster safely"
           file_pattern: "index.html data/demo.json data/diagnostics/*.json data/diagnostics/*.md"

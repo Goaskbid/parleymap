@@ -2,15 +2,35 @@ name: ParleyMap data validation
 
 on:
   workflow_dispatch:
+    inputs:
+      require_adsense_ready:
+        description: "Fail if AdSense IDs or ads.txt cannot be verified"
+        required: false
+        default: "false"
+      publisher_id:
+        description: "Optional existing AdSense publisher ID, ca-pub-... or pub-..."
+        required: false
+        default: ""
+      header_slot_id:
+        description: "Optional existing header ad slot ID"
+        required: false
+        default: ""
+      sidebar_slot_id:
+        description: "Optional existing sidebar ad slot ID"
+        required: false
+        default: ""
 
 permissions:
   contents: write
 
-timeout-minutes: 30
+concurrency:
+  group: parleymap-data-validation
+  cancel-in-progress: false
 
 jobs:
-  canonical-truth-fix:
+  repair-audit-and-commit:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - name: Checkout repository with history
         uses: actions/checkout@v4
@@ -23,18 +43,23 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Run canonical truth repair and hard audit
-        run: node scripts/parleymap-canonical-truth-fix.cjs
+      - name: Canonical repair and hard audit
+        run: node scripts/parleymap-canonical-rescue.cjs
+        env:
+          REQUIRE_ADSENSE_READY: ${{ inputs.require_adsense_ready }}
+          PUBLISHER_ID: ${{ inputs.publisher_id }}
+          HEADER_SLOT_ID: ${{ inputs.header_slot_id }}
+          SIDEBAR_SLOT_ID: ${{ inputs.sidebar_slot_id }}
 
-      - name: Validate embedded dataset when validator exists
+      - name: Validate embedded dataset with existing validator when present
         run: |
           if [ -f scripts/validate-demo-data.mjs ]; then
             node scripts/validate-demo-data.mjs
           else
-            echo "No existing validator found. Canonical truth audit already passed."
+            echo "scripts/validate-demo-data.mjs not present; canonical rescue audit already passed."
           fi
 
-      - name: Append summary
+      - name: Add run summary
         if: always()
         run: |
           if [ -f data/diagnostics/LATEST_RUN_SUMMARY.md ]; then
@@ -43,13 +68,13 @@ jobs:
 
       - name: Show changed files
         if: always()
-        run: git diff --name-only
+        run: git diff --name-only || true
 
-      - name: Upload repaired files
+      - name: Upload repaired files and diagnostics
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: parleymap-canonical-truth-files
+          name: parleymap-canonical-rescue-files
           path: |
             index.html
             ads.txt
@@ -63,7 +88,7 @@ jobs:
             data/diagnostics/*.json
             data/diagnostics/*.md
 
-      - name: Commit canonical truth repair
+      - name: Commit repaired ParleyMap data and AdSense surface
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Repair ParleyMap canonical data and AdSense surface"

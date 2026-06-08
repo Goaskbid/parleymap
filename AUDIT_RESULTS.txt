@@ -1,68 +1,153 @@
-name: ParleyMap nightly refresh
+#!/usr/bin/env node
+'use strict';
 
-on:
-  workflow_dispatch:
-  schedule:
-    - cron: "19 3 * * *"
+const fs = require('node:fs');
+const DIAG_DIR = 'data/diagnostics';
+const REVIEW_PATH = `${DIAG_DIR}/roster-current-holder-review.json`;
+const PATCH_PATH = `${DIAG_DIR}/roster-patch-candidates.json`;
 
-permissions:
-  contents: write
+function norm(v) {
+  return String(v || '').toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
+}
 
-concurrency:
-  group: parleymap-nightly-refresh
-  cancel-in-progress: false
+function readDataset() {
+  const html = fs.readFileSync('index.html', 'utf8');
+  const m = html.match(/<script\b[^>]*\bid=["']demo-data["'][^>]*>([\s\S]*?)<\/script>/i);
+  if (!m) throw new Error('demo-data block not found in index.html');
+  return JSON.parse(m[1].trim());
+}
 
-jobs:
-  nightly:
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    steps:
-      - name: Checkout full repository history
-        uses: actions/checkout@v4
-        with:
-          ref: main
-          fetch-depth: 0
+function validate(data) {
+  for (const key of ['people', 'roster', 'expansionRoster', 'appearances', 'categories']) {
+    if (!Array.isArray(data[key])) throw new Error(`${key} must be an array`);
+  }
+  if (data.people.length > 115) throw new Error(`unsafe people count ${data.people.length}. Review required before roster mutation.`);
+}
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
+async function fetchEntity(qid) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 8000);
+  try {
+    const res = await fetch(`https://www.wikidata.org/wiki/Special:EntityData/${qid}.json`, {
+      signal: controller.signal,
+      headers: { 'user-agent': 'ParleyMap safe roster review diagnostics' }
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const json = await res.json();
+    return json.entities && json.entities[qid];
+  } finally {
+    clearTimeout(timer);
+  }
+}
 
-      - name: Canonical repair before refresh
-        env:
-          REQUIRE_ADSENSE_READY: "false"
-        run: node scripts/parleymap-canonical-rescue.cjs
+function label(entity) {
+  return entity?.labels?.en?.value || entity?.labels?.mul?.value || '';
+}
 
-      - name: Safe official-source refresh
-        run: node nightly-refresh.mjs
+function activeClaimTargets(entity, prop) {
+  const claims = entity?.claims?.[prop] || [];
+  return claims
+    .filter((claim) => {
+      const qualifiers = claim.qualifiers || {};
+      if (qualifiers.P582 && qualifiers.P582.length) return false;
+      if (claim.rank === 'deprecated') return false;
+      return true;
+    })
+    .map((claim) => claim?.mainsnak?.datavalue?.value?.id)
+    .filter(Boolean);
+}
 
-      - name: Canonical repair after refresh
-        env:
-          REQUIRE_ADSENSE_READY: "false"
-        run: node scripts/parleymap-canonical-rescue.cjs
+const countries = [
+  ['US', 'United States', 'Q30'],
+  ['MX', 'Mexico', 'Q96'],
+  ['ID', 'Indonesia', 'Q252'],
+  ['FR', 'France', 'Q142'],
+  ['DE', 'Germany', 'Q183'],
+  ['GB', 'United Kingdom', 'Q145'],
+  ['CA', 'Canada', 'Q16'],
+  ['BR', 'Brazil', 'Q155'],
+  ['IN', 'India', 'Q668'],
+  ['JP', 'Japan', 'Q17'],
+  ['AU', 'Australia', 'Q408'],
+  ['IT', 'Italy', 'Q38'],
+  ['ES', 'Spain', 'Q29'],
+  ['UA', 'Ukraine', 'Q212'],
+  ['TR', 'Turkey', 'Q43'],
+  ['SA', 'Saudi Arabia', 'Q851'],
+  ['AE', 'United Arab Emirates', 'Q878'],
+  ['QA', 'Qatar', 'Q846'],
+  ['IL', 'Israel', 'Q801']
+];
 
-      - name: Show summary
-        if: always()
-        run: |
-          if [ -f data/diagnostics/LATEST_RUN_SUMMARY.md ]; then
-            cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
-            cat data/diagnostics/LATEST_RUN_SUMMARY.md
-          fi
+function rows(data) {
+  return [...(data.people || []), ...(data.roster || []), ...(data.topRoster || []), ...(data.expansionRoster || [])];
+}
 
-      - name: Upload nightly files and diagnostics
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: parleymap-nightly-files
-          path: |
-            index.html
-            ads.txt
-            data/demo.json
-            data/crawler/*
-            data/diagnostics/*
+function findRosterMatch(allRows, code, holderName) {
+  const h = norm(holderName);
+  return allRows.find((row) => {
+    const rowCountry = String(row.countryFocusCode || row.countryFocus || row.countryCode || '').toUpperCase();
+    const text = norm([row.name, row.canonicalName, row.slug, row.roleTitle, row.organization, row.countryName].join(' '));
+    return rowCountry === code && (text.includes(h) || h.includes(norm(row.canonicalName || row.name || '')));
+  });
+}
 
-      - name: Commit nightly canonical repair
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "Run ParleyMap nightly canonical repair"
-          file_pattern: "index.html ads.txt data/demo.json data/crawler/* data/diagnostics/* privacy.html impressum.html about.html contact.html methodology.html data-sources.html"
+(async function main() {
+  fs.mkdirSync(DIAG_DIR, { recursive: true });
+  const data = readDataset();
+  validate(data);
+  const allRows = rows(data);
+  const review = {
+    generatedAt: new Date().toISOString(),
+    status: 'safe_roster_review_complete',
+    mode: 'review_only_no_people_mutation',
+    counts: {
+      people: data.people.length,
+      roster: data.roster.length,
+      topRoster: data.topRoster?.length || null,
+      expansionRoster: data.expansionRoster.length
+    },
+    checkedCountries: [],
+    missingCurrentHolderCandidates: [],
+    possibleStaleRows: [],
+    errors: []
+  };
+
+  for (const [code, country, qid] of countries) {
+    try {
+      const entity = await fetchEntity(qid);
+      const holderIds = [...new Set([...activeClaimTargets(entity, 'P35'), ...activeClaimTargets(entity, 'P6')])];
+      const holders = [];
+      for (const holderId of holderIds) {
+        try {
+          const holderEntity = await fetchEntity(holderId);
+          holders.push({ qid: holderId, name: label(holderEntity) });
+        } catch (error) {
+          review.errors.push({ countryCode: code, holderId, error: String(error.message || error) });
+        }
+      }
+      review.checkedCountries.push({ countryCode: code, country, qid, activeHolders: holders });
+      for (const holder of holders) {
+        if (!findRosterMatch(allRows, code, holder.name)) {
+          review.missingCurrentHolderCandidates.push({ countryCode: code, country, holderName: holder.name, holderQid: holder.qid, action: 'manual_review_add_or_promote' });
+        }
+      }
+    } catch (error) {
+      review.errors.push({ countryCode: code, country, qid, error: String(error.message || error) });
+    }
+  }
+
+  const patch = {
+    generatedAt: review.generatedAt,
+    status: 'manual_review_required',
+    note: 'This workflow is diagnostic. It does not mass-replace people. It prevents historical-holder chains and unsafe roster mutation.',
+    additionsOrPromotions: review.missingCurrentHolderCandidates,
+    possibleStaleRows: review.possibleStaleRows
+  };
+  fs.writeFileSync(REVIEW_PATH, JSON.stringify(review, null, 2) + '\n');
+  fs.writeFileSync(PATCH_PATH, JSON.stringify(patch, null, 2) + '\n');
+  console.log(JSON.stringify({ status: review.status, checkedCountries: review.checkedCountries.length, candidates: review.missingCurrentHolderCandidates.length, errors: review.errors.length }, null, 2));
+})().catch((error) => {
+  console.error(error && error.stack ? error.stack : error);
+  process.exit(1);
+});
