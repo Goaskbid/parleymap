@@ -1,19 +1,13 @@
-The ParleyMap repo had three intertwined failures:
-1. index.html could be crawler-visible as a one-line manifest, while the real app data lived in embedded demo-data or data/demo.json.
-2. data/demo.json contained duplicate visible profile rows, especially Rafael Grossi, and fake dated source-watch cards such as IAEA nuclear diplomacy watch and City of London finance diplomacy watch.
-3. AdSense was not crawler-visible because ads.txt and raw ad markers could be missing from the public surface.
-
-The final architecture package treats index.html demo-data as source of truth when present, restores a safe full shell from git history when index.html is thin, repairs the canonical dataset globally, writes back only the demo-data block, mirrors to data/demo.json, preserves AdSense IDs from current files or git history, and writes hard audit reports.
-
-Key files:
-- scripts/parleymap-canonical-rescue.cjs
-- scripts/parleymap-safe-roster-review.cjs
-- data/curated-anchors.json
-- data/official-event-seeds.json
-- data/source-registry.json
-- .github/workflows/data-validate.yml
-- .github/workflows/nightly-refresh.yml
-- .github/workflows/monthly-roster-review.yml
-
-Run first: Actions > ParleyMap data validation > Run workflow.
-Check: data/diagnostics/canonical-hard-audit-report.json must contain status audit_passed.
+We were fixing ParleyMap GitHub Pages data integrity and AdSense.
+Important architecture conclusion:
+- The live app data is inside index.html demo-data when present.
+- data/demo.json is a mirror/fallback and can contain the bad data.
+- index.html on main was sometimes a one-line thin file, so repair must recover the full app shell from git history.
+- Grossi duplication survived because the app renders from multiple visible collections and duplicate helper rows.
+- Fake events survived because they are source-watch/event-like rows outside simple appearances.
+Use the canonical truth fix package. Run the existing ParleyMap data validation workflow.
+Key diagnostics after run:
+- data/diagnostics/canonical-truth-repair-report.json
+- data/diagnostics/canonical-truth-hard-audit-report.json
+- data/diagnostics/adsense-preserve-audit-report.json
+- data/diagnostics/LATEST_RUN_SUMMARY.md

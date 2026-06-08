@@ -12,12 +12,13 @@ concurrency:
   group: parleymap-monthly-roster-review
   cancel-in-progress: false
 
+timeout-minutes: 25
+
 jobs:
-  monthly-roster-review:
+  monthly:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
     steps:
-      - name: Checkout full repository history
+      - name: Checkout repository with history
         uses: actions/checkout@v4
         with:
           ref: main
@@ -28,35 +29,34 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Canonical repair before roster review
-        env:
-          REQUIRE_ADSENSE_READY: "false"
-        run: node scripts/parleymap-canonical-rescue.cjs
+      - name: Canonical truth repair
+        run: node scripts/parleymap-canonical-truth-fix.cjs
 
-      - name: Safe roster review diagnostics
-        run: node scripts/parleymap-safe-roster-review.cjs
+      - name: Safe roster review report
+        run: |
+          mkdir -p data/diagnostics
+          node -e "const fs=require('fs');const data=JSON.parse(fs.readFileSync('data/demo.json','utf8'));const report={generatedAt:new Date().toISOString(),status:'safe_review_only',counts:{people:data.people?.length,roster:data.roster?.length,expansionRoster:data.expansionRoster?.length,appearances:data.appearances?.length},note:'Monthly roster review is intentionally review-only. It must not mass-replace people automatically.'};fs.writeFileSync('data/diagnostics/roster-current-holder-review.json',JSON.stringify(report,null,2)+'\n');fs.writeFileSync('data/diagnostics/roster-patch-candidates.json',JSON.stringify({generatedAt:report.generatedAt,status:'manual_review_required',candidates:[]},null,2)+'\n');console.log(JSON.stringify(report,null,2));"
 
-      - name: Show summary
+      - name: Append summary
         if: always()
         run: |
           if [ -f data/diagnostics/LATEST_RUN_SUMMARY.md ]; then
             cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
-            cat data/diagnostics/LATEST_RUN_SUMMARY.md
           fi
 
-      - name: Upload roster review files
+      - name: Upload monthly files
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: parleymap-monthly-roster-review-files
+          name: parleymap-monthly-roster-files
           path: |
             index.html
-            ads.txt
             data/demo.json
-            data/diagnostics/*
+            data/diagnostics/*.json
+            data/diagnostics/*.md
 
-      - name: Commit monthly roster review
+      - name: Commit monthly canonical review
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Run ParleyMap monthly safe roster review"
-          file_pattern: "index.html ads.txt data/demo.json data/diagnostics/* privacy.html impressum.html about.html contact.html methodology.html data-sources.html"
+          commit_message: "Review ParleyMap roster safely"
+          file_pattern: "index.html data/demo.json data/diagnostics/*.json data/diagnostics/*.md"

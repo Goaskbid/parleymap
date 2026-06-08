@@ -1,34 +1,60 @@
 {
-  "version": "2026-06-08-final-architecture",
-  "principle": "Only official or host-public pages that identify a person, date, city and event are publishable. Generic watch, homepage, profile, FAQ, programme or topic pages are rejected.",
+  "policy": "official-source-only; no generic watch cards as dated events",
   "officialDomains": [
-    "vatican.va", "press.vatican.va", "vaticannews.va",
-    "iaea.org", "royal.uk",
-    "whitehouse.gov", "state.gov", "gov.uk", "elysee.fr", "bundesregierung.de",
-    "nato.int", "un.org", "consilium.europa.eu", "commission.europa.eu",
-    "worldbank.org", "imf.org", "mfa.gov.cn", "mfa.gov.tr", "pm.gc.ca"
+    "vatican.va",
+    "press.vatican.va",
+    "iaea.org",
+    "royal.uk",
+    "whitehouse.gov",
+    "state.gov",
+    "gov.uk",
+    "elysee.fr",
+    "bundesregierung.de",
+    "consilium.europa.eu",
+    "commission.europa.eu",
+    "nato.int",
+    "un.org",
+    "who.int",
+    "worldbank.org",
+    "imf.org"
   ],
-  "sourceAdapters": [
-    {
-      "id": "vatican_travel",
+  "crawlerRules": {
+    "rejectTitlesMatching": [
+      "watch",
+      "source-watch",
+      "faq",
+      "fact sheet",
+      "programme",
+      "homepage",
+      "profile page",
+      "privacy",
+      "terms",
+      "sitemap"
+    ],
+    "requireForEvents": [
+      "personId",
+      "startsAt",
+      "title",
+      "location.city",
+      "sourcePack[0].url",
+      "sourcePack[0].type=official"
+    ]
+  },
+  "sourceAdapters": {
+    "vatican": {
       "domains": ["vatican.va", "press.vatican.va"],
-      "accept": "Papal travel pages and Holy See Press Office bulletins with explicit date, city and itinerary item.",
-      "reject": "Generic Vatican profile pages or news indexes without an itinerary row."
+      "accepted": ["travel itinerary pages", "public audience pages", "official journey documents"],
+      "rejected": ["generic news index", "profile pages"]
     },
-    {
-      "id": "iaea_grossi",
+    "iaea": {
       "domains": ["iaea.org"],
-      "accept": "IAEA statements, official visits and Board of Governors pages naming Rafael Grossi with date and city.",
-      "reject": "IAEA topic pages, nuclear diplomacy watch pages or institution homepages."
+      "accepted": ["official statements", "official visit reports", "Board of Governors pages"],
+      "rejected": ["topic landing pages", "generic nuclear diplomacy watch"]
     },
-    {
-      "id": "royal_family",
+    "royal": {
       "domains": ["royal.uk"],
-      "accept": "Royal Family future engagements, Court Circular and activity pages naming a royal, date and place.",
-      "reject": "Generic Royal diary index pages without a person-specific event."
+      "accepted": ["future engagements", "official news activity", "Court Circular entries"],
+      "rejected": ["generic diary index without person/date/place"]
     }
-  ],
-  "blockedEventTitlePatterns": [
-    "source watch", "events watch", "iaea nuclear diplomacy watch", "city of london finance diplomacy watch", "think-tank leadership events watch", "royal diaries and state-visit watch", "homepage", "faq", "fact sheet", "programme", "profile"
-  ]
+  }
 }

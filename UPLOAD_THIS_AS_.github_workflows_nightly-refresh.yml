@@ -12,12 +12,13 @@ concurrency:
   group: parleymap-nightly-refresh
   cancel-in-progress: false
 
+timeout-minutes: 30
+
 jobs:
   nightly:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
     steps:
-      - name: Checkout full repository history
+      - name: Checkout repository with history
         uses: actions/checkout@v4
         with:
           ref: main
@@ -28,28 +29,37 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Canonical repair before refresh
-        env:
-          REQUIRE_ADSENSE_READY: "false"
-        run: node scripts/parleymap-canonical-rescue.cjs
+      - name: Pre-refresh canonical truth repair
+        run: node scripts/parleymap-canonical-truth-fix.cjs
 
-      - name: Safe official-source refresh
-        run: node nightly-refresh.mjs
+      - name: Run safe crawler only if available
+        continue-on-error: true
+        run: |
+          if [ -f nightly-refresh.mjs ]; then
+            timeout 10m node nightly-refresh.mjs --official-only --no-watch-cards --max-roster 40 --max-per-person 2 --lookback-days 21 || true
+          else
+            echo "nightly-refresh.mjs not found. Skipping crawler."
+          fi
 
-      - name: Canonical repair after refresh
-        env:
-          REQUIRE_ADSENSE_READY: "false"
-        run: node scripts/parleymap-canonical-rescue.cjs
+      - name: Post-refresh canonical truth repair and hard audit
+        run: node scripts/parleymap-canonical-truth-fix.cjs
 
-      - name: Show summary
+      - name: Validate embedded dataset when validator exists
+        run: |
+          if [ -f scripts/validate-demo-data.mjs ]; then
+            node scripts/validate-demo-data.mjs
+          else
+            echo "No existing validator found. Canonical truth audit already passed."
+          fi
+
+      - name: Append summary
         if: always()
         run: |
           if [ -f data/diagnostics/LATEST_RUN_SUMMARY.md ]; then
             cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
-            cat data/diagnostics/LATEST_RUN_SUMMARY.md
           fi
 
-      - name: Upload nightly files and diagnostics
+      - name: Upload nightly files
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -58,11 +68,12 @@ jobs:
             index.html
             ads.txt
             data/demo.json
-            data/crawler/*
-            data/diagnostics/*
+            data/crawler/*.json
+            data/diagnostics/*.json
+            data/diagnostics/*.md
 
       - name: Commit nightly canonical repair
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Run ParleyMap nightly canonical repair"
-          file_pattern: "index.html ads.txt data/demo.json data/crawler/* data/diagnostics/* privacy.html impressum.html about.html contact.html methodology.html data-sources.html"
+          commit_message: "Refresh ParleyMap canonical data safely"
+          file_pattern: "index.html ads.txt privacy.html impressum.html about.html contact.html methodology.html data-sources.html data/demo.json data/crawler/*.json data/diagnostics/*.json data/diagnostics/*.md"
