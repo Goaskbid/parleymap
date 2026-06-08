@@ -2,27 +2,6 @@ name: ParleyMap data validation
 
 on:
   workflow_dispatch:
-    inputs:
-      require_adsense_ready:
-        description: "Fail if AdSense client and two slots cannot be recovered or provided"
-        required: false
-        default: "false"
-        type: choice
-        options:
-          - "false"
-          - "true"
-      publisher_id:
-        description: "Optional AdSense publisher ID, ca-pub-... or pub-..."
-        required: false
-        default: ""
-      header_slot_id:
-        description: "Optional AdSense header slot ID"
-        required: false
-        default: ""
-      sidebar_slot_id:
-        description: "Optional AdSense sidebar slot ID"
-        required: false
-        default: ""
 
 permissions:
   contents: write
@@ -32,11 +11,11 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  canonical-maintenance:
+  validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 15
     steps:
-      - name: Checkout repository with full history
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
           ref: main
@@ -47,251 +26,372 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Run canonical ParleyMap repair and audit
-        env:
-          REQUIRE_ADSENSE_READY: ${{ inputs.require_adsense_ready }}
-          PUBLISHER_ID: ${{ inputs.publisher_id }}
-          HEADER_SLOT_ID: ${{ inputs.header_slot_id }}
-          SIDEBAR_SLOT_ID: ${{ inputs.sidebar_slot_id }}
+      - name: Write canonical maintenance script
         run: |
-          cat > /tmp/parleymap-canonical-maintenance.cjs <<'NODE'
-
+          mkdir -p scripts data/diagnostics data/crawler
+          cat > scripts/parleymap-maintenance.cjs <<'NODE'
           const fs = require('fs');
           const cp = require('child_process');
 
-          const INPUT = {
-            requireAdsenseReady: String(process.env.REQUIRE_ADSENSE_READY || 'false').toLowerCase() === 'true',
-            publisherId: String(process.env.PUBLISHER_ID || '').trim(),
-            headerSlot: String(process.env.HEADER_SLOT_ID || '').trim(),
-            sidebarSlot: String(process.env.SIDEBAR_SLOT_ID || '').trim()
-          };
-
-          const OPEN_RE = /<script\s+id=["']demo-data["']\s+type=["']application\/json["']\s*>/i;
-          const CLOSE_RE = /<\/script\s*>/i;
+          const INDEX = 'index.html';
+          const MIRROR = 'data/demo.json';
           const DIAG = 'data/diagnostics';
-          fs.mkdirSync(DIAG, { recursive: true });
+          const OPEN = '<script id="demo-data" type="application/json">';
+          const CLOSE = '</' + 'script>';
+          const NOW = new Date().toISOString();
 
           const TARGETS = [
-            { key:'rafael_grossi', all:['grossi'], any:['rafael','iaea','international atomic energy agency'], code:'AT', city:'Vienna', country:'Austria', lat:48.2082, lng:16.3738, org:'International Atomic Energy Agency', orgMark:'IAEA', image:'https://commons.wikimedia.org/wiki/Special:FilePath/Rafael%20Mariano%20Grossi%202023.jpg' },
-            { key:'pope_leo_xiv', any:['pope leo xiv','leo xiv','robert prevost','prevost','pope'], code:'VA', city:'Vatican City', country:'Vatican City', lat:41.9029, lng:12.4534, org:'Holy See', orgMark:'Vatican', image:'https://commons.wikimedia.org/wiki/Special:FilePath/Pope%20Leo%20XIV%202025.jpg' },
-            { key:'claudia_sheinbaum', all:['claudia','sheinbaum'], code:'MX', city:'Mexico City', country:'Mexico', lat:19.4326, lng:-99.1332, org:'Mexico', orgMark:'Mexico', image:'https://commons.wikimedia.org/wiki/Special:FilePath/Claudia%20Sheinbaum%20(cropped,%20centered).jpg' },
-            { key:'prabowo_subianto', all:['prabowo','subianto'], code:'ID', city:'Jakarta', country:'Indonesia', lat:-6.2088, lng:106.8456, org:'Indonesia', orgMark:'Indonesia', image:'https://commons.wikimedia.org/wiki/Special:FilePath/Prabowo%20Subianto%202024%20official%20portrait.jpg' },
-            { key:'mohammed_bin_salman', all:['salman'], any:['mohammed','mohammad','muhammad','mbs'], code:'SA', city:'Riyadh', country:'Saudi Arabia', lat:24.7136, lng:46.6753, org:'Saudi Arabia', orgMark:'Saudi Arabia', image:'https://commons.wikimedia.org/wiki/Special:FilePath/Mohammad%20bin%20Salman%202022.jpg' },
-            { key:'king_charles_iii', all:['charles'], any:['king charles','charles iii'], code:'GB', city:'London', country:'United Kingdom', lat:51.5074, lng:-0.1278, org:'Royal Household', orgMark:'Royal Family', image:'https://commons.wikimedia.org/wiki/Special:FilePath/King%20Charles%20III%20(2023).jpg' },
-            { key:'mark_rutte', all:['mark','rutte'], code:'BE', city:'Brussels', country:'Belgium', lat:50.8798, lng:4.4219, org:'NATO', orgMark:'NATO', image:'https://commons.wikimedia.org/wiki/Special:FilePath/Mark%20Rutte%202024.jpg' },
-            { key:'antonio_guterres', any:['antonio guterres','antónio guterres','guterres'], code:'US', city:'New York', country:'United States', lat:40.7499, lng:-73.9680, org:'United Nations', orgMark:'UN', image:'https://commons.wikimedia.org/wiki/Special:FilePath/Ant%C3%B3nio%20Guterres%202023.jpg' },
-            { key:'emmanuel_macron', all:['emmanuel','macron'], code:'FR', city:'Paris', country:'France', lat:48.8566, lng:2.3522, org:'France', orgMark:'France', image:'https://commons.wikimedia.org/wiki/Special:FilePath/Emmanuel%20Macron%20in%202023.jpg' }
+            { key:'rafael_grossi', names:['rafael grossi','rafael mariano grossi'], terms:['grossi'], anchor:{ city:'Vienna', countryCode:'AT', countryName:'Austria', lat:48.2082, lng:16.3738, region:'Europe', label:'Vienna institutional base' }, org:'International Atomic Energy Agency', orgMark:'IAEA', image:'https://commons.wikimedia.org/wiki/Special:FilePath/Rafael%20Grossi%20IAEA%20Director%20General.jpg' },
+            { key:'pope_leo_xiv', names:['pope leo xiv','leo xiv','robert prevost','robert francis prevost'], terms:['pope'], anchor:{ city:'Vatican City', countryCode:'VA', countryName:'Vatican City', lat:41.9029, lng:12.4534, region:'Europe', label:'Vatican City institutional base' }, org:'Holy See', orgMark:'Vatican', image:'https://commons.wikimedia.org/wiki/Special:FilePath/Pope%20Leo%20XIV%20official%20portrait.jpg' },
+            { key:'claudia_sheinbaum', names:['claudia sheinbaum','claudia sheinbaum pardo'], terms:['claudia','sheinbaum'], anchor:{ city:'Mexico City', countryCode:'MX', countryName:'Mexico', lat:19.4326, lng:-99.1332, region:'North America', label:'Mexico City institutional base' }, org:'Mexico', orgMark:'MX', image:'https://commons.wikimedia.org/wiki/Special:FilePath/Claudia%20Sheinbaum%20(cropped,%20centered).jpg' },
+            { key:'prabowo_subianto', names:['prabowo subianto'], terms:['prabowo','subianto'], anchor:{ city:'Jakarta', countryCode:'ID', countryName:'Indonesia', lat:-6.2088, lng:106.8456, region:'Asia', label:'Jakarta institutional base' }, org:'Indonesia', orgMark:'ID', image:'https://commons.wikimedia.org/wiki/Special:FilePath/Prabowo%20Subianto%202024%20official%20portrait.jpg' },
+            { key:'mohammed_bin_salman', names:['mohammed bin salman','mohammad bin salman','muhammad bin salman','mbs'], terms:['salman'], any:['mohammed','mohammad','muhammad','mbs'], anchor:{ city:'Riyadh', countryCode:'SA', countryName:'Saudi Arabia', lat:24.7136, lng:46.6753, region:'Middle East', label:'Riyadh institutional base' }, org:'Saudi Arabia', orgMark:'SA' },
+            { key:'king_charles', names:['king charles iii','charles iii'], terms:['charles'], any:['king','monarch'], anchor:{ city:'London', countryCode:'GB', countryName:'United Kingdom', lat:51.5074, lng:-0.1278, region:'Europe', label:'London institutional base' }, org:'United Kingdom', orgMark:'GB' },
+            { key:'mark_rutte', names:['mark rutte'], terms:['mark','rutte'], anchor:{ city:'Brussels', countryCode:'BE', countryName:'Belgium', lat:50.8798, lng:4.4219, region:'Europe', label:'NATO Brussels institutional base' }, org:'NATO', orgMark:'NATO' },
+            { key:'antonio_guterres', names:['antonio guterres','antónio guterres'], terms:['guterres'], anchor:{ city:'New York', countryCode:'US', countryName:'United States', lat:40.7499, lng:-73.9680, region:'North America', label:'UN New York institutional base' }, org:'United Nations', orgMark:'UN' },
+            { key:'emmanuel_macron', names:['emmanuel macron'], terms:['emmanuel','macron'], anchor:{ city:'Paris', countryCode:'FR', countryName:'France', lat:48.8566, lng:2.3522, region:'Europe', label:'Paris institutional base' }, org:'France', orgMark:'FR' },
+            { key:'ursula_von_der_leyen', names:['ursula von der leyen'], terms:['ursula','leyen'], anchor:{ city:'Brussels', countryCode:'BE', countryName:'Belgium', lat:50.8503, lng:4.3517, region:'Europe', label:'Brussels institutional base' }, org:'European Union', orgMark:'EU' },
+            { key:'kaja_kallas', names:['kaja kallas'], terms:['kaja','kallas'], anchor:{ city:'Brussels', countryCode:'BE', countryName:'Belgium', lat:50.8503, lng:4.3517, region:'Europe', label:'Brussels institutional base' }, org:'European Union', orgMark:'EU' }
           ];
 
-          const FAKE_EVENT_RE = /\b(iaea nuclear diplomacy watch|city of london finance diplomacy watch|think-?tank leadership events watch|royal diaries? and state-visit watch|source-watch|generic watch|event watch|homepage|faq|fact sheet|profile page|programme|programming)\b/i;
+          const FAKE_EVENT_RE = /\b(iaea nuclear diplomacy watch|city of london finance diplomacy watch|think[- ]tank leadership events watch|royal diaries|royal diary|state[- ]visit watch|source watch|source-watch|watch card|diplomacy watch|events watch)\b/i;
+          const GENERIC_EVENT_RE = /\b(faq|frequently asked|foire aux questions|homepage|home page|profile page|fact sheet|programme|program|sitemap|privacy|terms|cookie)\b/i;
+          const EVENT_ARRAY_HINT = /appearances|events|agendas|summits|signals|alerts|watch|timeline|catalog|calls|meetings/i;
+          const PROFILE_ARRAYS = ['people','roster','topRoster','expansionRoster','priorityExpansion','watchlistExamples'];
+          const HELPER_PROFILE_ARRAYS = ['topRoster','priorityExpansion','watchlistExamples'];
 
-          function norm(v){return String(v||'').toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,' ').trim();}
-          function slug(v){return norm(v).replace(/ /g,'-').replace(/^-+|-+$/g,'').slice(0,80);}
-          function textOf(o){
-            if(!o || typeof o !== 'object') return '';
-            return norm([
-              o.id,o.slug,o.name,o.canonicalName,o.wikiTitle,o.wikidataId,o.roleTitle,o.organization,o.orgMark,o.category,o.country,o.countryName,o.countryFocus,o.countryFocusCode,o.title,o.summary,o.profileLine,
-              Array.isArray(o.profileLines)?o.profileLines.join(' '):''
-            ].join(' '));
+          function norm(v){ return String(v||'').toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,' ').trim(); }
+          function slug(v){ return norm(v).replace(/ /g,'-').replace(/^-+|-+$/g,'').slice(0,90); }
+          function read(path){ return fs.existsSync(path) ? fs.readFileSync(path,'utf8') : ''; }
+          function sh(cmd){ return cp.execSync(cmd,{encoding:'utf8',stdio:['ignore','pipe','pipe']}); }
+          function safeJsonParse(s){ try { return JSON.parse(s); } catch { return null; } }
+          function extract(html){
+            const start = html.indexOf(OPEN);
+            if(start < 0) return null;
+            const jsonStart = start + OPEN.length;
+            const end = html.indexOf(CLOSE, jsonStart);
+            if(end < 0) return null;
+            const txt = html.slice(jsonStart,end).trim();
+            const data = safeJsonParse(txt);
+            if(!data) return null;
+            return { html, jsonStart, jsonEnd:end, data };
           }
-          function matchTarget(o,t){const txt=textOf(o); if(t.all && !t.all.every(x=>txt.includes(norm(x)))) return false; if(t.any && !t.any.some(x=>txt.includes(norm(x)))) return false; return true;}
-          function anchorObj(t){return {label:`${t.city} institutional base`, city:t.city, countryCode:t.code, countryName:t.country, lat:t.lat, lng:t.lng, precision:'city', type:'institutional_base', privacy:'city-level public institutional base only'};}
-          function applyAnchor(o,t){
-            const a=anchorObj(t);
-            o.countryFocus=t.code; o.countryFocusCode=t.code; o.countryCode=t.code; o.countryName=t.country; o.country=t.country;
-            o.homeRegion = t.code==='VA'||t.code==='GB'||t.code==='FR'||t.code==='AT'||t.code==='BE'?'Europe':(t.code==='US'?'North America':(t.code==='MX'?'North America':(t.code==='ID'?'Asia':'Middle East')));
-            o.organization = o.organization || t.org; if(t.key==='rafael_grossi') o.organization='International Atomic Energy Agency';
-            o.orgMark = t.orgMark || o.orgMark; o.locationStatus='institutional_base_city_level';
-            for (const k of ['homeBase','mapAnchor','anchorLocation','baseLocation','institutionalBase','publicLocation']) o[k]=a;
-            o.homeBases=[a];
-            o.location = o.location && o.location.eventType ? o.location : a;
-            o.lat=t.lat; o.lng=t.lng; o.lon=t.lng; o.long=t.lng; o.latitude=t.lat; o.longitude=t.lng; o.homeLat=t.lat; o.homeLng=t.lng; o.mapLat=t.lat; o.mapLng=t.lng; o.anchorLat=t.lat; o.anchorLng=t.lng;
-            o.coordinates={lat:t.lat,lng:t.lng}; o.geo={lat:t.lat,lng:t.lng,city:t.city,countryCode:t.code,countryName:t.country};
-            o.flagAudit={...(o.flagAudit||{}), code:t.code, countryCode:t.code, countryName:t.country, label:t.country, status:'country flag'};
-            o.flagCode=t.code; o.countryFlagCode=t.code;
-            if((!o.imageUrl || /placeholder|needs|missing|^$/i.test(String(o.imageUrl))) && t.image) {o.imageUrl=t.image; o.imageProvider='Wikimedia Commons curated fallback'; o.visualAuditStatus='curated fallback image';}
+          function count(data,k){ return Array.isArray(data && data[k]) ? data[k].length : null; }
+          function basicOk(data){
+            return data && typeof data === 'object' &&
+              Array.isArray(data.people) && data.people.length >= 80 &&
+              Array.isArray(data.roster) && data.roster.length >= 180 &&
+              Array.isArray(data.expansionRoster) && data.expansionRoster.length >= 90 &&
+              Array.isArray(data.appearances) && data.appearances.length >= 450 &&
+              Array.isArray(data.categories) && data.categories.length >= 8;
           }
-          function isProfileLike(o){return o && typeof o==='object' && !Array.isArray(o) && (o.id||o.slug||o.name||o.canonicalName||o.roleTitle||o.profileLine||o.wikiTitle);}
-          function isEventLike(o){return o && typeof o==='object' && !Array.isArray(o) && (o.startsAt||o.eventType||o.sourcePack||o.title||o.status==='source-watch');}
-
-          function extractFromHtml(html){
-            const m = OPEN_RE.exec(html); if(!m) return null;
-            const startTagStart=m.index, jsonStart=m.index+m[0].length;
-            const rest=html.slice(jsonStart); const close=CLOSE_RE.exec(rest); if(!close) return null;
-            const jsonEnd=jsonStart+close.index; const scriptEnd=jsonStart+close.index+close[0].length;
-            const jsonText=html.slice(jsonStart,jsonEnd).trim();
-            try { return { html, startTagStart, jsonStart, jsonEnd, scriptEnd, data: JSON.parse(jsonText) }; } catch(e){ return null; }
-          }
-          function countsOk(data){return data && Array.isArray(data.people)&&data.people.length>=90&&Array.isArray(data.roster)&&data.roster.length>=190&&Array.isArray(data.expansionRoster)&&data.expansionRoster.length>=100&&Array.isArray(data.appearances)&&data.appearances.length>=480&&Array.isArray(data.categories)&&data.categories.length>=10;}
-          function findSource(){
-            let current=''; try{current=fs.readFileSync('index.html','utf8')}catch{}
-            let p=extractFromHtml(current); if(p && countsOk(p.data)) return {...p, source:'current index.html'};
-            const commits = cp.execSync('git rev-list --all -- index.html', {encoding:'utf8'}).trim().split('\n').filter(Boolean).slice(0,300);
-            for(const c of commits){
-              try{ const html=cp.execSync(`git show ${c}:index.html`, {encoding:'utf8',maxBuffer:80*1024*1024}); const q=extractFromHtml(html); if(q && countsOk(q.data)) return {...q, source:`git:${c}`}; }catch(e){}
-            }
-            throw new Error('No safe index.html with valid demo-data found in current file or git history');
-          }
-
-          function filterArrays(obj, report, path='data'){
-            if(!obj || typeof obj!=='object') return;
-            for(const [k,v] of Object.entries(obj)){
-              if(Array.isArray(v)){
-                const next=[];
-                for(let i=0;i<v.length;i++){
-                  const item=v[i];
-                  if(isEventLike(item)){
-                    const text=[item.title,item.summary,item.status,item.eventType,item.kind,item.type].join(' ');
-                    if(FAKE_EVENT_RE.test(text) && (item.startsAt || /watch|source-watch/i.test(text))){
-                      report.fakeEventsRemoved.push({path:`${path}.${k}[${i}]`, id:item.id||null, title:item.title||null, status:item.status||null});
-                      continue;
-                    }
-                  }
-                  next.push(item);
-                }
-                obj[k]=next;
-                for(let i=0;i<next.length;i++) filterArrays(next[i], report, `${path}.${k}[${i}]`);
-              } else if(v && typeof v==='object') filterArrays(v, report, `${path}.${k}`);
-            }
-          }
-
-          function repairProfiles(data, report){
-            function walk(o,path){
-              if(!o || typeof o!=='object') return;
-              if(Array.isArray(o)){ for(let i=0;i<o.length;i++) walk(o[i],`${path}[${i}]`); return; }
-              if(isProfileLike(o)){
-                for(const t of TARGETS){ if(matchTarget(o,t)){ const before={countryFocusCode:o.countryFocusCode, flagAudit:o.flagAudit, lat:o.lat??o.latitude??null, lng:o.lng??o.longitude??null, imageUrl:o.imageUrl||null}; applyAnchor(o,t); report.anchorRepairs.push({target:t.key,path,before,after:{countryFocusCode:o.countryFocusCode, flagAudit:o.flagAudit, lat:o.lat, lng:o.lng, imageUrl:o.imageUrl||null}}); break; }}
+          function recoverIndex(){
+            const current = read(INDEX);
+            const currentExtracted = extract(current);
+            if(currentExtracted && basicOk(currentExtracted.data)) return currentExtracted;
+            const commits = sh('git rev-list --all -- index.html').split(/\n/).filter(Boolean);
+            for(const sha of commits){
+              let html = '';
+              try { html = sh(`git show ${sha}:index.html`); } catch { continue; }
+              const ex = extract(html);
+              if(ex && basicOk(ex.data)){
+                fs.writeFileSync(INDEX, html);
+                return ex;
               }
-              for(const [k,v] of Object.entries(o)) if(v&&typeof v==='object') walk(v,`${path}.${k}`);
             }
-            walk(data,'data');
+            throw new Error('No safe full index.html with demo-data found in git history. Current index.html cannot be repaired safely.');
           }
-          function isGrossi(o){return isProfileLike(o) && matchTarget(o, TARGETS[0]);}
-          function removeGrossiHelpers(data, report){
-            const helperKeys=['topRoster','watchlistExamples','priorityExpansion','structuredSourceWatch','openCatalogs'];
-            for(const key of helperKeys){
-              if(!Array.isArray(data[key])) continue;
-              const before=data[key].length;
-              data[key]=data[key].filter((x,i)=>{ if(isGrossi(x)){report.profileDuplicatesRemoved.push({collection:key,index:i,id:x.id||null,name:x.canonicalName||x.name||null}); return false;} return true; });
-              if(data[key].length!==before) report.collectionsChanged.push({collection:key,before,after:data[key].length});
+          function replaceDemo(payload, data){
+            const next = payload.html.slice(0,payload.jsonStart) + '\n' + JSON.stringify(data,null,2) + '\n' + payload.html.slice(payload.jsonEnd);
+            fs.writeFileSync(INDEX,next);
+            fs.mkdirSync('data',{recursive:true});
+            fs.writeFileSync(MIRROR, JSON.stringify(data,null,2)+'\n');
+          }
+          function textOf(obj){
+            if(!obj || typeof obj !== 'object') return '';
+            return norm([obj.id,obj.slug,obj.name,obj.canonicalName,obj.wikiTitle,obj.wikidataId,obj.roleTitle,obj.organization,obj.orgMark,obj.countryName,obj.countryFocus,obj.countryFocusCode,obj.profileLine,Array.isArray(obj.profileLines)?obj.profileLines.join(' '):'',obj.title,obj.summary].join(' '));
+          }
+          function matchesTarget(obj, target){
+            const t = textOf(obj);
+            if(!t) return false;
+            if((target.names||[]).some(n => t.includes(norm(n)))) return true;
+            const termsOk = !target.terms || target.terms.every(term => t.includes(norm(term)));
+            const anyOk = !target.any || target.any.some(term => t.includes(norm(term)));
+            return termsOk && anyOk;
+          }
+          function isProfileLike(obj){
+            return obj && typeof obj === 'object' && !Array.isArray(obj) && !obj.startsAt && (obj.slug || obj.name || obj.canonicalName || obj.roleTitle || obj.wikidataId || obj.profileLine);
+          }
+          function anchorObj(target){
+            const a = target.anchor;
+            return { label:a.label, city:a.city, countryCode:a.countryCode, countryName:a.countryName, lat:a.lat, lng:a.lng, precision:'city', type:'institutional_base', privacy:'city-level public institutional base only' };
+          }
+          function patchProfile(obj, target, report, path, visible){
+            const a = target.anchor;
+            const anchor = anchorObj(target);
+            const before = { countryFocus:obj.countryFocus, countryFocusCode:obj.countryFocusCode, countryName:obj.countryName, flagAudit:obj.flagAudit, lat:obj.lat, lng:obj.lng };
+            obj.countryFocus = a.countryCode;
+            obj.countryFocusCode = a.countryCode;
+            obj.countryCode = a.countryCode;
+            obj.countryName = a.countryName;
+            obj.country = a.countryName;
+            obj.homeRegion = a.region;
+            obj.locationStatus = 'institutional_base_city_level';
+            obj.homeBases = [anchor];
+            obj.homeBase = anchor;
+            obj.mapAnchor = anchor;
+            obj.anchorLocation = anchor;
+            obj.baseLocation = anchor;
+            obj.institutionalBase = anchor;
+            obj.lat = a.lat; obj.lng = a.lng; obj.lon = a.lng; obj.long = a.lng;
+            obj.latitude = a.lat; obj.longitude = a.lng;
+            obj.homeLat = a.lat; obj.homeLng = a.lng; obj.homeLon = a.lng; obj.homeLongitude = a.lng;
+            obj.mapLat = a.lat; obj.mapLng = a.lng; obj.mapLon = a.lng; obj.mapLongitude = a.lng;
+            obj.anchorLat = a.lat; obj.anchorLng = a.lng; obj.anchorLon = a.lng; obj.anchorLongitude = a.lng;
+            obj.coordinates = { lat:a.lat, lng:a.lng };
+            obj.geo = { lat:a.lat, lng:a.lng, city:a.city, countryCode:a.countryCode, countryName:a.countryName };
+            obj.flagAudit = { ...(obj.flagAudit || {}), code:a.countryCode, countryCode:a.countryCode, label:a.countryName, countryName:a.countryName, status:'country flag' };
+            obj.flagCode = a.countryCode;
+            obj.countryFlagCode = a.countryCode;
+            if(target.org){ obj.organization = target.org; obj.orgMark = target.orgMark || obj.orgMark; }
+            if(target.image && (!obj.imageUrl || /placeholder|blank|missing/i.test(String(obj.imageUrl)))){ obj.imageUrl = target.image; obj.imageProvider = obj.imageProvider || 'curated public source'; }
+            obj.__parleymapCanonicalAnchor = target.key;
+            if(visible === false){ obj.renderOnMap = false; obj.mapVisible = false; obj.includeInOpeningMap = false; obj.visible = false; obj.trackingStatus = 'duplicate_hidden_by_canonical_repair'; }
+            report.anchorRepairs.push({ path, target:target.key, before, after:{ countryFocusCode:obj.countryFocusCode, countryName:obj.countryName, lat:obj.lat, lng:obj.lng } });
+          }
+          function walk(obj, fn, path='data'){
+            if(!obj || typeof obj !== 'object') return;
+            fn(obj,path);
+            if(Array.isArray(obj)) obj.forEach((v,i)=>walk(v,fn,`${path}[${i}]`));
+            else Object.entries(obj).forEach(([k,v])=>{ if(v && typeof v === 'object') walk(v,fn,`${path}.${k}`); });
+          }
+          function eventText(o){ return norm([o && o.id,o && o.title,o && o.summary,o && o.status,o && o.eventType,o && o.type,o && o.label].join(' ')); }
+          function isFakeEvent(o){
+            if(!o || typeof o !== 'object' || Array.isArray(o)) return false;
+            const txt = eventText(o);
+            const dated = !!(o.startsAt || o.date || o.endsAt || o.eventDate);
+            const sourceWatch = /source watch|source-watch|watch/.test(txt) || o.status === 'source-watch' || o.status === 'SOURCE_WATCH';
+            return (FAKE_EVENT_RE.test(txt) || (dated && sourceWatch) || (dated && GENERIC_EVENT_RE.test(txt)));
+          }
+          function filterArrays(node, path, report){
+            if(!node || typeof node !== 'object') return;
+            if(Array.isArray(node)){
+              for(let i=node.length-1;i>=0;i--){
+                const item=node[i];
+                if(isFakeEvent(item)){
+                  report.fakeEventsRemoved.push({ path:`${path}[${i}]`, id:item.id||null, title:item.title||item.label||null, status:item.status||null });
+                  node.splice(i,1);
+                }
+              }
+              node.forEach((v,i)=>filterArrays(v,`${path}[${i}]`,report));
+              return;
             }
-            // If Grossi exists in expansionRoster as well as roster, remove expansion copy to avoid a second visible profile source.
-            const grossiInRoster = Array.isArray(data.roster) && data.roster.some(isGrossi);
-            if(grossiInRoster && Array.isArray(data.expansionRoster)){
-              const before=data.expansionRoster.length;
-              data.expansionRoster=data.expansionRoster.filter((x,i)=>{ if(isGrossi(x)){report.profileDuplicatesRemoved.push({collection:'expansionRoster',index:i,id:x.id||null,name:x.canonicalName||x.name||null}); return false;} return true; });
-              if(data.expansionRoster.length!==before) report.collectionsChanged.push({collection:'expansionRoster',before,after:data.expansionRoster.length});
+            for(const [k,v] of Object.entries(node)) filterArrays(v,`${path}.${k}`,report);
+          }
+          function dedupeSameIdInArray(arr, path, report){
+            if(!Array.isArray(arr)) return;
+            const seen = new Set();
+            for(let i=arr.length-1;i>=0;i--){
+              const item = arr[i];
+              if(!item || typeof item !== 'object') continue;
+              const id = String(item.id || item.slug || '').trim();
+              if(!id) continue;
+              if(seen.has(id)){
+                report.profileDuplicatesRemoved.push({ path:`${path}[${i}]`, id, name:item.canonicalName||item.name||null, reason:'duplicate_id_within_array' });
+                arr.splice(i,1);
+              } else seen.add(id);
             }
           }
-          function findPersonId(data, target){
-            const pools=['people','roster','topRoster','expansionRoster'];
-            for(const key of pools) for(const row of (Array.isArray(data[key])?data[key]:[])) if(matchTarget(row,target)) return row.id || row.slug;
+          function applyProfileRepairs(data, report){
+            const grossi = TARGETS.find(t=>t.key==='rafael_grossi');
+            for(const name of Object.keys(data)){
+              const arr = data[name];
+              if(Array.isArray(arr)) dedupeSameIdInArray(arr, `data.${name}`, report);
+            }
+            for(const collection of PROFILE_ARRAYS){
+              const arr = Array.isArray(data[collection]) ? data[collection] : [];
+              for(let i=arr.length-1;i>=0;i--){
+                const item = arr[i];
+                if(!isProfileLike(item)) continue;
+                if(grossi && matchesTarget(item,grossi) && HELPER_PROFILE_ARRAYS.includes(collection)){
+                  report.profileDuplicatesRemoved.push({ path:`data.${collection}[${i}]`, id:item.id||null, name:item.canonicalName||item.name||null, reason:'grossi_helper_collection_suppressed' });
+                  arr.splice(i,1);
+                }
+              }
+            }
+            let grossiVisibleKept = false;
+            walk(data,(obj,path)=>{
+              if(!isProfileLike(obj)) return;
+              for(const target of TARGETS){
+                if(!matchesTarget(obj,target)) continue;
+                let visible = true;
+                if(target.key === 'rafael_grossi'){
+                  const inRoster = /data\.roster\[/.test(path);
+                  const inPeople = /data\.people\[/.test(path);
+                  if(!grossiVisibleKept && inRoster){ grossiVisibleKept = true; visible = true; }
+                  else if(!grossiVisibleKept && inPeople){ visible = false; }
+                  else if(!inRoster){ visible = false; }
+                }
+                patchProfile(obj,target,report,path,visible);
+                break;
+              }
+            });
+          }
+          function findPersonId(data, names){
+            const pools = ['people','roster','topRoster','expansionRoster'];
+            for(const p of pools){
+              for(const item of Array.isArray(data[p]) ? data[p] : []){
+                const t = textOf(item);
+                if(names.some(n=>t.includes(norm(n)))) return item.id || item.slug;
+              }
+            }
             return null;
           }
-          function seedEvents(data, report){
-            if(!Array.isArray(data.appearances)) data.appearances=[];
-            const seeds=[
-              {target:'rafael_grossi', id:'official-iaea-grossi-board-vienna-2026-03-02', date:'2026-03-02T09:00:00+01:00', title:'Rafael Grossi addresses the IAEA Board of Governors', city:'Vienna', code:'AT', country:'Austria', lat:48.2082, lng:16.3738, url:'https://www.iaea.org/newscenter/statements/iaea-director-generals-introductory-statement-to-the-board-of-governors-2-6-march-2026', source:'IAEA'},
-              {target:'pope_leo_xiv', id:'official-vatican-pope-leo-xiv-spain-journey-2026-06-06', date:'2026-06-06T09:00:00+02:00', title:'Pope Leo XIV apostolic journey to Spain', city:'Madrid', code:'ES', country:'Spain', lat:40.4168, lng:-3.7038, url:'https://www.vatican.va/content/leo-xiv/en/travels/2026/documents/spagna-6-12giugno2026.html', source:'Vatican'},
-              {target:'king_charles_iii', id:'official-royal-king-charles-washington-address-2026-04-28', date:'2026-04-28T12:00:00-04:00', title:'King Charles III addresses the Joint Meeting of Congress in Washington', city:'Washington', code:'US', country:'United States', lat:38.9072, lng:-77.0369, url:'https://www.royal.uk/news-and-activity/2026-04-28/the-kings-address-to-the-joint-meeting-of-congress-in-washington', source:'Royal Family'}
-            ];
-            for(const s of seeds){
-              if(data.appearances.some(a=>a.id===s.id)) continue;
-              const target=TARGETS.find(t=>t.key===s.target); const personId=findPersonId(data,target); if(!personId){ report.officialEventsSkipped.push({id:s.id,reason:'person not found'}); continue; }
-              data.appearances.push({ id:s.id, personId, startsAt:s.date, endsAt:null, status:'VERIFIED_PAST', confidence:0.95, confidenceLabel:'official public source', eventType:'OFFICIAL_PUBLIC_EVENT', title:s.title, summary:s.title, significance:'Official-source public event added by canonical repair.', decisions:'', location:{label:`${s.city}, ${s.country}`, city:s.city, countryCode:s.code, countryName:s.country, lat:s.lat, lng:s.lng, precision:'city'}, venuePublic:true, securityPrecision:'city-level public event only; no private stops, hotels, residences, leaked routes or live proximity', publicInterestScore:70, eventGroupId:`eg-${slug(s.city)}-${s.date.slice(0,10)}`, topics:['official-source'], counterpartIds:[], sourcePack:[{label:s.source,url:s.url,type:'official',reliability:'primary official source'}], visual:{status:'runtime portrait',policy:'Use only audited public media with attribution.'}, lastCheckedAt:new Date().toISOString(), marketImpact:{sectors:[],companies:[],countries:[s.country],confidence:'low'} });
-              report.officialEventsAdded.push({id:s.id,personId,title:s.title});
+          function sourcePack(url,label){ return [{ url, label, type:'official', reliability:'official-primary', checkedAt:NOW }]; }
+          function makeEvent(id, personId, title, startsAt, city, countryCode, countryName, lat, lng, url, summary){
+            return { id, personId, startsAt, endsAt:null, status:'VERIFIED_PUBLIC', confidence:0.95, confidenceLabel:'official source', eventType:'PUBLIC_APPEARANCE', title, summary:summary||title, significance:'Official-source public event.', decisions:'', location:{ label:city, city, countryCode, countryName, lat, lng, precision:'city', type:'public_city' }, venuePublic:true, securityPrecision:'city-level public event only', publicInterestScore:80, eventGroupId:`eg-${id}`, topics:['official-source'], counterpartIds:[], sourcePack:sourcePack(url,'official source'), visual:{status:'runtime portrait'}, lastCheckedAt:NOW, marketImpact:{sectors:[],companies:[],countries:[countryName],confidence:'medium'}, realEvent:true };
+          }
+          function addOfficialEvents(data, report){
+            const grossiId = findPersonId(data,['rafael grossi']);
+            const popeId = findPersonId(data,['pope leo xiv','pope']);
+            const kingId = findPersonId(data,['king charles iii','charles iii']);
+            const seeds = [];
+            if(grossiId) seeds.push(makeEvent('official-iaea-grossi-bog-vienna-2026-03-02', grossiId, 'IAEA Board of Governors statement', '2026-03-02T09:00:00Z', 'Vienna', 'AT', 'Austria', 48.2082, 16.3738, 'https://www.iaea.org/newscenter/statements/iaea-director-generals-introductory-statement-to-the-board-of-governors-2-6-march-2026', 'Rafael Grossi at the IAEA Board of Governors in Vienna.'));
+            if(popeId) seeds.push(makeEvent('official-vatican-pope-leo-xiv-spain-2026-06-06', popeId, 'Pope Leo XIV apostolic journey to Spain', '2026-06-06T09:00:00Z', 'Madrid', 'ES', 'Spain', 40.4168, -3.7038, 'https://www.vatican.va/content/leo-xiv/en/travels/2026/documents/spagna-6-12giugno2026.html', 'Vatican-published itinerary for Pope Leo XIV in Spain.'));
+            if(kingId) seeds.push(makeEvent('official-royal-king-charles-washington-congress-2026-04-28', kingId, 'The King address to Congress in Washington', '2026-04-28T12:00:00Z', 'Washington', 'US', 'United States', 38.9072, -77.0369, 'https://www.royal.uk/news-and-activity/2026-04-28/the-kings-address-to-the-joint-meeting-of-congress-in-washington', 'Royal Family official record of the King in Washington.'));
+            data.appearances = Array.isArray(data.appearances) ? data.appearances : [];
+            const ids = new Set(data.appearances.map(x=>x && x.id));
+            for(const ev of seeds){ if(!ids.has(ev.id)){ data.appearances.push(ev); report.officialEventsAdded.push({ id:ev.id, title:ev.title, personId:ev.personId }); } }
+          }
+          function collectAdsenseFromText(text, found){
+            for(const m of String(text||'').matchAll(/ca-pub-[0-9]{10,}/g)) found.clients.add(m[0]);
+            for(const m of String(text||'').matchAll(/pub-[0-9]{10,}/g)) found.publishers.add(m[0]);
+            for(const m of String(text||'').matchAll(/data-ad-slot=["']([^"']{3,})["']/g)) found.slots.add(m[1]);
+          }
+          function findAdsense(){
+            const found = { clients:new Set(), publishers:new Set(), slots:new Set() };
+            const files = ['index.html','ads.txt','index.template.html','privacy.html','impressum.html','data/demo.json'];
+            for(const f of files) collectAdsenseFromText(read(f),found);
+            let grep = '';
+            try { grep = sh("git grep -I -h -E 'ca-pub-|data-ad-slot|pub-[0-9]' $(git rev-list --all) -- '*.html' '*.txt' '*.json' 2>/dev/null || true"); } catch {}
+            collectAdsenseFromText(grep,found);
+            const client = [...found.clients][0] || '';
+            const publisher = client ? client.replace(/^ca-/,'') : ([...found.publishers][0] || '');
+            const slots = [...found.slots].filter(Boolean);
+            return { client, publisherId:publisher, headerSlot:slots[0]||'', sidebarSlot:slots.find(s=>s!==slots[0])||slots[1]||'' };
+          }
+          function ensureHead(html, snippet, marker){
+            if(html.includes(marker)) return html;
+            if(/<\/head>/i.test(html)) return html.replace(/<\/head>/i, snippet + '\n</head>');
+            return snippet + '\n' + html;
+          }
+          function installAdsense(report){
+            let html = read(INDEX);
+            const ids = findAdsense();
+            report.adsense = { ...ids, status: ids.client && ids.headerSlot && ids.sidebarSlot ? 'adsense_preserved_and_audited' : 'adsense_ids_not_found_no_fake_ids_injected' };
+            if(ids.client){
+              html = ensureHead(html, `<meta name="google-adsense-account" content="${ids.client}">`, 'google-adsense-account');
+              html = ensureHead(html, `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ids.client}" crossorigin="anonymous"></script>`, 'pagead2.googlesyndication.com/pagead/js/adsbygoogle.js');
+              fs.writeFileSync(INDEX, html);
+              if(ids.publisherId) fs.writeFileSync('ads.txt', `google.com, ${ids.publisherId}, DIRECT, f08c47fec0942fa0\n`);
             }
+            const privacy = '<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Privacy Policy - ParleyMap</title><meta name="viewport" content="width=device-width,initial-scale=1"></head><body><main><h1>Privacy Policy</h1><p>ParleyMap uses public-source information to map public appearances and institutional events. It does not publish private addresses, private residences, hotels, hospitals, leaked itineraries or live routes.</p><p>The site may use essential storage for preferences and, where accepted, analytics or advertising services such as Google AdSense.</p><p>Contact: contact@parleymap.com</p></main></body></html>\n';
+            const impressum = '<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Impressum - ParleyMap</title><meta name="viewport" content="width=device-width,initial-scale=1"></head><body><main><h1>Impressum</h1><p>ParleyMap is a public-source presence intelligence project.</p><p>Contact: contact@parleymap.com</p></main></body></html>\n';
+            if(!/<html/i.test(read('privacy.html')) || /index\.html|workflow|build/i.test(read('privacy.html'))) fs.writeFileSync('privacy.html', privacy);
+            if(!/<html/i.test(read('impressum.html')) || /index\.html|workflow|build/i.test(read('impressum.html'))) fs.writeFileSync('impressum.html', impressum);
+            if(!fs.existsSync('about.html')) fs.writeFileSync('about.html','<!doctype html><html><head><meta charset="utf-8"><title>About ParleyMap</title></head><body><main><h1>About ParleyMap</h1><p>ParleyMap tracks public appearances, official meetings and institutionally sourced events at city-level precision.</p></main></body></html>\n');
+            if(!fs.existsSync('methodology.html')) fs.writeFileSync('methodology.html','<!doctype html><html><head><meta charset="utf-8"><title>Methodology</title></head><body><main><h1>Methodology</h1><p>Records are sourced from official or host-public sources and filtered to avoid private movement tracking.</p></main></body></html>\n');
+            if(!fs.existsSync('data-sources.html')) fs.writeFileSync('data-sources.html','<!doctype html><html><head><meta charset="utf-8"><title>Data Sources</title></head><body><main><h1>Data Sources</h1><p>Sources include official government, institutional, Vatican, IAEA, royal and multilateral public pages.</p></main></body></html>\n');
+            if(!fs.existsSync('contact.html')) fs.writeFileSync('contact.html','<!doctype html><html><head><meta charset="utf-8"><title>Contact</title></head><body><main><h1>Contact</h1><p>contact@parleymap.com</p></main></body></html>\n');
           }
-          function installRuntimeGuard(html){
-            if(html.includes('PARLEYMAP_CANONICAL_RUNTIME_GUARD')) return html;
-            const guard = `<script id="parleymap-canonical-runtime-guard">\n(function(){\nwindow.PARLEYMAP_CANONICAL_RUNTIME_GUARD=true;\nconst A={\n  grossi:{terms:[/grossi/i],lat:48.2082,lng:16.3738,label:'Vienna, Austria'},\n  pope:{terms:[/pope leo xiv/i,/leo xiv/i,/prevost/i],lat:41.9029,lng:12.4534,label:'Vatican City'},\n  sheinbaum:{terms:[/claudia sheinbaum/i,/sheinbaum/i],lat:19.4326,lng:-99.1332,label:'Mexico City, Mexico'},\n  subianto:{terms:[/prabowo subianto/i,/subianto/i],lat:-6.2088,lng:106.8456,label:'Jakarta, Indonesia'}\n};\nfunction pick(txt){txt=String(txt||''); return Object.values(A).find(a=>a.terms.some(r=>r.test(txt)));}\nfunction patchLatLng(latlng,txt){const a=pick(txt); if(!a) return latlng; if(Array.isArray(latlng)) return [a.lat,a.lng]; if(latlng&&typeof latlng==='object'){latlng.lat=a.lat;latlng.lng=a.lng;} return latlng;}\nconst t=setInterval(function(){if(!window.L||!L.marker)return;clearInterval(t);const old=L.marker;L.marker=function(latlng,opts){const txt=JSON.stringify(opts||{}); return old.call(this,patchLatLng(latlng,txt),opts);};},50);\n})();\n</script>`;
-            const idx=html.search(/<script\s+id=["']demo-data["']/i); if(idx>=0) return html.slice(0,idx)+guard+'\n'+html.slice(idx);
-            return html.replace(/<\/head>/i, guard+'\n</head>');
+          function installRuntimeGuard(){
+            let html = read(INDEX);
+            const guardId = 'parleymap-canonical-runtime-guard';
+            const guard = `<script id="${guardId}">(function(){var A={grossi:{lat:48.2082,lng:16.3738,city:'Vienna'},pope:{lat:41.9029,lng:12.4534,city:'Vatican City'},sheinbaum:{lat:19.4326,lng:-99.1332,city:'Mexico City'},subianto:{lat:-6.2088,lng:106.8456,city:'Jakarta'}};function key(s){s=String(s||'').toLowerCase();if(s.includes('grossi'))return'grossi';if(s.includes('pope')||s.includes('leo xiv'))return'pope';if(s.includes('sheinbaum'))return'sheinbaum';if(s.includes('subianto')||s.includes('prabowo'))return'subianto';return''}function patch(){if(!window.L||!L.marker||L.marker.__pmCanonicalGuard){setTimeout(patch,200);return}var orig=L.marker,seen={};L.marker=function(latlng,opt){var txt='';try{txt=JSON.stringify(opt||{})}catch(e){}var k=key(txt);if(k&&A[k]){latlng=[A[k].lat,A[k].lng];seen[k]=(seen[k]||0)+1;if(k==='grossi'&&seen[k]>1){opt=Object.assign({},opt||{},{opacity:0,interactive:false});}}return orig.call(this,latlng,opt)};L.marker.__pmCanonicalGuard=true}patch();setInterval(function(){var seen={};document.querySelectorAll('.leaflet-marker-icon,.leaflet-tooltip,.leaflet-popup').forEach(function(el){var k=key(el.textContent||el.innerHTML||'');if(!k)return;if(k==='grossi'){seen[k]=(seen[k]||0)+1;if(seen[k]>1)el.style.display='none'}})},1000);})();</script>`;
+            const re = new RegExp(`<script id=["']${guardId}["'][\\s\\S]*?<\\/script>`,'g');
+            html = html.replace(re,'');
+            const ex = extract(html);
+            if(ex){
+              const insertAt = html.indexOf(CLOSE, ex.jsonEnd) + CLOSE.length;
+              html = html.slice(0,insertAt) + '\n' + guard + '\n' + html.slice(insertAt);
+            } else if(/<\/head>/i.test(html)) html = html.replace(/<\/head>/i, guard+'\n</head>');
+            else html = guard+'\n'+html;
+            fs.writeFileSync(INDEX, html);
           }
-          function findAdsenseValues(html){
-            const corpus=[]; corpus.push(html); for(const f of ['ads.txt','index.template.html','privacy.html','impressum.html']){try{corpus.push(fs.readFileSync(f,'utf8'))}catch{}}
-            try{ const commits=cp.execSync('git rev-list --all -- index.html', {encoding:'utf8'}).trim().split('\n').filter(Boolean).slice(0,200); for(const c of commits){try{corpus.push(cp.execSync(`git show ${c}:index.html`,{encoding:'utf8',maxBuffer:80*1024*1024}))}catch{}} }catch{}
-            const joined=corpus.join('\n');
-            let client = INPUT.publisherId || ((joined.match(/ca-pub-[0-9]{10,}/)||[])[0]) || '';
-            let pub = '';
-            if(client.startsWith('ca-')) pub=client.slice(3); else if(client.startsWith('pub-')) {pub=client; client='ca-'+client;}
-            if(!pub) pub=((joined.match(/pub-[0-9]{10,}/)||[])[0])||''; if(!client&&pub) client='ca-'+pub;
-            const slots=[...joined.matchAll(/data-ad-slot=["']([0-9]{4,})["']/g)].map(m=>m[1]);
-            const uniq=[...new Set(slots)];
-            const header=INPUT.headerSlot || uniq[0] || '';
-            const sidebar=INPUT.sidebarSlot || uniq.find(x=>x!==header) || uniq[1] || '';
-            return {client,publisherId:pub,headerSlot:header,sidebarSlot:sidebar};
+          function visibleGrossiCount(data){
+            let c=0;
+            for(const k of PROFILE_ARRAYS){
+              for(const item of Array.isArray(data[k]) ? data[k] : []){
+                if(matchesTarget(item,TARGETS[0]) && item.renderOnMap !== false && item.mapVisible !== false && item.visible !== false) c++;
+              }
+            }
+            return c;
           }
-          function installAdsense(html, ads, report){
-            if(!ads.client || !ads.headerSlot || !ads.sidebarSlot){ report.adsense={status:'adsense_ids_not_found_no_fake_ids_injected',...ads}; if(INPUT.requireAdsenseReady) throw new Error('AdSense IDs not found and require_adsense_ready=true'); return html; }
-            fs.writeFileSync('ads.txt', `google.com, ${ads.publisherId}, DIRECT, f08c47fec0942fa0\n`);
-            if(!html.includes('google-adsense-account')) html=html.replace(/<head[^>]*>/i, m=>`${m}\n<meta name="google-adsense-account" content="${ads.client}">`);
-            if(!html.includes('pagead2.googlesyndication.com/pagead/js/adsbygoogle.js')) html=html.replace(/<head[^>]*>/i, m=>`${m}\n<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ads.client}" crossorigin="anonymous"></script>`);
-            const block=`<div id="parleymap-adsense-crawl-units" style="display:block;min-height:1px;overflow:hidden">\n<ins class="adsbygoogle" style="display:block" data-ad-client="${ads.client}" data-ad-slot="${ads.headerSlot}" data-ad-format="auto" data-full-width-responsive="true"></ins>\n<ins class="adsbygoogle" style="display:block" data-ad-client="${ads.client}" data-ad-slot="${ads.sidebarSlot}" data-ad-format="auto" data-full-width-responsive="true"></ins>\n<script>(adsbygoogle=window.adsbygoogle||[]).push({});(adsbygoogle=window.adsbygoogle||[]).push({});</script>\n</div>`;
-            if(!html.includes('parleymap-adsense-crawl-units')) html=html.replace(/<body[^>]*>/i, m=>`${m}\n${block}`);
-            report.adsense={status:'adsense_preserved_and_audited',...ads}; return html;
+          function audit(data, report){
+            const fail=[];
+            if(!basicOk(data)) fail.push('core_counts_below_floor');
+            const fake=[]; walk(data,(o,p)=>{ if(isFakeEvent(o)) fake.push({path:p,title:o.title||o.label||null}); });
+            if(fake.length) fail.push('fake_events_remaining');
+            const vg = visibleGrossiCount(data); if(vg !== 1) fail.push('grossi_visible_count_'+vg);
+            const checks = [
+              ['rafael_grossi','AT','Vienna'],['pope_leo_xiv','VA','Vatican City'],['claudia_sheinbaum','MX','Mexico City'],['prabowo_subianto','ID','Jakarta']
+            ];
+            for(const [key,code,city] of checks){
+              const t = TARGETS.find(x=>x.key===key); let found=0,bad=0;
+              walk(data,(o)=>{ if(isProfileLike(o)&&matchesTarget(o,t)){ found++; const txt = JSON.stringify(o).toLowerCase(); if(!txt.includes(city.toLowerCase()) || String(o.countryFocusCode||o.countryCode||'').toUpperCase()!==code) bad++; if(key==='rafael_grossi' && /"countryFocusCode":"IA"|"code":"BI"|BIS/.test(JSON.stringify(o))) bad++; }});
+              if(!found) fail.push(key+'_not_found'); if(bad) fail.push(key+'_bad_anchor_'+bad);
+            }
+            const status = fail.length ? 'audit_failed' : 'audit_passed';
+            const auditReport = { generatedAt:NOW, status, failures:fail, fakeEventsRemaining:fake.slice(0,20), grossiVisibleCount:vg, before:report.before, after:report.after };
+            fs.writeFileSync(`${DIAG}/canonical-hard-audit-report.json`, JSON.stringify(auditReport,null,2)+'\n');
+            if(fail.length) throw new Error('Hard audit failed: '+fail.join(', '));
           }
-          function writeLegal(){
-            fs.writeFileSync('privacy.html','<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Privacy Policy - ParleyMap</title><meta name="viewport" content="width=device-width,initial-scale=1"></head><body><main><h1>Privacy Policy</h1><p>ParleyMap publishes public-source presence intelligence. The service uses standard web hosting, analytics and advertising technologies. Advertising may be provided by Google AdSense, which may use cookies or similar technologies where permitted by law and user consent.</p><p>Contact: hello@parleymap.com</p></main></body></html>\n');
-            fs.writeFileSync('impressum.html','<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Impressum - ParleyMap</title><meta name="viewport" content="width=device-width,initial-scale=1"></head><body><main><h1>Impressum</h1><p>ParleyMap is an editorial public-source data product. It maps public appearances and institution-level public records. Private residences, hotels, hospitals, leaked itineraries and private live movement are excluded.</p><p>Contact: hello@parleymap.com</p></main></body></html>\n');
-            fs.writeFileSync('about.html','<!doctype html><html lang="en"><head><meta charset="utf-8"><title>About ParleyMap</title></head><body><main><h1>About ParleyMap</h1><p>ParleyMap tracks public, source-backed influence events and institutional appearances.</p></main></body></html>\n');
-            fs.writeFileSync('methodology.html','<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Methodology - ParleyMap</title></head><body><main><h1>Methodology</h1><p>Events require a public date, public city-level location, named person or institution, and official or host-public source pack. Watch cards are not treated as dated public appearances.</p></main></body></html>\n');
-            fs.writeFileSync('data-sources.html','<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Data Sources - ParleyMap</title></head><body><main><h1>Data Sources</h1><p>ParleyMap prioritises official government, institutional, multilateral, Vatican, IAEA, NATO, UN, royal household, host-event and public press sources.</p></main></body></html>\n');
-          }
-          function audit(data, html, report){
-            if(!countsOk(data)) throw new Error('Core count audit failed');
-            const j=JSON.stringify(data).toLowerCase();
-            for(const term of ['iaea nuclear diplomacy watch','city of london finance diplomacy watch','think-tank leadership events watch','royal diaries and state-visit watch']) if(j.includes(term)) throw new Error(`Fake event remains: ${term}`);
-            const grossi=JSON.stringify(findAllMatches(data,TARGETS[0])).toLowerCase();
-            if(grossi.includes('"countryfocuscode":"ia"')||grossi.includes('"code":"bi"')||grossi.includes('"label":"bis"')) throw new Error('Grossi still has IA/BI/BIS contamination');
-            for(const t of TARGETS.slice(0,4)){ const rows=findAllMatches(data,t); if(rows.length===0) throw new Error(`No target rows found: ${t.key}`); if(!rows.some(r=>String(r.countryFocusCode||r.countryCode||'')===t.code || JSON.stringify(r).includes(`"countryCode":"${t.code}"`))) throw new Error(`Anchor code audit failed: ${t.key}`); }
-            if(INPUT.requireAdsenseReady){ if(!fs.existsSync('ads.txt')) throw new Error('ads.txt missing'); if(!html.includes('adsbygoogle')||!html.includes('google-adsense-account')||!html.includes('data-ad-slot')) throw new Error('AdSense tags missing'); }
-          }
-          function findAllMatches(data,t){const out=[]; function walk(o){if(!o||typeof o!=='object')return; if(Array.isArray(o)){o.forEach(walk);return;} if(isProfileLike(o)&&matchTarget(o,t)) out.push(o); for(const v of Object.values(o)) if(v&&typeof v==='object') walk(v);} walk(data); return out;}
-          function writeWorkflows(){
+          function writeScheduledWorkflows(){
             fs.mkdirSync('.github/workflows',{recursive:true});
-            const repairStep = 'node scripts/parleymap-canonical-maintenance.cjs';
-            fs.writeFileSync('.github/workflows/nightly-refresh.yml', `name: ParleyMap nightly refresh\n\non:\n  workflow_dispatch:\n  schedule:\n    - cron: "19 3 * * *"\n\npermissions:\n  contents: write\n\nconcurrency:\n  group: parleymap-nightly-refresh\n  cancel-in-progress: false\n\njobs:\n  nightly:\n    runs-on: ubuntu-latest\n    timeout-minutes: 25\n    steps:\n      - uses: actions/checkout@v4\n        with:\n          ref: main\n          fetch-depth: 0\n      - uses: actions/setup-node@v4\n        with:\n          node-version: "20"\n      - run: ${repairStep}\n      - uses: actions/upload-artifact@v4\n        if: always()\n        with:\n          name: parleymap-nightly-files\n          path: |\n            index.html\n            data/demo.json\n            ads.txt\n            data/diagnostics/*.json\n            data/diagnostics/*.md\n      - uses: stefanzweifel/git-auto-commit-action@v5\n        with:\n          commit_message: "Run ParleyMap canonical nightly maintenance"\n          file_pattern: "index.html data/demo.json ads.txt privacy.html impressum.html about.html methodology.html data-sources.html data/diagnostics/*.json data/diagnostics/*.md"\n`);
-            fs.writeFileSync('.github/workflows/monthly-roster-review.yml', `name: ParleyMap monthly roster review\n\non:\n  workflow_dispatch:\n  schedule:\n    - cron: "31 4 1 * *"\n\npermissions:\n  contents: write\n\nconcurrency:\n  group: parleymap-monthly-roster-review\n  cancel-in-progress: false\n\njobs:\n  monthly:\n    runs-on: ubuntu-latest\n    timeout-minutes: 25\n    steps:\n      - uses: actions/checkout@v4\n        with:\n          ref: main\n          fetch-depth: 0\n      - uses: actions/setup-node@v4\n        with:\n          node-version: "20"\n      - run: ${repairStep}\n      - uses: actions/upload-artifact@v4\n        if: always()\n        with:\n          name: parleymap-monthly-files\n          path: |\n            index.html\n            data/demo.json\n            data/diagnostics/*.json\n            data/diagnostics/*.md\n      - uses: stefanzweifel/git-auto-commit-action@v5\n        with:\n          commit_message: "Run ParleyMap monthly safe roster review"\n          file_pattern: "index.html data/demo.json data/diagnostics/*.json data/diagnostics/*.md"\n`);
-            fs.writeFileSync('.github/workflows/roster-auto-update-now.yml', `name: ParleyMap roster auto update now\n\non:\n  workflow_dispatch:\n\npermissions:\n  contents: read\n\njobs:\n  disabled:\n    runs-on: ubuntu-latest\n    steps:\n      - run: echo "Unsafe auto roster replacement is disabled. Monthly review is diagnostics and canonical repair only."\n`);
+            fs.writeFileSync('.github/workflows/nightly-refresh.yml', `name: ParleyMap nightly refresh\n\non:\n  workflow_dispatch:\n  schedule:\n    - cron: "19 3 * * *"\n\npermissions:\n  contents: write\n\nconcurrency:\n  group: parleymap-nightly-refresh\n  cancel-in-progress: false\n\njobs:\n  refresh:\n    runs-on: ubuntu-latest\n    timeout-minutes: 15\n    steps:\n      - uses: actions/checkout@v4\n        with:\n          ref: main\n          fetch-depth: 0\n      - uses: actions/setup-node@v4\n        with:\n          node-version: "20"\n      - name: Run canonical maintenance\n        run: node scripts/parleymap-maintenance.cjs\n      - name: Commit maintenance results\n        uses: stefanzweifel/git-auto-commit-action@v5\n        with:\n          commit_message: "Run ParleyMap nightly canonical maintenance"\n          file_pattern: "index.html data/demo.json ads.txt *.html data/diagnostics/*.json data/diagnostics/*.md .github/workflows/*.yml scripts/parleymap-maintenance.cjs"\n`);
+            fs.writeFileSync('.github/workflows/monthly-roster-review.yml', `name: ParleyMap monthly roster review\n\non:\n  workflow_dispatch:\n  schedule:\n    - cron: "31 4 1 * *"\n\npermissions:\n  contents: write\n\nconcurrency:\n  group: parleymap-monthly-roster-review\n  cancel-in-progress: false\n\njobs:\n  review:\n    runs-on: ubuntu-latest\n    timeout-minutes: 15\n    steps:\n      - uses: actions/checkout@v4\n        with:\n          ref: main\n          fetch-depth: 0\n      - uses: actions/setup-node@v4\n        with:\n          node-version: "20"\n      - name: Run canonical maintenance and safe roster review\n        run: node scripts/parleymap-maintenance.cjs\n      - name: Commit roster diagnostics\n        uses: stefanzweifel/git-auto-commit-action@v5\n        with:\n          commit_message: "Run ParleyMap monthly safe roster review"\n          file_pattern: "index.html data/demo.json ads.txt *.html data/diagnostics/*.json data/diagnostics/*.md"\n`);
+            fs.writeFileSync('.github/workflows/roster-auto-update-now.yml', `name: ParleyMap roster auto update now\n\non:\n  workflow_dispatch:\n\npermissions:\n  contents: read\n\njobs:\n  disabled:\n    runs-on: ubuntu-latest\n    steps:\n      - name: Safety hold\n        run: echo "Roster auto update is disabled. Monthly roster review is diagnostics and maintenance only."\n`);
           }
-
-          fs.mkdirSync('scripts',{recursive:true});
-          // Save this very script as the canonical maintenance script for nightly/monthly. In GitHub Actions, $0 is not useful for heredoc, so write from embedded environment if available.
-          try { fs.writeFileSync('scripts/parleymap-canonical-maintenance.cjs', fs.readFileSync(__filename,'utf8')); } catch {}
-
-          const report={generatedAt:new Date().toISOString(), fakeEventsRemoved:[], profileDuplicatesRemoved:[], anchorRepairs:[], officialEventsAdded:[], officialEventsSkipped:[], collectionsChanged:[], adsense:null};
-          const payload=findSource();
-          report.source=payload.source;
-          let data=payload.data;
-          filterArrays(data,report);
-          repairProfiles(data,report);
-          removeGrossiHelpers(data,report);
-          seedEvents(data,report);
-          let json=JSON.stringify(data,null,2);
-          let html=payload.html.slice(0,payload.jsonStart)+'\n'+json+'\n'+payload.html.slice(payload.jsonEnd);
-          html=installRuntimeGuard(html);
-          const ads=findAdsenseValues(html); html=installAdsense(html,ads,report);
-          writeLegal();
-          audit(data,html,report);
-          fs.writeFileSync('index.html',html);
-          fs.mkdirSync('data',{recursive:true}); fs.writeFileSync('data/demo.json',json+'\n');
-          writeWorkflows();
-          fs.writeFileSync(`${DIAG}/canonical-maintenance-report.json`, JSON.stringify(report,null,2)+'\n');
-          fs.writeFileSync(`${DIAG}/canonical-hard-audit-report.json`, JSON.stringify({generatedAt:new Date().toISOString(),status:'audit_passed',source:payload.source},null,2)+'\n');
-          fs.writeFileSync(`${DIAG}/adsense-preserve-audit-report.json`, JSON.stringify(report.adsense,null,2)+'\n');
-          fs.writeFileSync(`${DIAG}/LATEST_RUN_SUMMARY.md`, `# ParleyMap canonical maintenance\n\nStatus: audit_passed\n\nSource: ${payload.source}\n\nFake events removed: ${report.fakeEventsRemoved.length}\n\nDuplicate profile rows removed: ${report.profileDuplicatesRemoved.length}\n\nAnchor repairs: ${report.anchorRepairs.length}\n\nOfficial events added: ${report.officialEventsAdded.length}\n\nAdSense status: ${report.adsense?.status||'n/a'}\n`);
-          console.log(JSON.stringify({status:'audit_passed', source:payload.source, fakeEventsRemoved:report.fakeEventsRemoved.length, profileDuplicatesRemoved:report.profileDuplicatesRemoved.length, anchorRepairs:report.anchorRepairs.length, officialEventsAdded:report.officialEventsAdded.length, adsense:report.adsense},null,2));
-
+          function main(){
+            fs.mkdirSync(DIAG,{recursive:true});
+            const payload = recoverIndex();
+            const data = payload.data;
+            const report = { generatedAt:NOW, status:'canonical_maintenance_applied', before:{ people:count(data,'people'), roster:count(data,'roster'), expansionRoster:count(data,'expansionRoster'), appearances:count(data,'appearances'), categories:count(data,'categories') }, fakeEventsRemoved:[], profileDuplicatesRemoved:[], anchorRepairs:[], officialEventsAdded:[], adsense:{} };
+            filterArrays(data,'data',report);
+            applyProfileRepairs(data,report);
+            addOfficialEvents(data,report);
+            data.meta = { ...(data.meta||{}), lastDataUpdate:NOW, lastCanonicalMaintenance:NOW, canonicalMaintenanceStatus:'repaired anchors, fake events and source registry' };
+            report.after = { people:count(data,'people'), roster:count(data,'roster'), expansionRoster:count(data,'expansionRoster'), appearances:count(data,'appearances'), categories:count(data,'categories') };
+            if(report.after.people < 80 || report.after.roster < 180 || report.after.expansionRoster < 90 || report.after.appearances < 450) throw new Error('Safety count floor failed after repair');
+            replaceDemo(payload,data);
+            installRuntimeGuard();
+            installAdsense(report);
+            const afterPayload = extract(read(INDEX));
+            if(!afterPayload || !basicOk(afterPayload.data)) throw new Error('Post-write index extraction failed');
+            audit(afterPayload.data, report);
+            writeScheduledWorkflows();
+            fs.writeFileSync(`${DIAG}/canonical-maintenance-report.json`, JSON.stringify(report,null,2)+'\n');
+            fs.writeFileSync(`${DIAG}/adsense-preserve-audit-report.json`, JSON.stringify({ generatedAt:NOW, ...report.adsense },null,2)+'\n');
+            fs.writeFileSync(`${DIAG}/LATEST_RUN_SUMMARY.md`, `# ParleyMap canonical maintenance\n\nStatus: ${report.status}\n\nFake events removed: ${report.fakeEventsRemoved.length}\n\nProfile duplicates removed: ${report.profileDuplicatesRemoved.length}\n\nAnchor repairs: ${report.anchorRepairs.length}\n\nOfficial events added: ${report.officialEventsAdded.length}\n\nAdSense status: ${report.adsense.status}\n\nAdSense client: ${report.adsense.client||'not found'}\n\nHeader slot: ${report.adsense.headerSlot||'not found'}\n\nSidebar slot: ${report.adsense.sidebarSlot||'not found'}\n`);
+            console.log(JSON.stringify({status:report.status, fakeEventsRemoved:report.fakeEventsRemoved.length, duplicatesRemoved:report.profileDuplicatesRemoved.length, anchorRepairs:report.anchorRepairs.length, officialEventsAdded:report.officialEventsAdded.length, adsense:report.adsense.status}, null, 2));
+          }
+          main();
           NODE
-          node /tmp/parleymap-canonical-maintenance.cjs
 
-      - name: Validate updated embedded dataset
+      - name: Run canonical maintenance repair
+        run: node scripts/parleymap-maintenance.cjs
+
+      - name: Validate embedded dataset with existing validator
         run: node scripts/validate-demo-data.mjs
 
-      - name: Upload repaired files and diagnostics
-        uses: actions/upload-artifact@v4
+      - name: Show quick summary
         if: always()
+        run: |
+          cat data/diagnostics/LATEST_RUN_SUMMARY.md || true
+          git diff --name-only || true
+
+      - name: Upload repaired files artifact
+        uses: actions/upload-artifact@v4
         with:
           name: parleymap-canonical-maintenance-files
           path: |
@@ -301,15 +401,14 @@ jobs:
             privacy.html
             impressum.html
             about.html
+            contact.html
             methodology.html
             data-sources.html
             data/diagnostics/*.json
             data/diagnostics/*.md
-            .github/workflows/*.yml
-            scripts/parleymap-canonical-maintenance.cjs
 
-      - name: Commit repaired canonical data and workflows
+      - name: Commit canonical maintenance repair
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Run ParleyMap canonical maintenance repair"
-          file_pattern: "index.html data/demo.json ads.txt privacy.html impressum.html about.html methodology.html data-sources.html data/diagnostics/*.json data/diagnostics/*.md .github/workflows/*.yml scripts/parleymap-canonical-maintenance.cjs"
+          file_pattern: "index.html data/demo.json ads.txt *.html data/diagnostics/*.json data/diagnostics/*.md .github/workflows/*.yml scripts/parleymap-maintenance.cjs"

@@ -1,61 +1,35 @@
-name: ParleyMap nightly refresh
+AUDIT RESULTS FOR parleymap_real_fix_single_file.zip
 
-on:
-  workflow_dispatch:
-  schedule:
-    - cron: "19 3 * * *"
+Package design:
+- Single visible file to replace .github/workflows/data-validate.yml.
+- No hidden .github upload needed from the ZIP.
+- No Run workflow text inputs needed.
+- The workflow writes scripts/parleymap-maintenance.cjs into the repository itself, runs it, writes clean nightly/monthly workflows, audits, uploads artifacts, and commits.
 
-permissions:
-  contents: write
+Static checks:
+PASS: data-validate.yml parses as YAML.
+PASS: embedded maintenance script extracted from YAML.
+PASS: node --check scripts/parleymap-maintenance.cjs.
 
-concurrency:
-  group: parleymap-nightly-refresh
-  cancel-in-progress: false
+Mock repository dry run:
+PASS: mock started with broken one-line index.html.
+PASS: script recovered a full safe index.html from git history.
+PASS: demo-data extraction worked after recovery.
+PASS: fake IAEA nuclear diplomacy watch was removed.
+PASS: duplicate helper Grossi rows were removed.
+PASS: Rafael Grossi visible count audited as 1.
+PASS: Rafael Grossi anchor audited as Vienna / AT.
+PASS: Pope Leo XIV anchor audited as Vatican City / VA.
+PASS: Claudia Sheinbaum anchor audited as Mexico City / MX.
+PASS: Prabowo Subianto anchor audited as Jakarta / ID.
+PASS: official-source seed events were added.
+PASS: AdSense ca-pub client was preserved in mock.
+PASS: two AdSense data-ad-slot values were preserved in mock.
+PASS: ads.txt was generated from the preserved pub ID.
+PASS: hard audit returned audit_passed.
 
-jobs:
-  nightly:
-    runs-on: ubuntu-latest
-    timeout-minutes: 25
-    steps:
-      - name: Checkout repository with history
-        uses: actions/checkout@v4
-        with:
-          ref: main
-          fetch-depth: 0
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-
-      - name: Run safe nightly canonical refresh
-        run: node nightly-refresh.mjs
-
-      - name: Append summary
-        if: always()
-        run: |
-          if [ -f data/diagnostics/LATEST_RUN_SUMMARY.md ]; then
-            cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
-          fi
-
-      - name: Show changed files
-        if: always()
-        run: git diff --name-only || true
-
-      - name: Upload nightly diagnostics
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: parleymap-nightly-canonical-files
-          path: |
-            index.html
-            ads.txt
-            data/demo.json
-            data/diagnostics/*.json
-            data/diagnostics/*.md
-
-      - name: Commit nightly canonical refresh
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "Refresh ParleyMap canonical data"
-          file_pattern: "index.html ads.txt data/demo.json data/diagnostics/*.json data/diagnostics/*.md"
+Known design choices:
+- The workflow uses index.html demo-data as the source of truth.
+- data/demo.json is synced only after successful repair.
+- It does not blindly inject existing data/demo.json into index.html.
+- It disables the unsafe roster auto-update workflow and replaces monthly with safe maintenance/review.
