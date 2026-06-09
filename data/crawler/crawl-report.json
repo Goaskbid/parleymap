@@ -1,13 +1,6 @@
 {
-  "generatedAt": "2026-06-08T08:23:09.213Z",
-  "status": "safe_official_seed_refresh_only",
-  "note": "This refresh does not create generic watch cards. Canonical repair handles official event insertion and hard audits.",
-  "officialSeedEventsAvailable": 0,
-  "blockedSyntheticEventTypes": [
-    "IAEA nuclear diplomacy watch",
-    "City of London finance diplomacy watch",
-    "Think-tank leadership events watch",
-    "Royal diaries and state-visit watch",
-    "generic source-watch cards"
-  ]
+  "generatedAt": "2026-06-09T06:59:06.168Z",
+  "status": "crawler_failed_or_timed_out",
+  "candidates": 0,
+  "publishable": 0
 }
