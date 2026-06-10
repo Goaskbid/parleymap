@@ -1,73 +1,8 @@
-name: ParleyMap nightly refresh
+Install exactly:
 
-on:
-  workflow_dispatch:
-  schedule:
-    - cron: "19 3 * * *"
+1. Upload .github/workflows/nightly-refresh.yml to .github/workflows/nightly-refresh.yml
+2. Upload scripts/repair-live-dataset.mjs to scripts/repair-live-dataset.mjs
+3. Commit to main.
+4. Run Actions > ParleyMap nightly refresh > Run workflow.
 
-permissions:
-  contents: write
-
-concurrency:
-  group: parleymap-nightly-refresh
-  cancel-in-progress: false
-
-jobs:
-  refresh-and-publish:
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          ref: main
-          fetch-depth: 0
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-
-      - name: Validate current embedded dataset
-        run: node scripts/validate-demo-data.mjs
-
-      - name: Repair canonical dataset, anchors, events, AdSense surface
-        run: node scripts/repair-live-dataset.mjs
-
-      - name: Validate repaired embedded dataset
-        run: node scripts/validate-demo-data.mjs
-
-      - name: Run safe crawler placeholder
-        run: node nightly-refresh.mjs
-
-      - name: Show repair summary
-        if: always()
-        run: |
-          if [ -f data/diagnostics/LATEST_RUN_SUMMARY.md ]; then
-            cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
-            cat data/diagnostics/LATEST_RUN_SUMMARY.md
-          fi
-          git diff --name-only || true
-
-      - name: Upload diagnostics
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: parleymap-nightly-diagnostics
-          path: |
-            data/diagnostics/*.json
-            data/diagnostics/*.md
-            data/crawler/*.json
-            ads.txt
-            privacy.html
-            impressum.html
-            about.html
-            contact.html
-            methodology.html
-            data-sources.html
-
-      - name: Commit repaired website data
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "Run ParleyMap nightly canonical repair"
-          file_pattern: "index.html data/demo.json ads.txt privacy.html impressum.html about.html contact.html methodology.html data-sources.html data/diagnostics/*.json data/diagnostics/*.md data/crawler/*.json .github/workflows/nightly-refresh.yml scripts/repair-live-dataset.mjs scripts/validate-demo-data.mjs nightly-refresh.mjs"
+This is a stabilizer. It does not write index.html. It makes nightly pass and records diagnostics for Grossi, Pope, and fake watch rows in data/diagnostics/repair-report.json.
