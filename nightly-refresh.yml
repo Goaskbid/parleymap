@@ -13,11 +13,11 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  nightly:
+  refresh-and-publish:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 20
     steps:
-      - name: Checkout repository with history
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
           ref: main
@@ -28,34 +28,46 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Run safe nightly canonical refresh
+      - name: Validate current embedded dataset
+        run: node scripts/validate-demo-data.mjs
+
+      - name: Repair canonical dataset, anchors, events, AdSense surface
+        run: node scripts/repair-live-dataset.mjs
+
+      - name: Validate repaired embedded dataset
+        run: node scripts/validate-demo-data.mjs
+
+      - name: Run safe crawler placeholder
         run: node nightly-refresh.mjs
 
-      - name: Append summary
+      - name: Show repair summary
         if: always()
         run: |
           if [ -f data/diagnostics/LATEST_RUN_SUMMARY.md ]; then
             cat data/diagnostics/LATEST_RUN_SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
+            cat data/diagnostics/LATEST_RUN_SUMMARY.md
           fi
+          git diff --name-only || true
 
-      - name: Show changed files
-        if: always()
-        run: git diff --name-only || true
-
-      - name: Upload nightly diagnostics
+      - name: Upload diagnostics
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: parleymap-nightly-canonical-files
+          name: parleymap-nightly-diagnostics
           path: |
-            index.html
-            ads.txt
-            data/demo.json
             data/diagnostics/*.json
             data/diagnostics/*.md
+            data/crawler/*.json
+            ads.txt
+            privacy.html
+            impressum.html
+            about.html
+            contact.html
+            methodology.html
+            data-sources.html
 
-      - name: Commit nightly canonical refresh
+      - name: Commit repaired website data
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Refresh ParleyMap canonical data"
-          file_pattern: "index.html ads.txt data/demo.json data/diagnostics/*.json data/diagnostics/*.md"
+          commit_message: "Run ParleyMap nightly canonical repair"
+          file_pattern: "index.html data/demo.json ads.txt privacy.html impressum.html about.html contact.html methodology.html data-sources.html data/diagnostics/*.json data/diagnostics/*.md data/crawler/*.json .github/workflows/nightly-refresh.yml scripts/repair-live-dataset.mjs scripts/validate-demo-data.mjs nightly-refresh.mjs"

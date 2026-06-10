@@ -2,450 +2,462 @@ import fs from 'node:fs';
 import { execSync } from 'node:child_process';
 
 const INDEX_PATH = 'index.html';
-const DEMO_PATH = 'data/demo.json';
+const DATA_PATH = 'data/demo.json';
 const DIAG_DIR = 'data/diagnostics';
-const REPORT_PATH = `${DIAG_DIR}/canonical-maintenance-report.json`;
-const AUDIT_PATH = `${DIAG_DIR}/canonical-hard-audit-report.json`;
-const ADSENSE_PATH = `${DIAG_DIR}/adsense-preserve-audit-report.json`;
-const SUMMARY_PATH = `${DIAG_DIR}/LATEST_RUN_SUMMARY.md`;
+const OPEN = '<script id="demo-data" type="application/json">';
+const CLOSE = '</' + 'script>';
 
-const OPEN_TAG_RE = /<script\s+id=["']demo-data["']\s+type=["']application\/json["']\s*>/i;
-const CLOSE_TAG = '</script>';
+const BAD_EVENT_RE = /(iaea nuclear diplomacy watch|city of london finance diplomacy watch|think-?tank leadership events watch|royal diaries and state-visit watch|royal diary|source-watch|source watch|watch card)/i;
+const GENERIC_EVENT_RE = /\b(homepage|home page|faq|frequently asked|fact sheet|profile page|programme|program|sitemap|privacy|cookie|terms)\b/i;
 
-const FAKE_EVENT_PATTERNS = [
-  /iaea\s+nuclear\s+diplomacy\s+watch/i,
-  /city\s+of\s+london\s+finance\s+diplomacy\s+watch/i,
-  /think[- ]?tank\s+leadership\s+events\s+watch/i,
-  /royal\s+diaries?\s+and\s+state[- ]?visit\s+watch/i,
-  /generic\s+source[- ]?watch/i,
-  /source[- ]?watch\s+card/i
-];
-
-const NON_EVENT_PAGE_RE = /\b(faq|frequently asked|foire aux questions|homepage|home page|profile page|biography|fact sheet|programme|program|privacy|terms|cookie|sitemap)\b/i;
-
-const ANCHORS = [
-  { key: 'rafael_grossi', any: ['rafael grossi', 'grossi', 'q7283122'], anchor: { city: 'Vienna', countryCode: 'AT', countryName: 'Austria', lat: 48.2082, lng: 16.3738, label: 'Vienna institutional base', orgMark: 'IAEA', organization: 'International Atomic Energy Agency', region: 'Europe' }, image: 'https://commons.wikimedia.org/wiki/Special:FilePath/Rafael%20Grossi%20IAEA%202024.jpg' },
-  { key: 'pope_leo_xiv', any: ['pope leo xiv', 'leo xiv', 'robert prevost', 'pope xiv'], anchor: { city: 'Vatican City', countryCode: 'VA', countryName: 'Vatican City', lat: 41.9029, lng: 12.4534, label: 'Vatican City institutional base', orgMark: 'Holy See', organization: 'Holy See', region: 'Europe' }, image: 'https://commons.wikimedia.org/wiki/Special:FilePath/Pope%20Leo%20XIV%202025.jpg' },
-  { key: 'claudia_sheinbaum', any: ['claudia sheinbaum', 'sheinbaum'], anchor: { city: 'Mexico City', countryCode: 'MX', countryName: 'Mexico', lat: 19.4326, lng: -99.1332, label: 'Mexico City institutional base', orgMark: 'MX', organization: 'Mexico', region: 'North America' }, image: 'https://commons.wikimedia.org/wiki/Special:FilePath/Claudia%20Sheinbaum%20Pardo%20%28cropped%2C%20centered%29.jpg' },
-  { key: 'prabowo_subianto', any: ['prabowo subianto', 'subianto'], anchor: { city: 'Jakarta', countryCode: 'ID', countryName: 'Indonesia', lat: -6.2088, lng: 106.8456, label: 'Jakarta institutional base', orgMark: 'ID', organization: 'Indonesia', region: 'Asia' }, image: 'https://commons.wikimedia.org/wiki/Special:FilePath/Prabowo%20Subianto%202024%20official%20portrait.jpg' },
-  { key: 'mohammed_bin_salman', any: ['mohammed bin salman', 'mohammad bin salman', 'muhammad bin salman', 'mbs'], anchor: { city: 'Riyadh', countryCode: 'SA', countryName: 'Saudi Arabia', lat: 24.7136, lng: 46.6753, label: 'Riyadh institutional base', orgMark: 'SA', organization: 'Saudi Arabia', region: 'Middle East' } },
-  { key: 'king_charles', any: ['king charles iii', 'charles iii', 'king charles'], anchor: { city: 'London', countryCode: 'GB', countryName: 'United Kingdom', lat: 51.5074, lng: -0.1278, label: 'London institutional base', orgMark: 'GB', organization: 'British Royal Family', region: 'Europe' } },
-  { key: 'mark_rutte', any: ['mark rutte'], anchor: { city: 'Brussels', countryCode: 'BE', countryName: 'Belgium', lat: 50.8798, lng: 4.4219, label: 'NATO Brussels institutional base', orgMark: 'NATO', organization: 'NATO', region: 'Europe' } },
-  { key: 'antonio_guterres', any: ['antonio guterres', 'antónio guterres', 'guterres'], anchor: { city: 'New York', countryCode: 'US', countryName: 'United States', lat: 40.7499, lng: -73.968, label: 'UN New York institutional base', orgMark: 'UN', organization: 'United Nations', region: 'North America' } },
-  { key: 'emmanuel_macron', any: ['emmanuel macron', 'macron'], anchor: { city: 'Paris', countryCode: 'FR', countryName: 'France', lat: 48.8566, lng: 2.3522, label: 'Paris institutional base', orgMark: 'FR', organization: 'France', region: 'Europe' } },
-  { key: 'ursula_von_der_leyen', any: ['ursula von der leyen', 'von der leyen'], anchor: { city: 'Brussels', countryCode: 'BE', countryName: 'Belgium', lat: 50.8503, lng: 4.3517, label: 'Brussels institutional base', orgMark: 'EU', organization: 'European Commission', region: 'Europe' } },
-  { key: 'kaja_kallas', any: ['kaja kallas'], anchor: { city: 'Brussels', countryCode: 'BE', countryName: 'Belgium', lat: 50.8503, lng: 4.3517, label: 'Brussels institutional base', orgMark: 'EU', organization: 'European Union', region: 'Europe' } }
+const TARGETS = [
+  {
+    key: 'grossi',
+    any: ['rafael grossi', 'rafael mariano grossi'],
+    qid: 'Q7283122',
+    anchor: { label: 'Vienna institutional base', city: 'Vienna', countryCode: 'AT', countryName: 'Austria', lat: 48.2082, lng: 16.3738, region: 'Europe' },
+    organization: 'International Atomic Energy Agency',
+    roleTitle: 'Director General, International Atomic Energy Agency',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Rafael_Mariano_Grossi_2022.jpg'
+  },
+  {
+    key: 'pope',
+    any: ['pope leo xiv', 'leo xiv', 'robert prevost', 'robert francis prevost', 'pope'],
+    anchor: { label: 'Vatican City institutional base', city: 'Vatican City', countryCode: 'VA', countryName: 'Vatican City', lat: 41.9029, lng: 12.4534, region: 'Europe' },
+    organization: 'Holy See',
+    roleTitle: 'Pope of the Catholic Church',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Pope_Leo_XIV_official_portrait.jpg'
+  },
+  {
+    key: 'sheinbaum',
+    all: ['claudia', 'sheinbaum'],
+    anchor: { label: 'Mexico City institutional base', city: 'Mexico City', countryCode: 'MX', countryName: 'Mexico', lat: 19.4326, lng: -99.1332, region: 'North America' },
+    organization: 'Mexico',
+    roleTitle: 'President of Mexico',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Claudia_Sheinbaum_%28cropped%2C_centered%29.jpg'
+  },
+  {
+    key: 'subianto',
+    all: ['prabowo', 'subianto'],
+    anchor: { label: 'Jakarta institutional base', city: 'Jakarta', countryCode: 'ID', countryName: 'Indonesia', lat: -6.2088, lng: 106.8456, region: 'Asia' },
+    organization: 'Indonesia',
+    roleTitle: 'President of Indonesia',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Prabowo_Subianto_2024_official_portrait.jpg'
+  },
+  {
+    key: 'mbs',
+    all: ['salman'], any: ['mohammed', 'mohammad', 'muhammad', 'mbs'],
+    anchor: { label: 'Riyadh institutional base', city: 'Riyadh', countryCode: 'SA', countryName: 'Saudi Arabia', lat: 24.7136, lng: 46.6753, region: 'Middle East' },
+    organization: 'Saudi Arabia',
+    roleTitle: 'Crown Prince and Prime Minister of Saudi Arabia'
+  },
+  {
+    key: 'kingcharles',
+    any: ['king charles iii', 'charles iii'],
+    anchor: { label: 'London institutional base', city: 'London', countryCode: 'GB', countryName: 'United Kingdom', lat: 51.5074, lng: -0.1278, region: 'Europe' },
+    organization: 'The Royal Household',
+    roleTitle: 'King of the United Kingdom'
+  },
+  {
+    key: 'rutte', all: ['mark', 'rutte'],
+    anchor: { label: 'NATO Brussels institutional base', city: 'Brussels', countryCode: 'BE', countryName: 'Belgium', lat: 50.8798, lng: 4.4219, region: 'Europe' },
+    organization: 'NATO', roleTitle: 'Secretary General of NATO'
+  },
+  {
+    key: 'guterres', any: ['antonio guterres', 'antónio guterres', 'guterres'],
+    anchor: { label: 'UN New York institutional base', city: 'New York', countryCode: 'US', countryName: 'United States', lat: 40.7499, lng: -73.968, region: 'North America' },
+    organization: 'United Nations', roleTitle: 'Secretary-General of the United Nations'
+  },
+  {
+    key: 'macron', all: ['emmanuel', 'macron'],
+    anchor: { label: 'Paris institutional base', city: 'Paris', countryCode: 'FR', countryName: 'France', lat: 48.8566, lng: 2.3522, region: 'Europe' },
+    organization: 'France', roleTitle: 'President of France'
+  }
 ];
 
 const OFFICIAL_EVENTS = [
   {
     id: 'official-grossi-iaea-board-vienna-2026-03-02',
-    personId: 'r-057-rafael-grossi',
-    personName: 'Rafael Grossi',
+    targetKey: 'grossi',
     startsAt: '2026-03-02T09:00:00+01:00',
-    endsAt: null,
-    status: 'VERIFIED_PAST',
-    confidence: 0.96,
-    confidenceLabel: 'official source',
-    eventType: 'PUBLIC_STATEMENT',
-    title: 'IAEA Board of Governors statement, Vienna',
-    summary: 'Rafael Grossi delivered an official IAEA Board of Governors statement in Vienna.',
-    significance: 'Official public institutional event.',
-    decisions: '',
-    location: { label: 'IAEA Headquarters, Vienna', city: 'Vienna', countryCode: 'AT', countryName: 'Austria', lat: 48.2333, lng: 16.4167, precision: 'city' },
-    venuePublic: true,
-    securityPrecision: 'public institutional venue; city-level display only',
-    publicInterestScore: 72,
-    eventGroupId: 'eg-iaea-board-vienna-2026-03-02',
-    topics: ['nuclear diplomacy', 'IAEA'],
-    counterpartIds: [],
-    sourcePack: [{ type: 'official', reliability: 'primary', publisher: 'IAEA', url: 'https://www.iaea.org/newscenter/statements/iaea-director-generals-introductory-statement-to-the-board-of-governors-2-6-march-2026' }],
-    visual: { status: 'public source', policy: 'official public event only' },
-    lastCheckedAt: new Date().toISOString(),
-    marketImpact: { sectors: ['energy'], companies: [], countries: ['Austria'], confidence: 'medium' },
-    realEvent: true
+    title: 'IAEA Board of Governors meeting statement',
+    summary: 'Rafael Grossi addressed the IAEA Board of Governors at the Agency headquarters in Vienna.',
+    location: { label: 'IAEA headquarters, Vienna', city: 'Vienna', countryCode: 'AT', countryName: 'Austria', lat: 48.2345, lng: 16.4166, precision: 'city' },
+    sourceUrl: 'https://www.iaea.org/newscenter/statements/iaea-director-generals-introductory-statement-to-the-board-of-governors-2-6-march-2026',
+    sourceLabel: 'IAEA Director General statement'
   },
   {
     id: 'official-pope-leo-xiv-spain-journey-2026-06-06',
-    personId: 'r-085-pope-leo-xiv',
-    personName: 'Pope Leo XIV',
+    targetKey: 'pope',
     startsAt: '2026-06-06T09:00:00+02:00',
-    endsAt: '2026-06-12T18:00:00+02:00',
-    status: 'ANNOUNCED_FUTURE',
-    confidence: 0.95,
-    confidenceLabel: 'official Vatican source',
-    eventType: 'APOSTOLIC_JOURNEY',
     title: 'Apostolic journey to Spain',
-    summary: 'Vatican-published public itinerary for Pope Leo XIV in Spain.',
-    significance: 'Official public travel itinerary.',
-    decisions: '',
-    location: { label: 'Spain itinerary', city: 'Madrid', countryCode: 'ES', countryName: 'Spain', lat: 40.4168, lng: -3.7038, precision: 'city' },
-    venuePublic: true,
-    securityPrecision: 'public itinerary; city-level display only',
-    publicInterestScore: 78,
-    eventGroupId: 'eg-pope-spain-2026-06-06',
-    topics: ['religion', 'diplomacy'],
-    counterpartIds: [],
-    sourcePack: [{ type: 'official', reliability: 'primary', publisher: 'Vatican', url: 'https://www.vatican.va/content/leo-xiv/en/travels/2026/documents/spagna-6-12giugno2026.html' }],
-    visual: { status: 'public source', policy: 'official public itinerary only' },
-    lastCheckedAt: new Date().toISOString(),
-    marketImpact: { sectors: [], companies: [], countries: ['Spain'], confidence: 'low' },
-    realEvent: true
+    summary: 'Pope Leo XIV begins the Vatican-listed apostolic journey to Spain.',
+    location: { label: 'Madrid public programme', city: 'Madrid', countryCode: 'ES', countryName: 'Spain', lat: 40.4168, lng: -3.7038, precision: 'city' },
+    sourceUrl: 'https://www.vatican.va/content/leo-xiv/en/travels/2026/documents/spagna-6-12giugno2026.html',
+    sourceLabel: 'Vatican travel itinerary'
   },
   {
     id: 'official-king-charles-washington-address-2026-04-28',
-    personId: 'r-012-king-charles-iii',
-    personName: 'King Charles III',
+    targetKey: 'kingcharles',
     startsAt: '2026-04-28T12:00:00-04:00',
-    endsAt: null,
-    status: 'VERIFIED_PAST',
-    confidence: 0.94,
-    confidenceLabel: 'official royal source',
-    eventType: 'STATE_VISIT_PUBLIC_ADDRESS',
-    title: 'Address to Congress in Washington',
-    summary: 'Official Royal Family record of King Charles III address in Washington.',
-    significance: 'Official public state-visit event.',
-    decisions: '',
-    location: { label: 'Washington', city: 'Washington', countryCode: 'US', countryName: 'United States', lat: 38.9072, lng: -77.0369, precision: 'city' },
-    venuePublic: true,
-    securityPrecision: 'public state event; city-level display only',
-    publicInterestScore: 75,
-    eventGroupId: 'eg-king-charles-washington-2026-04-28',
-    topics: ['royal diplomacy', 'state visit'],
-    counterpartIds: [],
-    sourcePack: [{ type: 'official', reliability: 'primary', publisher: 'Royal Family', url: 'https://www.royal.uk/news-and-activity/2026-04-28/the-kings-address-to-the-joint-meeting-of-congress-in-washington' }],
-    visual: { status: 'public source', policy: 'official public event only' },
-    lastCheckedAt: new Date().toISOString(),
-    marketImpact: { sectors: [], companies: [], countries: ['United States'], confidence: 'low' },
-    realEvent: true
+    title: 'Address to the Joint Meeting of Congress in Washington',
+    summary: 'King Charles III addressed a Joint Meeting of Congress in Washington.',
+    location: { label: 'Washington public address', city: 'Washington', countryCode: 'US', countryName: 'United States', lat: 38.9072, lng: -77.0369, precision: 'city' },
+    sourceUrl: 'https://www.royal.uk/news-and-activity/2026-04-28/the-kings-address-to-the-joint-meeting-of-congress-in-washington',
+    sourceLabel: 'The Royal Family official page'
   }
 ];
 
 function norm(value) {
-  return String(value || '')
-    .toLowerCase()
-    .normalize('NFKD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/[^a-z0-9]+/g, ' ')
-    .trim();
+  return String(value || '').toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
 }
 
-function textBlob(obj) {
-  if (!obj || typeof obj !== 'object') return '';
+function sh(cmd) {
+  return execSync(cmd, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
+}
+
+function parseHtml(html) {
+  const start = html.indexOf(OPEN);
+  if (start === -1) return null;
+  const jsonStart = start + OPEN.length;
+  const jsonEnd = html.indexOf(CLOSE, jsonStart);
+  if (jsonEnd === -1) return null;
+  const text = html.slice(jsonStart, jsonEnd).trim();
+  return { data: JSON.parse(text), jsonStart, jsonEnd };
+}
+
+function counts(data) {
+  return {
+    people: Array.isArray(data.people) ? data.people.length : null,
+    roster: Array.isArray(data.roster) ? data.roster.length : null,
+    expansionRoster: Array.isArray(data.expansionRoster) ? data.expansionRoster.length : null,
+    appearances: Array.isArray(data.appearances) ? data.appearances.length : null,
+    categories: Array.isArray(data.categories) ? data.categories.length : null
+  };
+}
+
+function isSafeData(data) {
+  const c = counts(data);
+  return c.people >= 90 && c.people <= 115 && c.roster >= 190 && c.expansionRoster >= 100 && c.appearances >= 500 && c.categories >= 10;
+}
+
+function getIndexHtml() {
+  const html = fs.readFileSync(INDEX_PATH, 'utf8');
+  const parsed = parseHtml(html);
+  if (parsed && isSafeData(parsed.data)) return html;
+  const files = sh('git log --format=%H -- index.html').trim().split(/\s+/).filter(Boolean);
+  for (const hash of files) {
+    try {
+      const candidate = sh(`git show ${hash}:index.html`);
+      const p = parseHtml(candidate);
+      if (p && isSafeData(p.data)) return candidate;
+    } catch {}
+  }
+  throw new Error('No safe index.html with demo-data found in current file or git history');
+}
+
+function blob(item) {
   return norm([
-    obj.id, obj.slug, obj.name, obj.canonicalName, obj.wikiTitle, obj.wikidataId,
-    obj.roleTitle, obj.organization, obj.countryName, obj.countryFocus, obj.countryFocusCode,
-    obj.profileLine, Array.isArray(obj.profileLines) ? obj.profileLines.join(' ') : '',
-    obj.title, obj.summary
+    item?.id, item?.slug, item?.name, item?.canonicalName, item?.wikiTitle, item?.wikidataId,
+    item?.roleTitle, item?.organization, item?.countryName, item?.countryFocus, item?.countryFocusCode,
+    Array.isArray(item?.profileLines) ? item.profileLines.join(' ') : ''
   ].join(' '));
 }
 
-function readIndexData() {
-  const html = fs.readFileSync(INDEX_PATH, 'utf8');
-  const openMatch = html.match(OPEN_TAG_RE);
-  if (!openMatch || openMatch.index === undefined) throw new Error('demo-data opening tag not found in index.html');
-  const openStart = openMatch.index;
-  const jsonStart = openStart + openMatch[0].length;
-  const closeIndex = html.indexOf(CLOSE_TAG, jsonStart);
-  if (closeIndex === -1) throw new Error('demo-data closing tag not found in index.html');
-  const jsonText = html.slice(jsonStart, closeIndex).trim();
-  const data = JSON.parse(jsonText);
-  return { html, openStart, jsonStart, closeIndex, data };
-}
-
-function writeIndexData(payload, data) {
-  const nextJson = JSON.stringify(data, null, 2);
-  const nextHtml = payload.html.slice(0, payload.jsonStart) + '\n' + nextJson + '\n' + payload.html.slice(payload.closeIndex);
-  fs.writeFileSync(INDEX_PATH, nextHtml);
-  fs.mkdirSync('data', { recursive: true });
-  fs.writeFileSync(DEMO_PATH, nextJson + '\n');
-}
-
-function count(data, key) { return Array.isArray(data[key]) ? data[key].length : null; }
-function validateCore(data, label='data') {
-  for (const key of ['people','roster','expansionRoster','appearances','categories']) {
-    if (!Array.isArray(data[key])) throw new Error(`${label}: ${key} must be an array`);
+function targetFor(item) {
+  const text = blob(item);
+  if (!text) return null;
+  for (const target of TARGETS) {
+    if (target.qid && text.includes(norm(target.qid))) return target;
+    const allOk = !target.all || target.all.every(x => text.includes(norm(x)));
+    const anyOk = !target.any || target.any.some(x => text.includes(norm(x)));
+    if (allOk && anyOk) return target;
   }
-  if (data.people.length < 85) throw new Error(`${label}: people count too low`);
-  if (data.roster.length < 180) throw new Error(`${label}: roster count too low`);
-  if (data.expansionRoster.length < 95) throw new Error(`${label}: expansionRoster count too low`);
-  if (data.appearances.length < 480) throw new Error(`${label}: appearances count too low`);
-  if (data.categories.length < 8) throw new Error(`${label}: categories count too low`);
+  return null;
 }
 
-function isProfileLike(obj) {
-  if (!obj || typeof obj !== 'object' || Array.isArray(obj)) return false;
-  return Boolean(obj.id || obj.slug || obj.name || obj.canonicalName || obj.wikidataId || obj.roleTitle || obj.profileLine);
+function isProfileLike(item) {
+  if (!item || typeof item !== 'object' || Array.isArray(item)) return false;
+  if ('startsAt' in item && 'sourcePack' in item) return false;
+  return Boolean(item.id || item.slug || item.name || item.canonicalName || item.roleTitle || item.profileLine || item.wikiTitle);
 }
 
-function targetFor(obj) {
-  const blob = textBlob(obj);
-  return ANCHORS.find(t => t.any.some(x => blob.includes(norm(x))));
+function anchorObject(anchor) {
+  return {
+    label: anchor.label,
+    city: anchor.city,
+    countryCode: anchor.countryCode,
+    countryName: anchor.countryName,
+    lat: anchor.lat,
+    lng: anchor.lng,
+    precision: 'city',
+    type: 'institutional_base',
+    privacy: 'city-level public institutional base only'
+  };
 }
 
-function anchorObject(target) {
+function applyAnchor(item, target) {
   const a = target.anchor;
-  return { label: a.label, city: a.city, countryCode: a.countryCode, countryName: a.countryName, lat: a.lat, lng: a.lng, precision: 'city', type: 'institutional_base', privacy: 'city-level public institutional base only' };
-}
-
-function patchProfile(obj, target) {
-  const a = target.anchor;
-  const anchor = anchorObject(target);
-  obj.countryFocus = a.countryCode;
-  obj.countryFocusCode = a.countryCode;
-  obj.countryCode = a.countryCode;
-  obj.countryName = a.countryName;
-  obj.country = a.countryName;
-  obj.homeRegion = a.region || obj.homeRegion || null;
-  obj.locationStatus = 'institutional_base_city_level';
-  obj.homeBases = [anchor];
-  obj.homeBase = anchor;
-  obj.mapAnchor = anchor;
-  obj.anchorLocation = anchor;
-  obj.baseLocation = anchor;
-  obj.institutionalBase = anchor;
-  obj.lat = a.lat; obj.lng = a.lng; obj.latitude = a.lat; obj.longitude = a.lng;
-  obj.homeLat = a.lat; obj.homeLng = a.lng; obj.mapLat = a.lat; obj.mapLng = a.lng;
-  obj.anchorLat = a.lat; obj.anchorLng = a.lng;
-  obj.coordinates = { lat: a.lat, lng: a.lng };
-  obj.geo = { lat: a.lat, lng: a.lng, city: a.city, countryCode: a.countryCode, countryName: a.countryName };
-  obj.flagAudit = { ...(obj.flagAudit || {}), code: a.countryCode, countryCode: a.countryCode, label: a.countryName, countryName: a.countryName, status: 'country flag' };
-  obj.flagCode = a.countryCode;
-  obj.countryFlagCode = a.countryCode;
-  if (target.key === 'rafael_grossi') {
-    obj.organization = 'International Atomic Energy Agency';
-    obj.orgMark = 'IAEA';
-    obj.orgIcon = obj.orgIcon || 'IAEA';
-    obj.countryFocus = 'AT';
-    obj.countryFocusCode = 'AT';
-    obj.countryName = 'Austria';
-    obj.roleTitle = obj.roleTitle || 'Director General of the IAEA';
+  const anchor = anchorObject(a);
+  item.homeBases = [anchor];
+  item.homeBase = anchor;
+  item.mapAnchor = anchor;
+  item.anchorLocation = anchor;
+  item.baseLocation = anchor;
+  item.institutionalBase = anchor;
+  item.countryFocus = a.countryCode;
+  item.countryFocusCode = a.countryCode;
+  item.countryCode = a.countryCode;
+  item.countryName = a.countryName;
+  item.country = a.countryName;
+  item.homeRegion = a.region;
+  item.locationStatus = 'institutional_base_city_level';
+  item.lat = a.lat; item.lng = a.lng; item.latitude = a.lat; item.longitude = a.lng;
+  item.homeLat = a.lat; item.homeLng = a.lng; item.mapLat = a.lat; item.mapLng = a.lng;
+  item.flagAudit = { ...(item.flagAudit || {}), code: a.countryCode, countryCode: a.countryCode, label: a.countryName, countryName: a.countryName, status: 'country flag' };
+  item.flagCode = a.countryCode;
+  item.countryFlagCode = a.countryCode;
+  if (target.organization) item.organization = target.organization;
+  if (target.roleTitle) item.roleTitle = target.roleTitle;
+  if (target.imageUrl && (!item.imageUrl || /placeholder|blank|default/i.test(String(item.imageUrl)))) {
+    item.imageUrl = target.imageUrl;
+    item.imageProvider = 'Wikimedia Commons fallback';
   }
-  if ((!obj.imageUrl || String(obj.imageUrl).includes('placeholder') || String(obj.imageUrl).trim() === '') && target.image) {
-    obj.imageUrl = target.image;
-    obj.imageProvider = 'Wikimedia Commons fallback';
-    obj.visualAuditStatus = 'fallback_image_set';
+  if (target.key === 'grossi') {
+    item.orgMark = 'IAEA';
+    item.institutionCode = 'IAEA';
+    item.sector = item.sector || 'multilateral';
   }
 }
 
-function isFakeEvent(obj) {
-  if (!obj || typeof obj !== 'object' || Array.isArray(obj)) return false;
-  const text = [obj.title, obj.summary, obj.status, obj.eventType, obj.kind, obj.type, obj.id].join(' ');
-  if (FAKE_EVENT_PATTERNS.some(re => re.test(text))) return true;
-  if (obj.startsAt && String(obj.status || '').toLowerCase().includes('source-watch')) return true;
-  if (obj.startsAt && NON_EVENT_PAGE_RE.test(text) && !obj.realEvent) return true;
+function walk(value, visitor, path = '$') {
+  if (!value || typeof value !== 'object') return;
+  if (Array.isArray(value)) {
+    visitor(value, path, true);
+    value.forEach((child, i) => walk(child, visitor, `${path}[${i}]`));
+    return;
+  }
+  visitor(value, path, false);
+  for (const [key, child] of Object.entries(value)) walk(child, visitor, `${path}.${key}`);
+}
+
+function isEventLike(item) {
+  return item && typeof item === 'object' && !Array.isArray(item) && ('startsAt' in item || 'sourcePack' in item || 'eventType' in item || 'status' in item && /source.watch/i.test(String(item.status)));
+}
+
+function isBadEvent(item) {
+  if (!isEventLike(item)) return false;
+  const text = [item.title, item.summary, item.eventType, item.status, item.id, Array.isArray(item.sourcePack) ? item.sourcePack.map(s => s.url || s.label || s.title).join(' ') : ''].join(' ');
+  if (BAD_EVENT_RE.test(text)) return true;
+  if (item.startsAt && GENERIC_EVENT_RE.test(text)) return true;
+  if (/source[-_ ]?watch/i.test(String(item.status || item.eventType || '')) && item.startsAt) return true;
   return false;
 }
 
-function repairArray(arr, path, report) {
-  if (!Array.isArray(arr)) return arr;
-  const out = [];
-  const visibleGrossiHelperCollections = /^(topRoster|priorityExpansion|watchlistExamples|openCatalogs|structuredSourceWatch|eventAgendas|summits)$/;
-  const seenIds = new Set();
-  for (const item of arr) {
-    if (isFakeEvent(item)) {
-      report.fakeEventsRemoved.push({ path, id: item?.id || null, title: item?.title || null });
-      continue;
-    }
-    if (isProfileLike(item)) {
-      const t = targetFor(item);
-      if (t) {
-        patchProfile(item, t);
-        report.anchorRepairs.push({ target: t.key, path, id: item.id || null, name: item.canonicalName || item.name || item.title || null });
-      }
-      const itemId = String(item.id || '');
-      if (itemId === 'r-057-rafael-grossi' && visibleGrossiHelperCollections.test(path)) {
-        report.profileDuplicatesRemoved.push({ path, id: itemId, name: item.canonicalName || item.name || 'Rafael Grossi' });
+function cleanArrays(data) {
+  const removed = [];
+  const duplicateProfilesRemoved = [];
+  walk(data, (arr, path, isArray) => {
+    if (!isArray) return;
+    for (let i = arr.length - 1; i >= 0; i--) {
+      const item = arr[i];
+      if (isBadEvent(item)) {
+        removed.push({ path: `${path}[${i}]`, id: item.id || null, title: item.title || null });
+        arr.splice(i, 1);
         continue;
       }
-      if (itemId && seenIds.has(itemId) && (path === 'people' || path === 'roster' || path === 'expansionRoster')) {
-        report.profileDuplicatesRemoved.push({ path, id: itemId, name: item.canonicalName || item.name || null, reason: 'duplicate_id_same_collection' });
-        continue;
+      const target = targetFor(item);
+      if (target?.key === 'grossi' && /topRoster|expansionRoster|priorityExpansion|watchlistExamples|openCatalogs|organizationProfiles/.test(path)) {
+        duplicateProfilesRemoved.push({ path: `${path}[${i}]`, id: item.id || null, name: item.canonicalName || item.name || null });
+        arr.splice(i, 1);
       }
-      if (itemId) seenIds.add(itemId);
     }
-    out.push(item);
+  });
+  for (const key of ['people', 'roster']) {
+    if (!Array.isArray(data[key])) continue;
+    const seen = new Set();
+    for (let i = data[key].length - 1; i >= 0; i--) {
+      const item = data[key][i];
+      const target = targetFor(item);
+      const k = target ? target.key : String(item?.id || item?.slug || item?.canonicalName || item?.name || i);
+      if (target && seen.has(k)) {
+        duplicateProfilesRemoved.push({ path: `${key}[${i}]`, id: item.id || null, name: item.canonicalName || item.name || null, reason: 'duplicate target profile' });
+        data[key].splice(i, 1);
+      } else if (target) {
+        seen.add(k);
+      }
+    }
   }
+  return { removed, duplicateProfilesRemoved };
+}
+
+function repairProfiles(data) {
+  let fixes = 0;
+  walk(data, (item, path, isArray) => {
+    if (isArray || !isProfileLike(item)) return;
+    const target = targetFor(item);
+    if (!target) return;
+    applyAnchor(item, target);
+    item.lastInstitutionalAnchorAudit = new Date().toISOString();
+    fixes++;
+  });
+  return fixes;
+}
+
+function personIdFor(data, targetKey) {
+  for (const collection of ['people', 'roster', 'topRoster', 'expansionRoster']) {
+    const rows = Array.isArray(data[collection]) ? data[collection] : [];
+    const match = rows.find(row => targetFor(row)?.key === targetKey);
+    if (match?.id) return match.id;
+  }
+  return null;
+}
+
+function addOfficialEvents(data) {
+  if (!Array.isArray(data.appearances)) return [];
+  const added = [];
+  const existing = new Set(data.appearances.map(x => String(x.id || '')));
+  for (const seed of OFFICIAL_EVENTS) {
+    if (existing.has(seed.id)) continue;
+    const personId = personIdFor(data, seed.targetKey);
+    if (!personId) continue;
+    const event = {
+      id: seed.id,
+      personId,
+      startsAt: seed.startsAt,
+      endsAt: null,
+      status: new Date(seed.startsAt) > new Date() ? 'ANNOUNCED_FUTURE' : 'VERIFIED_PAST',
+      confidence: 0.94,
+      confidenceLabel: 'official source',
+      eventType: 'PUBLIC_APPEARANCE',
+      title: seed.title,
+      summary: seed.summary,
+      significance: 'Official-source public event added by nightly canonical maintenance.',
+      decisions: '',
+      location: seed.location,
+      venuePublic: true,
+      securityPrecision: 'city-level public appearance only; no private stops, hotels, residences, leaked routes or live proximity',
+      publicInterestScore: 70,
+      eventGroupId: seed.id.replace(/^official-/, 'eg-'),
+      topics: ['official-source', 'public-appearance'],
+      counterpartIds: [],
+      sourcePack: [{ type: 'official', reliability: 'primary', label: seed.sourceLabel, url: seed.sourceUrl, checkedAt: new Date().toISOString() }],
+      visual: { status: 'runtime portrait', policy: 'Use audited public media only.' },
+      lastCheckedAt: new Date().toISOString(),
+      marketImpact: { sectors: [], companies: [], countries: [seed.location.countryName], confidence: 'low' },
+      realEvent: true
+    };
+    data.appearances.push(event);
+    added.push({ id: seed.id, personId, title: seed.title });
+  }
+  data.appearances.sort((a, b) => String(b.startsAt || '').localeCompare(String(a.startsAt || '')));
+  return added;
+}
+
+function findAdSense(html) {
+  const texts = [html];
+  for (const file of ['ads.txt', 'index.template.html', 'privacy.html', 'impressum.html']) {
+    if (fs.existsSync(file)) texts.push(fs.readFileSync(file, 'utf8'));
+  }
+  try {
+    const hashes = sh('git log --format=%H --all -- index.html ads.txt index.template.html').trim().split(/\s+/).filter(Boolean).slice(0, 80);
+    for (const hash of hashes) {
+      for (const file of ['index.html', 'ads.txt', 'index.template.html']) {
+        try { texts.push(sh(`git show ${hash}:${file}`)); } catch {}
+      }
+    }
+  } catch {}
+  const all = texts.join('\n');
+  const client = (all.match(/ca-pub-[0-9]{10,}/) || [null])[0];
+  const pub = client ? client.replace(/^ca-/, '') : (all.match(/pub-[0-9]{10,}/) || [null])[0];
+  const slots = [...new Set([...all.matchAll(/data-ad-slot=["']([0-9]+)["']/g)].map(m => m[1]))];
+  return { client, publisherId: pub, headerSlot: slots[0] || null, sidebarSlot: slots[1] || null };
+}
+
+function installAdSense(html, ads) {
+  if (!ads.client || !ads.headerSlot || !ads.sidebarSlot) return html;
+  let out = html;
+  const meta = `<meta name="google-adsense-account" content="${ads.client}">`;
+  const loader = `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ads.client}" crossorigin="anonymous"></script>`;
+  if (!/google-adsense-account/.test(out)) out = out.replace(/<head([^>]*)>/i, `<head$1>\n  ${meta}`);
+  if (!/pagead2\.googlesyndication\.com\/pagead\/js\/adsbygoogle\.js/.test(out)) out = out.replace(/<head([^>]*)>/i, `<head$1>\n  ${loader}`);
+  const runtime = `<script id="parleymap-adsense-runtime">
+(function(){
+ var client=${JSON.stringify(ads.client)}, header=${JSON.stringify(ads.headerSlot)}, sidebar=${JSON.stringify(ads.sidebarSlot)};
+ function unit(slot){var i=document.createElement('ins');i.className='adsbygoogle';i.style.display='block';i.setAttribute('data-ad-client',client);i.setAttribute('data-ad-slot',slot);i.setAttribute('data-ad-format','auto');i.setAttribute('data-full-width-responsive','true');return i;}
+ function mount(){var boxes=[document.querySelector('[data-ad-placement="header"]'),document.getElementById('ad-header'),document.querySelector('.ad-header'),document.querySelector('.top-ad'),document.querySelector('[data-ad-placement="sidebar"]'),document.getElementById('ad-sidebar'),document.querySelector('.ad-sidebar'),document.querySelector('.side-ad')].filter(Boolean);var used=new Set();function put(el,slot){if(!el||used.has(el))return;used.add(el);if(!el.querySelector('ins.adsbygoogle')){el.innerHTML='';el.appendChild(unit(slot));try{(window.adsbygoogle=window.adsbygoogle||[]).push({});}catch(e){}}}put(boxes[0],header);put(boxes[1]||boxes[2],sidebar);} if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount);else mount();
+})();
+</script>`;
+  if (!/parleymap-adsense-runtime/.test(out)) out = out.replace(/<\/body>/i, `${runtime}\n</body>`);
+  fs.writeFileSync('ads.txt', `google.com, ${ads.publisherId}, DIRECT, f08c47fec0942fa0\n`);
   return out;
 }
 
-function walkAndRepair(value, path, report) {
-  if (Array.isArray(value)) {
-    const repaired = repairArray(value, path, report);
-    for (const item of repaired) {
-      if (item && typeof item === 'object') walkAndRepair(item, path + '[]', report);
-    }
-    return repaired;
-  }
-  if (!value || typeof value !== 'object') return value;
-  if (isProfileLike(value)) {
-    const t = targetFor(value);
-    if (t) {
-      patchProfile(value, t);
-      report.anchorRepairs.push({ target: t.key, path, id: value.id || null, name: value.canonicalName || value.name || value.title || null });
-    }
-  }
-  for (const key of Object.keys(value)) {
-    const child = value[key];
-    if (child && typeof child === 'object') value[key] = walkAndRepair(child, path ? `${path}.${key}` : key, report);
-  }
-  return value;
+function legalPages() {
+  const page = (title, body) => `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${title} | ParleyMap</title><style>body{font-family:system-ui,-apple-system,Segoe UI,sans-serif;max-width:860px;margin:40px auto;padding:0 20px;line-height:1.6;color:#111}a{color:#0645ad}</style></head><body><main><h1>${title}</h1>${body}</main></body></html>\n`;
+  fs.writeFileSync('privacy.html', page('Privacy Policy', '<p>ParleyMap presents public-source appearance intelligence. We do not publish private addresses, leaked itineraries, hotels, residences, hospitals or live proximity data.</p><p>We may use essential cookies and, where approved, advertising services such as Google AdSense. Advertising partners may use cookies subject to consent and their own policies.</p><p>Contact: contact@parleymap.com</p>'));
+  fs.writeFileSync('impressum.html', page('Impressum', '<p>ParleyMap is an editorial public-source mapping project for public appearances, meetings and institutional events.</p><p>Responsible contact: contact@parleymap.com</p>'));
+  fs.writeFileSync('about.html', page('About ParleyMap', '<p>ParleyMap maps public appearances and institutional presence using official and host-public sources.</p>'));
+  fs.writeFileSync('contact.html', page('Contact', '<p>Email: contact@parleymap.com</p>'));
+  fs.writeFileSync('methodology.html', page('Methodology', '<p>Records require a public date, city-level public location, named person or institution, and an official or host-public source pack. Source-watch pages are not treated as events.</p>'));
+  fs.writeFileSync('data-sources.html', page('Data Sources', '<p>Preferred sources include official calendars, institutional press releases, host pages, public event pages, Vatican travel pages, IAEA statements and Royal Family engagement pages.</p>'));
 }
 
-function seedOfficialEvents(data, report) {
-  if (!Array.isArray(data.appearances)) data.appearances = [];
-  const byId = new Map(data.appearances.map(x => [String(x.id || ''), x]));
-  for (const event of OFFICIAL_EVENTS) {
-    if (!byId.has(event.id)) {
-      data.appearances.push(event);
-      report.officialEventsAdded.push({ id: event.id, personName: event.personName, title: event.title });
-    }
-  }
-  data.appearances.sort((a, b) => String(b.startsAt || '').localeCompare(String(a.startsAt || '')));
-}
-
-function installRuntimeGuard(html) {
-  if (html.includes('PARLEYMAP_CANONICAL_RUNTIME_GUARD')) return html;
-  const guard = `\n<script id="parleymap-canonical-runtime-guard">\n(function(){\n  window.PARLEYMAP_CANONICAL_RUNTIME_GUARD = true;\n  var anchors = {\n    'rafael grossi': [48.2082,16.3738],\n    'pope leo xiv': [41.9029,12.4534],\n    'pope xiv': [41.9029,12.4534],\n    'claudia sheinbaum': [19.4326,-99.1332],\n    'prabowo subianto': [-6.2088,106.8456],\n    'mohammed bin salman': [24.7136,46.6753]\n  };\n  var seen = {};\n  function norm(s){ return String(s||'').toLowerCase().replace(/<[^>]*>/g,' ').replace(/[^a-z0-9]+/g,' ').trim(); }\n  function keyFor(s){ var t = norm(s); return Object.keys(anchors).find(function(k){ return t.indexOf(k) !== -1; }); }\n  function patchLayer(layer, content){ var k = keyFor(content); if(!k || !layer) return; var ll = anchors[k]; try { if(layer.setLatLng) layer.setLatLng(ll); } catch(e) {} if(seen[k] && seen[k] !== layer){ setTimeout(function(){ try { if(layer.remove) layer.remove(); else if(layer._map) layer._map.removeLayer(layer); } catch(e) {} },0); } else { seen[k] = layer; } }\n  function patchLeaflet(){ if(!window.L || !L.Marker || L.Marker.__parleyPatched) return false; L.Marker.__parleyPatched = true; ['bindTooltip','bindPopup'].forEach(function(m){ var old = L.Marker.prototype[m]; if(!old) return; L.Marker.prototype[m] = function(content){ patchLayer(this, content); return old.apply(this, arguments); }; }); if(L.CircleMarker){ ['bindTooltip','bindPopup'].forEach(function(m){ var old = L.CircleMarker.prototype[m]; if(!old) return; L.CircleMarker.prototype[m] = function(content){ patchLayer(this, content); return old.apply(this, arguments); }; }); } return true; }\n  var timer = setInterval(function(){ if(patchLeaflet()) clearInterval(timer); },50); setTimeout(function(){ clearInterval(timer); patchLeaflet(); },10000);\n})();\n</script>\n`;
-  const match = html.match(OPEN_TAG_RE);
-  if (match && match.index !== undefined) {
-    const close = html.indexOf(CLOSE_TAG, match.index + match[0].length);
-    if (close !== -1) return html.slice(0, close + CLOSE_TAG.length) + guard + html.slice(close + CLOSE_TAG.length);
-  }
-  return html.replace('</head>', guard + '\n</head>');
-}
-
-function recoverAdsense(html, report) {
-  const clientMatch = html.match(/ca-pub-[0-9]{10,24}/);
-  const pubMatch = html.match(/pub-[0-9]{10,24}/);
-  const client = clientMatch ? clientMatch[0] : (pubMatch ? 'ca-' + pubMatch[0] : null);
-  const publisherId = client ? client.replace(/^ca-/, '') : null;
-  const slots = [...new Set([...html.matchAll(/data-ad-slot=["']([0-9]{4,})["']/g)].map(m => m[1]))];
-  report.client = client;
-  report.publisherId = publisherId;
-  report.headerSlot = slots[0] || null;
-  report.sidebarSlot = slots[1] || null;
-  if (publisherId) fs.writeFileSync('ads.txt', `google.com, ${publisherId}, DIRECT, f08c47fec0942fa0\n`);
-  let next = html;
-  if (client && !next.includes('google-adsense-account')) {
-    next = next.replace(/<head[^>]*>/i, m => `${m}\n<meta name="google-adsense-account" content="${client}">`);
-  }
-  if (client && !next.includes('pagead2.googlesyndication.com/pagead/js/adsbygoogle.js')) {
-    next = next.replace(/<head[^>]*>/i, m => `${m}\n<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${client}" crossorigin="anonymous"></script>`);
-  }
-  fs.writeFileSync(ADSENSE_PATH, JSON.stringify({ generatedAt: new Date().toISOString(), status: client && slots.length >= 2 ? 'adsense_preserved_and_audited' : 'adsense_ids_not_found_or_incomplete_no_fake_ids_injected', client, publisherId, headerSlot: slots[0] || null, sidebarSlot: slots[1] || null }, null, 2) + '\n');
-  return next;
-}
-
-function writeLegalPages() {
-  const commonStyle = '<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{font-family:system-ui,-apple-system,Segoe UI,sans-serif;max-width:860px;margin:40px auto;padding:0 20px;line-height:1.55;color:#111}a{color:#0645ad}</style>';
-  fs.writeFileSync('privacy.html', `<!doctype html><html><head>${commonStyle}<title>Privacy Policy | ParleyMap</title></head><body><h1>Privacy Policy</h1><p>ParleyMap provides public-source presence intelligence. We do not publish private addresses, leaked itineraries, hotel stays, hospitals, residences or live route tracking.</p><p>The site may use essential cookies for preferences. Advertising and analytics cookies are only used when enabled and accepted where required.</p><p>Advertising, if active, may be served by Google AdSense and is subject to Google policies and consent requirements.</p><p>Contact: contact@parleymap.com</p></body></html>\n`);
-  fs.writeFileSync('impressum.html', `<!doctype html><html><head>${commonStyle}<title>Impressum | ParleyMap</title></head><body><h1>Impressum</h1><p>ParleyMap is a public-source intelligence demo site for mapped public appearances, meetings and institutional events.</p><p>Responsible contact: contact@parleymap.com</p><p>No private tracking is provided. Data is limited to public-source records and city-level institutional or event locations.</p></body></html>\n`);
-  fs.writeFileSync('about.html', `<!doctype html><html><head>${commonStyle}<title>About | ParleyMap</title></head><body><h1>About ParleyMap</h1><p>ParleyMap maps public appearances, official meetings, summits and institutionally relevant public events.</p></body></html>\n`);
-  fs.writeFileSync('contact.html', `<!doctype html><html><head>${commonStyle}<title>Contact | ParleyMap</title></head><body><h1>Contact</h1><p>Email: contact@parleymap.com</p></body></html>\n`);
-  fs.writeFileSync('methodology.html', `<!doctype html><html><head>${commonStyle}<title>Methodology | ParleyMap</title></head><body><h1>Methodology</h1><p>ParleyMap uses official and public host sources where possible. Generic watch lists are not treated as events unless a person, date, place and primary source are present.</p></body></html>\n`);
-  fs.writeFileSync('data-sources.html', `<!doctype html><html><head>${commonStyle}<title>Data Sources | ParleyMap</title></head><body><h1>Data Sources</h1><p>Sources include public government, multilateral institution, summit host and official organizational websites.</p></body></html>\n`);
-}
-
-function audit(data) {
-  const visible = ['people','roster','topRoster','expansionRoster','priorityExpansion','watchlistExamples'];
-  const flat = [];
-  for (const key of visible) {
-    const arr = Array.isArray(data[key]) ? data[key] : [];
-    for (const obj of arr) if (isProfileLike(obj)) flat.push({ key, obj });
-  }
-  const grossiVisible = flat.filter(x => textBlob(x.obj).includes('rafael grossi') || String(x.obj.id || '') === 'r-057-rafael-grossi');
-  const grossiBad = grossiVisible.filter(x => String(x.obj.countryFocusCode || '').toUpperCase() === 'IA' || String(x.obj.flagAudit?.code || '').toUpperCase() === 'BI');
-  const grossiCanon = grossiVisible.filter(x => String(x.obj.countryFocusCode || '').toUpperCase() === 'AT');
-  const allRows = [];
-  walkCollect(data, '', allRows);
-  const fakeRows = allRows.filter(x => isFakeEvent(x.obj));
+function audit(data, ads) {
   const problems = [];
-  if (grossiCanon.length < 1) problems.push('no Grossi canonical AT/Vienna profile found');
-  if (grossiBad.length > 0) problems.push('Grossi still has IA/BI contamination in visible profile collections');
-  if (grossiVisible.length > 2) problems.push(`too many visible Grossi profile rows: ${grossiVisible.length}`);
-  if (fakeRows.length > 0) problems.push(`fake dated/source-watch rows remain: ${fakeRows.length}`);
-  const required = [
-    ['pope leo xiv', 'VA'], ['claudia sheinbaum','MX'], ['prabowo subianto','ID']
-  ];
-  for (const [name, code] of required) {
-    const matches = flat.filter(x => textBlob(x.obj).includes(name));
-    if (!matches.some(x => String(x.obj.countryFocusCode || '').toUpperCase() === code)) problems.push(`${name} missing ${code} anchor`);
+  const assert = (condition, message) => { if (!condition) problems.push(message); };
+  assert(isSafeData(data), 'core dataset counts or schema not safe');
+  const profileMatches = {};
+  walk(data, (item, path, isArray) => {
+    if (isArray || !isProfileLike(item)) return;
+    const t = targetFor(item);
+    if (t) (profileMatches[t.key] ||= []).push({ item, path });
+  });
+  const grossi = profileMatches.grossi || [];
+  assert(grossi.length >= 1, 'Grossi not found');
+  assert(!grossi.some(x => /topRoster|expansionRoster|priorityExpansion|watchlistExamples|openCatalogs|organizationProfiles/.test(x.path)), 'Grossi remains in visible helper collection');
+  assert(!grossi.some(x => x.item.countryFocusCode === 'IA' || x.item.countryFocus === 'IA'), 'Grossi still has IA country code');
+  assert(!grossi.some(x => x.item.flagAudit?.code === 'BI' || /bis/i.test(String(x.item.flagAudit?.label || ''))), 'Grossi still has BI/BIS flag audit');
+  assert(grossi.every(x => norm(x.item.homeBases?.[0]?.city) === 'vienna' && x.item.countryFocusCode === 'AT'), 'Grossi not anchored to Vienna / AT');
+  for (const key of ['pope', 'sheinbaum', 'subianto']) {
+    const rows = profileMatches[key] || [];
+    const t = TARGETS.find(x => x.key === key);
+    assert(rows.length >= 1, `${key} not found`);
+    assert(rows.every(x => x.item.countryFocusCode === t.anchor.countryCode), `${key} not anchored to ${t.anchor.countryCode}`);
   }
-  return { status: problems.length ? 'audit_failed' : 'audit_passed', generatedAt: new Date().toISOString(), problems, grossiVisibleCount: grossiVisible.length, grossiCanonicalCount: grossiCanon.length, fakeRowsRemaining: fakeRows.length };
-}
-
-function walkCollect(value, path, out) {
-  if (Array.isArray(value)) { value.forEach((v, i) => walkCollect(v, `${path}[${i}]`, out)); return; }
-  if (!value || typeof value !== 'object') return;
-  out.push({ path, obj: value });
-  for (const [k, v] of Object.entries(value)) if (v && typeof v === 'object') walkCollect(v, path ? `${path}.${k}` : k, out);
-}
-
-function gitCommitIfPossible() {
-  if (!process.env.GITHUB_ACTIONS) return;
-  try {
-    execSync('git config user.name "github-actions[bot]"');
-    execSync('git config user.email "41898282+github-actions[bot]@users.noreply.github.com"');
-    execSync('git add index.html ads.txt privacy.html impressum.html about.html contact.html methodology.html data-sources.html data/demo.json data/diagnostics/*.json data/diagnostics/*.md', { stdio: 'inherit' });
-    try { execSync('git diff --cached --quiet'); console.log('No self-commit changes.'); return; } catch {}
-    execSync('git commit -m "Canonical repair ParleyMap data and AdSense surface"', { stdio: 'inherit' });
-    execSync('git push', { stdio: 'inherit' });
-  } catch (error) {
-    console.warn('Self-commit failed; workflow auto-commit may still commit indexed files:', error.message);
-  }
+  let bad = null;
+  walk(data, (item, path, isArray) => { if (!isArray && isBadEvent(item)) bad = { path, title: item.title || item.id }; });
+  assert(!bad, `bad event remains: ${bad?.title}`);
+  if (ads.client || ads.headerSlot || ads.sidebarSlot) assert(ads.client && ads.headerSlot && ads.sidebarSlot && fs.existsSync('ads.txt'), 'partial AdSense setup');
+  return { generatedAt: new Date().toISOString(), status: problems.length ? 'audit_failed' : 'audit_passed', problems };
 }
 
 fs.mkdirSync(DIAG_DIR, { recursive: true });
-const payload = readIndexData();
-validateCore(payload.data, 'before');
-const before = { people: count(payload.data,'people'), roster: count(payload.data,'roster'), expansionRoster: count(payload.data,'expansionRoster'), appearances: count(payload.data,'appearances'), categories: count(payload.data,'categories') };
-const report = { generatedAt: new Date().toISOString(), before, anchorRepairs: [], fakeEventsRemoved: [], profileDuplicatesRemoved: [], officialEventsAdded: [] };
-const repaired = walkAndRepair(payload.data, '', report);
-seedOfficialEvents(repaired, report);
-repaired.meta = { ...(repaired.meta || {}), lastCanonicalMaintenance: new Date().toISOString(), canonicalMaintenanceStatus: 'institutional anchors, fake events, official events and AdSense surface repaired' };
-validateCore(repaired, 'after');
-const after = { people: count(repaired,'people'), roster: count(repaired,'roster'), expansionRoster: count(repaired,'expansionRoster'), appearances: count(repaired,'appearances'), categories: count(repaired,'categories') };
-if (after.roster < before.roster - 5) throw new Error('roster count dropped too much');
-if (after.appearances < 480) throw new Error('appearances count below safety floor');
-writeIndexData(payload, repaired);
-let html = fs.readFileSync(INDEX_PATH, 'utf8');
-html = installRuntimeGuard(html);
-fs.writeFileSync(INDEX_PATH, html);
-html = recoverAdsense(html, {});
-fs.writeFileSync(INDEX_PATH, html);
-writeLegalPages();
-const verifyPayload = readIndexData();
-const auditResult = audit(verifyPayload.data);
-fs.writeFileSync(AUDIT_PATH, JSON.stringify(auditResult, null, 2) + '\n');
-report.after = after;
-report.status = auditResult.status === 'audit_passed' ? 'canonical_maintenance_repaired' : 'canonical_maintenance_repaired_with_audit_failures';
-fs.writeFileSync(REPORT_PATH, JSON.stringify(report, null, 2) + '\n');
-const summary = [
-  '# ParleyMap canonical maintenance repair', '',
-  `Generated: ${new Date().toISOString()}`, '',
-  `Audit status: ${auditResult.status}`, '',
-  '## Counts', '',
-  '| Dataset | Before | After |', '|---|---:|---:|',
-  `| people | ${before.people} | ${after.people} |`,
-  `| roster | ${before.roster} | ${after.roster} |`,
-  `| expansionRoster | ${before.expansionRoster} | ${after.expansionRoster} |`,
-  `| appearances | ${before.appearances} | ${after.appearances} |`,
-  `| categories | ${before.categories} | ${after.categories} |`, '',
-  '## Repairs', '',
-  `- Anchor repairs: ${report.anchorRepairs.length}`,
-  `- Fake events removed: ${report.fakeEventsRemoved.length}`,
-  `- Profile duplicate rows removed: ${report.profileDuplicatesRemoved.length}`,
-  `- Official events added: ${report.officialEventsAdded.length}`,
-  `- Grossi visible count: ${auditResult.grossiVisibleCount}`,
-  `- Fake rows remaining: ${auditResult.fakeRowsRemaining}`,
-  '',
-  '## Audit problems', '',
-  ...(auditResult.problems.length ? auditResult.problems.map(p => `- ${p}`) : ['- none'])
-].join('\n') + '\n';
-fs.writeFileSync(SUMMARY_PATH, summary);
-console.log(summary);
-if (auditResult.status !== 'audit_passed') {
-  throw new Error('Canonical hard audit failed: ' + auditResult.problems.join('; '));
-}
-gitCommitIfPossible();
+const originalHtml = getIndexHtml();
+const parsed = parseHtml(originalHtml);
+if (!parsed) throw new Error('No demo-data block found in index.html');
+const data = parsed.data;
+const before = counts(data);
+const cleanup = cleanArrays(data);
+const anchorFixes = repairProfiles(data);
+const officialEventsAdded = addOfficialEvents(data);
+data.meta = { ...(data.meta || {}), lastDataUpdate: new Date().toISOString(), lastCanonicalMaintenance: new Date().toISOString(), canonicalMaintenanceStatus: 'nightly canonical repair applied' };
+const ads = findAdSense(originalHtml);
+let nextHtml = originalHtml.slice(0, parsed.jsonStart) + '\n' + JSON.stringify(data, null, 2) + '\n' + originalHtml.slice(parsed.jsonEnd);
+nextHtml = installAdSense(nextHtml, ads);
+legalPages();
+fs.writeFileSync(INDEX_PATH, nextHtml);
+fs.mkdirSync('data', { recursive: true });
+fs.writeFileSync(DATA_PATH, JSON.stringify(data, null, 2) + '\n');
+const finalParsed = parseHtml(fs.readFileSync(INDEX_PATH, 'utf8'));
+if (!finalParsed) throw new Error('Post-write index.html has no demo-data');
+const auditReport = audit(finalParsed.data, ads);
+fs.writeFileSync(`${DIAG_DIR}/canonical-hard-audit-report.json`, JSON.stringify(auditReport, null, 2) + '\n');
+if (auditReport.status !== 'audit_passed') throw new Error(`Hard audit failed: ${auditReport.problems.join('; ')}`);
+const after = counts(finalParsed.data);
+const report = { generatedAt: new Date().toISOString(), status: 'canonical_maintenance_applied', before, after, anchorFixes, fakeEventsRemoved: cleanup.removed, duplicateProfilesRemoved: cleanup.duplicateProfilesRemoved, officialEventsAdded };
+const adsReport = { generatedAt: new Date().toISOString(), status: ads.client && ads.headerSlot && ads.sidebarSlot ? 'adsense_preserved_and_audited' : 'adsense_ids_not_found_no_fake_ids_injected', client: ads.client, publisherId: ads.publisherId, headerSlot: ads.headerSlot, sidebarSlot: ads.sidebarSlot };
+fs.writeFileSync(`${DIAG_DIR}/canonical-maintenance-report.json`, JSON.stringify(report, null, 2) + '\n');
+fs.writeFileSync(`${DIAG_DIR}/adsense-preserve-audit-report.json`, JSON.stringify(adsReport, null, 2) + '\n');
+fs.writeFileSync(`${DIAG_DIR}/LATEST_RUN_SUMMARY.md`, `# ParleyMap nightly canonical maintenance\n\nStatus: ${report.status}\nAudit: ${auditReport.status}\n\n## Dataset counts\n- people: ${before.people} -> ${after.people}\n- roster: ${before.roster} -> ${after.roster}\n- expansionRoster: ${before.expansionRoster} -> ${after.expansionRoster}\n- appearances: ${before.appearances} -> ${after.appearances}\n\n## Repairs\n- anchor fixes: ${anchorFixes}\n- fake events removed: ${cleanup.removed.length}\n- duplicate helper profiles removed: ${cleanup.duplicateProfilesRemoved.length}\n- official events added: ${officialEventsAdded.length}\n\n## AdSense\n- status: ${adsReport.status}\n- client: ${adsReport.client || 'not found'}\n- headerSlot: ${adsReport.headerSlot || 'not found'}\n- sidebarSlot: ${adsReport.sidebarSlot || 'not found'}\n`);
+console.log(JSON.stringify({ report, auditReport, adsReport }, null, 2));
